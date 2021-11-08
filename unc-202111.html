@@ -182,10 +182,9 @@ name: model
 ---
 # Setup
 
-- PCP `\(i\)` sends a patient to specialist `\(j\)` in period `\(t\)`
-- Denote this event by `\(D_{ijt} = 1\)`, otherwise `\(D_{ijt} = 0\)` 
-- Outcome is binary, `\(Y_{ijt} \in 0,1\)`, with 1 being success (e.g., no complication or readmission)
-- Probability of success for specialist `\(j\)` is `\(p_j \equiv \Pr(Y_{ijt} = 1)\)`, assumed constant over time and across patients
+- PCP `\(i\)` sends a patient to specialist `\(j\)` at time `\(t\)`, `\(D_{ijt} \in 0,1\)`
+- Outcome is binary `\(Y_{ijt} \in 0,1\)`, with 1 being success (e.g., no complication or readmission)
+- Probability of success for specialist `\(j\)`: `\(p_j \equiv \Pr(Y_{ijt} = 1)\)`, assumed constant over time and across patients
 
 --
 
@@ -215,6 +214,30 @@ count: false
 Mean and variance of the beliefs about `\(p_j\)` in period `\(t\)`:
 `$$m_{ijt} \equiv \frac{ a_{ij,t-1} }{ a_{ij,t-1} + b_{ij,t-1} }$$`
 `$$v_{ijt} \equiv \frac{ a_{ij,t-1} b_{ij,t-1} }{ (a_{ij,t-1} + b_{ij,t-1})^2 (a_{ij,t-1} + b_{ij,t-1} + 1) }$$`
+---
+# Patient Utility
+
+- PCPs perfect agents of patients
+- Patient (and PCP) utility: 
+
+`$$U_{ijt} = \alpha Y_{ijt} + \epsilon_{ijt}$$`
+
+---
+# Myopic PCP
+
+PCP chooses specialist with highest expected utility:
+
+`$$\max_j \text{E} \left[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
+= \max_j \left\{ \alpha \text{E} \left[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]+ \epsilon_{ijt} \right\}=\max_j \left\{ \alpha m_{ijt} + \epsilon_{ijt} \right\}$$`
+
+
+---
+
+`$$v_{ijt}=\frac{q_{ij,t-1}\times (1-q_{ij,t-1})}{1+\sum_{s=1}^{t-1} D_{ijs}}$$`
+
+---
+# Gittins Index
+
 
 ---
 class: inverse, center, middle
