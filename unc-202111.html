@@ -214,29 +214,39 @@ count: false
 Mean and variance of the beliefs about `\(p_j\)` in period `\(t\)`:
 `$$m_{ijt} \equiv \frac{ a_{ij,t-1} }{ a_{ij,t-1} + b_{ij,t-1} }$$`
 `$$v_{ijt} \equiv \frac{ a_{ij,t-1} b_{ij,t-1} }{ (a_{ij,t-1} + b_{ij,t-1})^2 (a_{ij,t-1} + b_{ij,t-1} + 1) }$$`
+
+
 ---
 # Patient Utility
 
 - PCPs perfect agents of patients
-- Patient (and PCP) utility: 
-
-`$$U_{ijt} = \alpha Y_{ijt} + \epsilon_{ijt}$$`
+- Patient (and PCP) utility: `\(U_{ijt} = \alpha Y_{ijt} + \epsilon_{ijt}\)`
+- PCP chooses specialist with highest expected utility
 
 ---
 # Myopic PCP
 
-PCP chooses specialist with highest expected utility:
+PCP only cares about experience up to time `\(t-1\)`:
 
-`$$\max_j \text{E} \left[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
-= \max_j \left\{ \alpha \text{E} \left[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]+ \epsilon_{ijt} \right\}=\max_j \left\{ \alpha m_{ijt} + \epsilon_{ijt} \right\}$$`
+$$
+`\begin{align}
+\max_j \text{E} \left[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right] &amp;= \max_j \left\{ \alpha \text{E} \left[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]+ \epsilon_{ijt} \right\} \\
+ &amp;=\max_j \left\{ \alpha m_{ijt} + \epsilon_{ijt} \right\}
+\end{align}`
+$$
 
 
 ---
+# Forward-looking PCP
 
-`$$v_{ijt}=\frac{q_{ij,t-1}\times (1-q_{ij,t-1})}{1+\sum_{s=1}^{t-1} D_{ijs}}$$`
+- PCP incorporates value of experimenting with unknown specialists
+- Value to learning about other specialists in the market
+- Dynamic problem simplifies with *Gittins Index*, `\(g(m_{ijt}, v_{ijt})\)`
 
----
-# Gittins Index
+--
+
+`$$\max_j \text{E} \left[ V_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
+= \max_j \left\{ \alpha m_{ijt} + g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\}$$`
 
 
 ---
@@ -331,6 +341,16 @@ name: descriptive
   ![](results/NetworkHist.png)
 ]
 
+---
+# Attachment to Specialists
+
+.pull-left[
+  ![](results/HighestShare.png)
+]
+
+.pull-right[
+  ![](results/TransitionHeatMap.png)
+]
 
 ---
 # Trends in pairwise referrals
