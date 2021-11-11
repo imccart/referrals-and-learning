@@ -1,5 +1,5 @@
 ---
-title: "Physician Referrals and Learning"
+title: "How efficient is the market for physician referrals?"
 subtitle: "...or Feeding Dr. Death"
 author: "Ian McCarthy & Seth Richards-Shubik"
 date: "UNC Chapel Hill, November 17, 2021"
@@ -145,7 +145,7 @@ count: false
 ---
 count: false
 
-# Dallas Medical Center, 2012, Jeff Cheney
+# South Hampton Medical, 2012, Jeff Cheney
 
 .center[
   ![](images/cheney-highlight.png)
@@ -249,31 +249,6 @@ $$v_{ijt} \equiv \frac{ a_{ij,t-1} b_{ij,t-1} }{ (a_{ij,t-1} + b_{ij,t-1})^2 (a_
 - Patient (and PCP) utility: $U_{ijt} = \alpha Y_{ijt} + \epsilon_{ijt}$
 - PCP chooses specialist with highest expected utility
 
----
-# Myopic PCP
-
-PCP only cares about experience up to time $t-1$:
-
-$$
-\begin{align}
-\max_j \text{E} \left[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right] &= \max_j \left\{ \alpha \text{E} \left[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]+ \epsilon_{ijt} \right\} \\
- &=\max_j \left\{ \alpha m_{ijt} + \epsilon_{ijt} \right\}
-\end{align}
-$$
-
-
----
-# Forward-looking PCP
-
-- PCP incorporates value of experimenting with unknown specialists
-- Value to learning about other specialists in the market
-- Dynamic problem simplifies with *Gittins Index*, $g(m_{ijt}, v_{ijt})$
-
---
-
-$$\max_j \text{E} \left[ V_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
-= \max_j \left\{ \alpha m_{ijt} + g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\}$$
-
 
 ---
 class: inverse, center, middle
@@ -299,14 +274,16 @@ name: data
 - Planned and elective inpatient stays
 - Age 65 or above
 - Major joint surgery
-  - DRG 470 (major joint replacement without complication or comorbidities): 
-  - DRG XX
+  - DRG 470 (major joint replacement, lower, w/o cc): 86%
+  - DRG 483 (major joint replacement, upper, with cc): 6%
+  - DRG 469 (major joint replacement, lower, with cc): 3%
+  - DRG 462 (multiple joint procedures, lower, w/o cc): 2%
 
   
 ---
 # What is a referral?
 
-Assign a PCP to each surgery based on:
+- Assign a PCP to each surgery based on:
 
 1. Referring physician listed "in the data"
 2. Most frequently visited physician in last year
@@ -314,7 +291,7 @@ Assign a PCP to each surgery based on:
   
 --
 
-Specialist is operating physician listed on the claim
+- Specialist is operating physician listed on the claim
 
 ---
 # What is the referring "physician"?
@@ -343,8 +320,7 @@ Any of the following:
 For now:
 
 - Information flows to the practice rather than a single PCP
-- Information is unique to a specialist
-- Practice "sees" all failure events
+- Practice "sees" all failure events for their own patients
 
 
 ---
@@ -364,22 +340,30 @@ name: descriptive
 ]
 
 .pull-right[
-  ![](results/NetworkHist.png)
+  ![](results/NetworkSize.png)
 ]
 
 ---
 # Attachment to Specialists
 
-.pull-left[
+.center[
   ![](results/HighestShare.png)
 ]
 
-.pull-right[
+
+
+---
+# Pairwise referrals over time
+
+.center[
   ![](results/TransitionHeatMap.png)
 ]
 
+
 ---
-# Trends in pairwise referrals
+count: false
+
+# Pairwise referrals over time
 
 .center[
   ![](results/Referrals_ByGroup.png)
@@ -402,12 +386,76 @@ name: learning
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
----
-# Discrete Choice
 
-- Choice sets: all specialists referred to at any point in the past year, including current referral
-- No outside option (right now)
-- Multinomial logit
+---
+# Myopic Referrals
+
+PCP only cares about experience up to time $t-1$:
+
+$$
+\begin{align}
+\max_j \text{E} \left[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right] &= \max_j \left\{ \alpha \text{E} \left[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]+ \epsilon_{ijt} \right\} \\
+ &=\max_j \left\{ \alpha m_{ijt} + \epsilon_{ijt} \right\}
+\end{align}
+$$
+
+---
+# Estimation
+
+- Standard multinomial logit
+- Choice set is all specialists referred to at any point in the past year
+- Failure rate based on cumulative failures and patients over prior 5 years
+- Limited to 2013 through 2018
+
+---
+# Results
+
+| Variable           |   (1)       |   (2)      |      (3)   |   (4)      |
+|:-------------------|------------:|-----------:|-----------:|-----------:|
+| Pair Failure Rate  | -0.301      | -0.460     | -0.446     | -0.554     |
+|                    |**[-0.032]** |**[-0.065]**|**[-0.063]**|**[-0.088]**|
+| Other Failure Rate |             |            | -0.714     | -0.751     |
+|                    |             |            |**[-0.101]**|**[-0.120]**|
+| **Specification**  |             |            |            |            |
+| "Attachment"       |             |    X       |   X        |    X       |
+| Specialist Vars    |             |            |            |    X       |
+
+
+
+All coefficients significant at $p<0.01$
+
+---
+count: false
+
+# Results
+
+| Variable           |   (1)       |   (2)      |
+|:-------------------|------------:|-----------:|
+| Pair Failure Rate  | -0.446      | -0.467     |
+|                    |**[-0.063]** |**[-0.400]**|
+| Other Failure Rate | -0.714      | -0.295     |
+|                    |**[-0.101]** |**[-0.047]**|
+| **Sample**         |             |            |
+| Observed Failures  |    X        |            |
+| Healthy Patients   |             |    X       |
+
+
+All coefficients significant at $p<0.01$
+
+---
+# Forward-looking PCP
+
+- PCP incorporates value of experimenting with unknown specialists
+- Value to learning about other specialists in the market
+- Dynamic problem simplifies with *Gittins Index*, $g(m_{ijt}, v_{ijt})$
+
+--
+
+$$\max_j \text{E} \left[ V_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
+= \max_j \left\{ \alpha m_{ijt} + g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\}$$
+
+
+
 
 
 ---
