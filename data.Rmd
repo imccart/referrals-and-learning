@@ -1,0 +1,5 @@
+---
+title: "Data"
+---
+
+Most of the hands-on aspects of the workshop use data on Medicaid expansion and uninsurance. These data are available for download as a tab delimted text file [here](https://raw.githubusercontent.com/imccart/202108-cdc-methodsworkshop/master/data/mcaid-expand-data.txt). Please see the GitHub repository, [Insurance Access](https://github.com/imccart/Insurance-Access) for more information on the construction of that dataset, how to access the raw data, and the code files to recreate the final dataset.
