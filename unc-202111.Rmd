@@ -405,6 +405,7 @@ $$
 - Standard multinomial logit
 - Choice set is all specialists referred to at any point in the past year
 - Failure rate based on cumulative failures and patients over prior 5 years
+- Outside option: average specialist in same market
 - Limited to 2013 through 2018
 
 ---
@@ -412,9 +413,9 @@ $$
 
 | Variable           |   (1)       |   (2)      |      (3)   |   (4)      |
 |:-------------------|------------:|-----------:|-----------:|-----------:|
-| Pair Failure Rate  | -0.301      | -0.460     | -0.446     | -0.554     |
-|                    |**[-0.032]** |**[-0.065]**|**[-0.063]**|**[-0.088]**|
-| Other Failure Rate |             |            | -0.714     | -0.751     |
+| Pair Failure Rate  | -0.051      | -0.460     | -0.446     | -0.554     |
+|                    |**[-0.004]** |**[-0.065]**|**[-0.063]**|**[-0.088]**|
+| "Attachment"       |             |            | -0.714     | -0.751     |
 |                    |             |            |**[-0.101]**|**[-0.120]**|
 | **Specification**  |             |            |            |            |
 | "Attachment"       |             |    X       |   X        |    X       |
