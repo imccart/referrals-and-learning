@@ -197,6 +197,46 @@ count: false
 - **Research question:** Do PCPs learn about specialist quality and adjust referral patterns accordingly?
 
 ---
+# Contribution
+
+- Almost no work on physician learning in referrals
+- **Johnson (2011) "Ability, Learning, and the Career Path of Cardiac Specialists."**
+--
+
+  - Frequency of exits or practice movements as function of negative outcomes
+  - Low quality surgeons more likely to exit market or move practice
+  - Data for specialists only, assumed to reflect learning after ruling out other mechanisms
+
+
+---
+count: false
+
+# Contribution
+
+- Almost no work on physician learning in referrals
+- Johnson (2011) "Ability, Learning, and the Career Path of Cardiac Specialists."
+- **Sarsons (2017), "Interpreting Signals in the Labor Market: Evidence from Medical Referrals"**
+--
+
+  - Considers learning framework as motivation
+  - Estimates relationship between negative outcomes and quarterly referrals among PCP/specialist pairs
+  - PCPs interpret negative outcomes differentially by gender
+
+---
+count: false
+
+# Contribution
+
+1. Health care policy:
+  - Significant focus on changing physician treatment decisions
+  - We consider changing who does the procedure rather than how it's done
+--
+
+2. Referrals and learning:
+  - Consider and estimate physician learning directly
+  - Much more complete data
+
+---
 class: inverse, center, middle
 name: model
 
@@ -444,3 +484,26 @@ count: false
 
 # Forward-looking PCP
 
+From Brezzi and Lai (2002) JEDC, close approximation to Gittins Index in our case is:
+
+$$q_{ij} + \sqrt{v_{ij}} \cdot \psi \left(-(\ln(\beta) \, (n_{ij}+1) )^{-1} \right)$$
+
+---
+# Results?
+
+- Calculate Gittins Index and include as covariate
+- Coefficient estimates large and of opposite sign
+- Why?
+  - Incorrect formulation of Gittins Index
+  - Referrals inconsistent with Bayesian learning
+--
+
+- What next?
+  - Consider strength of priors and discount factor required for expected sign
+  - Parameterize Gittins Index directly (Gong, 2017; Dickstein, 2018)
+  
+  
+```{r echo=FALSE, include=FALSE, eval=FALSE}
+pagedown::chrome_print("unc-202111.html", 
+                       output = "unc-202111.pdf")
+```  
