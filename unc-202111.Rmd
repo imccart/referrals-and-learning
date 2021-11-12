@@ -402,7 +402,7 @@ $$
 ---
 # Estimation
 
-- Standard multinomial logit
+- Multinomial logit with panel
 - Choice set is all specialists referred to at any point in the past year
 - Failure rate based on cumulative failures and patients over prior 5 years
 - Outside option: average specialist in same market
@@ -413,51 +413,34 @@ $$
 
 | Variable           |   (1)       |   (2)      |      (3)   |   (4)      |
 |:-------------------|------------:|-----------:|-----------:|-----------:|
-| Pair Failure Rate  | -0.051      | -0.460     | -0.446     | -0.554     |
-|                    |**[-0.004]** |**[-0.065]**|**[-0.063]**|**[-0.088]**|
-| "Attachment"       |             |            | -0.714     | -0.751     |
-|                    |             |            |**[-0.101]**|**[-0.120]**|
+| Pair Failure Rate  | -0.051      | 0.008      | 0.042      | -0.015     |
+|                    |**[-0.004]** |**[0.000]** |**[0.003]** |**[-0.001]**|
+| "Attachment"       |             | 5.008\***  | 4.378\***  | 5.378\***  |
+|                    |             |**[0.295]** |**[0.265]** |**[0.284]** |
 | **Specification**  |             |            |            |            |
-| "Attachment"       |             |    X       |   X        |    X       |
-| Specialist Vars    |             |            |            |    X       |
+| Specialist Variables |           |            |     X      |            |
+| Similar Patients   |             |            |            |    X       |
 
 
-
-All coefficients significant at $p<0.01$
-
----
-count: false
-
-# Results
-
-| Variable           |   (1)       |   (2)      |
-|:-------------------|------------:|-----------:|
-| Pair Failure Rate  | -0.446      | -0.467     |
-|                    |**[-0.063]** |**[-0.400]**|
-| Other Failure Rate | -0.714      | -0.295     |
-|                    |**[-0.101]** |**[-0.047]**|
-| **Sample**         |             |            |
-| Observed Failures  |    X        |            |
-| Healthy Patients   |             |    X       |
-
-
-All coefficients significant at $p<0.01$
+\*** denotes p-value $<0.01$
 
 ---
 # Forward-looking PCP
 
 - PCP incorporates value of experimenting with unknown specialists
 - Value to learning about other specialists in the market
+- Reduces to optimal stopping rule (when to try someone new)
 - Dynamic problem simplifies with *Gittins Index*, $g(m_{ijt}, v_{ijt})$
 
 --
 
 $$\max_j \text{E} \left[ V_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
-= \max_j \left\{ \alpha m_{ijt} + g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\}$$
-
-
+= \max_j \left\{ g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\}$$
 
 
 
 ---
-# 
+count: false
+
+# Forward-looking PCP
+
