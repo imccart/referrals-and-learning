@@ -171,6 +171,46 @@ count: false
 - **Research question:** Do PCPs learn about specialist quality and adjust referral patterns accordingly?
 
 ---
+# Contribution
+
+- Almost no work on physician learning in referrals
+- **Johnson (2011) "Ability, Learning, and the Career Path of Cardiac Specialists."**
+--
+
+  - Frequency of exits or practice movements as function of negative outcomes
+  - Low quality surgeons more likely to exit market or move practice
+  - Data for specialists only, assumed to reflect learning after ruling out other mechanisms
+
+
+---
+count: false
+
+# Contribution
+
+- Almost no work on physician learning in referrals
+- Johnson (2011) "Ability, Learning, and the Career Path of Cardiac Specialists."
+- **Sarsons (2017), "Interpreting Signals in the Labor Market: Evidence from Medical Referrals"**
+--
+
+  - Considers learning framework as motivation
+  - Estimates relationship between negative outcomes and quarterly referrals among PCP/specialist pairs
+  - PCPs interpret negative outcomes differentially by gender
+
+---
+count: false
+
+# Contribution
+
+1. Health care policy:
+  - Significant focus on changing physician treatment decisions
+  - We consider changing who does the procedure rather than how it's done
+--
+
+2. Referrals and learning:
+  - Consider and estimate physician learning directly
+  - Much more complete data
+
+---
 class: inverse, center, middle
 name: model
 
@@ -376,9 +416,10 @@ $$
 ---
 # Estimation
 
-- Standard multinomial logit
+- Multinomial logit with panel
 - Choice set is all specialists referred to at any point in the past year
 - Failure rate based on cumulative failures and patients over prior 5 years
+- Outside option: average specialist in same market
 - Limited to 2013 through 2018
 
 ---
@@ -386,54 +427,54 @@ $$
 
 | Variable           |   (1)       |   (2)      |      (3)   |   (4)      |
 |:-------------------|------------:|-----------:|-----------:|-----------:|
-| Pair Failure Rate  | -0.301      | -0.460     | -0.446     | -0.554     |
-|                    |**[-0.032]** |**[-0.065]**|**[-0.063]**|**[-0.088]**|
-| Other Failure Rate |             |            | -0.714     | -0.751     |
-|                    |             |            |**[-0.101]**|**[-0.120]**|
+| Pair Failure Rate  | -0.051      | 0.008      | 0.042      | -0.015     |
+|                    |**[-0.004]** |**[0.000]** |**[0.003]** |**[-0.001]**|
+| "Attachment"       |             | 5.008\***  | 4.378\***  | 5.378\***  |
+|                    |             |**[0.295]** |**[0.265]** |**[0.284]** |
 | **Specification**  |             |            |            |            |
-| "Attachment"       |             |    X       |   X        |    X       |
-| Specialist Vars    |             |            |            |    X       |
+| Specialist Variables |           |            |     X      |            |
+| Similar Patients   |             |            |            |    X       |
 
 
-
-All coefficients significant at `\(p&lt;0.01\)`
-
----
-count: false
-
-# Results
-
-| Variable           |   (1)       |   (2)      |
-|:-------------------|------------:|-----------:|
-| Pair Failure Rate  | -0.446      | -2.500     |
-|                    |**[-0.063]** |**[-0.400]**|
-| Other Failure Rate | -0.714      | -0.295     |
-|                    |**[-0.101]** |**[-0.047]**|
-| **Sample**         |             |            |
-| Observed Failures  |    X        |            |
-| Common Patients    |             |    X       |
-
-
-All coefficients significant at `\(p&lt;0.01\)`
+\*** denotes p-value `\(&lt;0.01\)`
 
 ---
 # Forward-looking PCP
 
 - PCP incorporates value of experimenting with unknown specialists
 - Value to learning about other specialists in the market
+- Reduces to optimal stopping rule (when to try someone new)
 - Dynamic problem simplifies with *Gittins Index*, `\(g(m_{ijt}, v_{ijt})\)`
 
 --
 
 `$$\max_j \text{E} \left[ V_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
-= \max_j \left\{ \alpha m_{ijt} + g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\}$$`
-
-
+= \max_j \left\{ g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\}$$`
 
 
 
 ---
-# 
+count: false
+
+# Forward-looking PCP
+
+From Brezzi and Lai (2002) JEDC, close approximation to Gittins Index in our case is:
+
+`$$q_{ij} + \sqrt{v_{ij}} \cdot \psi \left(-(\ln(\beta) \, (n_{ij}+1) )^{-1} \right)$$`
+
+---
+# Results?
+
+- Calculate Gittins Index and include as covariate
+- Coefficient estimates large and of opposite sign
+- Why?
+  - Incorrect formulation of Gittins Index
+  - Referrals inconsistent with Bayesian learning
+--
+
+- What next?
+  - Consider strength of priors and discount factor required for expected sign
+  - Parameterize Gittins Index directly (Gong, 2017; Dickstein, 2018)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
