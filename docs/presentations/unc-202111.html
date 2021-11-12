@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>How efficient is the market for physician referrals?</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ian McCarthy &amp; Seth Richards-Shubik" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#E68080"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# How efficient is the market for physician referrals?
+## …or Feeding Dr. Death
+### Ian McCarthy &amp; Seth Richards-Shubik
+### UNC Chapel Hill, November 17, 2021
+
+---
+
+class: clear
+
+&lt;!-- Adjust some CSS code for font size, maintain R code font size --&gt;
+&lt;style type="text/css"&gt;
+.remark-slide-content {
+    font-size: 30px;
+    padding: 1em 2em 1em 2em;    
+}
+.remark-code, .remark-inline-code { 
+    font-size: 20px;
+}
+&lt;/style&gt;
+
+
+&lt;!-- Set R options for how code chunks are displayed and load packages --&gt;
+
+
+
+
+
+
+.center[
+  ![:scale 75%](images/dr-death-cover.png)
+]
+
+
+---
+class: clear
+
+.center[
+  ![:scale 70%](images/mugshots.png)
+]
+
+---
+# Baylor Plano, 2011, Lee Passmore
+
+.center[
+  ![:scale 50%](images/passmore-highlight.png)
+]
+
+---
+count: false
+
+# Baylor Plano, 2012, Barry Morguloff
+
+.center[
+  ![](images/morguloff-highlight.png)
+]
+
+
+---
+count: false
+
+# Baylor Plano, 2012, Jerry Summers
+
+.center[
+  ![](images/summers-highlight.png)
+]
+
+
+---
+count: false
+
+# Baylor Plano, 2012, Kellie Martin
+
+.center[
+  ![](images/martin1-highlight.png)
+  ![](images/martin2-highlight.png)
+]
+
+
+---
+count: false
+
+# Dallas Medical Center, 2012, Floella Brown
+
+.center[
+  ![](images/brown-highlight.png)
+]
+
+
+---
+count: false
+
+# Dallas Medical Center, 2012, Mary Efurd
+
+.center[
+  ![](images/efurd-highlight.png)
+]
+
+
+---
+count: false
+
+# South Hampton Medical, 2012, Jeff Cheney
+
+.center[
+  ![](images/cheney-highlight.png)
+]
+
+
+---
+count: false
+
+# Legacy Surgery Center at Frisco, 2012, Marshall Muse
+
+.center[
+  ![](images/muse-highlight.png)
+]
+
+---
+count: false
+
+# Legacy Surgery Center at Frisco, 2012, Jacqueline Troy
+
+.center[
+  ![](images/troy-highlight.png)
+]
+
+
+---
+count: false
+
+# Legacy Surgery Center at Frisco, 2013, Philip Mayfield
+
+.center[
+  ![](images/mayfield-highlight.png)
+]
+
+
+---
+count: false
+
+# University General at Dallas, 2013, Jeff Glidewell
+
+.center[
+  ![](images/glidewell-highlight.png)
+]
+
+---
+# Question
+
+- **Motivating question:** How did Dr. Death keep getting patients?
+- **Research question:** Do PCPs learn about specialist quality and adjust referral patterns accordingly?
+
+---
+# Contribution
+
+- Almost no work on physician learning in referrals
+- **Johnson (2011) "Ability, Learning, and the Career Path of Cardiac Specialists."**
+--
+
+  - Frequency of exits or practice movements as function of negative outcomes
+  - Low quality surgeons more likely to exit market or move practice
+  - Data for specialists only, assumed to reflect learning after ruling out other mechanisms
+
+
+---
+count: false
+
+# Contribution
+
+- Almost no work on physician learning in referrals
+- Johnson (2011) "Ability, Learning, and the Career Path of Cardiac Specialists."
+- **Sarsons (2017), "Interpreting Signals in the Labor Market: Evidence from Medical Referrals"**
+--
+
+  - Considers learning framework as motivation
+  - Estimates relationship between negative outcomes and quarterly referrals among PCP/specialist pairs
+  - PCPs interpret negative outcomes differentially by gender
+
+---
+count: false
+
+# Contribution
+
+1. Health care policy:
+  - Significant focus on changing physician treatment decisions
+  - We consider changing who does the procedure rather than how it's done
+--
+
+2. Referrals and learning:
+  - Consider and estimate physician learning directly
+  - Much more complete data
+
+---
+class: inverse, center, middle
+name: model
+
+# Learning Framework
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# Setup
+
+- PCP `\(i\)` sends a patient to specialist `\(j\)` at time `\(t\)`, `\(D_{ijt} \in 0,1\)`
+- Outcome is binary `\(Y_{ijt} \in 0,1\)`, with 1 being success (e.g., no complication or readmission)
+- Probability of success for specialist `\(j\)`: `\(p_j \equiv \Pr(Y_{ijt} = 1)\)`, assumed constant over time and across patients
+
+--
+
+PCPs do not know `\(p_j\)` but use Bayesian inference to learn about it from their patients' outcomes
+
+
+---
+# Beliefs
+
+- Beliefs about `\(p_j\)` follow a beta distribution, with parameters:
+
+  - `\((a_0, b_0)\)` in the initial period (common prior beliefs) 
+  - `\((a_{ijt}, b_{ijt})\)` in period `\(t\)`
+  
+--
+
+- Beliefs updated based on the numbers of successes and failures experienced with specialist `\(j\)`, as follows:
+`$$a_{ijt} = a_0 + \sum_{s=1}^t Y_{ijs}$$` 
+`$$b_{ijt} = b_0 + \sum_{s=1}^t (D_{ijs} - Y_{ijs})$$`
+
+
+---
+count: false
+
+# Beliefs
+
+Mean and variance of the beliefs about `\(p_j\)` in period `\(t\)`:
+`$$m_{ijt} \equiv \frac{ a_{ij,t-1} }{ a_{ij,t-1} + b_{ij,t-1} }$$`
+`$$v_{ijt} \equiv \frac{ a_{ij,t-1} b_{ij,t-1} }{ (a_{ij,t-1} + b_{ij,t-1})^2 (a_{ij,t-1} + b_{ij,t-1} + 1) }$$`
+
+
+---
+# Patient Utility
+
+- PCPs perfect agents of patients
+- Patient (and PCP) utility: `\(U_{ijt} = \alpha Y_{ijt} + \epsilon_{ijt}\)`
+- PCP chooses specialist with highest expected utility
+
+
+---
+class: inverse, center, middle
+name: data
+
+# Data and Restrictions
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# Data Sources
+
+- 100% Medicare claims data (Inpatient, Outpatient, Carrier Claims) from 2008 through 2018
+- MD-PPAS (physician information)
+- AHA Annual Surveys (hospital characteristics)
+- American Community Survey (market level demographics)
+
+
+---
+# Sample Construction
+
+- Planned and elective inpatient stays
+- Age 65 or above
+- Major joint surgery
+  - DRG 470 (major joint replacement, lower, w/o cc): 86%
+  - DRG 483 (major joint replacement, upper, with cc): 6%
+  - DRG 469 (major joint replacement, lower, with cc): 3%
+  - DRG 462 (multiple joint procedures, lower, w/o cc): 2%
+
+  
+---
+# What is a referral?
+
+- Assign a PCP to each surgery based on:
+
+1. Referring physician listed "in the data"
+2. Most frequently visited physician in last year
+  - Tiebreaker to most recently visited
+  
+--
+
+- Specialist is operating physician listed on the claim
+
+---
+# What is the referring "physician"?
+
+- Lots of very small numbers for each PCP/specialist pair
+- Aggregate PCP to practice level
+- Practice defined by primary tax ID and zip code
+- Limit to established practices
+  - At least 3 consecutive years having non-zero referrals
+  - At least 20 patients total across all years
+
+
+---
+# What is a failure?
+
+Any of the following:
+
+- 90-day mortality
+- 90-day readmission
+- 90-day complication (SSI or sepsis)
+
+
+---
+# A note on information...
+
+For now:
+
+- Information flows to the practice rather than a single PCP
+- Practice "sees" all failure events for their own patients
+
+
+---
+class: inverse, center, middle
+name: descriptive
+
+# Description of Referrals and Referral Networks
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# Size of Referral Networks
+
+.pull-left[
+  ![](results/LLNetworkSize.png)
+]
+
+.pull-right[
+  ![](results/NetworkSize.png)
+]
+
+---
+# Attachment to Specialists
+
+.center[
+  ![](results/HighestShare.png)
+]
+
+
+
+---
+# Pairwise referrals over time
+
+.center[
+  ![](results/TransitionHeatMap.png)
+]
+
+
+---
+count: false
+
+# Pairwise referrals over time
+
+.center[
+  ![](results/Referrals_ByGroup.png)
+]
+
+
+---
+# Referrals and failure events
+
+.center[
+  ![](results/Referrals_OneFailure_Combined.png)
+]
+
+
+---
+class: inverse, center, middle
+name: learning
+
+# Preliminary Learning Results
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
+
+
+---
+# Myopic Referrals
+
+PCP only cares about experience up to time `\(t-1\)`:
+
+$$
+`\begin{align}
+\max_j \text{E} \left[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right] &amp;= \max_j \left\{ \alpha \text{E} \left[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]+ \epsilon_{ijt} \right\} \\
+ &amp;=\max_j \left\{ \alpha m_{ijt} + \epsilon_{ijt} \right\}
+\end{align}`
+$$
+
+---
+# Estimation
+
+- Multinomial logit with panel
+- Choice set is all specialists referred to at any point in the past year
+- Failure rate based on cumulative failures and patients over prior 5 years
+- Outside option: average specialist in same market
+- Limited to 2013 through 2018
+
+---
+# Results
+
+| Variable           |   (1)       |   (2)      |      (3)   |   (4)      |
+|:-------------------|------------:|-----------:|-----------:|-----------:|
+| Pair Failure Rate  | -0.051      | 0.008      | 0.042      | -0.015     |
+|                    |**[-0.004]** |**[0.000]** |**[0.003]** |**[-0.001]**|
+| "Attachment"       |             | 5.008\***  | 4.378\***  | 5.378\***  |
+|                    |             |**[0.295]** |**[0.265]** |**[0.284]** |
+| **Specification**  |             |            |            |            |
+| Specialist Variables |           |            |     X      |            |
+| Similar Patients   |             |            |            |    X       |
+
+
+\*** denotes p-value `\(&lt;0.01\)`
+
+---
+# Forward-looking PCP
+
+- PCP incorporates value of experimenting with unknown specialists
+- Value to learning about other specialists in the market
+- Reduces to optimal stopping rule (when to try someone new)
+- Dynamic problem simplifies with *Gittins Index*, `\(g(m_{ijt}, v_{ijt})\)`
+
+--
+
+`$$\max_j \text{E} \left[ V_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
+= \max_j \left\{ g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\}$$`
+
+
+
+---
+count: false
+
+# Forward-looking PCP
+
+From Brezzi and Lai (2002) JEDC, close approximation to Gittins Index in our case is:
+
+`$$q_{ij} + \sqrt{v_{ij}} \cdot \psi \left(-(\ln(\beta) \, (n_{ij}+1) )^{-1} \right)$$`
+
+---
+# Results?
+
+- Calculate Gittins Index and include as covariate
+- Coefficient estimates large and of opposite sign
+- Why?
+  - Incorrect formulation of Gittins Index
+  - Referrals inconsistent with Bayesian learning
+--
+
+- What next?
+  - Consider strength of priors and discount factor required for expected sign
+  - Parameterize Gittins Index directly (Gong, 2017; Dickstein, 2018)
+  
+  
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
