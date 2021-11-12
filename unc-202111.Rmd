@@ -501,3 +501,9 @@ $$q_{ij} + \sqrt{v_{ij}} \cdot \psi \left(-(\ln(\beta) \, (n_{ij}+1) )^{-1} \rig
 - What next?
   - Consider strength of priors and discount factor required for expected sign
   - Parameterize Gittins Index directly (Gong, 2017; Dickstein, 2018)
+  
+  
+```{r echo=FALSE, include=FALSE, eval=FALSE}
+pagedown::chrome_print("unc-202111.html", 
+                       output = "unc-202111.pdf")
+```  
