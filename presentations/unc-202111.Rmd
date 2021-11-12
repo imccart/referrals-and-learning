@@ -376,18 +376,18 @@ name: descriptive
 # Size of Referral Networks
 
 .pull-left[
-  ![](results/LLNetworkSize.png)
+  ![](../results/LLNetworkSize.png)
 ]
 
 .pull-right[
-  ![](results/NetworkSize.png)
+  ![](../results/NetworkSize.png)
 ]
 
 ---
 # Attachment to Specialists
 
 .center[
-  ![](results/HighestShare.png)
+  ![](../results/HighestShare.png)
 ]
 
 
@@ -396,7 +396,7 @@ name: descriptive
 # Pairwise referrals over time
 
 .center[
-  ![](results/TransitionHeatMap.png)
+  ![](../results/TransitionHeatMap.png)
 ]
 
 
@@ -406,7 +406,7 @@ count: false
 # Pairwise referrals over time
 
 .center[
-  ![](results/Referrals_ByGroup.png)
+  ![](../results/Referrals_ByGroup.png)
 ]
 
 
@@ -414,7 +414,7 @@ count: false
 # Referrals and failure events
 
 .center[
-  ![](results/Referrals_OneFailure_Combined.png)
+  ![](../results/Referrals_OneFailure_Combined.png)
 ]
 
 
