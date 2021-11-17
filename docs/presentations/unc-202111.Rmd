@@ -199,6 +199,20 @@ count: false
 ---
 # Contribution
 
+1. Health care policy:
+  - Significant focus on changing physician treatment decisions
+  - We consider changing who does the procedure rather than how it's done
+--
+
+2. Referrals and learning:
+  - Consider and estimate physician learning directly
+  - Much more complete data
+
+---
+count: false
+
+# Contribution
+
 - Almost no work on physician learning in referrals
 - **Johnson (2011) "Ability, Learning, and the Career Path of Cardiac Specialists."**
 --
@@ -222,19 +236,6 @@ count: false
   - Estimates relationship between negative outcomes and quarterly referrals among PCP/specialist pairs
   - PCPs interpret negative outcomes differentially by gender
 
----
-count: false
-
-# Contribution
-
-1. Health care policy:
-  - Significant focus on changing physician treatment decisions
-  - We consider changing who does the procedure rather than how it's done
---
-
-2. Referrals and learning:
-  - Consider and estimate physician learning directly
-  - Much more complete data
 
 ---
 class: inverse, center, middle
