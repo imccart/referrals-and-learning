@@ -214,7 +214,7 @@ count: false
 class: inverse, center, middle
 name: model
 
-# Learning Framework
+# Referral Framework
 
 &lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=1055px&gt;&lt;/html&gt;
 
@@ -257,12 +257,16 @@ Mean and variance of the beliefs about `\(p_j\)` in period `\(t\)`:
 
 
 ---
-# Patient Utility
+# PCP Objective
 
 - PCPs perfect agents of patients
 - Patient (and PCP) utility: `\(U_{ijt} = \alpha Y_{ijt} + \epsilon_{ijt}\)`
-- PCP chooses specialist with highest expected utility
 
+--
+
+PCP chooses specialist with highest expected utility:
+
+`$$\max_j \text{E} \left[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right] = \max_j \left\{ \alpha \text{E} \left[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]+ \epsilon_{ijt} \right\}$$`
 
 ---
 class: inverse, center, middle
@@ -288,34 +292,34 @@ name: data
 - Planned and elective inpatient stays
 - Age 65 or above
 - Major joint surgery
-  - DRG 470 (major joint replacement, lower, w/o cc): 86%
-  - DRG 483 (major joint replacement, upper, with cc): 6%
+  - DRG 470 (major joint replacement, lower, w/o cc): 87%
+  - DRG 483 (major joint replacement, upper, with cc): 5%
   - DRG 469 (major joint replacement, lower, with cc): 3%
   - DRG 462 (multiple joint procedures, lower, w/o cc): 2%
-
+-
   
 ---
 # What is a referral?
 
 - Assign a PCP to each surgery based on:
 
-1. Referring physician listed "in the data"
-2. Most frequently visited physician in last year
-  - Tiebreaker to most recently visited
+  1. Referring physician listed "in the data"
+  2. Most frequently visited physician in last year
+    - Tiebreaker to most recently visited
+
+- Limited to primary care specialty codes
   
 --
 
 - Specialist is operating physician listed on the claim
+- Limited to orthopedic surgeons
 
 ---
-# What is the referring "physician"?
+# Who is the referring "physician"?
 
-- Lots of very small numbers for each PCP/specialist pair
-- Aggregate PCP to practice level
-- Practice defined by primary tax ID and zip code
-- Limit to established practices
-  - At least 3 consecutive years having non-zero referrals
-  - At least 20 patients total across all years
+- Limit to established or will-be-established practices
+- At least 3 consecutive years having non-zero referrals
+- At least 20 patients total across all years
 
 
 ---
@@ -333,8 +337,8 @@ Any of the following:
 
 For now:
 
-- Information flows to the practice rather than a single PCP
-- Practice "sees" all failure events for their own patients
+- PCP "sees" all failure events for their own patients
+- Failures/successes only inform about quality of specialist `\(j\)`
 
 
 ---
@@ -349,19 +353,15 @@ name: descriptive
 ---
 # Size of Referral Networks
 
-.pull-left[
-  ![](results/LLNetworkSize.png)
-]
-
-.pull-right[
-  ![](results/NetworkSize.png)
+.center[
+  ![:scale 70%](results/NetworkSize.png)
 ]
 
 ---
 # Attachment to Specialists
 
 .center[
-  ![](results/HighestShare.png)
+  ![:scale 70%](results/HighestShare.png)
 ]
 
 
@@ -370,7 +370,7 @@ name: descriptive
 # Pairwise referrals over time
 
 .center[
-  ![](results/TransitionHeatMap.png)
+  ![:scale 70%](results/TransitionHeatMap.png)
 ]
 
 
@@ -380,16 +380,36 @@ count: false
 # Pairwise referrals over time
 
 .center[
-  ![](results/Referrals_ByGroup.png)
+  ![:scale 70%](results/Referrals_All.png)
 ]
-
 
 ---
-# Referrals and failure events
+# Referrals and failures
 
-.center[
-  ![](results/Referrals_OneFailure_Combined.png)
+.pull-left[
+  ![](results/Failures_All.png)
 ]
+
+.pull-right[
+  ![](results/NewSpecialists.png)
+]
+
+---
+count: false
+
+# Referrals and failures
+
+| Outcome: New Specialists   |  (1)        |    (2)     |    (3)     |    (4)     |
+|:-------------------|------------:|-----------:|-----------:|-----------:|
+| Failures           |  0.235\***  | 0.263\***  | 0.007      |  0.172\*** |
+|                    | (0.005)     | (0.005)    |(0.006)     |(0.009)     |
+| Same Practice      |             |-0.170\***  | -0.360\*** | -0.366\*** |
+|                    |             |(0.005)     |(0.009)     |(0.008)     |
+| Patients           |             |            | 0.219\***  |  0.248\*** |
+|                    |             |            | (0.007)    |(0.003)     |
+| Failures x Patients|             |            |            | -0.031\*** |
+| \*** p-value &lt;0.01   |             |            |            | (0.001)    |
+
 
 
 ---
@@ -406,12 +426,10 @@ name: learning
 
 PCP only cares about experience up to time `\(t-1\)`:
 
-$$
-`\begin{align}
+`$$\begin{align}
 \max_j \text{E} \left[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right] &amp;= \max_j \left\{ \alpha \text{E} \left[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]+ \epsilon_{ijt} \right\} \\
  &amp;=\max_j \left\{ \alpha m_{ijt} + \epsilon_{ijt} \right\}
-\end{align}`
-$$
+ \end{align}$$`
 
 ---
 # Estimation
@@ -425,18 +443,31 @@ $$
 ---
 # Results
 
-| Variable           |   (1)       |   (2)      |      (3)   |   (4)      |
+| Variable           |     (1)     |  (2)       |   (3)      |      (4)   |
 |:-------------------|------------:|-----------:|-----------:|-----------:|
-| Pair Failure Rate  | -0.051      | 0.008      | 0.042      | -0.015     |
-|                    |**[-0.004]** |**[0.000]** |**[0.003]** |**[-0.001]**|
-| "Attachment"       |             | 5.008\***  | 4.378\***  | 5.378\***  |
-|                    |             |**[0.295]** |**[0.265]** |**[0.284]** |
+| Pair Failure Rate  |  0.249\***  |-0.146\***  | -0.189\*** | -0.124\*** |
+|                    |**[0.021]**  |**[-0.022]**|**[-0.029]**|**[-0.019]**|
+| "Attachment"       |             |3.761\***   | 3.254\***  | 3.914\***  |
+|                    |             |**[0.558]** |**[0.495]** |**[0.585]** |
 | **Specification**  |             |            |            |            |
-| Specialist Variables |           |            |     X      |            |
-| Similar Patients   |             |            |            |    X       |
+| Specialist Variables |           |            |    X       |            |
+| Similar Patients   |             |            |            |     X      |
+| Log Likelihood     | -193,422    |  -177,032  | -171,737   | -87,011    |
+| \*** p-value &lt;0.01 |             |            |            |            |
 
 
-\*** denotes p-value `\(&lt;0.01\)`
+---
+count: false
+
+# Results
+
+Interpreting a marginal effect of -0.02:
+
+- 2 percentage point reduction in referral probability (relative to most common)
+- Mean range of failure rates by case: 0 to 50%
+- Mean failure rate of 9.5%
+- 80,000 cases total
+- 33% to most common referral
 
 ---
 # Forward-looking PCP
@@ -452,7 +483,6 @@ $$
 = \max_j \left\{ g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\}$$`
 
 
-
 ---
 count: false
 
@@ -460,23 +490,34 @@ count: false
 
 From Brezzi and Lai (2002) JEDC, close approximation to Gittins Index in our case is:
 
-`$$q_{ij} + \sqrt{v_{ij}} \cdot \psi \left(-(\ln(\beta) \, (n_{ij}+1) )^{-1} \right)$$`
+`$$\begin{align}
+&amp;\max_j \text{E} \left[ V_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
+ = \max_j \left\{ g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\} \\
+ &amp;= \max_j \left\{m_{ij} + \sqrt{v_{ij}} \cdot \psi \left(-\frac{1}{\ln(\beta)(n_{ij}+1)} \right) + \epsilon_{ijt} \right\}\end{align}$$`
 
 ---
-# Results?
+# Results
 
-- Calculate Gittins Index and include as covariate
-- Coefficient estimates large and of opposite sign
-- Why?
-  - Incorrect formulation of Gittins Index
-  - Referrals inconsistent with Bayesian learning
---
 
-- What next?
-  - Consider strength of priors and discount factor required for expected sign
-  - Parameterize Gittins Index directly (Gong, 2017; Dickstein, 2018)
-  
-  
+
+&lt;img src="unc-202111_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Takeaways
+
+1. Very preliminary! 
+2. But early evidence suggesting some amount of forward-looking behavior
+3. Sensitive to priors and weight on priors
+
+---
+# Next steps
+
+- Exploit exogenous changes to specialist choice sets
+- Incorporate attachment and distance into dynamic setup
+- Counterfactuals:
+  - Removal of attachment/familiarity
+  - Transparent specialist quality
+
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
