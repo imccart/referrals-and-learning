@@ -514,7 +514,7 @@ $$\begin{align}
 ---
 # Results
 
-```{r include=FALSE}
+```{r mfx, include=FALSE}
 mfx <- tribble(
   ~term, ~estimate, ~conf.low , ~conf.high, ~ll, 
  0.5, 0.787, 0.739, 0.835, '-192,134',
@@ -525,7 +525,7 @@ mfx <- tribble(
  1, -0.039, -0.092, 0.014, '-193,393'
 )
 
-ci.plot <- dwplot(mfx,whisker_args=list(color="black", size=1.1),
+dwplot(mfx,whisker_args=list(color="black", size=1.1),
                   dot_args = list(color="black"),
                   vars_order = c("1","0.9","0.8","0.7","0.6","0.5")) +
     coord_flip() + theme_bw() + theme(legend.position="none") +
@@ -535,8 +535,8 @@ ci.plot <- dwplot(mfx,whisker_args=list(color="black", size=1.1),
   annotate("text",y=2, x=0, label='Myopic LL: -193,422')
 ```
 
-```{r echo=FALSE}
-ci.plot
+
+```{r mfx-plot, ref.label="mfx", fig.callout=TRUE, warning=FALSE}
 ```
 
 ---
@@ -554,6 +554,7 @@ ci.plot
 - Counterfactuals:
   - Removal of attachment/familiarity
   - Transparent specialist quality
+
 
 ```{r echo=FALSE, include=FALSE, eval=FALSE}
 pagedown::chrome_print("unc-202111.html", 
