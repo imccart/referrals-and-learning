@@ -327,18 +327,17 @@ name: data
 # What is a referral?
 
 - Assign a PCP to each surgery based on:
-
-  1. Referring physician listed "in the data"
-  2. Most frequently visited physician in last year
+  - Referring physician listed "in the data"
+  - Most frequently visited physician in last year
     - Tiebreaker to most recently visited
-
-- Limited to primary care specialty codes
-- Limited to established or will-be-established PCPs
+  - Limit to primary care specialty codes
+  - Limit to established or will-be-established PCPs
   
 --
 
-- Specialist is operating physician listed on the claim
-- Limited to orthopedic surgeons
+- Specialist based on:
+  - Operating physician listed on the claim
+  - Limit to orthopedic surgeons
 
 
 ---
