@@ -487,7 +487,6 @@ Interpreting a marginal effect of -0.02:
 # Forward-looking PCP
 
 - PCP incorporates value of experimenting with unknown specialists
-- Value to learning about other specialists in the market
 - Reduces to optimal stopping rule (when to try someone new)
 - Dynamic problem simplifies with *Gittins Index*, $g(m_{ijt}, v_{ijt})$
 
