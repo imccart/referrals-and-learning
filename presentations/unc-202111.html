@@ -296,7 +296,6 @@ name: data
   - DRG 483 (major joint replacement, upper, with cc): 5%
   - DRG 469 (major joint replacement, lower, with cc): 3%
   - DRG 462 (multiple joint procedures, lower, w/o cc): 2%
--
   
 ---
 # What is a referral?
@@ -308,18 +307,12 @@ name: data
     - Tiebreaker to most recently visited
 
 - Limited to primary care specialty codes
+- Limited to established or will-be-established PCPs
   
 --
 
 - Specialist is operating physician listed on the claim
 - Limited to orthopedic surgeons
-
----
-# Who is the referring "physician"?
-
-- Limit to established or will-be-established practices
-- At least 3 consecutive years having non-zero referrals
-- At least 20 patients total across all years
 
 
 ---
@@ -334,8 +327,6 @@ Any of the following:
 
 ---
 # A note on information...
-
-For now:
 
 - PCP "sees" all failure events for their own patients
 - Failures/successes only inform about quality of specialist `\(j\)`
@@ -435,10 +426,9 @@ PCP only cares about experience up to time `\(t-1\)`:
 # Estimation
 
 - Multinomial logit with panel
-- Choice set is all specialists referred to at any point in the past year
+- Choice set is all specialists referred to at any point in data
 - Failure rate based on cumulative failures and patients over prior 5 years
-- Outside option: average specialist in same market
-- Limited to 2013 through 2018
+- Estimation limited to 20% sample, 2013 through 2018
 
 ---
 # Results
