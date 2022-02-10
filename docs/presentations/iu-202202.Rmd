@@ -377,20 +377,6 @@ name: descriptive
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
 
 
----
-# Potential Quality Improvement
-
-.pull-left[
- ![](images/figures/Mortality_IQR.png)
-**Potential lives saved: 30 per year**
-]
-
-.pull-right[
- ![](images/figures/Failure_IQR.png)
-**Potential events saved: 550 per year**
-]
-
-
 
 ---
 # Size of Referral Networks
@@ -405,7 +391,6 @@ name: descriptive
 .center[
   ![](images/figures/HighestShare.png)
 ]
-
 
 
 ---
@@ -425,7 +410,6 @@ count: false
   ![](images/figures/Referrals_ByGroup.png)
 ]
 
-
 ---
 # Referrals and failure events
 
@@ -441,6 +425,20 @@ name: failures
 # Evidence of Response to Failures
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
+
+---
+# Potential Quality Improvement
+
+.pull-left[
+ ![](images/figures/Mortality_IQR.png)
+**Potential lives saved: 30 per year**
+]
+
+.pull-right[
+ ![](images/figures/Failure_IQR.png)
+**Potential events saved: 550 per year**
+]
+
 
 ---
 # Estimand of interest
