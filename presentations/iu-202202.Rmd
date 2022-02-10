@@ -627,3 +627,24 @@ From Brezzi and Lai (2002) JEDC, close approximation to Gittins Index in our cas
 
 $$q_{ij} + \sqrt{v_{ij}} \cdot \psi \left(-(\ln(\beta) \, (n_{ij}+1) )^{-1} \right)$$
 
+---
+class: inverse, center, middle
+name: conclude
+
+# Wrapping Up
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=1055px></html>
+
+
+---
+# Summary so far
+
+- Some response to failures
+
+- Heterogeneous across markets
+
+- Next steps:
+
+  - Expand into forward-looking learning framework
+  - Continue work on reduced form identification (PCP movers, etc.)
+  - Understand environment in which learning appears to take place
