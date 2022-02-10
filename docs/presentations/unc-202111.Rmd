@@ -289,6 +289,9 @@ $$v_{ijt} \equiv \frac{ a_{ij,t-1} b_{ij,t-1} }{ (a_{ij,t-1} + b_{ij,t-1})^2 (a_
 - Patient (and PCP) utility: $U_{ijt} = \alpha Y_{ijt} + \epsilon_{ijt}$
 - PCP chooses specialist with highest expected utility
 
+$$
+\max_j \text{E} \left[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right] = \max_j \left\{ \alpha \text{E} \left[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]+ \epsilon_{ijt} \right\}
+$$
 
 ---
 class: inverse, center, middle
@@ -339,7 +342,7 @@ name: data
 - Lots of very small numbers for each PCP/specialist pair
 - Aggregate PCP to practice level
 - Practice defined by primary tax ID and zip code
-- Limit to established practices
+- Limit to established or will-be-established practices
   - At least 3 consecutive years having non-zero referrals
   - At least 20 patients total across all years
 
@@ -361,6 +364,7 @@ For now:
 
 - Information flows to the practice rather than a single PCP
 - Practice "sees" all failure events for their own patients
+- Failures/successes only inform about quality of specialist $j$
 
 
 ---
@@ -375,11 +379,7 @@ name: descriptive
 ---
 # Size of Referral Networks
 
-.pull-left[
-  ![](results/LLNetworkSize.png)
-]
-
-.pull-right[
+.center[
   ![](results/NetworkSize.png)
 ]
 
