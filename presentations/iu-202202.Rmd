@@ -197,8 +197,38 @@ count: false
 - **Motivating question:** How did Dr. Death keep getting patients?
 - **Research question:** Do PCPs learn about specialist quality and adjust referral patterns accordingly?
 
+
 ---
 # Contribution
+
+1. Policy and "variation":
+
+  - Significant focus on changing physician treatment decisions
+  - We consider changing who does the procedure rather than how it's done
+
+2. Referrals and learning:
+
+  - Consider and estimate physician learning directly
+  - Much more complete data
+
+
+---
+# Policy and "variation"
+
+
+.pull-left[
+ ![](images/figures/Mortality_IQR.png)
+**Potential lives saved: 30 per year**
+]
+
+.pull-right[
+ ![](images/figures/Failure_IQR.png)
+**Potential events saved: 550 per year**
+]
+
+
+---
+# Referrals and learning
 
 - Almost no work on physician learning in referrals
 - **Johnson (2011) "Ability, Learning, and the Career Path of Cardiac Specialists."**
@@ -212,7 +242,7 @@ count: false
 ---
 count: false
 
-# Contribution
+# Referrals and learning
 
 - Almost no work on physician learning in referrals
 - Johnson (2011) "Ability, Learning, and the Career Path of Cardiac Specialists."
@@ -222,41 +252,6 @@ count: false
   - Considers learning framework as motivation
   - Estimates relationship between negative outcomes and quarterly referrals among PCP/specialist pairs
   - PCPs interpret negative outcomes differentially by gender
-
----
-count: false
-
-# Contribution
-
-1. Health care policy:
-
-  - Significant focus on changing physician treatment decisions
-  - We consider changing who does the procedure rather than how it's done
-
-
---
-
-2. Referrals and learning:
-
-  - Consider and estimate physician learning directly
-  - Much more complete data
-
-
----
-count: false
-
-# Contribution
-
-
-.pull-left[
- ![](images/figures/Mortality_IQR.png)
-**Potential lives saved: 30 per year**
-]
-
-.pull-right[
- ![](images/figures/Failure_IQR.png)
-**Potential events saved: 550 per year**
-]
 
 
 ---
