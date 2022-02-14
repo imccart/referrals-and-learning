@@ -457,9 +457,9 @@ count: false
 
 # Estimand of interest
 
-- Denote by $Pr[Y_{ij}^{1}]$ the probability of PCP $i$ referring to specialist $j$ after observing a failure (or sequence of failures) from specialist $j$ ($F_{ij}>0$)
+- Denote by $Pr[Y_{ij}^{1}]$ the probability of PCP $i$ referring to specialist $j$ after observing a failure (or sequence of failures) from specialist $j$, $F_{ij}>0$
 
-- Denote by $Pr[Y_{ij}^{0}]$ the probability of PCP $i$ referring to specialist $j$ without observing a failure from specialist $j$ ($F_{ij}=0$)
+- Denote by $Pr[Y_{ij}^{0}]$ the probability of PCP $i$ referring to specialist $j$ without observing a failure from specialist $j$, $F_{ij}=0$
 
 --
 
