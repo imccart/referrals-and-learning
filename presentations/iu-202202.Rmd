@@ -26,7 +26,7 @@ output:
       countIncrementalSlides: false
       ratio: "16:9"
       beforeInit: ["macros.js","https://platform.twitter.com/widgets.js"]
-#knit: pagedown::chrome_print
+knit: pagedown::chrome_print
 ---
 class: clear
 
@@ -74,7 +74,9 @@ xaringanExtra::use_scribble(rgb(0.9, 0.5, 0.5))
 
 
 .center[
-  ![:scale 75%](images/dr-death-cover.png)
+```{r echo=FALSE, out.height="600px", out.width="800px"}
+knitr::include_graphics('images/dr-death-cover.png')
+```
 ]
 
 
@@ -82,113 +84,123 @@ xaringanExtra::use_scribble(rgb(0.9, 0.5, 0.5))
 class: clear
 
 .center[
-  ![:scale 70%](images/mugshots.png)
+```{r echo=FALSE, out.height="600px", out.width="800px"}
+knitr::include_graphics('images/mugshots.png')
+```
 ]
 
 ---
 # Baylor Plano, 2011, Lee Passmore
 
 .center[
-  ![:scale 50%](images/passmore-highlight.png)
+```{r echo=FALSE, out.height="50%", out.width="50%"}
+knitr::include_graphics('images/passmore-highlight.png')
+```
 ]
 
 ---
-count: false
-
 # Baylor Plano, 2012, Barry Morguloff
 
 .center[
-  ![](images/morguloff-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/morguloff-highlight.png')
+```
+
 ]
 
 
 ---
-count: false
-
 # Baylor Plano, 2012, Jerry Summers
 
 .center[
-  ![](images/summers-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/summers-highlight.png')
+```
 ]
 
 
 ---
-count: false
-
 # Baylor Plano, 2012, Kellie Martin
 
 .center[
-  ![](images/martin1-highlight.png)
-  ![](images/martin2-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/martin1-highlight.png')
+```
 ]
 
 
 ---
-count: false
-
 # Dallas Medical Center, 2012, Floella Brown
 
 .center[
-  ![](images/brown-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/brown-highlight.png')
+```
 ]
 
 
 ---
-count: false
-
 # Dallas Medical Center, 2012, Mary Efurd
 
 .center[
-  ![](images/efurd-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/efurd-highlight.png')
+```
+
 ]
 
 
 ---
-count: false
-
 # South Hampton Medical, 2012, Jeff Cheney
 
 .center[
-  ![](images/cheney-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/cheney-highlight.png')
+```
+
 ]
 
 
 ---
-count: false
-
 # Legacy Surgery Center at Frisco, 2012, Marshall Muse
 
 .center[
-  ![](images/muse-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/muse-highlight.png')
+```
+
 ]
 
 ---
-count: false
-
 # Legacy Surgery Center at Frisco, 2012, Jacqueline Troy
 
 .center[
-  ![](images/troy-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/troy-highlight.png')
+```
+
 ]
 
 
 ---
-count: false
-
 # Legacy Surgery Center at Frisco, 2013, Philip Mayfield
 
 .center[
-  ![](images/mayfield-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/mayfield-highlight.png')
+```
+
 ]
 
 
 ---
-count: false
-
 # University General at Dallas, 2013, Jeff Glidewell
 
 .center[
-  ![](images/glidewell-highlight.png)
+```{r echo=FALSE, out.height="75%", out.width="75%"}
+knitr::include_graphics('images/glidewell-highlight.png')
+```
+
 ]
 
 ---
@@ -240,8 +252,6 @@ count: false
 
 
 ---
-count: false
-
 # Referrals and learning
 
 - Almost no work on physician learning in referrals
@@ -291,8 +301,6 @@ $$b_{ijt} = b_0 + \sum_{s=1}^t (D_{ijs} - Y_{ijs})$$
 
 
 ---
-count: false
-
 # Beliefs
 
 Mean and variance of the beliefs about $p_j$ in period $t$:
@@ -415,8 +423,6 @@ name: descriptive
 
 
 ---
-count: false
-
 # Pairwise referrals over time
 
 .center[
@@ -448,8 +454,6 @@ name: failures
 - **Intuition:** Use unobserved failure events (from PCP) as counterfactual for pairs with observed failures
 
 ---
-count: false
-
 # Estimand of interest
 
 - Denote by $Pr[Y_{ij}^{1}]$ the probability of PCP $i$ referring to specialist $j$ after observing a failure (or sequence of failures) from specialist $j$, $F_{ij}>0$
@@ -476,8 +480,6 @@ $$\begin{align}
 \end{align}$$
 
 ---
-count: false
-
 # Estimation
 
 - Predictions for specific pairs:
@@ -614,8 +616,6 @@ $$\max_j \text{E} \left[ V_{ijt} | a_{ij,t-1}, b_{ij,t-1} \right]
 
 
 ---
-count: false
-
 # Forward-looking PCP
 
 From Brezzi and Lai (2002) JEDC, close approximation to Gittins Index in our case is:
