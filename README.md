@@ -1,9 +1,10 @@
 # Physician Referrals and Learning
 
-This repo maintains the supporting documentation and supplementary material for our ongoing project, "How Efficient is the Market for Physician Referrals?"
+This repo maintains the supporting documentation and supplementary material for our ongoing project, "How Efficient is the Market for Physician Referrals?" Access all the slides and additional resources as part of the companion site [here](https://referrals-learning.research.ianmccarthyecon.com). 
 
-## Presentations
+---------------------------------------------------------------------------------------
 
-- [UNC, November 2021](unc-202111.html) I presented preliminary results as a seminar at UNC, Chapel Hill. What a great place! Big thanks to [Qing Gong](https://econ.unc.edu/directory/qinggong/) for the invitation.
-
-- [IU, February 2022](iu-202202.html) I presented some marginally less preliminary results as a seminar at IU, Bloomington. Always great to make it back to Bloomington! Thank you to the incredible [Kosali Simon](https://oneill.indiana.edu/faculty-research/directory/profiles/faculty/full-time/simon-kosali.html) for the invitation.
+**Ian McCarthy**  
+Department of Economics • Emory University<br>
+Faculty Research Fellow • National Bureau of Economic Research<br>
+[ianmccarthyecon.com](https://www.ianmccarthyecon.com) • [\@ianhealthecon](https://twitter.com/ianhealthecon)
