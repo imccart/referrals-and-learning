@@ -13,7 +13,7 @@
 
 <title>Presentations</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -62,6 +62,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -82,6 +83,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -234,7 +238,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -281,7 +285,7 @@ $(document).ready(function () {
 
 <ul>
 <li><p><a href="presentations/unc-202111.html">UNC, November 2021</a>. I presented preliminary results as a seminar at UNC, Chapel Hill. What a great place! Big thanks to <a href="https://econ.unc.edu/directory/qinggong/">Qing Gong</a> for the invitation.</p></li>
-<li><p><a href="presntations/iu-202202.html">IU, February 2022</a>. I presented some marginally less preliminary results as a seminar at IU, Bloomington. Always great to make it back to Bloomington! Thank you to the incredible <a href="https://oneill.indiana.edu/faculty-research/directory/profiles/faculty/full-time/simon-kosali.html">Kosali Simon</a> for the invitation.</p></li>
+<li><p><a href="presentations/iu-202202.html">IU, February 2022</a>. I presented some marginally less preliminary results as a seminar at IU, Bloomington. Always great to make it back to Bloomington! Thank you to the incredible <a href="https://oneill.indiana.edu/faculty-research/directory/profiles/faculty/full-time/simon-kosali.html">Kosali Simon</a> for the invitation.</p></li>
 </ul>
 
 <p class="footer" style="margin-top: 4em; font-size: 0.7em;">Copyright &copy; 2021 <a href="https://www.ianmccarthyecon.com/">Ian McCarthy</a>. Licensed under a <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
