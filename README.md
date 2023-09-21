@@ -1,6 +1,6 @@
 # Physician Referrals and Learning
 
-This repo maintains the supporting documentation and supplementary material for our project, "How Efficient is the Market for Physician Referrals?" Details of our dataset construction are [here](data.md), details of our analysis are [here](analysis.md), and presentations [here](present.md).
+This repo maintains the supporting documentation and supplementary material for our project, "How Efficient is the Market for Physician Referrals?" Details of our dataset construction are [here](data.md), details of our analysis are [here](analysis.md), and presentations [here](present.md)
 
 ---------------------------------------------------------------------------------------
 
