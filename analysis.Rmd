@@ -1,5 +1,0 @@
----
-title: "Analysis"
----
-
-Stay tuned for supplementary materials on our analysis...
