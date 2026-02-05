@@ -1,0 +1,2767 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="uga-202310_files/libs/clipboard/clipboard.min.js"></script>
+<script src="uga-202310_files/libs/quarto-html/tabby.min.js"></script>
+<script src="uga-202310_files/libs/quarto-html/popper.min.js"></script>
+<script src="uga-202310_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="uga-202310_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="uga-202310_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="uga-202310_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="uga-202310_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.450">
+
+  <meta name="author" content="Ian McCarthy, Emory University and NBER   Seth Richards-Shubik, Lehigh University and NBER">
+  <title>Learning and Efficiency in the Market for Physician Referrals</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="uga-202310_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="uga-202310_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="uga-202310_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="uga-202310_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="uga-202310_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="uga-202310_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="uga-202310_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="uga-202310_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="uga-202310_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  
+  <script src="uga-202310_files/libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="uga-202310_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Learning and Efficiency in the Market for Physician Referrals</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Ian McCarthy, Emory University and NBER <br> Seth Richards-Shubik, Lehigh University and NBER 
+</div>
+        <p class="quarto-title-affiliation">
+            UGA, October 18, 2023
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="the-story-of-dr.-death" class="title-slide slide level1 center">
+<h1>The Story of Dr.&nbsp;Death!</h1>
+
+</section>
+<section class="slide level2">
+
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/dr-death-cover.png" style="width:8in"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="baylor-plano-2011-lee-passmore">Baylor Plano, 2011, Lee Passmore</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/passmore-highlight.png" style="width:5in"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-1" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="baylor-plano-2012-barry-morguloff">Baylor Plano, 2012, Barry Morguloff</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/morguloff-highlight.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-2" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="baylor-plano-2012-jerry-summers">Baylor Plano, 2012, Jerry Summers</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/summers-highlight.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-3" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="baylor-plano-2012-kellie-martin">Baylor Plano, 2012, Kellie Martin</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/martin1-highlight.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-4" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="dallas-medical-center-2012-floella-brown">Dallas Medical Center, 2012, Floella Brown</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/brown-highlight.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-5" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="dallas-medical-center-2012-mary-efurd">Dallas Medical Center, 2012, Mary Efurd</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/efurd-highlight.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-6" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="south-hampton-medical-2012-jeff-cheney">South Hampton Medical, 2012, Jeff Cheney</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/cheney-highlight.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-7" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="legacy-surgery-center-2012-marshall-muse">Legacy Surgery Center, 2012, Marshall Muse</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/muse-highlight.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-8" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="legacy-surgery-center-2012-jacqueline-troy">Legacy Surgery Center, 2012, Jacqueline Troy</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/troy-highlight.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-9" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="legacy-surgery-center-2013-philip-mayfield">Legacy Surgery Center, 2013, Philip Mayfield</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mayfield-highlight.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-10" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="university-general-2013-jeff-glidewell">University General, 2013, Jeff Glidewell</h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/glidewell-highlight.png" style="width:7in"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-11" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mugshots.png"></p>
+</figure>
+</div>
+
+<aside><div>
+<ul>
+<li>Severely injured or killed 33 of 38 patients over 2+ years</li>
+<li>First doctor to be sentenced to life in prison for medical malpractice</li>
+</ul>
+</div></aside></section>
+<section class="slide level2">
+
+<ul>
+<li><p><strong>Motivating question:</strong> How did Duntsch keep getting patients?</p></li>
+<li><p><strong>Research question:</strong> Do PCPs learn about specialist quality and adjust referral patterns accordingly?</p></li>
+</ul>
+</section></section>
+<section>
+<section id="why-physician-referrals" class="title-slide slide level1 center">
+<h1>Why physician referrals?</h1>
+
+</section>
+<section id="physician-referrals" class="slide level2">
+<h2>Physician Referrals</h2>
+<p>Service market where professionals with general skills (e.g., primary care) direct consumers to professionals with specialized skills</p>
+<ol type="1">
+<li>Substantial heterogeneity in prices and quality across specialists</li>
+<li>Prices do not clear market in the short run</li>
+</ol>
+</section>
+<section class="slide level2">
+
+<p>Uncertainty about quality is a defining characteristic of most health care markets:</p>
+<blockquote>
+<p>Uncertainty as to the quality of the product is perhaps more intense here than in any other important commodity.</p>
+</blockquote>
+<p>– Arrow 1963, p.&nbsp;951</p>
+</section>
+<section id="background-on-referrals" class="slide level2">
+<h2>Background on Referrals</h2>
+<ul>
+<li>$2 trillion in physician services <span class="math inline">\(+\)</span> hospital care in 2019</li>
+<li>Primary care accounts for only 5% – 8%</li>
+</ul>
+<div class="bullet-cite">
+<p>(Reiff et al.&nbsp;2019, Reid et al.&nbsp;2019, Martin et al.&nbsp;2020)</p>
+</div>
+</section>
+<section id="background-on-referrals-1" class="slide level2">
+<h2>Background on Referrals</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Rate per Visit
+</div></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Annual Total
+</div></th>
+</tr>
+<tr class="odd">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">1999</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">2009</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">1999</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">2009</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; min-width: 300px;">PCPs</td>
+<td style="text-align: center;">5.8%</td>
+<td style="text-align: center;">9.9%</td>
+<td style="text-align: center;">22M</td>
+<td style="text-align: center;">51M</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; min-width: 300px;">Specialists</td>
+<td style="text-align: center;">2.9%</td>
+<td style="text-align: center;">7.3%</td>
+<td style="text-align: center;">11M</td>
+<td style="text-align: center;">38M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; min-width: 300px;">Self-referrals</td>
+<td style="text-align: center;">6.0%</td>
+<td style="text-align: center;">2.8%</td>
+<td style="text-align: center;">51M</td>
+<td style="text-align: center;">31M</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="bullet-text">
+<p>(Barnett et al.&nbsp;2012)</p>
+</div>
+</section>
+<section id="background-on-referrals-2" class="slide level2">
+<h2>Background on Referrals</h2>
+<ul>
+<li>Referring physicians have large influence on choice of specialist</li>
+</ul>
+<div class="bullet-cite">
+<p>(e.g., Freedman, Kouri, West, and Keating, <em>JAMA Oncology</em> 2015; Chernew, Cooper, Hallock, and Scott Morton, <em>JHlthEcon</em> 2021)</p>
+</div>
+</section>
+<section id="background-on-referrals-3" class="slide level2" data-visibility="uncounted">
+<h2>Background on Referrals</h2>
+<ul>
+<li>Referring physicians have large influence on choice of specialist</li>
+<li>Referring physicians say patient outcomes and experiences matter</li>
+</ul>
+<div class="bullet-cite">
+<p>(e.g., Schneider and Epstein, <em>NEJM</em> 1996; Barnett, Keating, Christakis, O’Malley, and Landon, <em>JGenIntMed</em> 2012)</p>
+</div>
+</section>
+<section id="background-on-referrals-4" class="slide level2" data-visibility="uncounted">
+<h2>Background on Referrals</h2>
+<ul>
+<li>Referring physicians have large influence on choice of specialist</li>
+<li>Referring physicians say patient outcomes and experiences matter</li>
+<li>Specialist market shares are only weakly associated with quality</li>
+</ul>
+<div class="bullet-cite">
+<p>(Kolstad and Chernew, <em>MedCareRschRev</em> 2009; Dranove, <em>HandbookHlthEcon</em> 2011; Skinner, <em>HandbookHlthEcon</em> 2011; Chandra, Finkelstein, Sacarny, and Syverson, <em>AER</em> 2016; Gaynor, Propper, and Seiler, <em>AER</em> 2016)</p>
+</div>
+</section>
+<section id="background-on-referrals-5" class="slide level2" data-visibility="uncounted">
+<h2>Background on Referrals</h2>
+<ul>
+<li>Referring physicians have large influence on choice of specialist</li>
+<li>Referring physicians say patient outcomes and experiences matter</li>
+<li>Specialist market shares are only weakly associated with quality</li>
+</ul>
+<div class="bullet-text">
+<p>e.g., average marginal rate of substitution between travel distance and mortality risk from heart surgery:</p>
+<ul>
+<li>1.8 miles : 1 per 100 risk of death (naive model)</li>
+<li>22 miles : 1 per 100 risk of death (account for supply constraints)</li>
+</ul>
+</div>
+<div class="bullet-cite">
+<p>(Richards-Shubik, Roberts, and Donohue, <em>JHlthEcon</em> 2022)</p>
+</div>
+</section>
+<section id="background-on-referrals-6" class="slide level2" data-visibility="uncounted">
+<h2>Background on Referrals</h2>
+<ul>
+<li>Referring physicians have large influence on choice of specialist</li>
+<li>Referring physicians say patient outcomes and experiences matter</li>
+<li>Specialist market shares are only weakly associated with quality</li>
+<li>Greater concentration of referrals associated with somewhat lower spending and utilization</li>
+</ul>
+<div class="bullet-cite">
+<p>(Kaur, Perloff, Tompkins, and Bishop, <em>HlthSvcRsch</em> 2017; Agha, Ericson, Geissler, and Rebitzer, <em>MgtSci</em> 2022)</p>
+</div>
+</section>
+<section id="background-on-referrals-7" class="slide level2" data-visibility="uncounted">
+<h2>Background on Referrals</h2>
+<ul>
+<li>Referring physicians have large influence on choice of specialist</li>
+<li>Referring physicians say patient outcomes and experiences matter</li>
+<li>Specialist market shares are only weakly associated with quality</li>
+<li>Greater concentration of referrals associated with somewhat lower spending and utilization</li>
+<li>Similar results using the density or centrality of networks</li>
+</ul>
+<div class="bullet-cite">
+<p>(Barnett, Christakis, O’Malley, Onnela, Keating, and Landon, <em>MedCare</em> 2012; Pollack, Weissman, Lemke, Hussey, and Weiner, <em>JGenIntMed</em> 2013)</p>
+</div>
+</section>
+<section id="our-approach" class="slide level2">
+<h2>Our Approach</h2>
+<ul>
+<li>Physician practice styles / supply-side factors are a large source of inefficient variations in health care</li>
+<li>Develop a structural learning model for referral decisions and apply it to a specific area of health care with a well defined network of referring physicians and specialists</li>
+</ul>
+</section>
+<section id="section-12" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="model-also-accounts-for">Model also accounts for:</h3>
+<ul>
+<li>Habit persistence (i.e., preference to refer to familiar specialists)</li>
+<li>Congestion / capacity constraints at specialists</li>
+</ul>
+</section>
+<section id="section-13" class="slide level2" data-visibility="uncounted">
+<h2></h2>
+<h3 id="model-allows-us-to-quantify">Model allows us to quantify:</h3>
+<ul>
+<li>How quickly do referring physicians learn about specialist quality?</li>
+<li>How much does quality affect referrals, compared to other factors?</li>
+<li>What is the scope to improve patient allocations, via better learning or information dissemination?</li>
+</ul>
+</section>
+<section id="preliminary-results" class="slide level2">
+<h2>Preliminary Results</h2>
+<ul>
+<li>Descriptively, wide variation in specialists’ outcomes, <em>within each geographic market</em>, suggests possible gains from reallocating patients</li>
+</ul>
+<div class="bullet-text">
+<p>e.g., average difference btw 75th pctile (bad) and 25 pctile (good) specialist in each market:</p>
+<ul>
+<li>rehospitalization rate: 0.046 (+63% relative)</li>
+<li>spending per patient: $7,900 (+46% relative)</li>
+</ul>
+</div>
+</section>
+<section id="preliminary-results-1" class="slide level2" data-visibility="uncounted">
+<h2>Preliminary Results</h2>
+<ul>
+<li>Descriptively, wide variation in specialists’ outcomes, <em>within each geographic market</em>, suggests possible gains from reallocating patients</li>
+<li>Design-based evidence in event study framework</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>0.07 fewer referrals per quarter after bad outcome</li>
+<li>37% reduction on a mean of 0.187 referrals per quarter among treated pairs</li>
+<li>Applies to PCP-specialist pairs with prior experience, at least one bad outcome, and specialists who receive referrals from multiple PCPs</li>
+</ul>
+</div>
+</section>
+<section id="preliminary-results-2" class="slide level2" data-visibility="uncounted">
+<h2>Preliminary Results</h2>
+<ul>
+<li>Descriptively, wide variation in specialists’ outcomes, <em>within each geographic market</em>, suggests possible gains from reallocating patients</li>
+<li>Design-based evidence in event study framework</li>
+<li>Multinomial logits with specialist fixed effects, estimated separately in each geographic market</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>One additional bad outcome reduces relative referral probability by 3.4% on average</li>
+<li>Consistent with the learning model, response to bad outcomes is stronger when PCP has more experience with a specialist</li>
+</ul>
+</div>
+</section>
+<section id="preliminary-results-3" class="slide level2" data-visibility="uncounted">
+<h2>Preliminary Results</h2>
+<ul>
+<li>Descriptively, wide variation in specialists’ outcomes, <em>within each geographic market</em>, suggests possible gains from reallocating patients</li>
+<li>Design-based evidence in event study framework</li>
+<li>Multinomial logits with specialist fixed effects, estimated separately in each geographic market</li>
+<li>Learning model with Bayesian updating of beliefs about specialist quality</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>Small response to bad outcomes on average</li>
+<li>Evidence of learning in some markets</li>
+<li>Results sensitive to prior beliefs about specialist quality</li>
+</ul>
+</div>
+</section>
+<section id="related-literature" class="slide level2">
+<h2>Related Literature</h2>
+<ul>
+<li>Structural learning models have been widely applied to study product choice and related problems</li>
+</ul>
+<div class="bullet-cite">
+<p>(Ching, Erdem, and Keane 2013)</p>
+</div>
+</section>
+<section id="related-literature-1" class="slide level2" data-visibility="uncounted">
+<h2>Related Literature</h2>
+<ul>
+<li>Structural learning models have been widely applied to study product choice and related problems</li>
+<li>Many studies in economics and marketing have applied Bayesian learning models to prescribing decisions by individual physicians</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>New pharmaceutical drugs (e.g., Ching 2010; Ferreyra and Kosenok 2011)</li>
+<li>Patient-specific drug matches (e.g., Crawford and Shum 2005; Dickstein 2021)</li>
+<li>Gong (2018) considers a new surgical procedure</li>
+</ul>
+</div>
+</section>
+<section id="related-literature-2" class="slide level2" data-visibility="uncounted">
+<h2>Related Literature</h2>
+<ul>
+<li>Structural learning models have been widely applied to study product choice and related problems</li>
+<li>Many studies in economics and marketing have applied Bayesian learning models to prescribing decisions by individual physicians</li>
+<li>Other factors affecting referral choice:</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>peers from medical training</li>
+<li>distance between offices</li>
+<li>specialist gender, homophily</li>
+<li>vertical integration</li>
+</ul>
+</div>
+</section>
+<section id="related-literature-3" class="slide level2" data-visibility="uncounted">
+<h2>Related Literature</h2>
+<ul>
+<li>Structural learning models have been widely applied to study product choice and related problems</li>
+<li>Many studies in economics and marketing have applied Bayesian learning models to prescribing decisions by individual physicians</li>
+<li>Other factors affecting referral choice:</li>
+</ul>
+<div class="bullet-cite">
+<p>(Hackl, Hummer, and Prickner, <em>JHlthEcon</em> 2015; Richards-Shubik, Roberts, and Donohue, <em>JHlthEcon</em> 2022; Zeltzer, <em>AEJ:Applied</em> 2020; Baker, Bundorf, and Kessler, <em>JHlthEcon</em> 2016; Carlin, Feldman, and Dowd, <em>HlthEcon</em> 2016)</p>
+</div>
+</section>
+<section id="plan-for-today" class="slide level2">
+<h2>Plan for Today</h2>
+<ul>
+<li>Background on application</li>
+<li>Bayesian learning model</li>
+<li>Identification</li>
+<li>Data, description of referral patterns and outcomes</li>
+<li>Design-based results</li>
+<li>Reduced-form multinomial logit results</li>
+<li>Preliminary structural results</li>
+</ul>
+</section></section>
+<section>
+<section id="background" class="title-slide slide level1 center">
+<h1>Background</h1>
+
+</section>
+<section id="application-joint-replacement-surgery" class="slide level2">
+<h2>Application: Joint Replacement Surgery</h2>
+<ul>
+<li>About 500,000 hip replacements and 1,000,000 knee replacements in the US per year (and rapidly growing)</li>
+</ul>
+<div class="bullet-text2">
+<ul>
+<li>Expensive: $23,000 mean/median ($12,500 std. dev.)</li>
+<li>Some risk: 9.3% rehospitalized, 0.6% die from complications</li>
+</ul>
+</div>
+</section>
+<section id="application-joint-replacement-surgery-1" class="slide level2" data-visibility="uncounted">
+<h2>Application: Joint Replacement Surgery</h2>
+<ul>
+<li>About 500,000 hip replacements and 1,000,000 knee replacements in the US per year (and rapidly growing)</li>
+</ul>
+<div class="bullet-text2">
+<ul>
+<li>Expensive: $23,000 mean/median ($12,500 std. dev.)</li>
+<li>Some risk: 9.3% rehospitalized, 0.6% die from complications</li>
+</ul>
+</div>
+<ul>
+<li>Focus on planned and elective procedures, more likely to involve a referral</li>
+</ul>
+</section>
+<section id="application-joint-replacement-surgery-2" class="slide level2" data-visibility="uncounted">
+<h2>Application: Joint Replacement Surgery</h2>
+<ul>
+<li>About 500,000 hip replacements and 1,000,000 knee replacements in the US per year (and rapidly growing)</li>
+</ul>
+<div class="bullet-text2">
+<ul>
+<li>Expensive: $23,000 mean/median ($12,500 std. dev.)</li>
+<li>Some risk: 9.3% rehospitalized, 0.6% die from complications</li>
+</ul>
+</div>
+<ul>
+<li>Focus on planned and elective procedures, more likely to involve a referral</li>
+<li>Patients are typically referred by their primary care physicians (PCPs) to orthopedic surgeons (specialists) for the procedure</li>
+</ul>
+</section></section>
+<section>
+<section id="model" class="title-slide slide level1 center">
+<h1>Model</h1>
+<div class="footnote">
+<p><em>PCPs refer a sequence of patients to a set of specialists, and learn about the quality of those specialists from the outcomes of their patients</em></p>
+</div>
+</section>
+<section id="actions-and-outcomes" class="slide level2">
+<h2>Actions and Outcomes</h2>
+<ul>
+<li>Each period <span class="math inline">\(t\)</span>, the PCP <span class="math inline">\(i\)</span> sends a patient (also <span class="math inline">\(t\)</span>) to a specialist <span class="math inline">\(j\)</span> from a fixed choice set <span class="math inline">\(J\)</span></li>
+</ul>
+<div class="bullet-text2">
+<ul>
+<li>choice indicators: <span class="math inline">\(D_{ijt} = \{0,1\}\)</span>, <span class="math inline">\(j \in J\)</span></li>
+</ul>
+</div>
+</section>
+<section id="actions-and-outcomes-1" class="slide level2" data-visibility="uncounted">
+<h2>Actions and Outcomes</h2>
+<ul>
+<li>Each period <span class="math inline">\(t\)</span>, the PCP <span class="math inline">\(i\)</span> sends a patient (also <span class="math inline">\(t\)</span>) to a specialist <span class="math inline">\(j\)</span> from a fixed choice set <span class="math inline">\(J\)</span></li>
+<li>Specialist treats the patient</li>
+</ul>
+<div class="bullet-text2">
+<ul>
+<li>binary outcomes: <span class="math inline">\(Y_{ijt} = 1\)</span> (success) or 0 (failure)</li>
+<li>specialist quality: <span class="math inline">\(q_j \equiv \Pr(Y_{ijt} = 1)\)</span></li>
+</ul>
+</div>
+</section>
+<section id="actions-and-outcomes-2" class="slide level2" data-visibility="uncounted">
+<h2>Actions and Outcomes</h2>
+<ul>
+<li>Each period <span class="math inline">\(t\)</span>, the PCP <span class="math inline">\(i\)</span> sends a patient (also <span class="math inline">\(t\)</span>) to a specialist <span class="math inline">\(j\)</span> from a fixed choice set <span class="math inline">\(J\)</span></li>
+<li>Specialist treats the patient</li>
+<li>Patients sent to specialist <span class="math inline">\(j\)</span> in the past may affect the PCP’s utility (e.g., familiarity)</li>
+</ul>
+<div class="bullet-text2">
+<ul>
+<li>previous patients: <span class="math inline">\(e_{ijt} \equiv \sum_{s=0}^{t-1} D_{ist}\)</span></li>
+</ul>
+</div>
+</section>
+<section id="actions-and-outcomes-3" class="slide level2" data-visibility="uncounted">
+<h2>Actions and Outcomes</h2>
+<ul>
+<li>Each period <span class="math inline">\(t\)</span>, the PCP <span class="math inline">\(i\)</span> sends a patient (also <span class="math inline">\(t\)</span>) to a specialist <span class="math inline">\(j\)</span> from a fixed choice set <span class="math inline">\(J\)</span></li>
+<li>Specialist treats the patient</li>
+<li>Patients sent to specialist <span class="math inline">\(j\)</span> in the past may affect the PCP’s utility (e.g., familiarity)</li>
+<li>Specialist’s prior patients may affect the choice probability (e.g., capacity constraints)</li>
+</ul>
+<div class="bullet-text2">
+<ul>
+<li>specialist’s current patients: <span class="math inline">\(n_{jt} \equiv \sum_k D_{kjt}\)</span></li>
+</ul>
+</div>
+</section>
+<section id="learning-about-quality" class="slide level2">
+<h2>Learning about Quality</h2>
+<ul>
+<li>Bayesian learning, multi-armed bandit framework</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>Beta-binomial model, as proposed in the literature to study physician learning and treatment variations (Phelps and Mooney 1992)</li>
+<li>Gittins index (Gittins 1979, Gittins and Jones 1979) provides highly tractable solution for forward looking model</li>
+</ul>
+</div>
+</section>
+<section id="learning-about-quality-1" class="slide level2" data-visibility="uncounted">
+<h2>Learning about Quality</h2>
+<ul>
+<li>Bayesian learning, multi-armed bandit framework</li>
+<li>PCP beliefs about specialist quality: <span class="math inline">\(q_j \sim \text{Beta}(a,b)\)</span></li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>common, homogeneous priors: <span class="math inline">\((a_0, b_0)\)</span></li>
+<li>updating beliefs from patient outcomes:</li>
+</ul>
+</div>
+<p><span class="math display">\[a_{ijt} = a_0 + \sum_{s=1}^t Y_{ijs} , \ \ b_{ijt} = b_0 + \sum_{s=1}^t (D_{ijs} - Y_{ijs})\]</span></p>
+</section>
+<section id="learning-about-quality-2" class="slide level2" data-visibility="uncounted">
+<h2>Learning about Quality</h2>
+<ul>
+<li>Bayesian learning, multi-armed bandit framework</li>
+<li>PCP beliefs about specialist quality: <span class="math inline">\(q_j \sim \text{Beta}(a,b)\)</span></li>
+<li>Relationship to the existing literature</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>Normal-normal models of prescribing (e.g., Crawford and Shum 2005, Ching 2010, Ferreyra and Kosenok 2011): choice sets binary to moderate size (<span class="math inline">\(\sim\)</span> 5-7), observe sequence of choices but not outcomes</li>
+<li>Beta-binomial models with Gittins index solutions:
+<ul>
+<li>Dickstein (2021), antidepressants – larger choice set (19), nested structure with correlated beliefs, outcomes not observed</li>
+<li>Gong (2018), brain surgery – 3 options, learning by doing</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="referring-physicians-utility" class="slide level2">
+<h2>Referring Physician’s Utility</h2>
+<ul>
+<li>PCP <span class="math inline">\(i\)</span> utility from sending patient <span class="math inline">\(t\)</span> to specialist <span class="math inline">\(j\)</span> (at date <span class="math inline">\(t\)</span>):</li>
+</ul>
+<p><span class="math display">\[U_{ijt} \equiv \alpha Y_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+</section>
+<section id="referring-physicians-utility-1" class="slide level2" data-visibility="uncounted">
+<h2>Referring Physician’s Utility</h2>
+<ul>
+<li>PCP <span class="math inline">\(i\)</span> utility from sending patient <span class="math inline">\(t\)</span> to specialist <span class="math inline">\(j\)</span> (at date <span class="math inline">\(t\)</span>):</li>
+</ul>
+<p><span class="math display">\[U_{ijt} \equiv \alpha Y_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<div class="bullet-text">
+<p><span class="math inline">\(\alpha\)</span> – weight on patient outcomes (e.g., altruism) <br> <span class="math inline">\(f\)</span> – subjective taste for familiarity <br> <span class="math inline">\(x\)</span> – patient-specific factors (e.g., distance) <br> <span class="math inline">\(c\)</span> – congestion effect (specialists have limited supply) <br> <span class="math inline">\(z\)</span> – factors affecting capacity (e.g., max operating days per month) <br> <span class="math inline">\(\xi\)</span> – other demand factors (unobserved to econometrician) <br> <span class="math inline">\(\epsilon\)</span> – idiosyncratic shock</p>
+</div>
+</section>
+<section id="referring-physicians-utility-2" class="slide level2" data-visibility="uncounted">
+<h2>Referring Physician’s Utility</h2>
+<ul>
+<li>PCP <span class="math inline">\(i\)</span> utility from sending patient <span class="math inline">\(t\)</span> to specialist <span class="math inline">\(j\)</span> (at date <span class="math inline">\(t\)</span>):</li>
+</ul>
+<p><span class="math display">\[U_{ijt} \equiv \alpha Y_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Setup captures key features related to the potential to improve market allocations:</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>learning about quality</li>
+<li>taste for familiarity</li>
+<li>capacity constraints</li>
+</ul>
+</div>
+</section>
+<section id="myopic-pcps" class="slide level2">
+<h2>Myopic PCPs</h2>
+<p><span class="math display">\[\max_{j \in J} \ \text{E} \left[ U_{ijt} | \dots \right] = \max_{j \in J} \text{ } \alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<p>Use mean belief at start of period <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[m_{ijt} \equiv E \left[q_j | (D_{ijs}, Y_{ijs})_{s=1}^{t-1} \right] = \frac{ a_{ij,t-1} }{ a_{ij,t-1} + b_{ij,t-1} } = \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} }\]</span></p>
+</section>
+<section id="sec-id-myopic" class="slide level2">
+<h2>Identification in Myopic Model</h2>
+<p><span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Assume a known distribution for <span class="math inline">\(\epsilon\)</span></li>
+</ul>
+</section>
+<section id="identification-in-myopic-model" class="slide level2" data-visibility="uncounted">
+<h2>Identification in Myopic Model</h2>
+<p><span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Assume a known distribution for <span class="math inline">\(\epsilon\)</span></li>
+<li>Choice probabilities identify differences in utility between alternatives</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>Specialist fixed effects, <span class="math inline">\(\xi\)</span>, identified by cases where histories and observables are the same for two specialists</li>
+<li>Effects of patient characteristics, <span class="math inline">\(u(x)\)</span>: assume patients arrive exogenously</li>
+</ul>
+</div>
+</section>
+<section id="identification-in-myopic-model-1" class="slide level2" data-visibility="uncounted">
+<h2>Identification in Myopic Model</h2>
+<p><span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Assume a known distribution for <span class="math inline">\(\epsilon\)</span></li>
+<li>Choice probabilities identify differences in utility between alternatives</li>
+<li>Congestion effect <span class="math inline">\(c(n, z)\)</span> identified with distance-based instrument</li>
+</ul>
+<div class="bullet-cite">
+<p>(Richards-Shubik <em>et al.</em> 2022), see <a href="#/sec-appendix-a">congestion details</a></p>
+</div>
+</section>
+<section id="identification-in-myopic-model-2" class="slide level2" data-visibilty="uncounted">
+<h2>Identification in Myopic Model</h2>
+<p><span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Assume a known distribution for <span class="math inline">\(\epsilon\)</span></li>
+<li>Choice probabilities identify differences in utility between alternatives</li>
+<li>Congestion effect <span class="math inline">\(c(n, z)\)</span> identified with distance-based instrument</li>
+<li>Effect of familiarity (<span class="math inline">\(f\)</span>) identified from variation in experience with different specialists</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>Requires a normalization, e.g.~<span class="math inline">\(f(0) = 0\)</span></li>
+<li>Must be bounded as <span class="math inline">\(e \rightarrow \infty\)</span></li>
+</ul>
+</div>
+</section>
+<section id="identification-in-myopic-model-3" class="slide level2" data-visibilty="uncounted">
+<h2>Identification in Myopic Model</h2>
+<p><span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Altruism parameter (<span class="math inline">\(\alpha\)</span>): identified by variation in <em>observed</em> success rate <span class="math display">\[\alpha m_{ijt} = \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} } = \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 }\]</span></li>
+</ul>
+<p>where <span class="math inline">\(\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / \sum_{s=1}^{t-1} D_{ijs}\)</span> (and <span class="math inline">\(e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}\)</span>)</p>
+</section>
+<section id="identification-in-myopic-model-4" class="slide level2" data-visibilty="uncounted">
+<h2>Identification in Myopic Model</h2>
+<p><span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Altruism parameter (<span class="math inline">\(\alpha\)</span>): identified by variation in <em>observed</em> success rate <span class="math display">\[\alpha m_{ijt} = \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} } = \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 }\]</span></li>
+</ul>
+<div class="bullet-text">
+<p>Both Dickstein (2021) and Gong (2018) omit <span class="math inline">\(\alpha\)</span>, which fixes the MRS between patient outcomes and other factors (incl.&nbsp;<span class="math inline">\(\epsilon\)</span>) at an assumed value</p>
+</div>
+</section>
+<section id="identification-in-myopic-model-5" class="slide level2" data-visibilty="uncounted">
+<h2>Identification in Myopic Model</h2>
+<p><span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Altruism parameter (<span class="math inline">\(\alpha\)</span>): identified by variation in <em>observed</em> success rate <span class="math display">\[\alpha m_{ijt} = \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} } = \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 }\]</span></li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>Strength of priors (<span class="math inline">\(a_0 + b_0\)</span>): how the marginal effect of the success rate changes with experience (i.e., interaction), see <a href="#/sec-appendix-b">algebra</a></li>
+</ul>
+</div>
+</section>
+<section id="identification-in-myopic-model-6" class="slide level2" data-visibilty="uncounted">
+<h2>Identification in Myopic Model</h2>
+<p><span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Altruism parameter (<span class="math inline">\(\alpha\)</span>): identified by variation in <em>observed</em> success rate <span class="math display">\[\alpha m_{ijt} = \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} } = \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 }\]</span></li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>Strength of priors (<span class="math inline">\(a_0 + b_0\)</span>): how the marginal effect of the success rate changes with experience (i.e., interaction), see <a href="#/sec-appendix-b">algebra</a></li>
+<li>Prior mean (<span class="math inline">\(\frac{a_0}{a_0 + b_0}\)</span>): estimate outside the model, using average success probability in each market (then have <span class="math inline">\(a_0, b_0\)</span> separately)</li>
+</ul>
+</div>
+</section>
+<section id="forward-looking-pcps" class="slide level2">
+<h2>Forward-looking PCPs</h2>
+<p><span class="math display">\[V_{it}(\dots) = \max_{j \in J} \ \left\{ \text{E} \left[ U_{ijt} | \dots \right]
++ \beta \text{E} V_{i,t+1}(\dots) \right\}\]</span></p>
+</section>
+<section id="forward-looking-pcps-1" class="slide level2" data-visibilty="uncounted">
+<h2>Forward-looking PCPs</h2>
+<p><span class="math display">\[V_{it}(\dots) = \max_{j \in J} \ \left\{ \text{E} \left[ U_{ijt} | \dots \right]
++ \beta \text{E} V_{i,t+1}(\dots) \right\}\]</span></p>
+<ul>
+<li>Gittins index solution (Gittins 1979) for present discounted value of optimal returns from specialist <span class="math inline">\(j\)</span>, denoted <span class="math inline">\(g(m_{ijt}, v_{ijt})\)</span>, if:</li>
+</ul>
+</section>
+<section id="forward-looking-pcps-2" class="slide level2" data-visibilty="uncounted">
+<h2>Forward-looking PCPs</h2>
+<p><span class="math display">\[V_{it}(\dots) = \max_{j \in J} \ \left\{ \text{E} \left[ U_{ijt} | \dots \right]
++ \beta \text{E} V_{i,t+1}(\dots) \right\}\]</span></p>
+<ul>
+<li>Gittins index solution (Gittins 1979) for present discounted value of optimal returns from specialist <span class="math inline">\(j\)</span>, denoted <span class="math inline">\(g(m_{ijt}, v_{ijt})\)</span>, if:</li>
+</ul>
+<div class="bullet-text">
+<ol type="1">
+<li>one option is chosen at a time</li>
+<li>the unchosen options do not affect the current outcome</li>
+<li>the expected returns do not change for the unchosen options</li>
+<li>beliefs are independent across options <br> (<span class="math inline">\(q_j\)</span> fixed, no spillovers among surgeons <span class="math inline">\(\implies\)</span> 3 &amp; 4)</li>
+<li>Brezzi and Lai (2002) provide a closed-form approximation to <span class="math inline">\(g\)</span></li>
+</ol>
+</div>
+</section>
+<section id="forward-looking-pcps-3" class="slide level2" data-visibilty="uncounted">
+<h2>Forward-looking PCPs</h2>
+<p><span class="math display">\[V_{it}(\dots) = \max_{j \in J} \ \left\{ \text{E} \left[ U_{ijt} | \dots \right]
++ \beta \text{E} V_{i,t+1}(\dots) \right\}\]</span></p>
+<ul>
+<li>Gittins index solution (Gittins 1979): <span class="math display">\[V_{it}(\dots) =\max_{j \in J} \text{  } \alpha g(m_{ijt}, v_{ijt}) + \overline{\overline{f}}(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt},\]</span></li>
+</ul>
+<p>where <span class="math inline">\(\overline{\overline{f}}\)</span> is the present discounted value of familiarity with <span class="math inline">\(j\)</span></p>
+</section>
+<section id="identification-in-forward-looking-model" class="slide level2">
+<h2>Identification in Forward-looking Model</h2>
+<p><span class="math display">\[\alpha g(m_{ijt}, v_{ijt}) + \overline{\overline{f}}(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li><span class="math inline">\(u(x_{ijt})\)</span>, <span class="math inline">\(c(n_{jt}, z_j)\)</span>, <span class="math inline">\(\xi_j\)</span>: same as for myopic model (no dynamics)</li>
+</ul>
+</section>
+<section id="identification-in-forward-looking-model-1" class="slide level2" data-visibilty="uncounted">
+<h2>Identification in Forward-looking Model</h2>
+<p><span class="math display">\[\alpha g(m_{ijt}, v_{ijt}) + \overline{\overline{f}}(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li><span class="math inline">\(u(x_{ijt})\)</span>, <span class="math inline">\(c(n_{jt}, z_j)\)</span>, <span class="math inline">\(\xi_j\)</span>: same as for myopic model (no dynamics)</li>
+<li>Gittins index is a known transformation of <span class="math inline">\(m\)</span> and <span class="math inline">\(v\)</span>, where:</li>
+</ul>
+<p><span class="math display">\[v \equiv \frac{ a \, b } { (a + b)^2 (a + b + 1) }= \frac{m \, (1-m)}{a_0 + b_0 + e + 1}, \text{and } m = \frac{ a_0 + e \times \bar y} { a_0 + b_0 + e  }\]</span></p>
+</section>
+<section id="identification-in-forward-looking-model-2" class="slide level2" data-visibilty="uncounted">
+<h2>Identification in Forward-looking Model</h2>
+<p><span class="math display">\[\alpha g(m_{ijt}, v_{ijt}) + \overline{\overline{f}}(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li><span class="math inline">\(u(x_{ijt})\)</span>, <span class="math inline">\(c(n_{jt}, z_j)\)</span>, <span class="math inline">\(\xi_j\)</span>: same as for myopic model (no dynamics)</li>
+<li>Gittins index is a known transformation of <span class="math inline">\(m\)</span> and <span class="math inline">\(v\)</span></li>
+<li>Hence, <span class="math inline">\(\alpha g(m,v)\)</span> is a function of the same unknown parameters (<span class="math inline">\(\alpha, a_0, b_0\)</span>) and observables (<span class="math inline">\(e, \bar y\)</span>) as the analogous term (<span class="math inline">\(\alpha m\)</span>) in the myopic model</li>
+</ul>
+</section>
+<section id="counterfactuals" class="slide level2">
+<h2>Counterfactuals</h2>
+<div>
+<ul>
+<li class="fragment"><em>Faster learning:</em> reduce strength of priors: e.g., <span class="math inline">\((a_0, b_0) \rightarrow (a_0 / 2, b_0 / 2)\)</span></li>
+<li class="fragment"><em>Complete information:</em> replace <span class="math inline">\(g(m_{ijt}, v_{ijt})\)</span> with <span class="math inline">\(g(q_j, 0)\)</span> (measures losses due to uncertainty about quality)</li>
+<li class="fragment"><em>Forced (or incentivized) experimentation:</em> assign some fraction of patients to exogenously selected specialists</li>
+</ul>
+</div>
+</section>
+<section id="counterfactuals-1" class="slide level2" data-visibility="uncounted">
+<h2>Counterfactuals</h2>
+<ul>
+<li><em>Faster learning</em></li>
+<li><em>Complete information</em></li>
+<li><em>Forced (or incentivized) experimentation</em></li>
+<li>Use estimated model to compute aggregate changes in health outcomes and expenditures</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>accounting for congestion / capacity at each specialist</li>
+<li>and for habit persistence, taste for familiarity</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="data" class="title-slide slide level1 center">
+<h1>Data</h1>
+
+</section>
+<section id="ffs-medicare-claims-2008-2018" class="slide level2">
+<h2>FFS Medicare Claims, 2008-2018</h2>
+<ul>
+<li>All fee-for-service Medicare claims for planned and elective major joint replacements from 2008 to 2018: 4.5 million surgeries</li>
+</ul>
+</section>
+<section id="ffs-medicare-claims-2008-2018-1" class="slide level2" data-visibility="uncounted">
+<h2>FFS Medicare Claims, 2008-2018</h2>
+<ul>
+<li>All fee-for-service Medicare claims for planned and elective major joint replacements from 2008 to 2018: 4.5 million surgeries</li>
+<li>Referring physician (PCP) inferred from regular office visits over prior year (2 or more visits)</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>87% of surgeries are matched to a PCP</li>
+<li>Restrict to PCPs and orthopedic surgeons with sufficient volume</li>
+<li>2,014,300 surgeries; 10,500 orthopedic surgeons; and 51,700 PCPs in final sample</li>
+</ul>
+</div>
+</section>
+<section id="ffs-medicare-claims-2008-2018-2" class="slide level2" data-visibility="uncounted">
+<h2>FFS Medicare Claims, 2008-2018</h2>
+<ul>
+<li>All fee-for-service Medicare claims for planned and elective major joint replacements from 2008 to 2018: 4.5 million surgeries</li>
+<li>Referring physician (PCP) inferred from regular office visits over prior year (2 or more visits)</li>
+</ul>
+<div class="bullet-text2">
+<ul>
+<li>87% of surgeries are matched to a PCP</li>
+<li>Restrict to PCPs and orthopedic surgeons with sufficient volume</li>
+<li>2,014,300 surgeries; 10,500 orthopedic surgeons; and 51,700 PCPs in final sample</li>
+</ul>
+</div>
+
+<aside><div>
+<p>Claims include a “referring physician” field, but it appears unreliable…omitted in nearly 35% of cases and lists the same physician in nearly 65% of cases</p>
+</div></aside></section>
+<section id="key-summary-statistics" class="slide level2 smaller">
+<h2>Key Summary Statistics</h2>
+<div class="bullet-text-title">
+<p>per patient (episode)</p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2008-2012</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2013-2018</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Overall</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">90-day Readmission</td>
+<td style="text-align: right;">0.104</td>
+<td style="text-align: right;">0.085</td>
+<td style="text-align: right;">0.093</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">90-day Complication</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.013</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">90-day Mortality</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.006</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Any Failure</td>
+<td style="text-align: right;">0.108</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: right;">0.096</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; border-bottom-style: none;">Episode spending</td>
+<td style="text-align: right; border-bottom-style: none;">23,240</td>
+<td style="text-align: right; border-bottom-style: none;">22,557</td>
+<td style="text-align: right; border-bottom-style: none;">22,839</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">(12,717)</td>
+<td style="text-align: right;">(12,284)</td>
+<td style="text-align: right;">(12,469)</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="key-summary-statistics-1" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Key Summary Statistics</h2>
+<div class="bullet-text-title">
+<p>per PCP (per year)</p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2008-2012</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2013-2018</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Overall</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; border-bottom-style: none;">Total Referrals</td>
+<td style="text-align: right; border-bottom-style: none;">3.809</td>
+<td style="text-align: right; border-bottom-style: none;">4.398</td>
+<td style="text-align: right; border-bottom-style: none;">4.134</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">(2.940)</td>
+<td style="text-align: right;">(3.478)</td>
+<td style="text-align: right;">(3.261)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; border-bottom-style: none;">Unique Specialists</td>
+<td style="text-align: right; border-bottom-style: none;">2.666</td>
+<td style="text-align: right; border-bottom-style: none;">3.109</td>
+<td style="text-align: right; border-bottom-style: none;">2.910</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">(1.580)</td>
+<td style="text-align: right;">(1.831)</td>
+<td style="text-align: right;">(1.737)</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="key-summary-statistics-2" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Key Summary Statistics</h2>
+<div class="bullet-text-title">
+<p>per PCP-specialist pair (five-year estimation period)</p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2008-2012</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2013-2018</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Overall</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; border-bottom-style: none;">Total Referrals</td>
+<td style="text-align: right; border-bottom-style: none;">- - -</td>
+<td style="text-align: right; border-bottom-style: none;">4.445</td>
+<td style="text-align: right; border-bottom-style: none;">- - -</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">(10.453)</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; border-bottom-style: none;">Failure Rate</td>
+<td style="text-align: right; border-bottom-style: none;">- - -</td>
+<td style="text-align: right; border-bottom-style: none;">0.107</td>
+<td style="text-align: right; border-bottom-style: none;">- - -</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">(0.209)</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="referral-concentration" class="slide level2">
+<h2>Referral Concentration</h2>
+<div class="bullet-text-title">
+<p>Computed per PCP, using six years of data from 2013-2018</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../results/figures/NetworkSize_1_1_0.png" style="width:80.0%"></p>
+<figcaption>Mean = 9.6</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../results/figures/HighestShare_1_1_0.png" style="width:80.0%"></p>
+<figcaption>Mean = 0.33</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+<aside><div>
+<ul>
+<li>Average number of specialists per market: 49</li>
+<li>Most PCPs refer their patients to less than 1/4 of specialists in their market</li>
+</ul>
+</div></aside></section>
+<section id="heterogeneity-in-quality-and-cost" class="slide level2">
+<h2>Heterogeneity in Quality and Cost</h2>
+<div class="bullet-text-title">
+<p>Interquartile ranges within markets of negative outcomes and episode spending</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../results/figures/Failure_IQR_1_1_0.png" style="width:80.0%"></p>
+<figcaption>Mean = 0.046</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../results/figures/Payment_IQR_1_1_0.png" style="width:80.0%"></p>
+<figcaption>Mean = $7,932</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+<aside><div>
+<p><em>Substantial improvements possible if patients could be reallocated from worse to better specialists (75th to 25th percentiles of negative outcomes or episode spending)</em></p>
+</div></aside></section></section>
+<section>
+<section id="empirical-analysis" class="title-slide slide level1 center">
+<h1>Empirical Analysis</h1>
+
+</section>
+<section id="design-based-evidence-of-learning" class="slide level2">
+<h2>Design-based Evidence of Learning</h2>
+<div class="bullet-text-title">
+<p>Effect on referrals per quarter from PCP observing the failure vs.&nbsp;other PCPs</p>
+</div>
+<ul>
+<li>Within each specialist, compute the difference in referral rates between PCPs who did not observe first failure and PCP who did</li>
+</ul>
+</section>
+<section id="design-based-evidence-of-learning-1" class="slide level2" data-visibility="uncounted">
+<h2>Design-based Evidence of Learning</h2>
+<div class="bullet-text-title">
+<p>Effect on referrals per quarter from PCP observing the failure vs.&nbsp;other PCPs</p>
+</div>
+<ul>
+<li>Within each specialist, compute the difference in referral rates between PCPs who did not observe first failure and PCP who did</li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>Define: <span class="math inline">\(I_j\)</span> = PCPs who ever refer to specialist <span class="math inline">\(j\)</span>; <span class="math inline">\(F_j\)</span> = PCP who observes first failure (at time <span class="math inline">\(t_j^1\)</span>); and <span class="math inline">\(C_j = I_j \setminus F_j\)</span></li>
+<li>Compute referral rates from <span class="math inline">\(C_j\)</span> and <span class="math inline">\(F_j\)</span> to <span class="math inline">\(j\)</span> in each quarter: <span class="math inline">\(\bar d^C_{jt}\)</span>, <span class="math inline">\(\bar d^F_{jt}\)</span></li>
+<li>Take the difference in each quarter, up to the time when the specialist has a second failure: <span class="math inline">\(\bar d^F_{jt} - \bar d^C_{jt}\)</span>, &nbsp;<span class="math inline">\(t = t_j^0 \dots (t_j^2 - 1\)</span>)</li>
+<li>Compute the average difference across specialists, using quarters relative to first failure (<span class="math inline">\(q = t - t^1_j\)</span>)</li>
+</ul>
+</div>
+</section>
+<section id="design-based-evidence-of-learning-2" class="slide level2" data-visibility="uncounted">
+<h2>Design-based Evidence of Learning</h2>
+<div class="bullet-text-title">
+<p>Effect on referrals per quarter from PCP observing the failure vs.&nbsp;other PCPs</p>
+</div>
+<ul>
+<li>Within each specialist, compute the difference in referral rates between PCPs who did not observe first failure and PCP who did</li>
+<li>Corresponds to the following specification: <span class="math display">\[D_{ijt} = \alpha_{jt} I_{ij} + \gamma F_{ij} + \sum_{q = -9}^{Q_j} \beta_q F_{ij} 1(t - t_j^1 = q) + U_{ijt},\]</span> where <span class="math inline">\(I_{ij} = 1(i \in I_j)\)</span> and <span class="math inline">\(F_{ij} = 1(i \in F_j)\)</span></li>
+</ul>
+</section>
+<section id="design-based-evidence-of-learning-3" class="slide level2" data-visibility="uncounted">
+<h2>Design-based Evidence of Learning</h2>
+<div class="bullet-text-title">
+<p>Effect on referrals per quarter from PCP observing the failure vs.&nbsp;other PCPs</p>
+</div>
+<ul>
+<li>Within each specialist, compute the difference in referral rates between PCPs who did not observe first failure and PCP who did</li>
+<li>Corresponds to the following specification: <span class="math display">\[D_{ijt} = \alpha_{jt} I_{ij} + \gamma F_{ij} + \sum_{q = -9}^{Q_j} \beta_q F_{ij} 1(t - t_j^1 = q) + U_{ijt},\]</span> where <span class="math inline">\(I_{ij} = 1(i \in I_j)\)</span> and <span class="math inline">\(F_{ij} = 1(i \in F_j)\)</span></li>
+<li>Estimate as stacked DD over first four failures</li>
+</ul>
+</section>
+<section id="design-based-estimation" class="slide level2">
+<h2>Design-based Estimation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../results/figures/EventStudy_Stacked_1_1_0.png" style="width:80.0%"></p>
+<figcaption>Mean = 0.187</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+
+</div>
+</div>
+</section>
+<section id="design-based-estimation-1" class="slide level2" data-visibility="uncounted">
+<h2>Design-based Estimation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../results/figures/EventStudy_Stacked_1_1_0.png" style="width:80.0%"></p>
+<figcaption>Mean = 0.187</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="bullet-text2">
+<ul>
+<li>Estimated reduction of 0.07 referrals per quarter</li>
+<li>Relative reduction of 37%</li>
+<li>Unique sample but strong evidence of a response in certain circumstances</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="multinomial-logit-with-specialist-fixed-effects" class="slide level2 smaller">
+<h2>Multinomial Logit with Specialist Fixed Effects</h2>
+<p><span class="math display">\[\Pr \left( j  \, | \, \dots \right) = \frac{\exp \left( \pi_1 \bar y_{ijt} + \pi_2 \bar y_{ijt} \bar e_{ijt} + \pi_3 \bar e_{ijt} + \pi_4 x_{ijt} + \xi_j \right)}{\sum_{k \in J{it}} \exp \left( \pi_1 \bar y_{ikt} + \pi_2 \bar y_{ikt} \bar e_{ikt} + \pi_3 \bar e_{ikt} + \pi_4 x_{ikt} + \xi_k \right)}\]</span></p>
+</section>
+<section id="multinomial-logit-with-specialist-fixed-effects-1" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Multinomial Logit with Specialist Fixed Effects</h2>
+<p><span class="math display">\[\Pr \left( j  \, | \, \dots \right) = \frac{\exp \left( \pi_1 \bar y_{ijt} + \pi_2 \bar y_{ijt} \bar e_{ijt} + \pi_3 \bar e_{ijt} + \pi_4 x_{ijt} + \xi_j \right)}{\sum_{k \in J{it}} \exp \left( \pi_1 \bar y_{ikt} + \pi_2 \bar y_{ikt} \bar e_{ikt} + \pi_3 \bar e_{ikt} + \pi_4 x_{ikt} + \xi_k \right)}\]</span></p>
+<ul>
+<li>Variable (re-)definitions</li>
+</ul>
+<p><span class="math inline">\(\bar y_{ijt}\)</span> – failure rate among patients sent to <span class="math inline">\(j\)</span> over past five years <br> <span class="math inline">\(\bar e_{ijt}\)</span> – proportion of patients sent to <span class="math inline">\(j\)</span> over past five years <br> <span class="math inline">\(x_{ijt}\)</span> – relative distance from patient to hospital where <span class="math inline">\(j\)</span> primarily operates</p>
+</section>
+<section id="multinomial-logit-with-specialist-fixed-effects-2" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Multinomial Logit with Specialist Fixed Effects</h2>
+<p><span class="math display">\[\Pr \left( j  \, | \, \dots \right) = \frac{\exp \left( \pi_1 \bar y_{ijt} + \pi_2 \bar y_{ijt} \bar e_{ijt} + \pi_3 \bar e_{ijt} + \pi_4 x_{ijt} + \xi_j \right)}{\sum_{k \in J{it}} \exp \left( \pi_1 \bar y_{ikt} + \pi_2 \bar y_{ikt} \bar e_{ikt} + \pi_3 \bar e_{ikt} + \pi_4 x_{ikt} + \xi_k \right)}\]</span></p>
+<ul>
+<li>Variable (re-)definitions</li>
+<li>Choice set (<span class="math inline">\(J_{it}\)</span>): all specialists in market who operate in same year and are within 75 miles of patient</li>
+</ul>
+</section>
+<section id="multinomial-logit-with-specialist-fixed-effects-3" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Multinomial Logit with Specialist Fixed Effects</h2>
+<p><span class="math display">\[\Pr \left( j  \, | \, \dots \right) = \frac{\exp \left( \pi_1 \bar y_{ijt} + \pi_2 \bar y_{ijt} \bar e_{ijt} + \pi_3 \bar e_{ijt} + \pi_4 x_{ijt} + \xi_j \right)}{\sum_{k \in J{it}} \exp \left( \pi_1 \bar y_{ikt} + \pi_2 \bar y_{ikt} \bar e_{ikt} + \pi_3 \bar e_{ikt} + \pi_4 x_{ikt} + \xi_k \right)}\]</span></p>
+<ul>
+<li>Variable (re-)definitions</li>
+<li>Choice set (<span class="math inline">\(J_{it}\)</span>): all specialists in market who operate in same year and are within 75 miles of patient</li>
+<li>Identifying variation comes from differences in patient histories <em>across</em> PCPs in outcomes of patients sent to <em>same</em> specialists</li>
+</ul>
+</section>
+<section id="multinomial-logit-with-specialist-fixed-effects-4" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Multinomial Logit with Specialist Fixed Effects</h2>
+<p><span class="math display">\[\Pr \left( j  \, | \, \dots \right) = \frac{\exp \left( \pi_1 \bar y_{ijt} + \pi_2 \bar y_{ijt} \bar e_{ijt} + \pi_3 \bar e_{ijt} + \pi_4 x_{ijt} + \xi_j \right)}{\sum_{k \in J{it}} \exp \left( \pi_1 \bar y_{ikt} + \pi_2 \bar y_{ikt} \bar e_{ikt} + \pi_3 \bar e_{ikt} + \pi_4 x_{ikt} + \xi_k \right)}\]</span></p>
+<ul>
+<li>Variable (re-)definitions</li>
+<li>Choice set (<span class="math inline">\(J_{it}\)</span>): all specialists in market who operate in same year and are within 75 miles of patient</li>
+<li>Identifying variation comes from differences in patient histories <em>across</em> PCPs in outcomes of patients sent to <em>same</em> specialists</li>
+<li>Estimated separately in each geographic market (HRR)</li>
+</ul>
+</section>
+<section id="distribution-of-logit-coefficient-estimates" class="slide level2 smaller">
+<h2>Distribution of Logit Coefficient Estimates</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table style="width:100%;" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="5" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Percentiles
+</div></th>
+</tr>
+<tr class="odd">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Nat'l Avg.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">10</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">25</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">50</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">75</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">90</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Past failures (prop.)</td>
+<td style="text-align: right;">1.002</td>
+<td style="text-align: right;">0.515</td>
+<td style="text-align: right;">0.760</td>
+<td style="text-align: right;">1.012</td>
+<td style="text-align: right;">1.302</td>
+<td style="text-align: right;">1.482</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Interaction</td>
+<td style="text-align: right;">-4.472</td>
+<td style="text-align: right;">-7.020</td>
+<td style="text-align: right;">-6.056</td>
+<td style="text-align: right;">-4.588</td>
+<td style="text-align: right;">-3.018</td>
+<td style="text-align: right;">-1.763</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Past patients (prop.)</td>
+<td style="text-align: right;">5.752</td>
+<td style="text-align: right;">3.998</td>
+<td style="text-align: right;">4.750</td>
+<td style="text-align: right;">5.642</td>
+<td style="text-align: right;">6.889</td>
+<td style="text-align: right;">7.672</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Distance (miles)</td>
+<td style="text-align: right;">-0.100</td>
+<td style="text-align: right;">-0.141</td>
+<td style="text-align: right;">-0.121</td>
+<td style="text-align: right;">-0.097</td>
+<td style="text-align: right;">-0.078</td>
+<td style="text-align: right;">-0.064</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="distribution-of-logit-coefficient-estimates-1" class="slide level2" data-visibility="uncounted">
+<h2>Distribution of Logit Coefficient Estimates</h2>
+<ul>
+<li>With national average coef’s, the marginal effect of failure rate is negative if at least 22.4% of past patients have been sent to a specialist</li>
+<li>Negative interaction term is consistent with the learning model (e.g., effect of failure rate in myopic model):</li>
+</ul>
+<p><span class="math display">\[\alpha m_{ijt} = \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} } + \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}\]</span></p>
+</section>
+<section id="distribution-of-marginal-effects" class="slide level2">
+<h2>Distribution of Marginal Effects</h2>
+
+<img data-src="../results/figures/MFX_HRR_1_1_0.png" style="width:2in" data-fig.align="center" class="r-stretch quarto-figure-center"><p class="caption">Negative Response in 63/297 (21%) of Markets</p></section>
+<section id="national-averages" class="slide level2 smaller">
+<h2>National Averages</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Variable</th>
+<th style="text-align: center;">Patient-Weighted</th>
+<th style="text-align: center;">Unweighted</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Past failures</td>
+<td style="text-align: center;">-0.0502</td>
+<td style="text-align: center;">-0.0396</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.0027)</td>
+<td style="text-align: center;">(0.0038)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Past patients</td>
+<td style="text-align: center;">0.7481</td>
+<td style="text-align: center;">0.7047</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.0026)</td>
+<td style="text-align: center;">(0.0030)</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Interpretation:</p>
+<ul>
+<li>4.445 referrals per pair (over six years)</li>
+<li>1 failure / 4.445 = 0.225 increase in failure rate</li>
+<li>0.33 average share of referrals sent to most chosen specialist</li>
+<li>0.225 x 0.0502 / 0.33 = 3.4% relative reduction</li>
+</ul>
+</div>
+</section>
+<section id="preliminary-learning-results" class="slide level2">
+<h2>Preliminary Learning Results</h2>
+<p>Recall utility function: <span class="math display">\[\text{E}[u_{ijt}] = \alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt} \text{, with}\]</span></p>
+<p><span class="math display">\[\alpha m_{ijt} = \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} } = \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 }\]</span></p>
+<div class="bullet-text">
+<ul>
+<li>Strength of priors (<span class="math inline">\(a_0 + b_0\)</span>): how the marginal effect of the success rate changes with experience (i.e., interaction), see <a href="#/sec-appendix-b">algebra</a></li>
+<li>Prior mean (<span class="math inline">\(\frac{a_0}{a_0 + b_0}\)</span>): estimate outside the model, using average success probability in each market (then have <span class="math inline">\(a_0, b_0\)</span> separately)</li>
+</ul>
+</div>
+</section>
+<section id="preliminary-learning-results-1" class="slide level2" data-visibilty="uncounted">
+<h2>Preliminary Learning Results</h2>
+<p>Recall utility function: <span class="math display">\[\text{E}[u_{ijt}] = \alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Preliminary results focus on <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\xi_{j}\)</span>, <span class="math inline">\(c(n_{jt},z_{j})\)</span></li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>excludes <span class="math inline">\(f(e_{ijt})\)</span></li>
+<li>includes only differential distance in <span class="math inline">\(x_{ijt}\)</span></li>
+<li>This is a proof of concept for the learning model with congestion</li>
+</ul>
+</div>
+</section>
+<section id="preliminary-learning-results-2" class="slide level2" data-visibilty="uncounted">
+<h2>Preliminary Learning Results</h2>
+<p>Recall utility function: <span class="math display">\[\text{E}[u_{ijt}] = \alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Preliminary results focus on <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\xi_{j}\)</span>, <span class="math inline">\(c(n_{jt},z_{j})\)</span></li>
+<li>Prior mean, <span class="math inline">\(\frac{a_{0}}{a_{0} + b_{0}}\)</span>, set to average success rate in each HRR</li>
+</ul>
+</section>
+<section id="preliminary-learning-results-3" class="slide level2" data-visibilty="uncounted">
+<h2>Preliminary Learning Results</h2>
+<p>Recall utility function: <span class="math display">\[\text{E}[u_{ijt}] = \alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Preliminary results focus on <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\xi_{j}\)</span>, <span class="math inline">\(c(n_{jt},z_{j})\)</span></li>
+<li>Prior mean, <span class="math inline">\(\frac{a_{0}}{a_{0} + b_{0}}\)</span>, set to average success rate in each HRR</li>
+<li>Estimate for different prior strengths, <span class="math inline">\(\eta=a_{0} + b_{0}\)</span></li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>1: weak prior</li>
+<li>5: moderate prior</li>
+<li>10: strong prior</li>
+<li>20: very strong prior</li>
+</ul>
+</div>
+</section>
+<section id="preliminary-learning-results-4" class="slide level2" data-visibilty="uncounted">
+<h2>Preliminary Learning Results</h2>
+<div class="bullet-text-title">
+<p>Partial effect among PCP’s most frequently selected surgeon</p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true" style="font-size: 30px; width: auto !important; margin-left: auto; margin-right: auto;">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th colspan="3" data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="5" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Percentiles
+</div></th>
+</tr>
+<tr class="odd">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Prior</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Nat'l Avg.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Std. Dev</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">10</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">20</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">50</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">70</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">90</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">-1e-04</td>
+<td style="text-align: right;">0.0066</td>
+<td style="text-align: right;">-0.0070</td>
+<td style="text-align: right;">-0.0035</td>
+<td style="text-align: right;">2e-04</td>
+<td style="text-align: right;">0.0022</td>
+<td style="text-align: right;">0.0065</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5</td>
+<td style="text-align: right;">-9e-04</td>
+<td style="text-align: right;">0.0053</td>
+<td style="text-align: right;">-0.0070</td>
+<td style="text-align: right;">-0.0042</td>
+<td style="text-align: right;">-5e-04</td>
+<td style="text-align: right;">0.0013</td>
+<td style="text-align: right;">0.0046</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10</td>
+<td style="text-align: right;">-9e-04</td>
+<td style="text-align: right;">0.0049</td>
+<td style="text-align: right;">-0.0066</td>
+<td style="text-align: right;">-0.0042</td>
+<td style="text-align: right;">-6e-04</td>
+<td style="text-align: right;">0.0012</td>
+<td style="text-align: right;">0.0043</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">20</td>
+<td style="text-align: right;">-7e-04</td>
+<td style="text-align: right;">0.0048</td>
+<td style="text-align: right;">-0.0062</td>
+<td style="text-align: right;">-0.0040</td>
+<td style="text-align: right;">-5e-04</td>
+<td style="text-align: right;">0.0014</td>
+<td style="text-align: right;">0.0045</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+<aside><div>
+<p>Model parameters estimated separately within 306 HRRs. All statistics weighted by number of patients.</p>
+</div></aside></section>
+<section id="preliminary-learning-results-5" class="slide level2" data-visibilty="uncounted">
+<h2>Preliminary Learning Results</h2>
+<div class="bullet-text-title">
+<p>Partial effect among all surgeon’s ever referred to</p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true" style="font-size: 30px; width: auto !important; margin-left: auto; margin-right: auto;">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th colspan="3" data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="5" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Percentiles
+</div></th>
+</tr>
+<tr class="odd">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Prior</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Nat'l Avg.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Std. Dev</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">10</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">20</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">50</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">70</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">90</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">-0.0020</td>
+<td style="text-align: right;">0.0055</td>
+<td style="text-align: right;">-0.0080</td>
+<td style="text-align: right;">-0.0049</td>
+<td style="text-align: right;">-0.0012</td>
+<td style="text-align: right;">3e-04</td>
+<td style="text-align: right;">0.0028</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5</td>
+<td style="text-align: right;">-0.0015</td>
+<td style="text-align: right;">0.0039</td>
+<td style="text-align: right;">-0.0057</td>
+<td style="text-align: right;">-0.0037</td>
+<td style="text-align: right;">-0.0010</td>
+<td style="text-align: right;">3e-03</td>
+<td style="text-align: right;">0.0058</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10</td>
+<td style="text-align: right;">-0.0010</td>
+<td style="text-align: right;">0.0035</td>
+<td style="text-align: right;">-0.0048</td>
+<td style="text-align: right;">-0.0031</td>
+<td style="text-align: right;">-0.0007</td>
+<td style="text-align: right;">5e-04</td>
+<td style="text-align: right;">0.0022</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">20</td>
+<td style="text-align: right;">-0.0006</td>
+<td style="text-align: right;">0.0033</td>
+<td style="text-align: right;">-0.0041</td>
+<td style="text-align: right;">-0.0027</td>
+<td style="text-align: right;">-0.0004</td>
+<td style="text-align: right;">8e-04</td>
+<td style="text-align: right;">0.0068</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+<aside><div>
+<p>Model parameters estimated separately within 306 HRRs. All statistics weighted by number of patients.</p>
+</div></aside></section>
+<section id="preliminary-learning-results-6" class="slide level2" data-visibilty="uncounted">
+<h2>Preliminary Learning Results</h2>
+<div class="bullet-text-title">
+<p>Partial effect in <em>responsive markets</em></p>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>
+</th>
+<th colspan="2">
+Absolute
+</th>
+<th>
+</th>
+<th colspan="2">
+Relative
+</th>
+</tr>
+<tr>
+<th>
+Prior
+</th>
+<th>
+70th
+</th>
+<th>
+90th
+</th>
+<th>
+</th>
+<th>
+70th
+</th>
+<th>
+90th
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="6">
+<em>Most frequent surgeon (mean referral prob. = 0.41)</em>
+</td>
+</tr>
+<tr>
+<td>
+5
+</td>
+<td>
+0.0013
+</td>
+<td>
+0.0046
+</td>
+<td>
+</td>
+<td>
+0.32%
+</td>
+<td>
+1.12%
+</td>
+</tr>
+<tr>
+<td>
+20
+</td>
+<td>
+0.0014
+</td>
+<td>
+0.0045
+</td>
+<td>
+</td>
+<td>
+0.34%
+</td>
+<td>
+1.10%
+</td>
+</tr>
+<tr>
+<td colspan="6">
+<em>All surgeons ever used (mean referral prob. = 0.13)</em>
+</td>
+</tr>
+<tr>
+<td>
+5
+</td>
+<td>
+0.0030
+</td>
+<td>
+0.0058
+</td>
+<td>
+</td>
+<td>
+2.31%
+</td>
+<td>
+4.46%
+</td>
+</tr>
+<tr>
+<td>
+20
+</td>
+<td>
+0.0008
+</td>
+<td>
+0.0068
+</td>
+<td>
+</td>
+<td>
+0.62%
+</td>
+<td>
+5.23%
+</td>
+</tr>
+</tbody>
+
+</table>
+</section>
+<section id="preliminary-learning-results-7" class="slide level2" data-visibilty="uncounted">
+<h2>Preliminary Learning Results</h2>
+<div class="bullet-text-title">
+<p>Evidence of congestion effects (per 100 patients)</p>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>
+</th>
+<th colspan="3">
+Congestion
+</th>
+<th>
+</th>
+<th colspan="3">
+Distance
+</th>
+</tr>
+<tr>
+<th>
+Prior
+</th>
+<th>
+Nat’l Est
+</th>
+<th>
+Std. Err.
+</th>
+<th>
+Marg. Eff.
+</th>
+<th>
+</th>
+<th>
+Nat’l Mean
+</th>
+<th>
+Std. Dev.
+</th>
+<th>
+Marg. Eff.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+1
+</td>
+<td>
+-0.042
+</td>
+<td>
+0.021
+</td>
+<td>
+-0.010
+</td>
+<td>
+</td>
+<td>
+-0.106
+</td>
+<td>
+0.006
+</td>
+<td>
+-0.026
+</td>
+</tr>
+<tr>
+<td>
+5
+</td>
+<td>
+-0.042
+</td>
+<td>
+0.021
+</td>
+<td>
+-0.010
+</td>
+<td>
+</td>
+<td>
+-0.106
+</td>
+<td>
+0.006
+</td>
+<td>
+-0.026
+</td>
+</tr>
+<tr>
+<td>
+10
+</td>
+<td>
+-0.039
+</td>
+<td>
+0.021
+</td>
+<td>
+-0.009
+</td>
+<td>
+</td>
+<td>
+-0.106
+</td>
+<td>
+0.004
+</td>
+<td>
+-0.026
+</td>
+</tr>
+<tr>
+<td>
+20
+</td>
+<td>
+-0.039
+</td>
+<td>
+0.021
+</td>
+<td>
+-0.009
+</td>
+<td>
+</td>
+<td>
+-0.080
+</td>
+<td>
+0.005
+</td>
+<td>
+-0.019
+</td>
+</tr>
+</tbody>
+
+</table>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>Substantial improvements would be possible if referrals can be reallocated <em>within</em> geographic areas</li>
+<li>Structural learning model can quantify losses due to uncertainty and project gains from possible reallocation</li>
+<li>Design-based evidence of learning: PCPs respond to negative outcomes by reducing referrals to specialists</li>
+<li>Structural model is identified, but more work to understand role of priors and familiarity</li>
+</ul>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank You!</h2>
+<div class="footnote">
+<p>Ian McCarthy, Emory University &amp; NBER<br> ianmcccarthyecon.com<br> ian.mccarthy@emory.edu</p>
+</div>
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center" data-visibility="uncounted">
+<h1>Appendix</h1>
+
+</section>
+<section id="sec-appendix-a" class="slide level2" data-visibility="uncounted">
+<h2>Congestion Effect</h2>
+<div class="bullet-text-title">
+<p>From Richards-Shubik, Roberts, and Donohue 2022<br> Return to <a href="#/sec-id-myopic">Myopic Slides</a></p>
+</div>
+<ul>
+<li>Based on Bayer and Timmins (2007) spatial equilibrium model: spillovers among consumers who choose the same “location”</li>
+<li>Approach is similar to BLP demand estimation, but congestion effect takes the place of a price</li>
+</ul>
+</section>
+<section id="congestion-effect" class="slide level2" data-visibility="uncounted">
+<h2>Congestion Effect</h2>
+<div class="bullet-text-title">
+<p>From Richards-Shubik, Roberts, and Donohue 2022<br> Return to <a href="#/sec-id-myopic">Myopic Slides</a></p>
+</div>
+<ul>
+<li>Estimate multinomial logit with specialist-time fixed effects (<span class="math inline">\(\delta_{jt}\)</span>) <span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + \underbrace{ c(n_{jt}, z_j) + \xi_j }_{\delta_{jt}} + \epsilon_{ijt}\]</span></li>
+<li>Recover congestion effect using regression of estimated fixed effects: <span class="math display">\[\hat \delta_{jt} = c(n_{jt}, z_j) + \xi_j + \eta_{jt}\]</span></li>
+</ul>
+<div class="bullet-text">
+<ul>
+<li>instrument for <span class="math inline">\(n_{jt}\)</span> is distances from <em>other</em> patients to specialist <span class="math inline">\(j\)</span></li>
+<li>e.g., 2SLS estimation if <span class="math inline">\(c\)</span> is linear</li>
+</ul>
+</div>
+</section>
+<section id="sec-appendix-b" class="slide level2" data-visibility="uncounted">
+<h2>Identification of the myopic model</h2>
+<div class="bullet-text-title">
+<p>Return to <a href="#/sec-id-myopic">Myopic Slides</a></p>
+</div>
+<p><span class="math display">\[\alpha m_{ijt} + f(e_{ijt}) + c(n_{jt}, z_j) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}\]</span></p>
+<ul>
+<li>Strength of priors (<span class="math inline">\(a_0 + b_0\)</span>): how the marginal effect of the success rate changes with experience (i.e., interaction) <span class="math display">\[\alpha m_{ijt} = \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} } + \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}\]</span></li>
+</ul>
+
+<img src="images/emory-logo.jpg" class="slide-logo r-stretch"><div class="footer footer-default">
+<p>McCarthy and Richards-Shubik, PCP Learning and Referrals</p>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="uga-202310_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="uga-202310_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="uga-202310_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="uga-202310_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="uga-202310_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="uga-202310_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="uga-202310_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="uga-202310_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="uga-202310_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="uga-202310_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="uga-202310_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': true,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true,"boardmarkerWidth":5},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1300,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 5.0e-2,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

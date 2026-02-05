@@ -1,0 +1,1862 @@
+/* ------------------------------------------------------------ */
+/* TITLE:		 	Find office visits for major joint patients */
+/* AUTHOR:		 	Ian McCarthy								*/
+/* 				 	Emory University							*/
+/* DATE CREATED: 	12/31/2018									*/
+/* DATE EDITED:  	4/27/2021									*/
+/* CODE FILE ORDER: 3 of 8										*/
+/* OUTPUE:			OrthoCarrier_2007-2018						*/
+/* ------------------------------------------------------------ */
+
+%LET year_data=2007;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2007.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+
+%LET year_data=2008;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2008.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+%LET year_data=2009;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2009.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+
+%LET year_data=2010;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2010.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+
+%LET year_data=2011;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2011.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+
+
+%LET year_data=2012;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2012.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+
+
+%LET year_data=2013;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2013.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+%LET year_data=2014;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2014.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+%LET year_data=2015;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2015.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+%LET year_data=2016;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2016.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+%LET year_data=2017;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2017.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;
+
+
+
+%LET year_data=2018;
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier1_&year_data;
+  CREATE TABLE WORK.OrthoCarrier1_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_01 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier2_&year_data;
+  CREATE TABLE WORK.OrthoCarrier2_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_02 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier3_&year_data;
+  CREATE TABLE WORK.OrthoCarrier3_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_03 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier4_&year_data;
+  CREATE TABLE WORK.OrthoCarrier4_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_04 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier5_&year_data;
+  CREATE TABLE WORK.OrthoCarrier5_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_05 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier6_&year_data;
+  CREATE TABLE WORK.OrthoCarrier6_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_06 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier7_&year_data;
+  CREATE TABLE WORK.OrthoCarrier7_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_07 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier8_&year_data;
+  CREATE TABLE WORK.OrthoCarrier8_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_08 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier9_&year_data;
+  CREATE TABLE WORK.OrthoCarrier9_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_09 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier10_&year_data;
+  CREATE TABLE WORK.OrthoCarrier10_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_10 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier11_&year_data;
+  CREATE TABLE WORK.OrthoCarrier11_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_11 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+PROC SQL;
+  DROP TABLE WORK.OrthoCarrier12_&year_data;
+  CREATE TABLE WORK.OrthoCarrier12_&year_data AS
+  SELECT DISTINCT PRF_PHYSN_NPI AS Physician_ID, a.BENE_ID, CLM_THRU_DT AS Visit_Date, TAX_NUM AS Phy_Tax_ID
+  FROM RIF2018.BCARRIER_LINE_12 AS a
+  LEFT JOIN IMC969SL.MajorJointPatients_Unique AS b
+		ON a.BENE_ID=b.BENE_ID
+  WHERE FIRST(BETOS_CD)="M"
+  ORDER BY a.BENE_ID, CLM_THRU_DT, PRF_PHYSN_NPI;
+QUIT;
+
+
+DATA IMC969SL.OrthoCarrier_&year_data;
+	SET	WORK.OrthoCarrier1_&year_data
+  		WORK.OrthoCarrier2_&year_data
+		WORK.OrthoCarrier3_&year_data
+		WORK.OrthoCarrier4_&year_data
+		WORK.OrthoCarrier5_&year_data
+		WORK.OrthoCarrier6_&year_data
+		WORK.OrthoCarrier7_&year_data
+		WORK.OrthoCarrier8_&year_data
+		WORK.OrthoCarrier9_&year_data
+		WORK.OrthoCarrier10_&year_data
+		WORK.OrthoCarrier11_&year_data
+		WORK.OrthoCarrier12_&year_data;
+RUN;

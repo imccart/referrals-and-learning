@@ -1,0 +1,27 @@
+# Data
+data/*
+
+# Claude Code local settings
+.claude/
+
+# Archived results (old VRDC exports, kept locally only)
+results/_archive/
+
+# Stata temp/log files
+*.log
+*.smcl
+temp_*
+
+# SAS artifacts
+*.lst
+*.sas7bdat
+
+# R artifacts
+.Rhistory
+.RData
+*_cache/
+
+# OS clutter
+.DS_Store
+Thumbs.db
+desktop.ini

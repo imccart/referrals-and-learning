@@ -1,0 +1,110 @@
+/*-- scss:defaults --*/
+
+/*-- scss:rules --*/
+
+#title-slide {
+  text-align: left;
+  
+  .quarto-title-authors {
+    justify-content: left;
+  }
+  
+  .quarto-title-institute {
+    justify-content: left;
+  }
+}
+
+#title-slide .title{
+    font-size: 200%;
+}
+
+#title-slide .institute {
+  font-style: italic;
+  font-size: 80%;
+  text-align: left;
+}
+
+#title-slide .author {
+  color: $body-color;
+  text-align: left;
+}
+
+#title-slide p.author::before {
+  content: "";
+  display: block;
+  border: none;
+  background-color: $body-color;
+  color: $body-color;
+  height: 3px;
+  margin-bottom: 1em;
+}
+
+#title-slide p, #title-slide a {
+  color: #7F7F7F;
+}
+
+.section-divider {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.section-divider h2 {
+  font-size: 200%;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.reveal .slides .footer {
+  text-align: left;
+}
+
+.reveal .slides .bullet-cite {
+  font-size: 70%;
+  text-align: left;
+  margin-left: 45px;
+  margin-top: -50px;
+}
+
+.reveal .slides .bullet-text {
+  font-size: 70%;
+  text-align: left;
+  margin-left: 45px;
+  margin-top: -30px;
+  margin-bottom: 30px;
+}
+
+.reveal .slides .bullet-text2 {
+  font-size: 70%;
+  text-align: left;
+  margin-left: 45px;
+  margin-top: -30px;
+  margin-bottom: -20px;
+}
+
+.reveal .slides .bullet-text-title {
+  font-size: 70%;
+  text-align: left;
+  margin-left: 15px;
+  margin-top: -10px;
+  margin-bottom: -20px;
+}
+
+/* Custom Table Styles */
+.custom-table table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none; /* Remove table border */
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.custom-table .emphasize {
+  font-style: italic;
+}
