@@ -1,0 +1,114 @@
+\documentclass[12pt]{article}
+\usepackage{amssymb,amsmath,pgf,setspace,comment,multicol,verbatim,titling,pdflscape}
+\usepackage[left=1in,right=1in,top=1in,bottom=0.75in]{geometry}
+\usepackage[round]{natbib}
+\setstretch{1.5}
+
+\setlength{\droptitle}{-50pt}
+
+\begin{document}
+
+\title{Learning and Efficiency in the Market for Physician Referrals \\ 
+SUPPLEMENTAL APPENDIX \\
+PRELIMINARY}
+\author{%
+  Ian M. McCarthy \\[-1.5ex]
+  Emory University \& NBER \\
+  Seth Richards-Shubik \\[-1.5ex]
+  Lehigh University \& NBER
+}
+\date{August 2023}
+\maketitle
+
+\begin{comment}
+
+\subsection{OLD -- beginning of model section}
+
+This setup equates to a / 
+We use the framework of a multi-armed bandit to model how referring physicians choose specialists and learn about specialist quality over time. This framework, which has been applied previously to study physician decisions about alternative medications \citep{dickstein2018} and procedures \citep{gong2018}, specifies a set of options whose payoffs are not precisely known. The physician repeatedly chooses among the options over time, in our case by referring patients to various specialists, and learns about the distribution of payoffs from each option based on the outcomes that occur.
+
+Our structural model begins with a baseline theoretical framework in which PCPs are not perfectly informed about the specialists in their market and must learn about the quality and ease of working with various providers. The model considers a PCP, $i$, who refers patients to specialists from a set of available specialists in the PCP's market, $j \in J_{i}$.  
+
+Our model captures three key factors in the referral decision. First, our model accommodates PCP learning about specialist quality, denoted $q_{j}$, which varies across specialists but is assumed constant within-specialist. PCP $i$ does not know $q_j$ but has beliefs that are updated based on the outcomes of patients previously referred to specialist $j$. Second, we incorporate measures of the PCP's familiarity with different specialists, allowing for PCPs to prefer to work with specialists with whom they have shared more patients. Denote by $e_{ijt}$ the number of patients sent to specialist $j$, before the current patient $t$. Third, our model incorporates constraints on specialist capacity, acknowledging that specialists cannot treat an unlimited number of patients within each finite time period. The PCP may therefore be unable to send the patient to the most preferred specialist. Denote by $n_{jt}$ the total number of patients seen by specialist $j$ as of time $t$, which depends on exogenous referrals from other PCPs.
+
+These features of the model enable us to differentiate among important possible sources of inefficiency in referrals. One is that the learning process may be too myopic, which implies that PCPs do not experiment enough among the available specialists before settling on their preferred set of providers. Another is that PCPs may enjoy working with familiar specialists and consequently may exhibit inertia for remaining in established relationships.  These mechanisms would have different empirical implications because they depend differently on the past number of successes and failures vs.~the total number of patients. Last, allowing for capacity constraints may be important because they can limit the extent to which referrals are able respond to provider quality \citep{richards-shubik2021}.
+
+\subsection{OLD -- PCP Utility}
+PCP $i$ derives utility from referring patient $t$ to specialist $j$,
+\begin{equation}
+U_{ijt} \equiv \alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + c(n_{jt}) + \xi_j + \epsilon_{ijt},
+\label{eqn:learning_utility}
+\end{equation}
+where $m_{ijt}$ denotes the PCP's expectation of a positive outcome for the patient, which receives weight $\alpha$ in the PCP's utility; $f(e_{ijt})$ denotes familiarity with specialist $j$, where $f$ is increasing and concave and $e_{ijt} = \sum_{s=1}^{t-1} D_{ijs}$ denotes the number of prior patients referred to specialist $j$; $x_{ijt}$ denotes other observable factors that may affect the patient's utility from specialist $j$ (e.g., distance), which enter the PCP's utility as $u(x_{ijt})$; $c(n_{jt})$ is a measure of congestion, based on specialist volume $n_{jt}$, that captures the capacity constraint of specialist $j$; $\xi_{j}$ denotes a specialist fixed effect, which captures unobserved (time-invariant) quality and demand factors that effect all patients of specialist $j$; and $\epsilon_{ijt}$ denotes idiosyncratic unobservable factors, assumed to have a known parametric distribution (e.g., type I extreme value). 
+
+\end{comment}
+
+
+\begin{comment}
+
+%%% TEST FOR FORWARD-LOOKING BEHAVIOR
+
+The theoretical framework suggests a simple and intuitive test for non-myopic learning, which is to add the variance from Equation \eqref{eqn:mean_var} as a term in the myopic model \eqref{eqn:myopic_spec}.
+Rearranging the formula in \eqref{eqn:mean_var}, the variance of the beliefs about the success probability from specialist $j$ (i.e., $q_j$) is equal to
+\[
+v_{ijt} = \frac{m_{ijt} (1-m_{ijt})}{e_{ijt} + 1} . 
+\]
+(i.e., similar to variance of a proportion).
+So we could try adding this to the reduced form, as a test for learning.
+
+%%% BREZZI AND LAI
+
+The close approximation for the Gittins index from \cite{brezzi2002} is as follows:
+\begin{equation} \label{eqn:gittins}
+    m_j + \sqrt{v_j} \cdot 
+    \psi \left( \frac{v_j}{-\ln(\beta) \, m_j (1-m_j)} \right)
+\end{equation}
+The $\psi$ is an approximating function given on page 93 of \cite{brezzi2002}, and $\beta$ is the subjective discount rate.
+(To relate this to the general solution in \cite{brezzi2002}, the $m_j$ and $v_j$ are the mean and variance of the beliefs about the unknown parameter $q_j$, while the $m_j (1-m_j)$ is the variance of the reward given the mean of the beliefs.)
+Ignoring the initial priors, the mean $m_j$ and variance $v_j$ can be computed from the past success rate. 
+Then \eqref{eqn:gittins} simplifies somewhat as follows:
+\[
+    q_{ij} + \sqrt{v_{ij}} \cdot 
+    \psi \left(-(\ln(\beta) \, (n_{ij}+1) )^{-1} \right)
+\]
+Over a likely range of values for the argument of $\psi$, specifically with $\beta=0.99$ and $n_{ij} = 5$ to $50$, the function is linear in the reciprocal of the square root of its argument (i.e., $\psi(s) = \psi_0 + \psi_1 s^{-1/2}$).
+For example with $\beta = 0.99$ and $n_{ij} = 10$, then $\psi (\dots) = 0.577$.
+(Separately, note that the value of $\beta$ relates to the length of the time periods, which is the length of time between patients. \cite{gong2018} may have an adjustment for heterogeneity in this.)
+
+\end{comment}
+
+
+\section{Heterogeneity}
+
+To investigate heterogeneities in the responsiveness of PCPs to patient otucomes, we examine two key market variables: specialist market concentration (HHI) and the count of (PCPs) within the HRR. These analyses consider how the local health care market structure may influence PCP learning under forward-looking and myopic decision-making frameworks. Our preliminary results present the estimated coefficients on patient outcomes across HRRs, depicted as dots sized proportional to total patient volume. We also present local linear regressions, weighted by patient volume, of $\hat{\alpha}$ against market variables of interest. 
+
+Figure \ref{fig:hetero-hhi} presents the relationship between specialist market concentration and PCP response to patient outcomes. While responses in the forward-looking model are larger in all cases, the general pattern is similar in both models: PCPs appear more responsive to patient outcomes among relatively more concentrated specialist markets, with smaller responses in markets with many specialists of similar market shares. Figure \ref{fig:hetero-pcps} presents a similar analysis of the response to patient outcomes as a function of the count of PCPs in the HRR. In this case, PCPs exhibit a stronger response to patient outcomes in markets with relatively few PCPs, and again, the results are shifted in the forward-looking case but otherwise demonstrate similar overall patterns.
+
+While preliminary, this analysis suggests that market-level characteristics may mediate the extent to which PCPs update referrals in response to patient outcomes. The magnitude of these mediating effects depends somewhat on the decision-making framework of PCPs, although the general trends persist regardless of whether PCPs are believed to be fully myopic or forward-looking in the referral decisions. 
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Heterogeneity by Specialist Concentration\footnote{Scatterplot of $\alpha$ and concentration of the specialist market by HRR. Solid and hollow dots reflect results from the forward-looking and myopic models, respectively. Similarly, solid and dashed lines reflect weighted local linear regression results of $\alpha$ against specialist HHI. Size of dots reflect patient volume.}}
+\centerline{%
+    \includegraphics[scale=0.5]{figures/effects-hhi.png}
+}
+\label{fig:hetero-hhi}
+\end{minipage}
+\end{figure}
+
+\clearpage
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Heterogeneity by Total PCPs in the HRR\footnote{Scatterplot of $\alpha$ and count of PCPs by HRR. Solid and hollow dots reflect results from the forward-looking and myopic models, respectively. Similarly, solid and dashed lines reflect weighted local linear regression results of $\alpha$ against count of PCPs. Size of dots reflect patient volume.}}
+\centerline{%
+    \includegraphics[scale=0.5]{figures/effects-pcps.png}
+}
+\label{fig:hetero-pcps}
+\end{minipage}
+\end{figure}
+
+\end{document}

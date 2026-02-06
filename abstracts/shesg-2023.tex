@@ -1,0 +1,92 @@
+% NIH grant proposal file (2011)
+
+\documentclass[12pt]{article}
+
+% Packages to load
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{natbib}
+\setcitestyle{round}
+
+% Arial font that NIH allows
+\renewcommand{\familydefault}{\sfdefault}
+\linespread{1.2}
+
+% Better and richer math environment
+\usepackage{amsmath}
+
+% EPS and PDF figures
+\usepackage{graphicx}
+
+% Make 0.5'' margins on all sides
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+
+% Add itemize*, description*, and enumerate* environments to shrink white space between list items
+\usepackage{mdwlist}
+
+% No page numbers
+\pagestyle{empty}
+
+% Compress white space around titles
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\titlespacing{\paragraph}{0pt}{*0}{*2}
+
+% Separate new paragraphs by 0.2 cm of white space (rather than indents)
+\usepackage{parskip}
+\setlength{\parskip}{0.2cm}
+
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+
+% title page info
+\title{\vspace{-2em}Learning and Efficiency in Physician Referrals}
+\author{
+Ian McCarthy, Emory University
+\and
+Seth Richards-Shubik, Lehigh University
+}
+
+% \date{May 2021}
+
+% Begin document
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{-.2in}
+Primary Care Physicians (PCPs) hold significant sway over a patient's health care decisions, particularly with regard to the choice of specialist. Such influence has been demonstrated empirically in a number of recent studies, including \cite{freedman2015}, \cite{gaynor2016}, \cite{barkowski2018}, and \cite{chernew2021}. But to what extent do PCPs efficiently learn about specialist quality, if at all? In this paper, we study the evolution of PCP-to-specialist referral networks and the responsiveness of PCPs to negative quality signals. 
+
+PCP referral decisions have major policy implications for two interrelated reasons. First, via the influence on subsequent physician and hospital services, PCP referrals are a potentially important determinant of supply-side variation in health care expenditures and quality.\footnote{There is a large economics and health policy literature documenting significant variation in health utilization across and even within health care markets, with most of this variation due to differences in physicians and hospitals rather than patient preferences. See, among many others, \cite{skinner1997}, \cite{wennberg2003}, \cite{baiker2004ha}, \cite{gottlieb2010}, \cite{miller2011}, \cite{zuckerman2010}, \cite{finkelstein2006}, and \cite{molitor2018}.} As a result, there is an opportunity to improve patient health and lower health care costs if PCPs can better direct patients to more efficient and higher quality specialists. Second, PCP referral decisions may offer a more practical and actionable policy lever to reduce inefficient variation in health care utilization, compared to other interventions. This is because traditional policy solutions seek to change specialist practice styles, which is a difficult task even for an individual physician, much less on a large scale \citep{wilensky2016}. Altering PCP referral decisions instead offers an opportunity to improve efficiency and quality not by changing what physicians do, but instead by changing which physicians do it. Through a deeper understanding of PCP referral networks, it may be possible that adjustments to PCP referrals could be achieved with relatively minimal burden on patients or physicians.
+
+Our analysis is based on the universe of Medicare fee-for-service inpatient, outpatient, and physician services claims from 2008 through 2018, and we focus specifically on inpatient surgeries for major joint replacements. In order to form a common baseline time period, we use the five year period from 2008-2012 to construct a running count of patients and failure events (defined as readmission, complication, or death within 90 days of discharge) for each PCP/specialist pair. We then take the six year period from 2013-2018 as our estimation period. Based on the physician's NPI, we identify around 21,200 unique PCPs and 11,600 unique specialists over our estimation period (2013-2018). Descriptive statistics of these physicians shows that PCPs tend to concentrate their referrals to a small number of specialists out of the total available in their geographic area. 
+
+We first consider a simple exercise to illustrate the potential gains from more efficient referrals, by calculating the differences in outcomes between the 25th and 75th percentile specialists in each area (HRR). If it were possible to re-assign patients from less-efficient to more-efficient specialists, the rate of negative outcomes could be reduced by between 5 and 10 per 100 patients (relative to a national average of 9 per 100) and the 90-day episode spending could be reduced by about \$8,000 on average. Finding such substantial variation \emph{within} HRRs is important in comparison to the large literature on variations \emph{across} HRRs, as reallocations to other specialists within HRRs is more feasible.
+
+Before considering referrals in the context of physician learning, we establish reduced-form evidence of a response from PCPs to negative surgical outcomes of their patients. We estimate this response by exploiting differential information signals across PCPs referring to the same specialist using a balanced panel of PCP-specialist pairs (e.g., two PCPs can send patients to the same specialist, while only one of those patients has a negative outcome). We summarize these results in Figure \ref{fig:event}, where we find a statistically significant reduction of nearly 0.1 referrals per quarter per specialist from affected PCPs (i.e., those PCPs whose patients experienced a bad outcome) relative to unaffected PCPs (i.e., PCPs who refer to the same set of specialists but whose patients did not experience a bad outcome). These results show that there \textit{is} some response by PCPs to negative patient outcomes, albeit relatively small in magnitude.
+
+\begin{wrapfigure}{R}{0.5\textwidth}
+  \caption{Event Study of Specialist Failures}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/EventStudy_Stacked_1_1_0.png}
+  \end{center}
+  \label{fig:event}
+\end{wrapfigure}
+
+
+To more directly examine the variation and responses that will inform our learning model, we estimate a discrete-choice model of PCP referrals. Our specification includes the pairwise failure rate from prior referrals, the proportion of the PCP's past patients referred to each specialist, the distance between the patient and the hospital where the specialist primarily operates, and specialist fixed effects.  We estimate this separately by HRR, and for each referral, we define the choice set as all active orthopedic surgeons in that HRR in that year. The identifying variation in this specification comes from differences \emph{across PCPs} in the failure rates among the patients they have referred to the same specialist. Unobserved factors that drive a specialist's overall volume, which would contaminate the estimated response if they are correlated with patient outcomes, are absorbed by the specialist fixed effects. In addition, our long panel of data enables us to use the timing of events by considering the effect of past outcomes on future referrals, which further supports the interpretation of our estimated responses as a learning effect.
+
+From this analysis, the overall national average marginal effect of the failure rate is -0.0502. Based on nearly 4.5 referrals per PCP/specialist pair and a 33\% average share of referrals to the most common specialist, this reflects a 3.4\% relative reduction in referral probability in response to a failure. The magnitude of this effect is economically meaningful and the estimate is statistically significant, thereby suggesting some learning on behalf of PCPs about the quality of specialists in their market; however, the magnitude of learning remains small relative to the effect of past referrals. A PCP's prior relationship with a specialist therefore appears to act as a significant barrier to learning. In ongoing work, we are developing and estimating a structural model of PCP referrals and learning so that we can better quantify the change in referral patterns under hypothetical reductions to existing learning frictions. Our structural model also introduces the role of congestion in specialist referrals, to accommodate the fact that referrals cannot simply go to the highest quality expert in all cases.
+
+
+\clearpage
+
+\bibliographystyle{authordate1}
+\bibliography{BibTeX_Library}
+
+\end{document} 

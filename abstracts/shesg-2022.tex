@@ -1,0 +1,184 @@
+% NIH grant proposal file (2011)
+
+\documentclass[12pt]{article}
+
+% Packages to load
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{natbib}
+\setcitestyle{round}
+
+% Arial font that NIH allows
+\renewcommand{\familydefault}{\sfdefault}
+\linespread{1.05}
+
+% Better and richer math environment
+\usepackage{amsmath}
+
+% EPS and PDF figures
+\usepackage{graphicx}
+
+% Make 0.5'' margins on all sides
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+
+% Add itemize*, description*, and enumerate* environments to shrink white space between list items
+\usepackage{mdwlist}
+
+% No page numbers
+\pagestyle{empty}
+
+% Compress white space around titles
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\titlespacing{\paragraph}{0pt}{*0}{*2}
+
+% Separate new paragraphs by 0.2 cm of white space (rather than indents)
+\usepackage{parskip}
+\setlength{\parskip}{0.2cm}
+
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+
+% title page info
+\title{\vspace{-2em}How Efficient is the Market for Physician Referrals?}
+\author{
+Ian McCarthy, Emory University
+\and
+Seth Richards-Shubik, Lehigh University
+}
+
+% \date{May 2021}
+
+% Begin document
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{-.2in}
+
+Supply-side variation in physician practice styles has been suggested as a major source of inefficient variation in health care expenditures and quality \citep{finkelstein2016,molitor2018}.
+Referrals from primary care physicians (PCPs) to specialists, in better directing patients to lower cost and higher quality specialists, offer a potential mechanism to address this inefficiency. Moreover, policies aimed at changing PCP referral patterns are likely more realistic and actionable than interventions seeking to change specialist practice styles themselves.
+
+This research seeks to understand the existing barriers to optimal referrals for specialty care and to estimate the scope for improving efficiency if those barriers can be addressed. We use Medicare fee-for-service (FFS) claims data covering the population of all inpatient major joint replacements from 2008 through 2018, or just over 4.5 million inpatient stays. With these data, we estimate a structural learning model of referrals in which PCPs have imperfect information and must learn about the quality and ease of working with the specialists available in their market. The model specifies three key factors in the referral process:
+\begin{enumerate}
+    \item \textit{Learning:} PCPs have beliefs about the quality of each specialist in their choice set.  These beliefs are updated by experience, based on the outcomes of their patients sent to different specialists.
+    \item \textit{Relationships:} Communication is improved by sharing more patients with a specialist, and this improves patient outcomes.	
+    Also, PCPs may simply prefer to work with specialists with whom they have shared more patients, or may have subjective tastes for certain specialists.
+    \item \textit{Capacity Constraints:} Specialists cannot treat an unlimited number of patients, particularly within a finite time period (e.g., month), so PCPs may be unable to send all patients to their most preferred specialist.
+\end{enumerate}
+These features enable us to quantify three important possible sources of inefficiency. First, the learning process may be too slow, or too myopic, which implies that PCPs do not respond enough to patient outcomes, or do not experiment enough among the available specialists before settling on their preferred set of providers. Second, PCPs may enjoy working with familiar specialists, beyond any improvement in patient outcomes that arises from well-established relationships. Third, allowing for capacity constraints is important because they limit the extent to which patients can be allocated to the highest quality specialists \citep{richards-shubik2021}.
+%[Measuring the separate effects of these mechanisms will then enable us to quantify the possible gains from improved learning and other incentives to direct patients to more efficient specialists.]
+
+The existing literature on physician referrals has largely focused on the construction and analysis of patient-sharing networks among all physicians, and examines the correlations between salient measures of network position and utilization or expenditures \citep[e.g.,][]{barnett2012physician, landon2018}.
+Recent work on referral concentration, and related work on care fragmentation, considers PCP-specialist connections more directly and finds that more concentrated referral patterns are associated with lower utilization but equivalent quality \citep{agha2017, agha2018}.
+Our research complements and extends this important work by examining specific mechanisms behind referral patterns and quantifying the potential gains from improved learning and allocation of patients to specialists. Additionally, a rich literature on physician learning has developed sophisticated models, mainly applied to complex prescribing decisions \citep[e.g.,][]{crawford2005,dickstein2018}, 
+and we draw on methods from this literature \citep[esp.,][]{dickstein2018, gong2018}.
+
+In our initial analysis, we use Medicare claims data to estimate multinomial logit models of PCP referrals for major joint replacements.
+We identify the relevant PCP in two ways: from the referring physician listed on the specialty claim \citep[as in][]{sarsons2018, zeltzer2020}, or based on the frequency and timing of ``evaluation and management'' visits over the 12-month period before the procedure \citep[as in][]{pham2009, agha2017}. For each patient, $k$, the PCP (or PCP practice), $i$, chooses the specialist, $j$, to perform the procedure.
+The key variables needed to assess the learning process are the number of patients that $i$ has previously sent to $j$, and the number of those prior patients who experienced bad outcomes (e.g., readmissions, complications, or death). The number of prior patients indicates the strength of the relationship between $i$ and $j$, while the number of failures or failure rate is a signal about $j$'s quality. Other important variables include health system affiliations, to control for integration \citep[e.g.,][]{lin2021nber}; the total number of patients treated by specialist $j$ that month, to account for capacity constraints \citep{richards-shubik2021}; and standard controls such as distance between patients and specialists.
+
+Our initial multinomial logit model can be interpreted as a basic specification of a rational but myopic learning model. In the model, specialists have a fixed quality level, $p_j$, which equals the probability of a successful outcome for each patient they treat
+(outcomes are binary, $Y_{ijk} = 0/1$ for failure/success).
+PCPs do not know $p_j$, but they have beliefs that are updated from the outcomes of their prior patients. Under the natural assumption of a beta distribution for the beliefs, PCP $i$'s expectation of $p_j$ equals the success rate among the prior patients sent to specialist $j$. The number of prior patients is included separately to capture the value of the relationship with $j$ (e.g., communication, inertia, and subjective tastes).
+
+If PCPs are forward looking, the model becomes a multi-armed bandit problem, where PCPs face an ``experi-mentation-exploitation'' tradeoff between trying a relatively unfamiliar specialist vs.~using a well known one with at least adequate quality. The problem can be solved via the use of a \emph{Gittins index} \citep{gittins1979}, which represents the value of learning more about specialist $j$ by sending another patient to the same specialist. The Gittins index is well approximated with a fairly simple closed-form function of the mean and variance of the current beliefs about the success probability, $p_j$ \citep{brezzi2002}. This makes the forward looking model straightforward to estimate, by defining a transformed variable based on the mean and variance of the beliefs, and including that transformed variable in the multinomial logit specification. Additionally, this suggests a simple test for non-myopic learning, by including the variance of the beliefs in the baseline specification and testing for significance.
+
+Below we present descriptive statistics on our sample (Table \ref{tab:descriptives}) and estimates from two preliminary specifications of the multinomial logits (Table \ref{tab:estimates}).
+Over the eleven years from 2008 to 2018, we observe 28 patients per PCP (practice) and 109 patients per specialist on average, and 5.2 patients referred per PCP-specialist pair. The total number of negative outcomes (i.e., complications, readmissions, or death) per specialist is 10.3 on average, but this number of failures varies widely. Among an individual PCP's patients, many specialists have zero failures (80\%), while a small proportion have three or more (2.8\%).
+%
+Figure \ref{fig:share} shows the distribution of referral concentration, measured by the share of a PCP practice's referrals sent to their top specialist. Many practices, typically those with lower volume, concentrate their referrals entirely on a single specialist; however, there is substantial variation, and many practices split their referrals among three or more specialists.
+% OLD (from grant): As is evident from Figure \ref{fig:share}, most PCP referral networks are significantly concentrated, with the majority of PCPs isolating their referrals to a single specialist. Nonetheless, a meaningful share of PCP practices split their referrals among two or more specialists.
+
+The logit estimates in Table \ref{tab:estimates} are from a preliminary sample of major joint replacements in January 2013, restricted to PCP practices using up to 10 specialists (both are for ease of computation).
+The numbers of prior patients and prior failures are computed from claims in 2008 to 2012. The first specification uses the raw numbers of patients and failures while the second uses relative numbers per PCP-specialist pair and per specialist in total. Consistent with a learning model, we see a negative association between the failures among a PCP's own prior patients sent to a specialist, controlling for the specialist's total failures.
+We also see evidence of relationships or inertia from the coefficients on the number or proportion of prior patients sent to a specialist.
+Last, our specification includes an indicator for whether the PCP practice and the specialist have the same tax identifier, as a simple control for provider integration, which also shows an expected positive effect on referral probabilities.
+
+\newpage
+
+%%%
+
+\begin{table}
+\caption{Descriptive Statistics} \label{tab:descriptives}
+\vskip12pt
+\centering
+\small
+\begin{tabular}{lccccccc}
+\hline
+Num.~of      & \multicolumn{3}{c}{\underline{Physician Counts}}
+      & \multicolumn{3}{c}{\underline{Observed Failures}} \\
+Patients	&	PCP	&	Specialist	&	Pair	&	PCP	&	Specialist	&	Pair	\\
+\hline
+\\
+0	&	- - -	&	- - -	&	- - -	&	95,073	&	18,251	&	674,260	\\
+1-2	&	70,195	&	17,961	&	659,233	&	42,401	&	7,243	&	140,670	\\
+3-5	&	31,375	&	3,201	&	96,456	&	10,401	&	2,806	&	12,252	\\
+6-10	&	20,188	&	2,036	&	37,708	&	4,141	&	2,716	&	5,114	\\
+11-15	&	9,559	&	1,174	&	13,290	&	1,462	&	1,804	&	1,995	\\
+16-25	&	9,148	&	1,510	&	10,928	&	1,260	&	2,394	&	1,826	\\
+26-50	&	7,670	&	2,292	&	8,910	&	1,120	&	2,722	&	1,395	\\
+51-75	&	2,561	&	1,547	&	3,504	&	492	&	1043	&	359	\\
+76-100	&	1,377	&	1,143	&	1,917	&	260	&	470	&	160	\\
+101+	&	5,190	&	9,221	&	6,252	&	653	&	636	&	167	\\
+Total	&	157,263	&	40,085	&	838,198	&	157,263	&	40,085	&	838,198	\\
+													\\
+Mean	&	27.78	&	108.99	&	5.21	&	2.62	&	10.28	&	0.49	\\
+Median	&	3	&	4	&	1	&	0	&	1	&	0	\\
+
+\\
+\hline
+\end{tabular}
+\end{table} 
+
+%%%
+
+\begin{table}
+\caption{Logit Estimates} \label{tab:estimates}
+\vskip12pt
+\centering
+\small
+\begin{tabular}{lrrr}
+\hline
+\\
+Variable	&	Coef.	&	Std. Err.	&	P-value	\\
+\hline
+\\
+\underline{Specification 1}							\\
+PCP-Spec.~Pair Num.~Patients	&	0.0248	&	0.0014	&	$<$0.000	\\
+PCP-Spec.~Pair Num.~Failures	&	-0.0386	&	0.0108	&	$<$0.000	\\
+Specialist Total Other Patients	&	0.0002	&	0.0001	&	0.095	\\
+Specialist Total Other Failures	&	0.0011	&	0.0010	&	0.298	\\
+Integration (Same Tax ID)	&	0.7593	&	0.0575	&	$<$0.000	\\
+							\\
+\underline{Specification 2}							\\
+PCP-Spec.~Pair Prop.~Patients	&	4.494	&	0.0740	&	$<$0.000	\\
+PCP-Spec.~Pair Failure Rate	&	-0.036	&	0.1316	&	0.787	\\
+Specialist Overall Failure Rate	&	-0.028	&	0.0260	&	0.913	\\
+Integration (Same Tax ID)	&	0.342	&	0.0622	&	$<$0.000	\\
+							\\
+Observations	&	40,595					\\
+
+\hline
+\end{tabular}
+\end{table} 
+
+\begin{figure}[p]
+  \caption{Highest-Share Specialists}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/HighestShareWeighted.png}
+  \end{center}
+  \label{fig:share}
+\end{figure}
+
+\clearpage
+
+\bibliographystyle{plainnat}
+\bibliography{BibTeX_Library}
+
+\end{document} 

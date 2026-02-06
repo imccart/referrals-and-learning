@@ -1,0 +1,1255 @@
+%%% SETUP
+
+\documentclass[slides, aspectratio=169]{beamer}
+
+\setbeameroption{hide notes}
+%\setbeameroption{show notes}
+%\setbeamertemplate{note page}[plain]
+%\setbeameroption{show notes on second screen}
+
+% Theme:
+
+\usetheme{Malmoe}
+\usecolortheme[RGB={0, 45, 114}]{structure}
+% https://brand.jhu.edu/color/
+% (there is also a light blue, and a nice orange)
+
+\setbeamertemplate{itemize items}[default]
+\setbeamertemplate{itemize subitem}[circle]
+
+\setbeamertemplate{navigation symbols}{}
+
+% Packages:
+\usepackage{amssymb,amsmath,amsfonts,amsthm}
+\usepackage{graphicx, tikz}
+\usepackage{overpic}
+\usepackage{setspace}
+\usepackage{xkeyval}
+\usepackage{color, colortbl}
+
+% Commands:
+\newcommand{\E}{\text{E}}
+\newcommand{\V}{\mathrm{V}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+
+\newcommand{\benu}{\begin{enumerate}}
+\newcommand{\eenu}{\end{enumerate}}
+
+\definecolor{heritageblue}{RGB}{0, 45, 114}
+\definecolor{spiritblue}{RGB}{114, 172, 229}
+\definecolor{JHUorange}{RGB}{255, 158, 27}
+
+% Title:
+
+\title[Learning and Efficiency in Physician Referrals \hspace{3cm} \insertframenumber]{Learning and Efficiency in the Market for Physician Referrals}
+\author[McCarthy \and Richards-Shubik]%
+{Ian McCarthy\inst{1} \and Seth Richards-Shubik\inst{2}}
+\institute[]{
+  \inst{1} Emory University and NBER
+  \and
+  \inst{2} Johns Hopkins University and NBER
+}
+\date[]{October 2025}
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+
+%%% INTRO
+
+\begin{frame}{Physician referrals}
+\begin{itemize}
+
+\pause
+
+%\item Production network (micro, one service) with substantial informational frictions and heterogeneity in prices and quality
+\item Service market where professionals with general skills (e.g., primary care) direct consumers to professionals with specialized skills
+\bit
+    \item Substantial heterogeneity  in prices and quality across specialists
+    \item Prices do not clear market in the short run
+\eit
+% Suggests there may be large informational frictions
+\bigskip
+
+\item Uncertainty about quality is a defining characteristic of most health care markets:
+\smallskip
+
+{\small
+%Title of Arrow's seminal paper is Uncertainty and the Welfare Economics of Medical Care
+\emph{Uncertainty as to the quality of the product is perhaps more intense here than in any other important commodity.} (Arrow 1963, p.~951)
+}
+\bigskip \pause
+
+% Our goal is to analyze this uncertainty in physician referrals...
+\item We use a structural learning model to measure the effects of uncertainty in physician referrals, and to simulate possible reallocations when there is better information about quality %if learning were improved
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}[t]{Background on referrals}
+\begin{itemize}
+
+\bigskip
+
+\item Total physician/clinical services $+$ hospital care: \$2.25 trillion
+% (2022 National Health Expenditures)
+% almost 10% of GDP
+\bit
+    \item Primary care accounts for only 5\% -- 8\%
+    % https://jamanetwork.com/journals/jama/article-abstract/2757218
+    % https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2730351
+    % https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2765245
+    
+    \parbox{\linewidth}{\footnotesize
+    (Reiff et al.~2019, Reid et al.~2019, Martin et al.~2020)
+    % one JAMA, two JAMA Internal Medicine
+    }
+\eit
+\bigskip \medskip \pause
+
+\item Referrals have been increasing over time
+% Data from: National Ambulatory Medical Care Survey (and hospital version), large nationally representative survey of physician offices, run by NCHS, with 20,000 to 35,000 observations per year
+\medskip
+
+{\footnotesize
+\begin{tabular}{lccccc}
+\hline
+    & \multicolumn{2}{c}{Rate per Visit} &   &  \multicolumn{2}{c}{Annual Total} \\
+    &   1999    &   2009    &   &   1999    &   2009 \\
+\hline
+Referrals from primary care visits  &   5.8\%   &   9.9\%   &   &   22M &   51M \\
+Referrals among specialists         &   2.9\%   &   7.3\%   &   &   11M &   38M \\
+Patient self-referrals to specialists & 6.0\%   &   2.8\%   &   &   51M &   31M \\
+% self-referral = any new patient visit that was marked as being not referred
+\hline
+\end{tabular}
+
+\smallskip
+(Barnett et al.~2012)
+}
+\iffalse
+\bigskip \pause
+
+\item Literature says:
+\bit
+    \item Referring physicians have large influence over choice of specialist
+    \item Referring physicians say patient outcomes and experiences matter
+    \item Specialist market shares are only weakly associated with quality
+\eit 
+\fi
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}[t]{Background on referrals}
+\begin{itemize}
+
+\bigskip
+
+\item Referring physicians have large influence on choice of specialist
+
+\parbox{\linewidth}{\footnotesize
+(Freedman, Kouri, West, and Keating 2015; Chernew, Cooper, Hallock, and Scott Morton 2021) % e.g., , \emph{JAMA Oncology} , \emph{JHlthEcon}
+}
+\vskip8pt
+
+\item Referring physicians say patient outcomes and experiences matter
+
+\parbox{\linewidth}{\footnotesize
+(Schneider and Epstein 1996; Barnett, Keating, Christakis, O'Malley, and Landon 2012) % e.g., , \emph{NEJM} , \emph{JGenIntMed}
+}
+\vskip8pt
+
+\pause
+
+\item Specialist market shares are only weakly associated with quality
+\smallskip
+
+\parbox{\linewidth}{\footnotesize
+(\emph{Chapters:} Kolstad and Chernew 2009; Dranove 2011; Skinner 2011) \\ (\emph{AERs:} Chandra, Finkelstein, Sacarny, and Syverson 2016;
+{Gaynor}, Propper, and Seiler 2016) % , \emph{MedCareRschRev} , \emph{HandbookHlthEcon} , \emph{HandbookHlthEcon} , \emph{AER} , \emph{AER}
+} 
+\only<2>{
+\bit \small 
+    \item e.g., MRS between travel distance and mortality risk from heart surgery: \\
+    % mixed logits
+    \smallskip
+    1.8 miles : 1 per 100 risk of death (naive model) \\
+    22 miles : 1 per 100 risk of death (account for supply constraints)
+    % these are based on noisy point estimates, from a single market
+    \smallskip
+    
+\parbox{\linewidth}{\footnotesize 
+(Richards-Shubik, Roberts, and Donohue 2022) % , \emph{JHlthEcon}
+}
+\eit
+}
+%\vskip8pt
+
+
+\only<3>{
+\item Greater concentration of a physician's referrals (to fewer specialists) is associated with somewhat lower spending and utilization
+\smallskip 
+% A substantial difference in concentration, betweenness, or density (e.g., 1 SD) is associated with a small difference in spending (5-10\%)
+
+\parbox{\linewidth}{\footnotesize
+(Kaur, Perloff, Tompkins, and Bishop 2017; 
+Agha, Ericson, Geissler, and Rebitzer 2022) 
+}
+\iffalse
+\medskip
+
+\parbox{\linewidth}{\small Similar results using the density of the patient-sharing network or \\
+the betweenness centrality of primary care physicians}
+
+\medskip
+
+\parbox{\linewidth}{\footnotesize
+(Barnett, Christakis, O'Malley, Onnela, Keating, and Landon, \emph{MedCare} 2012;
+Pollack, Weissman, Lemke, Hussey, and Weiner, \emph{JGenIntMed} 2013)
+}
+\fi
+}
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}{Our approach} \label{approach}
+\begin{itemize}
+
+\item Develop and estimate a \hyperlink{literature}{structural learning model} of referral decisions
+% for joint replacements
+\bit
+    \item Prior work on health care applies learning models to prescribing decisions \\
+    \parbox{\linewidth}{\footnotesize (e.g., Crawford and Shum 2005; Ching 2010; Ferreyra and Kosenok 2011; Dickstein 2021)} % Gong is exception
+    \item Only vertical differentiation in our model (success rates)
+\eit
+\medskip 
+
+% \item Apply to major joint replacements (hip and knee)
+% a specific area of health care with a well defined network of referring physicians and specialists %(joint replacement)
+
+\item Model accounts for important barriers to reallocation beyond information:
+\bit
+    \item Habit persistence (preference to refer to familiar specialists)
+    \item Capacity constraints of specialists (congestion effect)
+%    \item Specialist-level unobserved factors (fixed effects)
+\eit
+\medskip \pause
+
+% EMPHASIZE IDENTIFYING VARIATION (across PCPs referring to same specs)
+
+%\item Use model to simulate ability of market to better allocate patients to specialists if learning is improved
+\item Use model to quantify losses due to informational frictions
+\bit
+    \item Simulate allocation and health outcomes under perfect information
+    \item Consider possible policies (e.g., perfect report cards? enforced experimentation?)
+\eit
+\medskip
+
+\item Find that one-quarter of referrals would be reallocated under full information, \\
+still allowing for habit persistence and capacity constraints
+
+\end{itemize}
+\end{frame}
+
+%%%
+\iffalse
+\begin{frame}{Related literature}
+\begin{itemize}
+
+\item Structural learning models have been widely applied to study product choice and related problems (Ching, Erdem, and Keane 2013)
+\bigskip
+
+\item Many studies in economics and marketing have applied Bayesian learning models to prescribing decisions by individual physicians
+% Focusing on examples in economics that use forward-looking models:
+\bit
+    \item New pharmaceutical drugs \\
+    \parbox{\linewidth}{\footnotesize (e.g., Ching 2010; Ferreyra and Kosenok 2011)}
+    \item Patient-specific drug matches \\
+    \parbox{\linewidth}{\footnotesize (e.g., Crawford and Shum 2005; Dickstein 2021)}
+    \item Gong (2018) considers a new surgical procedure
+\eit
+% Typical countefactuals (why need structural models): perfect information
+% Gittins solution -- Dickstein, Gong (Ferreyra and Kosenok use a similar threshold approach)
+\bigskip \pause
+
+\item Other factors affecting referral choice:
+% Not in the model I am presenting today, but could potentially be incorporated.
+\bit
+    \item peers from medical training
+    \item distance between offices
+    \item specialist gender, homophily 
+    % (we would have no variation b/c nearly all orthopedic surgeons are men)
+    \item vertical integration
+\eit
+
+%\only<2>{
+\smallskip
+    
+\parbox{\linewidth}{\footnotesize
+(Hackl, Hummer, and Prickner, \emph{JHlthEcon} 2015;
+Richards-Shubik, Roberts, and Donohue, \emph{JHlthEcon} 2022;
+Zeltzer, \emph{AEJ:Applied} 2020;
+%Dossa, Zeltzer, Sutradhar, Simpson, and Baxter, \emph{JAMA Surgery} 2021;
+%Chen, Orlas, Chang, and Kelleher, \emph{JSurgRsch} 2023;
+% Sarsons?
+Baker, Bundorf, and Kessler, \emph{JHlthEcon} 2016;
+Carlin, Feldman, and Dowd, \emph{HlthEcon} 2016)
+}
+%}
+
+\end{itemize}
+\end{frame}
+\fi
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BACKGROUND
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\begin{center}
+\LARGE
+
+\color{heritageblue}
+APPLICATION \& DATA
+% ALT: DATA \& DESCRIPTIVE ANALYSIS
+
+\color{lightgray}
+MODEL \& IDENTIFICATION
+
+\color{lightgray}
+ESTIMATION RESULTS
+
+\end{center}
+\end{frame}
+
+%%%
+
+\begin{frame}{Application: joint replacement surgery}
+\begin{itemize}
+
+\item About 500,000 hip replacements and 1,000,000 knee replacements per year in the US (and rapidly growing)
+% e.g., prediction: 780-925k hip and 1.5-2.4m knee in 2030; so a 50-100% increase by then
+% https://doi.org/10.3899/jrheum.170990
+\bit
+    \item Expensive: \$23,000 mean ($\approx$ median) episode spending (\$12,500 std.~dev.) 
+    \item Some risk: 9.7\% complications/rehospitalized, 0.6\% die
+    % from our data
+\eit
+\medskip
+
+\item Patients often referred by their primary care physicians (PCPs) to orthopedic surgeons (specialists) for the procedure
+\bigskip %\pause
+
+\iffalse % Option below to omit next slide on the data:
+%\label{data}
+\item Data: Medicare FFS claims from 2008 to 2018
+% transaction-level data
+\bit
+    \item Medicare covered approx.~50\%/66\% of all hip/knee replacements at the time
+    \item Referring physician (PCP) inferred from regular office visits over prior year
+    \item[] (87\% of surgeries are matched to a PCP)
+    \emph{\color{gray} {\dots}do NOT use the ``referring physician''}
+%    \item Note -- the claims include a ``referring physician'' field, but it is highly unreliable: it is omitted on 34\% of the joint replacement claims, and it lists the \emph{same person} as the operating physician on 64\% of the claims where it is populated.
+    \item Restrict to PCPs and orthopedic surgeons with sufficient volume 
+    % PCP: at least 20 total referrals over our study period and at least three consecutive years with observed referrals
+    % Specialist: perform at least 20 surgeries per year (captures xxx\% of all surgeries)
+    \item 2,014,300 surgeries, 10,500 surgeons, 51,700 PCPs in final sample
+    \hyperlink{sumstats}{\beamerbutton{summary stats}}
+\eit
+\fi
+
+\item Data from Medicare claims %, 2008--2018
+\bit
+    \item Analysis restricted to persons aged 65+
+    \item Approx.~50\%/66\% of all hip/knee replacements at the time
+\eit
+% transaction-level data
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}{Data: FFS Medicare claims, 2008--2018} \label{data}
+\begin{itemize}
+
+% transaction-level data on millions of purchases...
+\item All fee-for-service Medicare claims for major joint replacements from \\ 2008 to 2018: 4.5 million surgeries
+\bigskip
+
+\item Referring physician (PCP) inferred from regular office visits over prior year (2+)
+\bit
+    \item 87\% of surgeries are matched to a PCP
+    \item Restrict to PCPs and orthopedic surgeons with sufficient volume 
+    % (PCP: 20+ total referrals, specialist: 20+ surgeries per year)  
+    % PCP: at least 20 total referrals over our study period and at least three consecutive years with observed referrals
+    % Specialist: perform at least 20 surgeries per year (captures xxx\% of all surgeries)
+    \item 2,014,300 surgeries, 10,500 surgeons, 51,700 PCPs in final sample
+\eit
+\bigskip %\pause
+
+\color{gray} 
+
+\item Note -- the claims include a ``referring physician'' field, but it is highly unreliable: it is omitted on 34\% of the joint replacement claims, and it lists the \emph{same person} as the operating physician on 64\% of the claims where it is populated.
+\bigskip
+
+%\item Comparison to referrals for heart surgery (Richards-Shubik \emph{et al.}~2022): cardiologists refer to surgeons, can be matched based on a pre-surgery imaging procedure
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}{Key summary statistics} % \hyperlink{data}{\beamerbutton{back}}}
+\label{sumstats}
+\scriptsize
+\centering
+
+\begin{tabular}{llrrr}
+\hline
+&    & (Baseline)     & (Estimation) \\
+&    & 2008-2012     & 2013-2018 & Overall\\
+\hline
+\multicolumn{4}{l}{\emph{Prop.~per patient/episode:}}    \\
+& 90-day Readmission  &       0.081&       0.066&       0.072\\
+& 90-day Mortality    &       0.007&       0.005&       0.006\\
+& 90-day Complication &       0.107&       0.089&       0.097\\
+& {\dots}Any Failure    &       0.109&       0.091&       0.099\\[6pt]
+& Episode spending    &      23,240&      22,557&      22,839\\
+&                     &    (12,717)&    (12,284)&     (12,469)\\[6pt]
+\multicolumn{4}{l}{\emph{Rate per PCP, per year:}}    \\
+& Total Referrals     &       3.809&       4.398&       4.134\\
+&                    &     (2.940)&     (3.478)&     (3.261)\\
+& Unique Specialists  &       2.666&       3.109&       2.910\\
+&                    &     (1.580)&     (1.831)&     (1.737)\\[6pt]
+\multicolumn{5}{l}{\emph{Running values per PCP-specialist pair, over past five years:}}    \\
+& Total Referrals     & - - -    &        4.445 & - - -\\
+&                     &     &     (10.453)\\
+& Failure Rate  & - - -    &       0.101 & - - -\\
+&                     &     &     (0.201)\\
+% Last panel does not count zeros...
+\hline
+\end{tabular}
+
+\end{frame}
+
+%%%
+
+\begin{frame}{Referral concentration}
+{Computed per PCP, using six years of data from 2013 to 2018}
+
+\footnotesize
+
+\begin{tabular}{cc}
+    \includegraphics[scale=0.24]{results/figures/desc/NetworkSize_1_1_0.png} &
+    \includegraphics[scale=0.24]{results/figures/desc/HighestShare_1_1_0.png} \\
+    Mean = 9.6 & Mean = 0.33
+\end{tabular}
+
+\bigskip
+\small
+
+\emph{Average number of specialists per market (HRR): 83}
+% Most PCPs refer their patients to only a tenth of the specialists in their market
+
+% UNNECESSARY DETAIL: 
+% \emph{\ldots and within 75 miles or 90th percentile of distance: 81}
+
+\end{frame}
+
+\begin{frame}{Heterogeneity in quality and cost}
+{Interquartile ranges within markets of negative outcomes and episode spending}
+
+\footnotesize
+
+\begin{tabular}{cc}
+    \includegraphics[scale=0.24]{results/figures/desc/Failure_IQR_1_1_0.png} &
+    \includegraphics[scale=0.24]{results/figures/desc/Payment_IQR_1_1_0.png} \\
+    Average IQR = 0.046 & Average IQR = \$7,932
+\end{tabular}
+
+\bigskip
+
+\small
+
+\emph{If some patients could be reallocated from worse to better specialists
+(75th to 25th percentiles of negative outcomes or episode spending), substantial improvements would be possible.}
+
+\end{frame}
+
+\begin{frame}{Possible excess capacity among top performing specialists (top 25\%)}
+{Each specialist's capacity defined as their 75th pctile annual volume; graph shows totals by market x year}
+
+\footnotesize
+
+\begin{center}
+    \includegraphics[scale=0.24]{results/figures/desc/Excess_Capacity.png}
+\end{center}
+
+\vskip-6pt
+
+\small
+
+\emph{There appears to be available capacity for better specialists to treat more patients.}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MODEL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\vskip36pt
+
+\begin{center}
+\LARGE
+
+\color{lightgray}
+APPLICATION \& DATA
+% ALT: DATA \& DESCRIPTIVE ANALYSIS
+
+\color{heritageblue}
+MODEL \& IDENTIFICATION
+
+\color{lightgray}
+ESTIMATION RESULTS
+
+\bigskip \bigskip \pause
+
+\color{black} \small
+
+\emph{PCPs refer a sequence of patients to a set of specialists, \\ and learn about the quality of those specialists \\ from the outcomes of their patients.}
+
+\end{center}
+
+\end{frame}
+
+%%%
+
+\begin{frame}[t]{Model specification}
+\begin{enumerate}
+
+    \item Each period $t$, the PCP $i$ sends a patient (also $t$) to a specialist $j$ from a fixed choice set $J$
+    \ (choice indicators: $D_{ijt}$)
+    \medskip
+    \pause
+
+    \item Specialist treats the patient
+    \bit
+        \item binary outcomes: $Y_{ijt} = 1$ (success) or 0 (failure)
+        \item specialist quality: $q_j \equiv \Pr(Y_{ijt} = 1)$,
+        \emph{unknown to PCP}
+    \eit 
+    \medskip 
+    \pause
+    
+    \item PCP's realized utility:
+    
+    \vskip-6pt
+    
+    \color{heritageblue}
+    $$U_{ijt} \equiv \alpha Y_{ijt} + u(x_{ijt}) + f(e_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt},$$
+
+    \color{black}
+    \only<3> {
+    \bit
+        \item $\alpha$ -- weight on patient outcomes (e.g., altruism)
+        \item $u(x_{ijt})$ -- patient-specific factors (e.g., distance)
+        \item $f(e_{ijt})$ -- prior experience with specialist (\# patients, ``familiarity'')
+        \item $c(n_{jt}, z_j)$ -- specialist current patient volume (congestion effect)
+        % (as in Richards-Shubik \emph{et al.}~2022)
+        \item $\xi_{j}$ -- other demand factors (unobserved to econometrician)
+        \item $\epsilon_{ijt}$ -- idiosyncratic shock
+    \eit
+    }
+
+\medskip
+
+\only<4>{
+    \item[$\blacktriangleright$] Model captures key features related to the potential to improve market allocations:
+    \bit
+        \item learning about quality
+        \item taste for familiarity        
+        \item capacity constraints
+    \eit
+}
+
+\end{enumerate}
+\end{frame}
+
+%%%
+
+\begin{frame}{Learning process}
+{(ref: Dickstein 2021, Gong 2022)}
+\begin{itemize}
+
+    \item PCP beliefs about specialist quality: $q_j \sim \text{Beta}$
+    \smallskip
+    \pause
+
+    \item Update based on patient outcomes:
+    % mention beta distribution, a natural and tractable assumption
+    \begin{align*}
+        m_{ijt} \equiv \E[q_j | (D_{ijs}, Y_{ijs})_{s=1}^{t-1}]
+         & = \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} } \\
+         \\
+         & = \frac{ a_0 +  y_{ijt}}{ a_0 + b_0 + e_{ijt} }
+    \end{align*}
+    \bit    
+        \item $a_0, b_0$ -- parameters of prior beliefs 
+        (mean $= a_0 / (a_0 + b_0)$, \ ``strength'' $= a_0 + b_0$)
+        \item $e_{ijt} = \sum_{s=1}^{t-1} D_{ijs}$ -- number of past patients referred to $j$
+        \item $y_{ijt} = \sum_{s=1}^{t-1} Y_{ijs}$ -- successes among those patients
+    \eit
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Referral decisions}
+\begin{itemize}
+
+\item Myopic behavior:
+    \begin{align*}
+        \max_{j \in J} \ \text{E} \left[ U_{ijt} | \dots \right] =
+        \max_{j \in J} \ \ \alpha m_{ijt} + u(x_{ijt}) + f(e_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt}
+    \end{align*}
+\smallskip \pause 
+
+\item Forward-looking behavior: Gittins index solution (Gittins 1979) 
+% NOTE: See hopkins.tex presentation (PDF for UAB) for more on dynamic model. 
+\bit
+    \item Yields present discounted value of optimal expected returns from each specialist
+    \item Assumptions: \\ 
+    1) one option is chosen at a time \\
+    2) the unchosen options do not affect the current outcome \\
+    % For 1 and 2: patient treated by one surgeon, and other surgeons do not affect the outcome.
+    3) the expected returns do not change for the unchosen options \\
+    4) beliefs are independent across options \\
+    ($q_j$ fixed, no spillovers among surgeons $\implies$ 3 \& 4)
+    % Dickstein (2021) p. 15: "Gittins and Jones (1979) [WRONG CITE?] prove that the forward induction rule solves the sequence problem in (3.5) if the following conditions hold: (1) the decision-maker selects one option at t; (2) the options not selected do not contribute to the individual’s outcome; (3) the options not selected will produce the same average outcome in later periods as they would if chosen in the initial period; and, (4) the options are independent. Independence in this context implies that the probability of a successful outcome from treatment j is independent of the probability of success on treatment k."
+    % Gong (2018) p. 20: "Gittins (1979) proposes an index policy for the classic MAB model. He calculates for each arm an index that only depends on the arm’s current state and calibrates the value of pulling it until some optimal stopping time. The Gittins index policy simply selects the arm with the highest index in each period. Gittins then shows the index policy is optimal in the standard MAB framework, which requires four assumptions: (a) exactly one arm is chosen (or active) in each period; (b) the unchosen arms do not generate rewards; (c) states of the unchosen arms remain frozen, generating the same average rewards in later periods; and (d) the arms are independent."
+    \item Brezzi and Lai (2002) provide a closed-form approximation
+    \item Other terms are not dynamic (except $f$, where PDV is easy to compute) 
+\eit
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}[t]{Empirical specification (myopic version)} 
+
+\vskip-24pt
+
+\begin{equation*}
+    \text{E} \left[ U_{ijt} | \dots \right] =
+    \alpha {\color{spiritblue} \overbrace{\color{black} \frac{\rho \eta + y_{ijt}}{\eta + e_{ijt}} }^{m_{ijt}} }
+    + {\color{spiritblue} \overbrace{ \color{black} \pi x_{ijt} }^{u(x_{ijt})} }
+    + {\color{spiritblue} \overbrace{\color{black} \sum_{p}\beta_{p} I(e_{p-1}\leq e_{ijt} < e_{p}) }^{f(e_{ijt})} }
+    + {\color{spiritblue} \overbrace{\color{black} \gamma n_{jt} }^{c(n_{jt}, z_j)} } + \xi_j + \epsilon_{ijt} .
+\end{equation*}
+
+\vskip-6pt
+
+{\centering \footnotesize
+($\rho$ -- prior mean $= a_0 / (a_0 + b_0)$, \  $\eta$ -- prior strength $= a_0 + b_0$)
+}
+
+\end{frame}
+
+%%% ID1
+
+\begin{frame}[t]{Identification}
+
+\vskip-24pt
+
+\begin{equation*}
+    \text{E} \left[ U_{ijt} | \dots \right] =
+    \alpha {\color{spiritblue} \overbrace{\color{black} \frac{\rho \eta + y_{ijt}}{\eta + e_{ijt}} }^{m_{ijt}} }
+    + {\color{spiritblue} \overbrace{ \color{black} \pi x_{ijt} }^{u(x_{ijt})} }
+    + {\color{spiritblue} \overbrace{\color{black} \sum_{p}\beta_{p} I(e_{p-1}\leq e_{ijt} < e_{p}) }^{f(e_{ijt})} }
+    + {\color{spiritblue} \overbrace{\color{black} \gamma n_{jt} }^{c(n_{jt}, z_j)} } + \xi_j + \epsilon_{ijt} .
+\end{equation*}
+
+\vskip-6pt
+
+\begin{itemize}
+
+% NOTE: This formal analysis is new.  Prior papers (Dickstein 2021, Gong 2018) have thoughtful discussions but do not provide formal analysis.
+
+\item Assume a known distribution for $\epsilon$
+\bigskip
+
+\item Choice probabilities identify differences in utility between alternatives
+\bit
+    \item Specialist fixed effects ($\xi$):
+    identified by cases where histories and observables are the same for two specialists 
+    % (up to normalization; e.g., one fixed effect is set to zero)
+    \item Effects of patient characteristics $u(x)$: assume patients arrive exogenously
+\eit
+\bigskip \pause
+
+\item Congestion effect $c(n, z)$ can be identified with instrument for referrals from other PCPs (Richards-Shubik \emph{et al.}~2022) 
+\ \hyperlink{congestion}{\beamerbutton{more}}
+\label{utility specification}
+
+\end{itemize}
+
+\end{frame}
+
+%%% ID2
+
+\begin{frame}[t]{Identification} \label{identification}
+
+\vskip-24pt
+
+\begin{equation*}
+    \text{E} \left[ U_{ijt} | \dots \right] =
+    \alpha {\color{spiritblue} \overbrace{\color{black} \frac{\rho \eta + y_{ijt}}{\eta + e_{ijt}} }^{m_{ijt}} }
+    + {\color{spiritblue} \overbrace{ \color{black} \pi x_{ijt} }^{u(x_{ijt})} }
+    + {\color{spiritblue} \overbrace{\color{black} \sum_{p}\beta_{p} I(e_{p-1}\leq e_{ijt} < e_{p}) }^{f(e_{ijt})} }
+    + {\color{spiritblue} \overbrace{\color{black} \gamma n_{jt} }^{c(n_{jt}, z_j)} } + \xi_j + \epsilon_{ijt} .
+\end{equation*}
+
+\vskip-6pt
+
+\begin{itemize}
+    
+\item Learning parameters:
+\bit
+    \item Altruism ($\alpha$): variation in success rates among specialists to whom a PCP has sent many patients in the past (ID at infinity)    
+    \item Prior mean ($\rho$): average success rate in market (rational expectations)
+    \item Prior strength ($\eta$): how the marginal effect of success ($y_{ijt}$) changes with experience ($e_{ijt}$);
+    % i.e., their interaction;
+    but there seems to be \textbf{low power so we fix it} at $\eta \in \{1,5\}$
+\eit
+\ \hyperlink{identification details}{\beamerbutton{algebra}}
+\medskip \pause
+
+\item Familiarity ($\beta_{p}$): variation in counts of past referrals (w/same success rates)
+% Intuitively, we need to fully identify the priors (both the ratio and the strength) in order to recover the effect of familiarity, because we need to know exactly how experience washes away the priors in order to separate that from the effect of familiarity.
+\bit
+    \item Only remaining parameter once learning parameters identified
+    \item Requires a normalization, e.g.~$f(0) = 0$
+    \item Must be bounded as $e \rightarrow \infty$
+\eit
+%\medskip \pause 
+
+%\item Congestion effect ($\gamma$): identified using distances as instrument for referrals from other PCPs (Richards-Shubik \emph{et al.}~2022) 
+% \ \hyperlink{congestion}{\beamerbutton{congestion}}
+
+\end{itemize}
+
+\end{frame}
+
+%%%
+
+\begin{frame}[t]{Estimation}
+
+\vskip-6pt
+
+\begin{equation*}
+    \text{E} \left[ U_{ijt} | \dots \right] =
+    \alpha \frac{\rho \eta + y_{ijt}}{\eta + e_{ijt}}
+    + \pi x_{ijt}
+    + \sum_{p}\beta_{p} I(e_{p-1}\leq e_{ijt} < e_{p})
+    + {\color{JHUorange} \underbrace{\color{black} \gamma n_{jt}  + \xi_j}_{\delta_{jt}} } + \epsilon_{ijt} .
+\end{equation*}
+
+\begin{itemize}
+
+\item Estimated separately in 306 geographic markets (HRRs) %; BLP-type procedure
+\bit
+\item Approach based on Bayer and Timmins (2007) spatial equilibrium model:
+spillovers among consumers who choose the same ``location''
+\item Similar to BLP demand estimation (with micro data),
+but congestion effect takes the place of a price
+\eit
+\medskip \pause
+
+\item[1.] Estimate multinomial logit with specialist-time fixed effects ($\delta_{jt}$) 
+\bit
+    \item split estimation sample into two time periods
+\eit
+
+\item[2.] Recover congestion effect using 2SLS regression of estimated fixed effects
+\bit
+    \item $\hat \delta_{jt} = \gamma n_{jt} + \xi_j + v_{jt}$
+    \item instrument for $n_{jt}$ is distances from \emph{other} patients to specialist $j$
+%    \item e.g., 2SLS estimation if $c$ is linear in parameters
+\eit
+%\medskip
+
+%\hyperlink{utility specification}{\beamerbutton{back}}
+
+\end{itemize}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RESULTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[noframenumbering]
+\begin{center}
+\LARGE
+
+\color{lightgray}
+APPLICATION \& DATA
+% ALT: DATA \& DESCRIPTIVE ANALYSIS
+
+\color{lightgray}
+MODEL \& IDENTIFICATION
+
+\color{heritageblue}
+ESTIMATION RESULTS
+
+\end{center}
+\end{frame}
+
+%%%
+
+\begin{frame}[t]{Preliminary evidence of learning: event study of referrals after a failure}
+\begin{itemize}
+    \pause
+    \item Construct a quarterly panel of referrals from each PCP to each specialist
+    \smallskip
+    \item Observe the date and referring PCP for each failure event
+    \smallskip
+    \item Compare \# referrals each quarter \emph{to the same specialist} between:
+    \bit
+        \item PCP whose patient experienced the failure (in a particular quarter)
+        \item PCPs whose patients did not experience a failure at that time
+    \eit
+    \medskip
+    \item Estimate stacked DiD (Cengiz \textit{et al.} 2019, QJE), stacked by the first, second, third, and fourth failure events per specialist \
+    \hyperlink{eventstudy}{\beamerbutton{details}} \label{es-general}
+    
+    \bigskip \pause
+    
+    \item Design isolates variation credibly related to learning from patient experiences: response to outcome of PCP's \emph{own} patient, controlling for changes in referrals from other PCPs and possible supply response from specialist
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Event study: effect of a failure on the PCP's referrals to that specialist}
+{Differences in referrals per quarter between the PCP ``observing'' the failure vs.~all other PCPs}
+
+\centering
+\includegraphics[scale = 0.32]{results/figures/rf/EventStudy_Stacked_1_1_0.png}
+
+\footnotesize \raggedright
+\emph{Dep.~var.~mean = 0.194 (treated group before event), relative reduction is 25\%}
+
+\end{frame}
+
+%%%
+
+\begin{frame}{Structural Parameter Estimates} 
+{Estimated separately within 306 HRRs; statistics weighted by number of patients per HRR.}
+
+\footnotesize \pause
+
+\begin{center}
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ & \multicolumn{4}{c}{Myopic model} & & \multicolumn{4}{c}{Forward-looking model}\\
+ \cline{2-5} \cline{7-10}
+Parameter & Mean & (SD/SE) & 25th & 75th & & Mean & (SD/SE) & 25th & 75th \\ 
+\hline
+\\
+\multicolumn{8}{l}{$\alpha$ \color{gray} (utility weight on successful outcome, \emph{distribution across markets})} \\ 
+\ \ ($\eta=1$) & 0.2167 & (0.1922) & 0.0000 & 0.2912 & & 0.2950 & (0.2588) & 0.0112 & 0.3954 \\ 
+\ \ ($\eta=5$) & 0.5120 & (0.4799) & 0.1115 & 0.7121 & & 0.6884 & (0.6719) & 0.1307 & 0.9336 \\ 
+\\
+\multicolumn{8}{l}{$\pi$ \color{gray} (utility weight on distance in miles, \emph{distribution across markets})} \\ 
+\ \ ($\eta=1$) & -0.0694 & (0.0060) & -0.0824  & -0.0525 & & -0.0692 & (0.0060) & -0.0819 & -0.0523 \\ 
+\ \ ($\eta=5$) & -0.0695 & (0.0061) & -0.0826  & -0.0528 & & -0.0698 & (0.0061) & -0.0830 & -0.0528 \\ 
+\\ 
+\multicolumn{8}{l}{$\gamma$ \color{gray} (congestion effect per 100 patients over 5 years, \emph{single nationwide estimate})} \\  
+\ \ ($\eta=1$) & -2.4967 & (0.9275) & & & & -2.1098 & (0.7111) \\ 
+\ \ ($\eta=5$) & -5.4713 & (3.2063) & & & & -3.1226 & (1.1708) \\ 
+\hline
+\end{tabular}
+\end{center}
+
+\medskip \pause
+
+\begin{itemize}
+    % using eta = 1, myopic model:
+    \item $\bar \alpha / \bar \pi$ -- success vs.~failure is worth 4 miles
+    (similar to other small estimates in the literature)
+    \item $\gamma$ -- 10 patient increase in volume $\rightarrow$ 22\% relative decrease in referral prob.
+\end{itemize}
+
+\end{frame}
+
+%%%
+\iffalse
+\begin{frame}[b]{Parameter Estimates -- familiarity} 
+
+\footnotesize
+
+\begin{center}
+\begin{tabular}{lrrrrrrr}
+\hline
+ & \multicolumn{7}{c}{$e_{ijt}$ interval} \\
+ & [1,5)   & [5,10)  & [10,15) & [15,20) & [25,30) & [30,35) & [35,40) \\ 
+\hline
+\multicolumn{8}{l}{$\beta_{p}$ (familiarity)} \\ 
+\ \ ($\eta=1$) & 1.291   & 2.123   & 2.423   & 2.972   & 3.151   & 3.552   & 3.671   \\ 
+               & (0.097) & (0.137) & (0.196) & (0.213) & (0.259) & (0.264) & (0.333) \\ 
+\ \ ($\eta=5$) & 1.291   & 2.122   & 2.421   & 2.971   & 3.149   & 3.550   & 3.669   \\ 
+               & (0.097) & (0.136) & (0.196) & (0.213) & (0.259) & (0.264) & (0.333) \\ 
+\hline
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\begin{itemize}
+    \item Relatively large and increasing in range of $e$
+    \item Estimates similar across $\eta$
+\end{itemize}
+\end{frame}
+\fi
+%%% 
+\iffalse
+\begin{frame}[t]{Partial Effect of Failures} 
+\begin{center}
+\begin{tabular}{cc}
+    \includegraphics[scale=0.22]{results/figures/myopic-timevary/Mean_Partial_Effect_Failure_eta1.png} &
+    \includegraphics[scale=0.22]{results/figures/myopic-timevary/Mean_Partial_Effect_Failure_eta5.png} \\
+\end{tabular}
+\end{center}
+
+\only<2>{
+\medskip
+\begin{itemize}
+    \item Many markets with effectively no response to specialist failures
+    \item Conditional on some response, mean reduction of 3-4\% in referral probability
+    \item Small but meaningful over the course of several referrals: translates to 3 weeks worth of surgeries per year for an average specialist (among our sample of patients).
+\end{itemize}
+}
+
+\end{frame}
+\fi
+%%% 
+
+\begin{frame}[t]{Counterfactual: reallocation under full information} 
+{Distribution across markets of proportion of patients reallocated}
+
+\bigskip
+
+\only<1>{
+Simulation:
+\begin{itemize}
+    \item Replace current beliefs with true success probabilities ($q_j$)
+    \item Take histories in baseline period as given
+    \item Starting from beginning of estimation period, revise referral decisions \\
+    and update the accrued familiarity with specialists accordingly
+\end{itemize}
+}
+\pause
+
+\footnotesize
+
+\begin{tabular}{cc}
+    Myopic model & Forward-looking model \\
+    \includegraphics[scale=0.24]{results/figures/myopic-timevary/Reallocation_Full_eta1.png} &
+    \includegraphics[scale=0.24]{results/figures/fwd-timevary/Reallocation_Full_FWD_eta1.png}
+\end{tabular}
+
+\smallskip
+\small 
+
+\begin{itemize}
+    \item Just over 25\% of patients are referred to a different specialist on average (both models)
+    \item Similar distributions, but somewhat more variation across markets under myopic model
+\end{itemize}
+
+\end{frame}
+
+%%%
+
+\begin{frame}[b]{Counterfactual: health outcomes under full information} 
+{Distribution across markets of change in success probability}
+
+\bigskip
+\footnotesize
+
+\begin{tabular}{cc}
+    Myopic model & Forward-looking model \\
+    \includegraphics[scale=0.24]{results/figures/myopic-timevary/Mean_Health_Effect_Full_eta1.png} &
+    \includegraphics[scale=0.24]{results/figures/fwd-timevary/Mean_Health_Effect_Full_FWD_eta1.png}
+\end{tabular}
+
+\smallskip
+\small 
+
+\begin{itemize}
+    \item Average improvement $\approx$ 4.5/1,000 (both models); reducing failure rate by 5\% (relative)
+    \item About 750 fewer complications/readmissions (or deaths) per year in total %across all markets
+\end{itemize}
+
+\end{frame}
+
+%%%
+\iffalse
+\begin{frame}[b]{Counterfactual: full information and no familiarity [CUT?]} 
+\begin{center}
+\includegraphics[scale=0.31]{results/figures/myopic-timevary/Mean_Health_Effect_FullFam_eta1.png}
+\end{center}
+
+\begin{itemize}
+    \item Much larger reallocation of patients, closer to 30\% (not shown)
+    \item Health effects slightly greater but still relatively small, with increase in the \textit{ex ante} probability of a successful surgery of 0.5\% on average
+\end{itemize}
+
+\end{frame}
+\fi
+%%%
+
+\begin{frame}{Summary} \label{summary}
+\begin{itemize}
+
+%    \item Structural learning model can quantify losses due to uncertainty and project gains from possible reallocation
+%    \bit
+%        \item While accounting for capacity constraints and other barriers
+%    \eit
+%    \bigskip
+    
+    \item Substantial quality and efficiency gains may be possible if referrals can be reallocated \emph{within} geographic areas
+    \bigskip
+    
+    \item We estimate a structural learning model of referrals for major joint replacements
+    \bigskip
+    
+    \item Provides the first (?)~quantification of impact of informational frictions in referrals
+    %\item We find evidence that informational frictions are large
+    \bit
+        \item One-quarter of patients would be reallocated under perfect information
+        \item Still allowing for other barriers from habit persistence and capacity constraints
+    \eit
+    \bigskip
+    
+    \item Key identifying variation for the learning process comes from differences in histories of patient outcomes \emph{across} PCPs referring to the \emph{same} specialists
+    %, we find evidence of learning in some geographic markets
+    \bigskip
+
+%    \item Full information could have large effects on referrals in settings where influence of established relationships (``familiarity'') plays less of a role
+    
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}%[noframenumbering]
+\begin{center}
+
+\LARGE \color{spiritblue} THANK YOU
+\bigskip
+
+\large sethrs@jhu.edu
+
+\end{center}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX SLIDES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[noframenumbering]
+\begin{center}
+\LARGE
+\color{heritageblue}
+APPENDIX SLIDES
+\end{center}
+\end{frame}
+
+%%%
+
+\begin{frame}{Related literature \ \hyperlink{approach}{\beamerbutton{approach}} \ \hyperlink{summary}{\beamerbutton{summary}}}
+\label{literature}
+\begin{itemize}
+
+    \item Structural learning models have been widely applied to study product choice and related problems (Ching, Erdem, and Keane 2013)
+    \medskip %\pause
+
+    \item Many studies in economics and marketing have applied Bayesian learning models to prescribing decisions by individual physicians
+    % Focusing on examples in economics that use forward-looking models:
+    \bit
+        \item New pharmaceutical drugs \\
+        \parbox{\linewidth}{\footnotesize (e.g., Ching 2010; Ferreyra and Kosenok 2011)}
+        \item Patient-specific drug matches \\
+        \parbox{\linewidth}{\footnotesize (e.g., Crawford and Shum 2005; Dickstein 2021)}
+        \item Gong (2018) considers a new surgical procedure
+        \item Johnson (2021) and Sarsons (2023) also discuss learning in referrals
+    \eit
+
+    % Typical countefactuals (why need structural models): perfect information
+    % Gittins solution -- Dickstein, Gong (Ferreyra and Kosenok use a similar threshold approach)
+    \medskip %\pause
+
+    \item Other factors affecting referral choice:
+    % Not in the model I am presenting today, but could potentially be incorporated.
+    \bit
+        \item peers from medical training
+        \item distance between offices
+        \item specialist gender, homophily 
+        % (we would have no variation b/c nearly all orthopedic surgeons are men)
+        \item vertical integration
+    \eit
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}{Congestion effect}
+{(Richards-Shubik, Roberts, and Donohue 2022)} \label{congestion}
+\begin{itemize}
+
+\item Based on Bayer and Timmins (2007) spatial equilibrium model:
+spillovers among consumers who choose the same ``location''
+
+\item Approach is similar to BLP demand estimation,
+but congestion effect takes the place of a price
+\bigskip
+
+\item Estimate multinomial logit with specialist-time fixed effects ($\delta_{jt}$) 
+\[
+\alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + \underbrace{ c(n_{jt}, z_j) + \xi_j }_{\delta_{jt}} + \epsilon_{ijt}
+\]
+
+\item Recover congestion effect using regression of estimated fixed effects:
+\[
+\hat \delta_{jt} = c(n_{jt}, z_j) + \xi_j + \eta_{jt}
+\]
+\vskip-4pt
+\bit
+    \item instrument for $n_{jt}$ is distances from \emph{other} patients to specialist $j$
+    \item e.g., 2SLS estimation if $c$ is linear
+\eit
+\medskip
+
+\hyperlink{utility specification}{\beamerbutton{back}}
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}[noframenumbering, t]{Identification of the myopic model}
+\label{identification details}
+
+\vskip-12pt
+
+$$\alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt}$$
+
+\begin{itemize}
+
+\item Altruism parameter ($\alpha$): marginal effect of success rate, in limit as $e \rightarrow \infty$ (``identification at infinity'')
+\[
+\alpha m_{ijt} 
+= \alpha \frac{ \rho \eta +  \sum_{s=1}^{t-1} Y_{ijs} }{ \eta + \sum_{s=1}^{t-1} D_{ijs} }
+= \alpha \frac{ \rho \eta/e_{ijt} + \bar y_{ijt} }{ \eta/e_{ijt} + 1 }
+\]
+where $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / \sum_{s=1}^{t-1} D_{ijs}$
+and $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$
+\vskip3pt
+% Thus cases where a PCP has large past experience with two specialists, but different success rates with them, identify the altruism parameter.
+\medskip
+
+\item Strength of priors ($\eta$):
+how the marginal effect of the success rate changes with experience (i.e., interaction)
+\[
+\alpha m_{ijt} 
+= \alpha \frac{ \rho \eta }{ \eta + e_{ijt} } 
++ \alpha \frac{ e_{ijt} }{ \eta + e_{ijt} } \bar y_{ijt}
+\]
+\vskip-8pt
+\medskip
+
+% IF TIME: Make appendix slide with this algebra
+% \beamerbutton{algebra}
+
+\item Prior mean ($\rho$): estimate outside the model, using average success probability in each market (rational expectations assumption)
+\medskip
+
+\hyperlink{identification}{\beamerbutton{back}}
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}[t]{Event study \ \hyperlink{es-general}{\beamerbutton{back}}}
+{Effect on referrals per quarter from PCP ``observing'' the failure vs.~other PCPs}
+\label{eventstudy}
+\begin{itemize}
+
+    \item Create quarterly panel of all PCP-specialist pairs with at least one referral
+    \smallskip
+    \item Record failure events:
+    \bit
+        \item Index the failures for each specialist $j$: $f=1,...,F_{j}$
+        \item Quarter of failures: $q_{j}(f)$; e.g., $q_{j}(1)$ is quarter of first failure for specialist $j$ \\
+        ($\underline{q}$ and $\overline{q}$ denote the first and last quarter of the analysis)
+    \eit
+    \smallskip
+    \item Assign PCPs to treatment or control groups ($k = $ 1 or 0) based on whose patient had a failure in the reference quarter
+    \smallskip
+    \item Dep.~var.~is avg.~referrals from each group to each specialist in each quarter: $\bar{r}_{jkt}$
+    % COMMENT: Would be easier to explain this if it were individual PCP level. The difference is just a matter of how observations are weighted within the control group.
+    \smallskip
+    \item Estimate the following event study \emph{with specialist x quarter fixed effects}:
+    \vskip-6pt
+\begin{equation*}
+  \bar{r}_{jkt} = \gamma_{jt} + \delta I(k=1) + \sum_{\substack{\tau=-9 \\ \tau \neq -1}}^{9} \lambda_{\tau} I(k=1, t=\tau) + \varepsilon_{jkt},
+\end{equation*}
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\end{document}
+
+
+
+%%% EXTRAS
+
+% Slide background:
+
+\begin{tikzpicture}[remember picture, overlay]
+    \only<1>{
+    \node[opacity=0.18, at=(current page.center)] {
+        \includegraphics[width=\paperwidth,height=\paperheight]{presentations/images/slide_background.png}
+    };
+    }
+\end{tikzpicture}

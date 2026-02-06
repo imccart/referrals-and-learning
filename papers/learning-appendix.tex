@@ -1,0 +1,683 @@
+\documentclass[12pt]{article}
+\usepackage{amssymb,amsmath,pgf,setspace,comment,multicol,verbatim,titling,pdflscape}
+\usepackage[left=1in,right=1in,top=1in,bottom=0.75in]{geometry}
+\usepackage[round]{natbib}
+\setstretch{1.5}
+
+\setlength{\droptitle}{-50pt}
+
+\begin{document}
+
+\title{Learning and Efficiency in the Market for Physician Referrals \\ 
+SUPPLEMENTAL APPENDIX \\
+PRELIMINARY}
+\author{%
+  Ian M. McCarthy \\[-1.5ex]
+  Emory University \& NBER \\
+  Seth Richards-Shubik \\[-1.5ex]
+  Lehigh University \& NBER
+}
+\date{August 2023}
+\maketitle
+
+
+%%% SUPPLEMENTAL DATA AND DESCRIPTIVE STATS
+\section{Descriptive Statistics}
+\label{app:desc}
+
+This section provides additional details of our analytic data and subsequent referral patterns.
+
+
+
+
+%%% IDENTIFICATION
+
+\section{Identification} \label{app:identification}
+
+We formally show identification of the myopic model, and then we discuss identification of the dynamic model.
+
+
+% NOTE: This formal analysis is new.  Prior papers (Dickstein 2021, Gong 2018) have thoughtful discussions but do not provide formal analysis.
+
+$$\alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt}$$
+
+SLIDE
+\begin{itemize}
+
+\item[*] {\small Both Dickstein (2021) and Gong (2018) omit $\alpha$, which fixes the MRS between patient outcomes and other factors (incl.~$\epsilon$) at an assumed value}
+% NOTE: This fixes the weight on patient outcomes to 1, with an assumed scale of the error term, so this is not an innocuous normalization.
+
+\end{itemize}
+
+SLIDE
+\begin{itemize}
+
+\item Altruism parameter ($\alpha$): identified by marginal effect of \emph{observed} success rate, in limit as $e \rightarrow \infty$ (``ID at infinity'')
+\[
+\alpha m_{ijt} 
+= \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} }
+= \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 } 
+\]
+where $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / \sum_{s=1}^{t-1} D_{ijs}$
+(and $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$)
+\vskip3pt
+% Thus cases where a PCP has large past experience with two specialists, but different success rates with them, identify the altruism parameter.
+\medskip
+
+\item Strength of priors ($a_0 + b_0$):
+how the marginal effect of the success rate changes with experience (i.e., interaction)
+\[
+\alpha m_{ijt} 
+= \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} } 
++ \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}
+\]
+\vskip-8pt
+\medskip
+
+% IF TIME: Make appendix slide with this algebra
+% \beamerbutton{algebra}
+
+\item Prior mean ($\frac{a_0}{a_0 + b_0}$): estimate outside the model, using average success probability in each market (then have $a_0, b_0$ separately)
+\medskip
+
+\end{itemize}
+
+
+\subsection{Myopic Model}
+
+Given a distribution for the shocks $\epsilon$, the conditional choice probabilities identify differences in utility between the alternatives. The effects of the pairwise characteristics, $u(x)$, and the specialist fixed effects, $\xi$, are identified subject to standard normalizations (e.g., one fixed effect is set equal to zero). Because the number of patients at a specialist, $n_{jt}$, is endogenous, the congestion effect, $c(n_{jt}, z_j)$, is identified with an instrument for the probability that patients \emph{other than patient t} see specialist $j$. A natural instrument for this is the distances between \emph{other} patients and specialst $j$ \citep[see][]{richards-shubik2021}.
+
+\iffalse
+The remaining terms are $\alpha m$ and $f(e)$.
+We start by expanding and rearranging the former.
+Recall $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ and let $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / e_{ijt}$.
+Then
+\[
+\alpha m_{ijt} 
+= \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} }
+= \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} } 
++ \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}
+\]
+\fi
+
+This leaves the terms $\alpha m$ and $f(e)$. The parameter $\alpha$ is identified in the limit as the number of past patients sent to a specialist grows large (i.e., so-called ``identification at infinity'').
+Recall $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ and let $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / e_{ijt}$.
+Then,
+\[
+\alpha m_{ijt} 
+= \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} }
+= \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 }.
+\]
+Hence, $\lim_{e_{ijt} \rightarrow \infty} \alpha m_{ijt} = \alpha \bar y_{ijt}$.
+Intuitively, $\alpha$ is identified by variation in the success rate among specialists to whom a PCP has sent many patients in the past.
+
+Next, the strength of the priors, ($a_0 + b_0$), is identified by how the marginal effect of the success rate changes with the number of past patients.
+Rearranging $\alpha m_{ijt}$ differently, we have
+\begin{equation}
+\alpha m_{ijt} = \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} }
++ \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}.
+\label{eqn:alpha2}
+\end{equation}
+With $\alpha$ identified, the second term in equation~\eqref{eqn:alpha2} has only one unknown parameter, $\eta \equiv (a_0 + b_0)$.
+The marginal effect of $\bar y$ increases with $e$, and $\eta$ governs that interaction.
+
+To identify the prior mean, $\rho \equiv \frac{a_0}{a_0 + b_0}$, we use the observed average success rate in the market.  This assumes that PCPs have a general awareness of the overall success rate of the procedure in their market.  It might instead be possible to identify $a_0$ from the choice data, but this would require a strong functional form assumption to separate the term $\alpha \frac{ a_0 }{ (a_0 + b_0) + e}$ from the familiarity effect $f(e)$.
+
+Finally, then, the familiarity effect is identified by the remainder of the marginal effect of experience with a specialist that is not absorbed by $\alpha m$ (i.e., what is left over from $\alpha \frac{ a_0 }{ (a_0 + b_0) + e}$).
+% Intuitively, we need to fully identify the priors (both the ratio and the strength) in order to recover the effect of familiarity, because we need to know exactly how experience washes away the priors in order to separate that from the effect of familiarity.
+A standard normalization is required, such as $f(0) = 0$.
+Also $f$ must be bounded as $e \rightarrow \infty$; otherwise, familiarity would dominate the effects of all other attributes as $e \rightarrow \infty$.
+This does not seem desirable from a modeling perspective, and it would nullify the ``identification at infinity'' argument for $\alpha$.
+
+\bigskip
+
+We start by proving the identification of the myopic model.
+To review (and simplify), the utility to PCP $i$ for referring patient $t$ to specialist $j$ is
+\[
+U_{ijt} \equiv \alpha m_{ijt} + f(e_{ijt}) + \xi_j + \epsilon_{ijt},
+\]
+where $m_{ijt}$ is the current mean of the beliefs about the probability of success at specialist $j$ (using the history before patient $t$), $e_{ijt}$ is the amount of experience with specialist $j$ (the number of past patients $i$ sent to $j$), $f(e_{ijt})$ is the subjective utility from familiarity with specialist $j$, $\xi_j$ is an unobservable specialist fixed effect, and $\epsilon_{ijt}$ is an idiosyncratic shock with a known distribution.
+Also let $\check y_{ijt}$ denote the number of successes among past patients that $i$ sent to $j$.
+NOTE: There is no outside option with utility normalized to zero.
+
+\iffalse
+This omits the effects of other exogenous characteristics, $x_{ijt}$, and the effect of congestion at specialist $j$ (which is proxied with the number of patients treated by specialist $j$ around the same time as patient $t$, denoted $n_{j[t]}$).
+The effects of the exogenous characteristics follow from separate variation in $x$, as is standard.
+The effect of congestion is identified from separate variation in $n_{j[t]}$, which requires a valid instrument for the endogenous patient volume.  The typical instrument is distances of \emph{other} patients to specialist $j$, as described in Richards-Shubik et al. (2022, \url{https://doi.org/10.1016/j.jhealeco.2022.102616}).
+\fi
+
+Given a parametric assumption on the error term, $\epsilon$, the observable choice probabilities directly identify differences in utility, excluding the error term: e.g., $(U_{ijt} - \epsilon_{ijt}) - (U_{ikt} - \epsilon_{ikt})$.
+To simplify these expressions, let $v$ denote utility without the error term: $v \equiv U - \epsilon$.
+
+To be somewhat more precise, there is a finite number of specialists but large numbers of patients and PCPs.
+The choice probabilities are
+\[
+\Pr(j | (e_{ikt}, \check y_{ikt})_{k=1}^J) ,
+\]
+where ``$j$'' means the event that specialist $j$ is chosen.
+We may need consistent estimates of the choice probabilities for cases where $e_{ikt} = 0, \forall k$, and where $e_{ikt} \to \infty, \forall k$.
+Hence the number of PCPs may need to go to infinity, but the number of patients must grow faster.
+
+
+%The effects of the exogenous characteristics, $u(x)$, follow from separate variation in $x$, as is standard.
+%The effect of congestion, $c(n_{jt})$ is identified from separate variation in $n_{jt}$, which requires a valid instrument for the endogenous patient volume, described elsewhere.
+We identify the [other] components of $v$ in steps as follows.
+\begin{enumerate}
+    \item Specialist fixed effects ($\xi$):
+Any cases where the observables are the same for two specialists can be used to identify the fixed effects (up to a standard normalization; e.g., one fixed effect is set to zero).
+Because if $e, \check y, x, n$ are the same, then
+$$ v_{ijt} - v_{ikt} = \xi_j - \xi_k . $$
+In particular, cases where $e=0$ (and hence $\check y = 0$) are useful here.
+    \item Altruism parameter ($\alpha$):
+This uses cases with large past experience, formally the limit when $e \rightarrow \infty$.
+Let $e_{ijt} \rightarrow \infty$ and $e_{ikt} \rightarrow \infty$
+(and for convenience $x_{ijt} = x_{ikt}$ and $n_j = n_k$).
+Then
+\[ v_{ijt} - v_{ikt} 
+= \frac{ \alpha \bar y_{ijt} }{ 0 + 1 } + \xi_j
+- \frac{ \alpha \bar y_{ikt} }{ 0 + 1 } - \xi_k .
+\]
+[I CAN PULL UP MORE OF THE ALGEBRA FROM BELOW.]
+Hence
+\[ \alpha 
+= \frac{(v_{ijt} - \xi_j) - (v_{ikt} - \xi_k)}
+  {\bar y_{ijt} - \bar y_{ikt}}
+\]
+in these limits.
+Thus cases where a PCP has large past experience with two specialists, but different success rates with them, identify the altruism parameter.
+    \item Strength of priors ($a_0 + b_0$):
+The responsiveness to success with finite experience then identifies the strength of priors (i.e., the stickiness of beliefs).
+Let $e_{ijt} = e_{ikt} = e$
+(and for convenience $x_{ijt} = x_{ikt}$ and $n_j = n_k$).
+Then
+\[ v_{ijt} - v_{ikt} 
+= \frac{ \alpha \check y_{ijt}}{ a_0 + b_0 + e } + \xi_j
+- \frac{ \alpha \check y_{ikt}}{ a_0 + b_0 + e } - \xi_k .
+\]
+Hence
+\[ (a_0 + b_0) 
+= \frac{\alpha (\check y_{ijt} - \check y_{ikt})}
+{(v_{ijt} - \xi_j) - (v_{ikt} - \xi_k)} - e ,
+\]
+and all the objects on the right are observable or already identified.
+    \item Effect of familiarity ($f(e)$):
+Finally, differences in experience with specialists identify the effect of familiarity.
+For convenience let $x, n$ be the same, then
+\[ v_{ijt} - v_{ikt} 
+= \alpha \frac{a_0 + \check y_{ijt}}{ a_0 + b_0 + e_{ijt} } + f(e_{ijt}) + \xi_j
+- \alpha \frac{a_0 + \check y_{ikt}}{ a_0 + b_0 + e_{ikt} } - f(e_{ikt}) - \xi_k .
+\]
+Hence
+\begin{align*}
+ f(e_{ijt}) - f(e_{ikt}) 
+\ = \  & (v_{ijt} - \xi_j) - (v_{ikt} - \xi_k) \\
+& - \alpha \left[ \frac{a_0}{ a_0 + b_0 + e_{ijt} } - \frac{a_0}{ a_0 + b_0 + e_{ikt} } \right] \\
+& - \alpha \left[ \frac{\check y_{ijt}}{ a_0 + b_0 + e_{ijt} } - \frac{\check y_{ikt}}{ a_0 + b_0 + e_{ikt} } \right] .
+\end{align*}
+This identifies $f$ up to a normalization, specifically $f(0) = 0$.
+
+However this also requires the value of $a_0$, which can be obtained if the prior ratio, $\frac{a_0}{a_0 + b_0}$, is calibrated separately.
+Intuitively, we need to fully identify the priors (both the ratio and the strength) in order to recover the effect of familiarity, because we need to know exactly how experience washes away the priors in order to separate that from the effect of familiarity.
+\end{enumerate}
+QED
+
+%%%
+
+\subsection{Finite Sample Performance}
+\label{sec:performance-issues}
+
+We recover negative values of $\alpha$ in the majority of markets, whenever $\eta$ is set above a relatively small number.  This may occur because of the way that $\alpha$ attaches to both the number of successes and the number of patients in the model, as follows:
+$$\alpha \frac{\rho \eta + y_{ijt}}{\eta + e_{ijt}}.$$
+This can be split into two terms where the coefficient is constrained to be the same (because $\rho$ and $\eta$ are set at fixed values):
+\[
+  \alpha \frac{\rho \eta}{\eta + e_{ijt}}
++ \alpha \frac{y_{ijt}}{\eta + e_{ijt}}.
+\]
+There is relatively little variation in $y$ conditional on $e$, because the success rate is high. 
+Consequently, much of the identifying variation for $\alpha$ comes from the first term (driven by variation in $e$) not the second term (driven by variation in $y$ conditional on $e$). 
+
+If PCPs are more likely to refer patients to specialists to whom they have sent more patients in the past, then $e$ would have a positive relationship with the specified utility function.  Hence the first term, with $e$ in the denominator, would contribute to a negative estimate of $\alpha$.  The model includes a separate familiarity effect, specified as $\beta \log (1+e)$, which should absorb this, but the distribution of the estimates of $\alpha$ across HRRs is similar whether we include that term or not.
+
+IDEA: Compare the distribution of estimates of $\alpha$ with and without the familiarity effect.  Try other specifications of the familiarity effect, if we see some potentially important differences between these distributions.  (The analysis here suggests that the way familiarity is specified could be important for absorbing the problematic effect of the first term above.)
+
+We have found that positive estimates of $\alpha$ are obtained using a low value of $\eta$.  The correlation between the two terms, $\frac{\rho \eta}{\eta + e_{ijt}}$ and $\frac{y_{ijt}}{\eta + e_{ijt}}$, turns out to be smaller when $\eta$ is smaller.  Specifically, we consider the correlation between the terms when there is any past experience with a specialist ($e > 0$), because otherwise there is no variation in the terms.
+When $\eta$ is equal to 1, 5, 10, 20, this correlation is -0.5698, -0.8555, -0.9003 -0.9225, respectively (in one set of simulations).  Thus the second term, which contains the number of past successes, has much more separate variation when $\eta$ is low.
+(The correlation between the two terms is always very large, like -0.98, if we include the observations where $e_{ijt} = 0$.) 
+
+IDEA: Add indicator for no past experience with a specialist.
+
+We have also found that the correlation in the estimates of $\alpha$ and $\beta$ (across HRRs) increases in magnitude (becomes more negative) as $\eta$ increases.  The correlation is around zero when $\eta=1$, around -0.5 when $\eta=5$, and is close to -1 with the larger values of 10 and 20 [DOUBLE CHECK NUMBERS].  
+This makes sense considering the marginal effect of $e$ on utility, which comes from the learning term and the familiarity term as follows:
+\[
+\frac{\partial U}{\partial e} =
+- \alpha \frac{\rho \eta + y}{(\eta + e)^2} + \beta \frac{1}{e}
+\]
+If $y$ supplies little separate variation from $e$ (which is the case except when $\eta=1$, as seen from the correlations above), then the first term depends mainly on $1/(\eta + e)^2$.  This is highly correlated with $1/e$, hence it is difficult to separately identify $-\alpha$ and $\beta$, hence the two estimates are highly negatively correlated.
+
+Taken together, results above seem to be consistent with a conjecture that the variation in the term $\frac{y_{ijt}}{\eta + e_{ijt}}$, as separate from the variation in the term $\frac{\rho \eta}{\eta + e_{ijt}}$, is crucial to obtain a positive estimate of $\alpha$.
+A low value of $\eta$ permits this conditional variation, which enables $\alpha$ to be better identified separately from $\beta$ and results in positive estimates of $\alpha$.
+
+IDEA: Estimate without the term $\frac{\rho \eta}{\eta + e_{ijt}}$.  Instead define the variable $m$ as just $\frac{y_{ijt}}{\eta + e_{ijt}}$.
+(Just to see if the conjecture is right.)
+
+%%% ESTIMATION DETAILS
+
+\section{Estimation}
+\label{app:estimation}
+
+To constrain $\alpha \geq 0$ we estimate $\ln \alpha$ and specify the beliefs term as $\exp(\ln \alpha) \cdot m$.
+We use an iterative procedure proposed in [ADD REFERENCE xxx], which makes it possible to employ standard estimation commands designed for multinomial logits where all terms are linear in parameters.
+The procedure is based on a first-order Taylor series approximation of the term that is nonlinear in parameters.
+With the exponential function this is simply
+$$ \exp(\ln \alpha_2) \cdot m \approx \left[ \exp(\ln \alpha_1) + (\ln \alpha_2 - \ln \alpha_1) \exp(\ln \alpha_1) \right] \cdot m,$$
+(because $d \exp(\ln \alpha) / d \ln \alpha = \exp(\ln \alpha)$), where $\ln \alpha_1$ and $\ln \alpha_2$ are two candidate values.
+
+In our case, the iteration works by setting a value of $\ln \alpha$ (e.g., $\ln \alpha_1$) and then estimating the model with a free coefficient (e.g., $\hat \pi_1$) on the term $\exp(\ln \alpha_1) \cdot m$.  Rearranging the Taylor approximation above shows how the estimated coefficient can be used to update the value of $\ln \alpha$, as follows:
+\[
+     \exp(\ln \alpha_2) \cdot m \approx \underbrace{[1 + (\ln \alpha_2 - \ln \alpha_1)]}_{\hat \pi_1} \exp(\ln \alpha_1) \cdot m ;
+\]
+hence:
+\[
+    \ln \alpha_2 = \ln \alpha_1 + \hat \pi_1 - 1 .
+\]
+Furthermore, because the estimated coefficient $\hat \pi_1$ by definition improves the likelihood, using $\exp(\ln \alpha_2)$ should produce a higher likelihood than $\exp(\ln \alpha_1)$.
+[ADD REFERENCE xxx] prove that this algorithm converges to the maximum likelihood estimate of $\ln \alpha$ under standard regularity conditions.
+For some intuition note that at the maximum, $\ln \alpha_*$, the likelihood cannot be improved, and so the value of $\hat \pi$ should be one; i.e., in terms of the Taylor expansion
+\[
+    \exp(\ln \alpha_*)
+    = \underbrace{[1 + (\ln \alpha_* - \ln \alpha_*)]}_{\hat \pi_*} \exp(\ln \alpha_*)
+    = \underbrace{[1]}_{\hat \pi_*} \exp(\ln \alpha_*)
+\] 
+Also, following [ADD REFERENCE xxx], the standard error for $\hat \alpha$ would be
+\[
+    SE(\hat \alpha) = \exp(\ln \alpha_*) SE(\hat \pi_*)
+\]
+because $\hat \alpha = \exp(\ln \alpha_*) = \exp(\ln \alpha_* + \hat \pi_* - 1)$ and asymptotically we only need to consider the variation in $\hat \pi_*$ (Lemma 2 in [ADD REFERENCE xxx]).
+
+%%%
+
+
+%%% Additional Results
+
+\begin{comment}
+%% Do we really want/need to show these results?
+
+\section{Multinomial Logit Results}
+MOVE TO APPENDIX (descriptive logits): For each specialist in the choice set, we construct a running variable of the number of prior patients referred to that specialist $j$ by PCP $i$, denoted $e_{ijt}$ in Equations~\eqref{eqn:learning_utility}-\eqref{eqn:dynamic}. We similarly construct the total number of referrals to any specialist for PCP $i$, denoted $n_{it}$, and the number of failures among all $e_{ijt}$ patients, $\tilde{y}_{ijt}=\sum_{s=1}^{t} (D_{ijs} - Y_{ijs})$. Finally, we construct two proportions specific to each PCP and specialist: 1) familiarity, measured as the share of PCP $i$'s prior patients referred to specialist $j$, $\frac{e_{ijt}}{n_{it}}$; and the failure rate, measured as the share of all referrals from PCP $i$ to specialist $j$ resulting in a failure, $\frac{\tilde{y}_{ijt}}{e_{ijt}}$. These running variables reflect the pairwise history of each PCP/specialist. 
+\end{comment}
+
+\section{Counterfactuals without Familiarity}
+
+The purpose of this counterfactual is to estimate the potential changes in referrals and subsequently patient health if PCPs could rely entirely on specialist quality, with full information, and without any attachment due to prior relationships. These results are presented in Figure \ref{fig:cf_fullfam}. Here, we estimate much larger effects on referral probabilities, with changes of more as 20\% and 30\% relatively common across HRRs. The health effects of such a scenario nonetheless remain relatively small, again with an increase in the \textit{ex ante} probability of a successful surgery of 0.3\% on average.
+
+%%% BIBLIOGRAPHY
+
+\pagebreak
+\bibliographystyle{authordate1}
+\bibliography{BibTeX_Library}
+
+%%% TABLES AND FIGURES
+
+\clearpage
+\newpage
+\section*{Tables and Figures}
+
+%%% FIGURES
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Event Studies by Failure Cohort\footnote{Figure depicts event study estimates following \cite{cengiz2019}, based on Equation 1 of the main text, estimated separately by failure cohort (e.g., fist failure, second failure, etc.). Our specification includes specialist X quarter fixed effects as well as an indicator for PCP `type'. The event study coefficient at time $\tau = -1$ is normalized to 0.}}
+\begin{tabular}{cc}
+\\
+First Failure & Second Failure \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/rf/EventStudy_Group1_1_1_0.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/rf/EventStudy_Group2_1_1_0.png} \\
+Third Failure & Fourth Failure \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/rf/EventStudy_Group3_1_1_0.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/rf/EventStudy_Group4_1_1_0.png}
+\end{tabular}
+\label{fig:event-cohort}
+\end{minipage}
+\end{figure}
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Counterfactuals from Full Information and No Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and do not incorporate any familiarity in their referral decisions. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, 280 (277) HRRs in the myopic (forward-looking) case for $\eta=1$ and 281 (279) in the myopic (forward-looking) case for $\eta=5$.}}
+\begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic Referrals, Reallocation}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_eta5.png} \\
+\multicolumn{2}{c}{\textit{Myopic Referrals, Health Improvements}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_Effect_FullFam_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_Effect_FullFam_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking Referrals, Reallocation}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking Referrals, Health Improvements}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_Effect_FullFam_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_Effect_FullFam_FWD_eta5.png}
+
+\end{tabular}
+\label{fig:cf_fullfam}
+\end{minipage}
+\end{figure}
+
+
+%%% TABLES
+\newpage
+\begin{table}
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[caption]{\textbf{Sensitivity Analysis}\footnote{Estimates of $\alpha$ (for $\eta=1$) across alternative specifications. ``Baseline'' denotes our original estimates for the myopic learning model presented in the main text; ``Integrated'' denotes the estimates for $\alpha$ when including a dummy variable for whether the PCP and specialist are part of the same practice; and ``Peer Outcomes'' denotes the estimates of $\alpha$ when also including a measure of specialist quality based on the PCP's peers (e.g., another measure of quality based solely on the outcomes of other PCPs' patients in the same practice). All specifications are otherwise identical, where we also impose time-invariant congestion for computational ease.}}
+\centerline{%
+    \begin{tabular}{lrrrrrr}
+        \input{results/tables/MNL_Specs.tex}
+    \end{tabular}
+}
+\label{tab:coefficients}
+\end{minipage}
+\end{table}
+
+
+\end{document}
+
+
+
+\section{Identification -- PRELIMINARY}
+
+I'm starting to think that we might be able to identify the full model, including specialist fixed effects and even an effect of relationships on outcomes (in addition to the taste for familiarity), if we recover some things separately.
+Specifically, we could try to estimate the effect of relationships on outcomes with a separate production function for success.  (Think of a risk-adjustment model, which includes the number of past patients sent to the specialist as a predictor.)
+Also we could calibrate the prior ratio, $\frac{a_0}{a_0 + b_0}$, based on the historical success rate in the market.  That would enable us to get the specialist fixed effects, $\xi_j$, separately from the prior ratio, using the cases where $e=0$ (see note below).
+
+Specifying an effect of relationships on outcomes could be awkward, however.
+The easy thing would be to have the probability of success be $q_j + h(e_{ijt})$ where $h$ is the health benefit from the relationship.
+But without complicated restrictions on $h$, the probability of success could be less than zero or greater than one.
+As a first step...we may have discussed this before...we could \textbf{test for an effect of relationships on outcomes} (i.e., estimate the risk adjustment model and see if the effect of the number of past patients is statistically significant).  If it's not significant, that might make life easier.
+
+\bigskip
+
+NOTE -- Why we would need to calibrate the success ratio in the prior beliefs when we have specialist fixed effects:
+
+Put this in a multinomial logit, so that
+\[
+p_{ijt} = \frac{\exp(v_{ijt})}{\sum_k \exp(v_{ikt})} ,
+\]
+where $v$ is the linear index for utility without the logit error term (i.e., \eqref{eqn:learning_utility} without $\epsilon_{ijt}$).
+The differences $v_{ijt} - v_{ikt}$, etc., are identified by the observed choice probabilities.
+
+Consider the case where $e_{ijt} = 0$ and $e_{ikt} = 0$.
+Using the reduced-form coefficients from further below (but adding specialist fixed effects) we have
+\[
+v_{ijt} - v_{ikt} = \pi_0(0) + \xi_j - \pi_0(0) - \xi_k .
+\]
+Thus $\pi_0(0)$ drops out.
+So we must get $\frac{ a_0 }{ a_0 + b_0}$ (which equals $\pi_0(0) / \alpha$) elsewhere.
+
+We could alternatively specify different priors for different specialists, i.e., $\frac{ a_{0j} }{ a_{0j} + b_{0j}}$, but this enters $v$ exactly the same as $\xi_j$, so it is hard to think they would be separately identified.
+(Possibly the sum $a_{0j} + b_{0j}$ in the denominator could be separately identified, if we can estimate different stickiness of beliefs for different specialists, but the ratio would still be absorbed by the specialist fixed effect.)
+
+\subsubsection{Formal argument for myopic model [BINARY VERSION]}
+
+We start by proving the identification of a simplified version of the myopic model.
+Let the probability that PCP $i$ refers patient $t$ to specialist $j$ be as follows:
+\begin{equation}
+p_{ijt} \equiv \Phi \left(\alpha m_{ijt} + f(e_{ijt})\right),
+\label{eqn:id}
+\end{equation}
+where $\Phi$ is a known CDF of $\epsilon$, and there is no specialist fixed effect.
+Also we assume the following properties of $f$:
+\begin{itemize}
+    \item $f(0) = 0$, a trivial normalization
+    \item $f(\infty)$ is bounded, so that familiarity can never completely determine referral decisions
+\end{itemize}
+
+The identification argument uses variation in the number of successes conditional on the number of patients referred to a particular specialist.
+For this argument it is useful to define reduced-form coefficients that depend on the number of past patients,
+\begin{align*}
+    \pi_0(e_{ijt}) &\equiv f(e_{ijt}) + \frac{ \alpha a_0  }{ a_0 + b_0 + e_{ijt} } , \text{ and} \\
+    \pi_1(e_{ijt}) &\equiv \frac{ \alpha }{ a_0 + b_0 + e_{ijt} },
+\end{align*}
+so that \eqref{eqn:id} can be written as
+\[
+p_{ijt} = \Phi \left( \pi_0(e_{ijt})  + \pi_1(e_{ijt}) \sum_{s=1}^{t-1} Y_{ijs} \right) .
+\]
+Also, for parsimony, denote the total number of successes among past patients as $\check y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs}$, and denote the proportion of successes among past patients as $\bar y_{ijt} \equiv \check y_{ijt} / e_{ijt}$.
+The reduced-form coefficients are identified at all finite values of $e$ because there is separate variation in the number of past successes ($\check y$) conditional on the number of past patients ($e$).
+
+First, however, we use the limit when $e \rightarrow \infty$ to identify $\alpha$ and the maximum of $f$.
+Expanding the above expression for the referral probability, we have
+\[
+p_{ijt} 
+= \Phi \left( f(e_{ijt}) + \frac{ \alpha a_0  }{ a_0 + b_0 + e_{ijt} } 
++ \frac{ \alpha \check y_{ijt}}{ a_0 + b_0 + e_{ijt} } \right) .
+\]
+Replacing the number of past successes with the proportion of past successes (i.e., dividing by $e_{ijt})$, the last term inside $\Phi$ becomes $\frac{ \alpha \bar y_{ijt}}{ (a_0 + b_0) / e_{ijt} + 1}$.
+Hence, taking the limit, we have
+\begin{align*}
+    \lim_{e_{ijt} \rightarrow \infty} p_{ijt}
+    = \lim_{e_{ijt} \rightarrow \infty} &\Phi \left( f(e_{ijt}) + \frac{ \alpha a_0  }{ a_0 + b_0 + e_{ijt} } + \frac{ \alpha \bar y_{ijt}}{ (a_0 + b_0) / e_{ijt} + 1} \right)\\
+    = \ &\Phi \left( f(\infty) + 0 + \frac{ \alpha \bar y_{ijt} }{ 0 + 1 } \right) .
+\end{align*}
+Thus, $\alpha = \lim_{e \rightarrow \infty} \pi_1(e) e$ (because $\pi_1(e) \check y = \pi_1(e) e \bar y$) and $f(\infty) = \lim_{e \rightarrow \infty} \pi_0(e)$ are identified in the limit.
+
+Next we consider the case when $e=0$.
+Here, because necessarily $\check y = 0$ (with no past patients there can be no past successes), we have
+\[
+p_{ijt} = \Phi \left( \pi_0(0)  + \pi_1(0) 0 \right)
+= \Phi \left( f(0) + \frac{ \alpha a_0  }{ a_0 + b_0 + 0} \right) .
+\]
+Therefore, with $\alpha$ already identified, and with the normalization on $f(0)$, the ratio $\frac{ a_0 }{ a_0 + b_0}$, or equivalently $a_0 / b_0$, is identified
+(for the latter, note that $\frac{ a_0 }{ a_0 + b_0} = \frac{1}{1 + a_0/b_0}$, which is monotonic in $a_0/b_0$).
+ALT: ...is identified as $\frac{ a_0 }{ a_0 + b_0} = \pi_0(0) / \alpha$.
+Intuitively, the probability of a referral to a new specialist (i.e., new to the PCP) identifies the prior beliefs about the success rate.
+
+Finally, we use the positive values of $e$ to complete the identification argument.
+(Recall that both $\pi_0$ and $\pi_1$ are identified at all nonzero finite values of $e$ because there is separate variation in the number of past successes conditional on $e$.) % ($\check y$) conditional on the number of past patients ($e$).
+We get $(a_0 + b_0)$ from $\pi_1$, as follows:
+\[
+\pi_1(e_{ijt}) = \frac{ \alpha }{ a_0 + b_0 + e_{ijt} }
+\ \implies \ 
+(a_0 + b_0) = \frac{\alpha}{\pi_1(e_{ijt})} - e_{ijt} .
+\]
+Together with the ratio identified above, this gives $a_0$ and $b_0$ separately.
+(For example, $a_0 = (a_0 + b_0) \times \frac{a_0}{a_0 + b_0}$.)
+Then we get $f$ from $\pi_0$, as follows:
+\[
+\pi_0(e_{ijt}) = f(e_{ijt}) + \frac{ \alpha a_0  }{ a_0 + b_0 + e_{ijt} }
+\ \implies \ 
+f(e_{ijt}) = \pi_0(e_{ijt}) - \frac{ \alpha a_0  }{ a_0 + b_0 + e_{ijt} } 
+\]
+(everything on the right side is observable or already identified).
+Therefore $f$ can be recovered at all observed positive values of $e$.
+This completes the identification argument.
+
+\subsubsection{Forward looking model}
+
+Identification of the forward looking model may follow from essentially the same argument.
+Note that the Gittins index in \eqref{eqn:gittins} below equals $m_{ijt}$ plus a known function of $m$, $v$, and $e$ (b/c the discount rate is assumed to be known).
+
+However the algebra may not work out cleanly, to separate $\check y$ from $e$, so there may not be simple expressions using reduced form parameters.  Might have more complicated expressions involving powers of $\check y$.
+
+\bigskip \bigskip
+
+OLD NOTES:
+
+There are many patients in each geographic market, so we consider identification and estimate the model separately by market.
+The number of specialists in each market is fixed and finite, so the specialist fixed effects can be consistently estimated.
+The variation that identifies the effects of the observables therefore comes across patients and PCPs within each specialist.
+Furthermore there is separate variation in m and e, because for example it is possible for two different PCPs to send the same number of patients to some specialist but have different numbers of successes and failures.
+
+\bigskip
+
+FIRST VERSION OF IDENTIFICATION ARGUMENT:
+
+\noindent Let:
+
+$i$ denote PCP, $j$ denote specialist, $t$ denote patient (and time)
+
+$e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ denote the number of past patients sent to specialist $j$
+
+$\check y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs}$ denote the number of successes among those past patients 
+
+$\bar y_{ijt} \equiv y_{ijt} / e_{ijt}$ denote the proportion of successes among those past patients
+
+\noindent We first show the identification of $\alpha$ (the altruism parameter) in the limit where $e \rightarrow \infty$. %and then show the identification of the other parameters with finite values of $e$.
+Here PCP utility is a function of only the expected probability of success and a (EV1) logit shock: $U_{ijt} = \alpha m_{ijt} + \epsilon_{ijt}$.
+
+\bigskip
+
+(1) Using the definitions in Sections \ref{sec:specification} and \ref{sec:learning}, $m_{ijt}$ (the mean of the current beliefs about the probability of success) can be rearranged as 
+\[
+m_{ijt} = \frac{ a_0 + \check y_{ijt} }{ a_0 + b_0 + e_{ijt} } 
+\]
+%Let $\check y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs}$ denote the total number of successes among past patients and $\bar y_{ijt} \equiv y_{ijt} / e_{ijt}$ denote the proportion of successes among past patients.
+Then we have
+\[
+m_{ijt} = 
+  \frac{ a_0  }{ a_0 + b_0 + e_{ijt} } 
++ \frac{ \check y_{ijt} }{ a_0 + b_0 + e_{ijt} } 
+= \frac{ a_0  }{ a_0 + b_0 + e_{ijt} } 
++ \frac{ \bar y_{ijt} }{ (a_0 + b_0) / e_{ijt} + 1 } .
+\]
+Hence in the limit,
+\[
+\lim_{e_{ijt} \rightarrow \infty} m_{ijt} 
+= \alpha \left[ 0 + \frac{ \bar y_{ijt} }{ 0 + 1 } \right] 
+= \alpha \bar y_{ijt}.
+\]
+\iffalse
+\[
+\lim_{e_{ijt} \rightarrow \infty} p_{ijt} 
+= \Phi \left( \alpha \left[ 0 + \frac{ \bar y_{ijt} }{ 0 + 1 } \right] + f(\infty) \right) .
+\]
+\fi
+Thus $\alpha$ is identified by the marginal effect of the proportion of successes among past patients, on the probability of a referral to a specialist where a PCP has sent many past patients. 
+
+To be somewhat more precise, the choice probabilities identify differences in utility between alternatives, excluding the shocks (there is no outside option in our model, all patients must be sent to a specialist).
+So we need cases where $e_{ijt} \to \infty$ for at least two specialists. 
+The differences in utility between alternatives are $\alpha (m_{ijt} - m_{ikt})$, so if we have $e_{ijt}, e_{ikt} \to \infty$, this is $\alpha (\bar y_{ijt} - \bar y_{ikt})$, where the $\bar y$ are observable (and finite).
+
+\bigskip
+
+(2) Now it will be useful to define reduced-form coefficients that depend on the number of past patients.
+Let $\pi_0(e_{ijt}) \equiv f(e_{ijt}) + \frac{ \alpha a_0  }{ a_0 + b_0 + e_{ijt} }$
+and $\pi_1(e_{ijt}) \equiv \frac{ \alpha }{ a_0 + b_0 + e_{ijt} }$,
+so that \eqref{eqn:id} can be written as
+\[
+p_{ijt} = \Phi \left( \pi_0(e_{ijt})  + \pi_1(e_{ijt}) \check y_{ijt} \right) .
+\]
+First, when $e_{ijt}=0$ (and necessarily $\check y_{ijt} = 0$), we have
+\[
+p_{ijt} = \Phi \left( \pi_0(0)  + \pi_1(0) 0 \right)
+= \Phi \left( f(0) + \frac{ \alpha a_0  }{ a_0 + b_0 + 0} \right) .
+\]
+Therefore, with $\alpha$ already identified, the ratio $\frac{ a_0 }{ a_0 + b_0}$ or equivalently $a_0 / b_0$ is identified by the probability of a referral to a new specialist (i.e., new to the PCP).
+(Note that $\frac{ a_0 }{ a_0 + b_0} = \frac{1}{1 + a_0/b_0}$, which is monotonic in latter ratio.)
+ALT: $\frac{ a_0 }{ a_0 + b_0} = \pi_0(0) / \alpha$.
+
+\bigskip
+
+(3) Finally, the reduced-form coefficients are identified at all nonzero finite values of $e$ because there is separate variation in the number of past successes ($\check y$) conditional on the number of past patients ($e$).
+We get $(a_0 + b_0)$ from $\pi_1$, as follows:
+\[
+\pi_1(e_{ijt}) = \frac{ \alpha }{ a_0 + b_0 + e_{ijt} }
+\ \implies \ 
+(a_0 + b_0) = \frac{\alpha}{\pi_1(e_{ijt})} - e_{ijt} .
+\]
+Together with the ratio identified above, this gives $a_0$ and $b_0$ separately.
+Then we get $f$ from $pi_0$, as follows:
+\[
+\pi_0(e_{ijt}) = f(e_{ijt}) + \frac{ \alpha a_0  }{ a_0 + b_0 + e_{ijt} }
+\ \implies \ 
+f(e_{ijt}) = \pi_0(e_{ijt}) - \frac{ \alpha a_0  }{ a_0 + b_0 + e_{ijt} } 
+\]
+(everything on the right side is observable or already identified).
+Therefore $f$ can be recovered at all observed values of $e$.
+
+\section{Descriptive Multinomial Logit}
+\label{sec:myopic-logit}
+
+The reduced-form of the myopic model is a discrete choice model with specialist fixed effects. The main difference with the structural model is that the reduced-form does not include the parameters for the initial prior beliefs, $(a_0, b_0)$. Instead, the coefficient on the outcome variable, $m_{ijt}$, reflects both the concern for patient health (the parameter $\alpha$) and the prior beliefs. In this section, we estimate the reduced form separately in each of 276 HRRs and present the distribution of marginal effects of past outcomes on future referrals across these markets, along with the effects of other key factors.
+
+\subsection{Empirical Specification}
+
+In the myopic case, the PCP's realized utility from referring patient $t$ to specialist $j$ can be reduced to
+\begin{equation}
+U_{ijt} \equiv f(m_{ijt}, e_{ijt}, d_{jt}) + \xi_j + \epsilon_{ijt},
+\label{eqn:pcp_utility}
+\end{equation}
+where $m_{ijt}$ denotes the failure rate among past patients sent from PCP $i$ to specialist $j$; $e_{ijt}$ denotes the proportion of past patients sent from PCP $i$ to specialist $j$; $d_{jt}$ denotes the distance between patient $t$ and specialist $j$, relative to the minimum distance to any specialist in the choice set; and $\xi_{j}$ denotes specialist fixed effects, which capture time-invariant demand factors. $m_{ijt}$ and $e_{ijt}$ are also interacted to allow for a nonlinear relationship between familiarity and failures. Finally, $\epsilon_{ijt}$ is an idiosyncratic shock that captures other choice-specific factors, which has an assumed parametric distribution (e.g., type I extreme value). 
+
+With the type I extreme value assumption on $\epsilon_{ijt}$, the probability of PCP $i$ referring patient $t$ to specialist $j$ follows the standard multinomial logit form:
+\begin{equation} \label{eqn:reduced}
+    \Pr \left( D_{ijt}=1 \right | \dots ) = 
+    \frac{\exp \left( \pi' (m_{ijt}, e_{ijt}, d_{jt}) + \xi_j \right)}{\sum_{k \in J_{i}} \exp \left( \pi' (m_{ikt}, e_{ikt}, d_{kt}) + \xi_k \right)},
+\end{equation}
+where $J_{i}$ denotes the choice set of specialists available to PCP $i$, the construction of which follows that of the main text. While not directly of interest in the reduced-form, estimation of the specialist fixed effects, $\xi_j$, is possible because there is a large number of patients in each HRR but a fixed and relatively small number of specialists. We estimate the vector of coefficients $\pi$ and the fixed effects $\xi$ via maximum likelihood. We do so separately by HRR, and we aggregate our estimates by taking the average across HRRs weighted by patient counts.
+
+The use of specialist fixed effects provides fairly robust identification of learning effects. With the fixed effects, the identifying variation for the estimated response to patient outcomes comes from differences \emph{across PCPs} in the failure rates among the patients they have sent the same specialist. Unobserved factors that drive a specialist's overall volume, which would contaminate the estimated response if they are correlated with patient outcomes, are absorbed by the fixed effects.  In addition, our long panel of data enables us to use the timing of events by considering the effect of past outcomes on future referrals, which further supports the interpretation the estimated response as a learning effect.
+
+\subsection{Results}
+
+Table \ref{tab:coefficients} presents the distributions of logit coefficients across the 296 HRRs used for estimation. The table reports 10th, 25th, 50th, 75th, and 90th percentiles, as well as patient-weighted national averages. The main effect of the proportion of past patients sent to a specialist is positive throughout the distribution, as expected, but so is the main effect of the proportion of past failures. The interaction of the two variables, which has a negative coefficient throughout the distribution, is therefore important for the failure rate to have the expected negative marginal effect on referrals.
+
+The marginal effects of failures and familiarity are also presented in the bottom panel of Table \ref{tab:coefficients}, where we find a negative albeit imprecisely estimated marginal effect on failures and a positive effect on prior patients. To interpret these estimates, note first that there is an average of 4.4 referrals per PCP-specialist pair over 5 years. One additional bad outcome (e.g., a readmission) among the patients sent by a PCP to a particular specialist would therefore increase the failure rate for that pair by about 0.23. The marginal effect of the -0.075 implies that one additional failure will tend to reduce the referral probability by $0.23 \times 0.075 = 0.017$. Relative to the average probability of a referral to the highest-share specialist, which is about 0.4, this is just over a 4\% relative reduction. While this effect is somewhat small, it is not trivial, and is in line with other estimates in the literature on the response to provider quality.
+
+The effect of failures on referrals is stronger (more negative) with specialists to whom the PCP has sent more patients, while it could be positive with specialists to whom few patients have been sent. One possible interpretation is that the same failure rate acts as a stronger signal of specialist quality when a PCP has sent more patients to a specialist. Such an interpretation is consistent with our learning model, wherein the the variance of the beliefs on physician quality is lower as the share of prior referrals increases.
+
+Figure \ref{fig:mfx} plots the distributions of the marginal effects of the failure rate across HRRs. Specifically, these are the average marginal effects on a PCP's highest-share specialist (i.e., the one most frequently chosen), which incorporate the main effect from failures and the interaction term between failures and past patients, computed separately for each HRR. Across all 296 HRRs, 59 (or 20\%) yield a statistically significant negative marginal effect of failures.
+
+
+\subsection{Market-Level Factors and Learning}
+
+Figure \ref{fig:mfx} shows substantial heterogeneity across HRRs in the responsiveness of PCP referrals to the outcomes achieved for their patients by individual specialists. To explore these potentially important differences across markets, we estimate a series of regressions that measure the association between the marginal effects of the failure rate and various market-level factors. These factors include: 1) the size of the market (i.e., the number of patients in our sample); 2) the number of specialists; 3) the number of PCPs; 4) the ratios of the number of specialists to the numbers of patients or PCPs; 5) the market concentration, measured as the Herfindahl-Hirschman Index (HHI) among the specialists, computed with our sample of patients; and 6) the extent of vertical integration, measured as the share of patients in our sample treated by a specialist with the same tax ID as the PCP. Many of these factors are highly correlated with each other, so we estimate only univariate regressions or bivariate regressions that include the number of patients (to control for market size) along with one other factor. All regressions are weighted by the inverse of the standard errors of the marginal effects. 
+
+Table \ref{tab:market} presents the results. The numbers of specialists and PCPs are negatively associated with the marginal effect of the failure rate on referrals, so markets with more physicians appear to have greater responsiveness to patient outcomes.
+The ratios of specialists to patients or PCPs do not yield precise or consistent estimates, however, so we cannot tell whether this association arises from a greater relative availability of specialists, or from other implications of the overall supply of physician services.
+
+The market concentration among the specialists in each HRR appears to have an important association with the responsiveness to outcomes. Controlling for the market size, the point estimate of 0.08 in row 12 implies that an increase in the HHI from 0.1 (relatively unconcentrated) to 0.3 (relatively concentrated) would reduce the magnitude of the marginal effect of the failure rate on referrals by 0.016, about one-quarter of the national average marginal effect. Figure \ref{fig:hhi} provides a flexible plot of this association, using a local linear regression.  Most of the decrease in the responsiveness to outcomes occurs below an HHI of 0.25, while in the relatively concentrated markets above this HHI the marginal effect is roughly constant around -0.35. In comparison, the average marginal effect of the failure rate in markets with an HHI below 0.25 is -0.071. This HHI is the standard threshold for ``highly concentrated''markets,\footnote{\url{https://www.justice.gov/atr/herfindahl-hirschman-index}} so we find that in geographic areas where the market for orthopedic surgery is highly concentrated, PCP referrals are only half as responsive to patient outcomes as they are in other markets.
+
+\subsection{Discussion of Reduced-form Results}
+
+Overall, we find that a minority of markets (20\%) have a statistically significant response to specialist outcomes, but these markets are somewhat larger than average and consequently have greater statistical power. Pooling the markets together, the national average response is strongly statistically significant. We then compare the estimated marginal effects with market-level factors such as the numbers of PCPs and specialists, as well as the extent of concentration and integration within the market.  We find that the responsiveness to outcomes is positively related to the number of doctors in the market---both PCPs and specialists---and negatively related to market concentration among specialists.
+
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{\textbf{Marginal Effects of Failure Rate}\footnote{Figure presents the histogram of marginal effects on the failure rate, estimated separately for each HRR.}}
+\centerline{%
+    \includegraphics[scale=0.5]{results/_archive/figures/MFX_HRR_1_1_0.png}
+}
+\label{fig:mfx}
+\end{minipage}
+\end{figure}
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{\textbf{Marginal Effects of Failure Rate}\footnote{Figure presents the histogram of marginal effects on the failure rate, estimated separately for each HRR.}}
+\centerline{%
+    \includegraphics[scale=0.4]{results/_archive/figures/lpoly_hhi.png}
+}
+\label{fig:hhi}
+\end{minipage}
+\end{figure}
+
+\clearpage
+\newpage
+\begin{landscape}
+\begin{table}
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[caption]{\textbf{Response to Failures and Market Characteristics}\footnote{Coefficient estimates from regression of marginal effect of failures on HRR characteristics. Results based on 296 separate HRRs, with robust standard errors in parenthesis. Each row reflects a separate estimation.}}
+\centerline{%
+    \begin{tabular}{lrrrrrrrr}
+        \input{results/tables/MFX-market-level.tex}
+    \end{tabular}
+}
+\label{tab:market}
+\end{minipage}
+\end{table}
+\end{landscape}

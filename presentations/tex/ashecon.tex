@@ -1,0 +1,471 @@
+%%% SETUP
+
+\documentclass[handout]{beamer}
+
+\setbeameroption{hide notes}
+%\setbeameroption{show notes}
+%\setbeamertemplate{note page}[plain]
+%\setbeameroption{show notes on second screen}
+
+% Theme:
+
+\usetheme{Malmoe}
+\usecolortheme[RGB={101, 56, 25}]{structure}
+
+\setbeamertemplate{itemize items}[default]
+\setbeamertemplate{itemize subitem}[circle]
+
+\setbeamertemplate{navigation symbols}{}
+
+% Packages:
+\usepackage{amssymb,amsmath,amsfonts,amsthm}
+\usepackage{graphicx, tikz}
+\usepackage{todonotes}
+\usepackage{xkeyval}
+\presetkeys{todonotes}{inline}{}
+
+% Commands:
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\V}{\mathrm{V}}
+\newcommand{\C}{\mathrm{Cov}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+
+\newcommand{\benu}{\begin{enumerate}}
+\newcommand{\eenu}{\end{enumerate}}
+
+\definecolor{themebrown}{RGB}{101, 56, 25}
+
+% Title:
+
+\title[How Efficient is the Market for Physician Referrals? \hspace{0.5cm} \insertframenumber]{How Efficient is the Market for \\ Physician Referrals?}
+\author[McCarthy \and Richards-Shubik]%
+{Ian McCarthy\inst{1} \and Seth Richards-Shubik\inst{2}}
+\institute[]{
+  \inst{1} Emory University and NBER
+  \and
+  \inst{2} Lehigh University and NBER
+}
+\date[]{ASHEcon \\ \small{June 2022}}
+
+\begin{document}
+
+\frame{\titlepage}
+
+%%% INTRO
+
+\begin{frame}{Referrals, learning, and efficiency --}
+\begin{itemize}
+
+\item Physician practice styles / supply-side factors are a large source of inefficient variations in health care
+
+% variations *within* areas
+
+\item PCPs have substantial influence over choice of specialists
+\medskip
+\item How well do PCPs learn about specialist quality and direct patients toward better specialists?
+
+\item What is the scope to improve outcomes and reduce costs via better referrals?
+
+\bigskip \pause
+
+\item Related literature:
+\bit
+    \item practice variations (esp.~\emph{within} geographic areas)
+    \item patient-sharing networks, referral networks
+%    \item referral networks -- care fragmentation, career implications
+%   Johnson, Sarsons papers
+    \item physician learning -- structural models
+    \item consumer response to quality
+    \item physician agency -- informational frictions, subj.~preferences
+\eit
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}{Potential improvements from better referrals}
+{Interquartile ranges within HRRs of negative outcomes and episode spending for \\ major joint replacements}
+
+\footnotesize
+
+\begin{tabular}{cc}
+    \includegraphics[scale=0.3]{results/figures/desc/Failure_IQR.png} &
+    \includegraphics[scale=0.3]{results/figures/desc/Payment_IQR.png} \\
+    Mean = 0.07 & Mean = \$7,000 
+\end{tabular}
+
+\bigskip
+
+\small
+
+If patients could be reallocated patients from worse to better specialists (75th to 25th percentiles of negative outcomes or episode spending), substantial improvements are possible for those patients.
+
+\end{frame}
+
+%%%
+
+\begin{frame}{Data and sample construction}
+\begin{itemize}
+\item 100\% Medicare claims from 2008 to 2018
+\item 5.4 million planned and elective major joint replacements
+\item Identify referring physician in 95\% of cases:
+\bit
+    \item 60\% from referring physician listed on inpatient claim
+    \item 26\% from E\&M visits over prior 12 months
+    \item 9\% from both
+\eit
+\item \textcolor{red}{1.4 million cases where referring physician is PCP} \\
+(MD-PPAS specialty codes and descriptions)
+\item 725,000 cases where referring PCP has at least 20 total patients in sample and makes referrals in at least 3 consecutive years
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}{Network Size and Referral Concentration}
+{Computed per PCP, using six years of data from 2013 to 2018}
+
+\footnotesize
+
+\begin{tabular}{cc}
+    \includegraphics[scale=0.3]{results/figures/desc/NetworkSize.png} &
+    \includegraphics[scale=0.3]{results/figures/desc/HighestShare.png} \\
+    Mean = 7.7 & Mean = 0.38 
+\end{tabular}
+
+\bigskip
+
+\small
+
+\bit
+    \item Average number of specialists per HRR: 32
+    \item Most PCPs refer their patients to less than 1/4 of specialists in their market
+\eit
+
+\end{frame}
+
+%%%
+
+\begin{frame}{Structural learning model}
+\begin{itemize}
+
+% How we are thinking about this...
+
+\item Bayesian learning, multi-armed bandit framework
+\smallskip
+
+\item Uncertainty about quality of each specialist: \\ $p_j$ -- true probability of success or failure with each patient
+\medskip \pause 
+
+\item PCP $i$ utility from sending patient $t$ to specialist $j$ (at date $t$): \\
+\smallskip
+
+$U_{ijt} \equiv \alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + \xi_j + \epsilon_{ijt}$
+\smallskip
+
+\bit
+    \item $m_{ijt}$ -- mean of beliefs about $p_j$ \\
+    (based on history of patient outcomes before $t$)
+    \item $e_{ijt}$ -- experience with specialist $j$ \\
+    (number or proportion of past patients sent to $j$)
+    \item $x_{ijt}$ -- patient-specific factors (e.g., distance)
+\eit 
+\smallskip
+
+\item Model quantifies learning and frictions:
+\bit
+    \item Speed of learning vs.~stickiness of beliefs
+    \item PCP's subjective value of professional relationships 
+    \item Experimentation with unfamiliar specialists
+\eit
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\begin{frame}[t]{Empirical specification}
+\vskip-12pt
+
+\[
+    \Pr \left( j  \, | \, \dots \right) = 
+    \frac{\exp \left( \pi_1 m_{ijt} + \pi_2 m_{ijt} e_{ijt} + \pi_3 e_{ijt} + \pi_4 x_{ijt} + \xi_j \right)}{\sum_{k \in J_{it}} \exp \left( \pi_1 m_{ikt} + \pi_2 m_{ikt} e_{ikt} + \pi_3 e_{ikt} + \pi_4 x_{ikt} + \xi_k \right)}
+\]
+
+\begin{itemize}
+
+\item Multinomial logit with specialist fixed effects
+\medskip
+
+\item Variable definitions:
+\bit
+    \item $m_{ijt}$ -- failure rate among patients sent to $j$ over past five years
+    \item $e_{ijt}$ -- proportion of patients sent to $j$ over past five years
+    \item $x_{ijt}$ -- dist.~from patient to hospital where $j$ primarily operates
+\eit
+\smallskip
+
+\item Choice set ($J_{it}$): all specialists in HRR who operate in same year and are w/in 150 miles of patient 
+\medskip
+
+\item Identification comes from differences \emph{across} PCPs in outcomes of patients sent to \emph{same} specialists
+\medskip
+
+\item Estimated separately in each HRR
+
+\end{itemize} 
+\end{frame}
+
+%%%
+
+\begin{frame}{Observed referrals and outcomes}
+\footnotesize
+
+\begin{tabular}{llrrr}
+\hline
+&    & (Baseline)     & (Estimation) \\
+&    & 2008-2012     & 2013-2018 & Overall\\
+\hline
+\multicolumn{4}{l}{\emph{Per PCP per year:}}    \\
+& Total Referrals     &       3.471&       3.645&       3.565\\
+&                     &     (2.497)&     (2.727)&     (2.625)\\
+& Unique Specialists  &       2.396&       2.554&       2.482\\
+&                     &     (1.318)&     (1.432)&     (1.383)\\
+\multicolumn{4}{l}{\emph{Per patient (episode):}}    \\
+& 90-day Readmission  &       0.101&       0.083&       0.091\\
+&                     &     (0.302)&     (0.276)&     (0.288)\\
+& 90-day Mortality    &       0.007&       0.005&       0.006\\
+&                     &     (0.082)&     (0.069)&     (0.075)\\
+& 90-day Complication &       0.014&       0.006&       0.009\\
+&                     &     (0.116)&     (0.076)&     (0.096)\\
+& Any Failure         &       0.105&       0.086&       0.095\\
+&                     &     (0.307)&     (0.280)&     (0.293)\\
+\hline
+\end{tabular}
+
+\end{frame}
+
+%%%
+
+\begin{frame}{Distribution of logit coefficient estimates}
+{(276 HRRs; weighted by number of patients in HRR)}
+\centering
+\footnotesize
+
+With Specialist Fixed Effects
+ 
+\begin{tabular}{lccccccc}
+\hline
+  & Nat'l & & \multicolumn{5}{c}{Percentile} \\
+Variable & Avg. & & 10 & 25 & 50 & 75 & 90 \\
+\hline
+Past failures (prop.) &  1.071 & &  0.444 &  0.850 &  1.175  &  1.484  &  1.806 \\
+          Interaction & -3.688 & & -7.484 & -5.419 & -4.072  & -2.401  & -1.242 \\
+Past patients (prop.) &  4.797 & &  3.298 &  4.039 &  4.740  &  5.537  &  6.534 \\
+\\
+     Distance (miles) & -0.100 & & -0.150 & -0.116 & -0.097  & -0.073  & -0.056 \\
+\hline
+\end{tabular}
+
+\bigskip
+\medskip
+
+Without Specialist Fixed Effects
+
+\begin{tabular}{lccccccc}
+\hline
+  & Nat'l & & \multicolumn{5}{c}{Percentile} \\
+Variable & Avg. & & 10 & 25 & 50 & 75 & 90 \\
+\hline
+Past failures (prop.) &  1.529  & &   0.967 &  1.320 &    1.612 &    1.996 &    2.342 \\
+          Interaction & -5.929  & &  -9.648 & -7.894 &   -6.405 &   -4.602 &   -2.976 \\
+Past patients (prop.) &  6.421  & &   4.920 &  5.667 &    6.447 &    7.218 &    7.966 \\
+\\
+     Distance (miles) & -0.061  & &  -0.100 & -0.073 &   -0.058 &   -0.041  &  -0.028 \\
+\hline
+\end{tabular}
+
+\end{frame}
+
+%%%
+
+\begin{frame}{Distribution of marginal effects of past failure rate}
+{(276 HRRs; weighted by number of patients in HRR)}
+\footnotesize
+
+\begin{tabular}{cc}
+With Specialist Fixed Effects &
+W/out Specialist Fixed Effects \\
+\includegraphics[scale=0.23]{results/_archive/figures/mfx_failures_hist.png} &
+\includegraphics[scale=0.23]{results/_archive/figures/mfx_failures_noFE.png} \\
+Z-score $< -1.96$: 33/276 (12\%) &
+Z-score $< -1.96$: 73/285 (26\%)
+\end{tabular}
+
+\end{frame}
+
+%%%
+
+\begin{frame}{National average marginal effects}
+{(276 HRRs; weighted by number of patients in HRR)}
+
+\begin{center}
+\begin{tabular}{lcc}
+     \hline
+     & \multicolumn{2}{c}{Model:} \\
+     Proportion of: &  With FEs  &  W/out FEs  \\
+     \hline
+     Past failures  &  -0.0644  &  -0.1202   \\
+            &    (0.0057)  &  (0.0061)  \\
+     \\
+     Past patients  &  0.7028  &  0.8523  \\
+            &   (0.0034)  &  (0.0031)  \\
+     \hline
+\end{tabular}
+\end{center}
+
+\bigskip 
+
+Interpretation:
+\begin{itemize}
+\item 2.44 referrals per pair (over six years)
+\item 1 failure / 2.44 = 0.41 increase in failure rate
+\item 0.38 share of referrals sent to most chosen specialist
+\item 0.41 x 0.0644 / 0.38 = 6.9\% relative reduction
+\end{itemize}
+
+\end{frame}
+
+%%%
+
+\begin{frame}{Market-level factors and the responsiveness to outcomes}
+{Dependent variable: marginal effect of past failure rate, from logit with specialist FEs}
+\centering
+\scriptsize 
+
+\begin{center}
+\begin{tabular}{lccccc}
+     \hline
+     Explanatory  & (1) & (2) & (3) & (4) & (5) \\
+     Variables  \\
+     \hline
+     Patients  & -0.0037 & 0.0007 & 0.0015 & -0.0026 & -0.0041 \\
+     (1000s) & (0.0020) & (0.0029) & (0.0036) & (0.0021) & (0.0020) \\
+     \\
+     Specialists   & ~ & -0.0158 & ~ & ~ & ~ \\
+     (100s) & ~ & (0.0075) & ~ & ~ & ~ \\
+     \\
+     PCPs   & ~ & ~ & -0.0118 & ~ & ~ \\
+     (100s) & ~ & ~ & (0.0068) & ~ & ~ \\
+     \\
+     Specialist HHI   & ~ & ~ & ~ & 0.0805 & ~ \\
+     (0.0--1.0) & ~ & ~ & ~ & (0.0438) & ~ \\
+     \\
+     Integration   & ~ & ~ & ~ & ~ & -0.0521 \\
+     (0.0--1.0) & ~ & ~ & ~ & ~ & (0.0544) \\
+     \\
+     Observations & 276 & 276 & 276 & 276 & 276 \\
+     \hline
+     \multicolumn{6}{l}{Each column is a separate regression; weighted by inverse of standard error} \\
+     \multicolumn{6}{l}{of dependent variable.}
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+%%%
+
+\begin{frame}{Responsiveness to outcomes by specialist HHI}
+\centering
+\small 
+
+\begin{tabular}{cc}
+Mean MFX by HHI &
+Local Linear Regression \\
+\\
+\begin{tabular}{ccc}
+\hline
+HHI  &  MFX  &  \# HRRs  \\
+\hline
+0.00-0.15  &  -0.080  & 122  \\
+0.15-0.25  &  -0.059  &  64  \\
+0.25-1.00  &  -0.035  &  90  \\
+\hline
+\vspace{60pt}
+\end{tabular}
+&
+\parbox{0.5\linewidth}{\includegraphics[scale=0.25]{results/_archive/figures/lpoly_HHI.png}}
+\end{tabular}
+
+\end{frame}
+
+%%%
+
+\begin{frame}{Conclusions}
+\begin{itemize}
+
+\item Using variation in patient outcomes across PCPs referring patients to the same specialists, we estimate a small but significant responsiveness of referrals to outcomes
+\bigskip
+
+\item Substantial improvements are possible if referrals can be reallocated \emph{within} geographic areas
+\bigskip
+
+\item At the market level, responsiveness to outcomes is
+\bit
+    \item Positively related to the number of physicians
+    \item Negatively related to market concentration among specialists
+\eit
+
+\end{itemize}
+\end{frame}
+
+%%%
+
+\iffalse
+\begin{frame}{Persistence of referrals by specialist HHI}
+\centering
+\small 
+
+\begin{tabular}{cc}
+Mean MFX by HHI &
+Local Linear Regression \\
+\\
+\begin{tabular}{lcc}
+\hline
+HHI  &  MFX  &  \# HRRs  \\
+\hline
+0.0-0.1  &   0.765 &  65  \\
+0.1-0.2  &  0.693  &  91  \\
+0.2-0.4  &  0.659  &  88  \\
+0.4-1.0  &  0.625  &  32  \\
+\hline
+\vspace{48pt}
+\end{tabular}
+&
+\parbox{0.5\linewidth}{\includegraphics[scale=0.25]{results/_archive/figures/lpoly_inertia_HHI.png}}
+\end{tabular}
+
+shop less when you have more choice
+
+\end{frame}
+\fi
+
+%%%
+
+\end{document}
+
+%%%
+
+\begin{frame}{title}
+\begin{itemize}
+
+\item x
+
+\end{itemize}
+\end{frame}

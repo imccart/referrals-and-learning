@@ -1,6 +1,9 @@
 # Data
 data/*
 
+# Grant applications in overleave
+grants/*
+
 # Claude Code local settings
 .claude/
 

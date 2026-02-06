@@ -1,0 +1,595 @@
+\documentclass[12pt]{article}
+\usepackage{amssymb,amsmath,pgf,setspace,comment,multicol,verbatim,titling,pdflscape,url,hyperref}
+\usepackage[labelfont=bf]{caption}
+\usepackage[left=1in,right=1in,top=1in,bottom=0.75in]{geometry}
+\usepackage[round]{natbib}
+\bibliographystyle{plainnat}
+\setstretch{1.5}
+
+\setlength{\droptitle}{-50pt}
+\begin{document}
+
+\title{Learning and Efficiency in the Market for Physician Referrals \\ 
+PRELIMINARY}
+\author{%
+  Ian M. McCarthy \\[-1.5ex]
+  Emory University \& NBER \\
+  Seth Richards-Shubik \\[-1.5ex]
+  Johns Hopkins University \& NBER
+}
+\date{January 2025}
+\maketitle
+
+\vspace{-2ex}
+\begin{abstract}
+\singlespacing
+\noindent In many areas of care, primary care physicians (PCPs) greatly influence a patient's choice of specialist, but how well do PCPs learn about specialist quality, if at all? In this paper, we study PCP referrals to specialists, using the population of orthopedic procedures for Medicare fee-for-service beneficiaries from 2008 through 2018. We document substantial heterogeneity in specialist quality and cost within geographic markets, and we present design-based evidence that PCPs adjust their referrals specifically based on the outcomes of their own patients. We then employ a structural learning model to study learning and efficiency in the market for physician referrals. In the model, PCPs update their beliefs about specialist quality based on the outcomes of their referred patients. The model also accounts for habit persistence and capacity constraints, which are important limitations for counterfactual reallocations under improved learning. We find that PCPs respond modestly to the outcomes of their referred patients; however, PCPs remain slow to learn about quality differences among specialists in their market, instead relying more on prior relationships in governing referrals. This suggests there is scope to improve market efficiency if PCPs can learn more quickly and better tailor referral decisions on specialist quality. We use a structural learning model to measure the effects of uncertainty in physician referrals and to simulate possible reallocations when there is better information about quality. We find that one-third of these patients would be referred to a different specialist in the absence of informational frictions, with small but meaningful improvements in patient quality of care.
+% IDEAS (Seth Dec 2025): start with reallocation [w/in mkt, to better quality], using X millions of stuff we describe observed referral patterns and the potential for reallocation, [with an event study design] we show direct evidence that PCPs shift referrals away from X, then estimate a structural learning model, we find...
+\end{abstract}
+
+\clearpage
+\newpage
+\section{Introduction}
+\label{sec:intro}
+
+The lack of complete information about quality differences across products and providers is a major barrier to market efficiency in health care. Although patients rely on highly trained experts such as primary care physicians to recommend specific treatments (e.g., medications) or individual specialists (e.g., surgeons), large quality differences are observed across the commonly chosen alternatives within a given market, even in settings with minimal variation in prices.\footnote{See, e.g., \cite{kolstad2009} and \cite{dranove2019} for surveys.}
+
+A substantial literature has developed using structural learning models to measure the effects of incomplete information on consumer choices and market efficiency \citep*[see][for surveys]{ching2013, ching2017}. In health care, these models are often applied to prescribing decisions, where physicians learn about the quality of new pharmaceutical drugs \citep*[e.g.,][]{coscelli2004, ching2010, ferreyra2011, chan2013} or patient-specific matches with different drugs \citep[e.g.,][]{crawford2005, dickstein2018}.\footnote{In addition, \cite*{chernew2008} and \cite{gong2018} have applied structural learning models to choices about about health insurance plans and surgical procedures, respectively.} Broadly, these papers find that uncertainty about quality substantially delays the adoption of new treatment options and limits market efficiency.\footnote{\cite{crawford2005}, however, find that learning about patient-specific matches is quite fast in their application.}
+
+In this paper, we use a structural learning model to study referrals from primary care physicians (PCPs) to orthopedic surgeons for major joint replacements. PCP referrals greatly influence patients' choices of specialized providers \citep*{freedman2015, gaynor2016, barkowski2018, chernew2021},\footnote{Depending on a patient's health insurance plan, a referral could be an informative recommendation or an administrative requirement.} and specialty care (as distinct from primary care) accounts for the vast majority of expenditures on physician and hospital services. %\footnote{For example, CITES xxx find that about xxx\% of expenditures... Compared to total xxx on physician and hospital services shown in National Health Expenditure Accounts (\url{www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data}).} 
+Therefore, PCPs acting on incomplete information about specialist quality could have profound consequences for health outcomes, health care expenditures, and health care equity. Previous work also finds that referring physicians leverage patient experiences in future referral decisions \citep*{schneider1996, barnett2012gim}, suggesting the presence of learning from patient experience in PCP referrals.
+
+We estimate the model with data on over 4.5 million joint replacement surgeries in the United States, using the universe of Medicare fee-for-service (FFS) claims from 2008 to 2018. In the model, a specialist's quality is defined as the probability of a positive or negative outcome from each surgery. PCPs refer their patients among the set of available surgeons in their geographic market, and they learn about the qualities of those specialists from the outcomes experienced by their patients. Given the FFS environment, the PCP's referral is unaffected by insurance network restrictions, allowing a referral to any relevant specialist in the patient's geographic market. Differences in the histories of patient outcomes across PCPs referring to the same specialist provide the variation needed to identify the learning process, \emph{net of specialist fixed effects}, which are included in the model to absorb other demand factors not related to quality. We solve both a myopic and a forward-looking version of the model, the latter using a highly tractable solution method developed by \cite{gittins1979} and \cite{gittins1979bio}. The model also accounts for capacity constraints using an approximation proposed by \cite*{richards-shubik2021}. This is crucial for counterfactuals where informational frictions are lessened or where specialist quality more directly governs referral decisions, because the capacity constraints of individual surgeons may limit the ability to reallocate patients toward better specialists.
+
+Before applying the model, a simple descriptive analysis of the heterogeneity in quality within geographic markets suggests that meaningful gains would be possible if patients could be reallocated. Comparing the rates of all negative health outcomes---primarily hospital readmissions, but also surgical complications and even death---between surgeons at the 75th and 25th percentiles within each market, we find differences of three to six percentage points in most markets. We also provide suggestive evidence that surgeons in the top quarter of the quality distribution appear to have capacity available to take on more patients. Quantifying the potential gains (or conversely, the current losses) due to information about quality, while allowing for other barriers such as capacity constraints and habit persistence, is the ultimate goal of this study and the reason a structural model is needed.
+
+The results from the model indicate that there are substantial losses due to informational frictions. With perfect information about specialist quality, our counterfactual simulations show that [one-third] of patients would be referred to different specialists. The rate of negative outcomes would decrease by xxx\% and episode spending would fall by xxx\%. Because the simulations control for capacity constraints, as well as habit persistence in referrals, these changes could reasonably be attributed to informational frictions. [The estimated capacity constraints are nontrivial, and the effects of habit persistence are substantial...]
+%OLD: We find that PCPs respond only modestly to the outcomes experienced by their patients; however, learning about the quality differences among the specialists in their market is slow, and PCP responses to patient outcomes are disproportionately muted by the PCP's familiarity (i.e., number of prior referrals) with the specialist. Moreover, due to specialist capacity constraints, we estimate a nontrivial congestion effect which reduces the ability of the market to reallocate patients in counterfactual scenarios in which quality information is readily available and acted upon. 
+
+In addition to the structural analysis, we provide design-based evidence that PCPs reduce their referrals to a surgeon after one of their patients experiences a negative outcome with that surgeon. We find that, among the PCPs sending patients to a given surgeon, the number of referrals per quarter drops by 37 percent for the PCP whose patient has the negative outcome, relative to the other PCPs referring to that surgeon. This is strong evidence of a learning process based on patient outcomes. The event-study design controls for surgeon fixed effects, and comparing the ``treated'' PCPs who observe a negative outcome from each surgeon with the ``control'' PCPs who do not, we see negligible differences in pre-trends before the event and no convergence after it, using up to nine quarters of leads and lags.
+
+In terms of the modeling framework and empirical application, our work is most related to two recent papers by \cite{gong2018} and \cite{dickstein2018}, which use the same class of learning models (Bayesian models with beta distribution beliefs and binary outcomes) and study a particular treatment decision. \cite{gong2018} examines learning about a new surgical procedure for brain aneurysms, where individual surgeons learn about their own skill with the new procedure compared to an established alternative. Patient health outcomes are observed in that application, as in ours, while the choice set is much smaller (three treatment options in \cite{gong2018} vs.~an average of over 80 orthopedic surgeons for a given patient in our analysis). \cite{dickstein2018} considers antidepressant prescribing, where there are relatively large choice sets (nineteen drugs), but health outcomes are not observed, so the estimation procedure integrates out the possible sequences of outcomes and relies entirely on the observed sequences of choices.
+
+Other papers applying structural learning models to treatment decisions use a different class of models, typically assuming normally distributed beliefs and outcomes, without directly observing patient outcomes. The majority of this literature focuses on learning about the quality of prescription drugs. For example, \cite{coscelli2004}, \cite{crawford2005}, and \cite{ferreyra2011} study physician learning in the anti-ulcer drug market. \cite{ching2010}, \cite{chan2013}, and \cite{dickstein2018} similarly consider learning with regard to side effects and treatment effectiveness of other pharmaceuticals. In addition to this work on treatment decisions, \cite{chernew2008} study consumer learning about health insurance plan quality, in a two-period setting where signals are observed, using both classes of models (beta-binomial and normal-normal).
+
+Our work also relates to the rapidly growing literature on physician networks and referrals. Starting with \cite{barnett2011}, researchers have inferred professional relationships among physicians from shared patients and have examined aggregate associations between features of the inferred networks and variations in expenditures and utilization across geographic markets. \cite*{kaur2016} and \cite*{agha2022ms} study referrals at the provider level for specific areas of care and find that greater concentration of referrals to fewer specialists is associated with somewhat lower expenditures and utilization. Also, \cite{zeltzer2020} and \cite{sarsons2023} consider the role of gender homophily in referrals and the subsequent effect on earnings differences among physicians. Our descriptive analysis of the referral networks for major joint replacements offers new information on heterogeneities in network structure and quality outcomes in this important area of care where referrals can be reasonably well inferred.
+
+Last, in addition to our empirical analysis, we contribute to the understanding of identification in structural learning models. While most existing papers in this literature provide thoughtful, verbal discussions of identification, we develop a formal argument for the identification of all the parameters in our model, including the weight placed on the patient's health outcome in the physician's utility.\footnote{\cite{ching2013} provide a clear verbal argument for a similar parameter.  We formalize this with an ``identification at infinity'' type of argument.} Notably, some previous studies omit this parameter, which implicitly fixes the marginal rate of substitution between quality and all the factors in the idiosyncratic shocks at an assumed value. While this is innocuous in some cases (e.g., where the outcomes are unobserved and the scale of the outcomes is estimated), it may be restrictive in others. We also examine the identification of a parameter that governs the precision or strength of the prior beliefs, which is imprecisely estimated in our data and seems to be problematic in some prior studies as well.
+% NOTE for later: Dickstein gets a small value of eta in the main specification, and very different estimates in other specifications.
+
+The remainder of the paper is organized as follows. We first explain the data and present a descriptive analysis of the referral networks for major joint replacements in Section \ref{sec:data}, which includes a simple exercise to illustrate the potential gains from more efficient referrals within geographic markets. In Section \ref{sec:reduced_form}, we present design-based evidence on how PCPs change their referral patterns in response to negative patient outcomes, using an event study. Section \ref{sec:model} turns to our learning model, where we specify the Bayesian learning process and other key features, briefly explain the solution method, and discuss identification. Finally, Section \ref{sec:structural} describes the details of our structural estimation, provides our estimates of the myopic and forward-looking models, and presents the results from our counterfactual simulations. Section \ref{sec:discuss} concludes.
+
+%%% DATA AND SUMMARY
+
+\section{Data and Descriptive Statistics}
+\label{sec:data}
+
+In order to focus on a predictable care pathway where patients are likely to rely on PCP referrals, our analysis considers planned and elective major joint replacements performed in an inpatient setting. We have data covering all Medicare FFS beneficiaries aged 65 and above, from 2008 to 2018. The relevant procedures, outcomes, and referrals are identified using 100\% Medicare FFS claims files, containing all Part A and Part B claims.  Data on patient characteristics come from Medicare Beneficiary Summary Files (MBSF), and data on physician practice characteristics come from Medicare Data on Provider Practice and Specialty (MD-PPAS).  We also obtain data on hospital characteristics from the American Hospital Association (AHA) Annual Surveys as well as the Provider of Services (POS) files. 
+
+The relevant inpatient procedures are identified from the diagnosis related group (DRG) codes on the claims,\footnote{We use DRG codes 461, 462, 469, 470, 480-489, and 507-51. For a comprehensive list of DRGs and descriptions, see \href{http://data.nber.org/drg/drgdesc11.pdf}{http://data.nber.org/drg/drgdesc11.pdf}.} and the admission source codes on the claims indicate planned and elective procedures. In total there are just over 4.53 million inpatient stays for planned and elective major joint replacements from 2008 to 2018. Among this set of inpatient stays, we limit our analysis to surgeries performed by an orthopedic surgeon, as indicated by the specialty codes and descriptions in the MD-PPAS data. 
+
+We infer the referring PCP based on the greatest frequency of ``evaluation and management'' (E\&M) visits to PCPs over the prior 12-month period before a given surgery, following \cite{pham2009} and \cite{agha2017}.\footnote{\cite{zeltzer2020} and \cite{sarsons2023} instead identify referrals using the ``Claim Referring Physician NPI Number'' field in the carrier claims data. However in our data we find that this field is missing in 34\% of the relevant claims, and it contains the same identification number as the operating physician in 64\% of the claims where it is populated.} Eligible PCPs are indicated by the specialty codes in the MD-PPAS data, and we require that patients visited the referring PCP at least 2 times in the prior 12-month period. Restricting to procedures performed by orthopedic surgeons and where a referring PCP can be identified reduces the sample to about 2.97 million inpatient stays.
+
+Finally, we impose two additional restrictions on the sample in order to focus on physicians with sufficient experience in diagnosing and treating orthopedic patients. First, we restrict our sample to PCPs with at least 20 total referrals over our time period and with at least three consecutive years with one or more referrals. Second, we restrict our sample to surgeons with at least 20 operations per year. Our final analytic sample consists of just over 2 million planned and elective major joint replacements, in which the referring physician is a PCP with regular referrals for these procedures and in which the operating physician is an orthopedic surgeon with sufficient yearly volume.
+
+As our measure of quality, we follow the CMS Comprehensive Care for Joint Replacement Model and the National Quality Forum. Intuitively, our quality measure derives from mortality, readmissions, and complications within 90 days of discharge.\footnote{As per the Comprehensive Care for Joint Replacement Model, some complications are only tracked during the inpatient stay or within 30 days of discharge. Additional details of these measures are presented in the supplemental appendix.} All quality outcomes are observed from claims during and following the focal inpatient stay, which are identified in the data using the patient's unique identification number. We also define measures of total spending and health care utilization around this episode of care by collecting all claims over the 90-day period starting with the admission date for the surgery. We employ the spending measures to assess potential efficiency gains from improved referral patterns as part of our counterfactual analysis.
+
+Table \ref{tab:sum-referral} presents the basic descriptive statistics of our final sample. The unit of observation is one patient and procedure---i.e., an individual referral. For each referral, we observe the operating surgeon, the referring PCP, and the admitting hospital. As discussed in more detail in Section \ref{sec:estimation}, our estimation process first divides the data into two periods: 1) the baseline period from 2008-2012, which provides a common time frame from which to form observed histories for PCP/specialist pairs; and 2) the estimation period from 2013-2018, for which the baseline period provides the initial values of the histories. From Table \ref{tab:sum-referral}, we see fairly similar patients, physicians, practices, and outcomes between the baseline and estimation periods. One apparent difference is that PCP and specialist practice sizes are larger in our estimation period, consistent with broader national trends in practice consolidation. We also see a slight reduction in readmissions, mortality, and complications in the estimation period compared to the baseline period. 
+
+\subsection{Description of PCP Referral Networks}
+\label{sec:network-description}
+Using the physician's national provider identification (NPI) number, we identify around 51,000 unique PCPs and 9,250 unique specialists over our estimation period (2013-2018). As summarized in Table \ref{tab:sum-pairs}, each PCP in our sample refers an average of 4.1 patients for elective orthopedic surgery per year to an average of 2.9 unique orthopedic specialists per year. PCPs therefore refer an average of roughly 1.4 patients to a given specialist in a year, conditional on sending any patients to that specialist that year. 
+
+We refer to the number of unique specialists referred to over some time period as the ``network size'' of a PCP. The distribution of PCP referral network sizes combining the six years from 2013 to 2018 is presented in Figure \ref{fig:network-size}. This shows the total number of unique specialists to which a PCP refers patients over the estimation period (for ease of presentation, the top 1\% of PCPs with network sizes above 50 are not included). Consistent with the yearly average network sizes in Table \ref{tab:sum-pairs}, the typical PCP sends patients to relatively few specialists (around 10) over the entire estimation period. The frequency distribution also reveals a long tail, indicating the presence of a small set of PCPs with very large network sizes. However for most PCPs, these network sizes are substantially smaller than the total number of orthopedic surgeons in the market, which is around 70 per year on average.
+
+To assess the concentration of PCP referral networks, Figure \ref{fig:network-share} presents the distribution of the proportion of a PCP's referrals going to their ``highest-share'' specialist. Here, we calculate each specialist's share of a given PCP's total referrals from 2013 to 2018 and take the maximum of these shares for each PCP. As is evident from Figure \ref{fig:network-share}, many PCPs send 20\% to 40\% of their referrals to a single specialist, suggesting that the modal PCP's referral network is quite concentrated among a small number of specialists.
+
+Table \ref{tab:sum-pairs} also presents the average number of negative outcomes, or ``failures,'' associated with a PCP's patients and the failure rates per referral. Failures are infrequent but not necessarily rare. On average, there are nearly 0.5 failures among a PCP's patients each year. Per referral the failure rate is about 0.1; in other words, around 10\% of a PCP's referrals for major joint replacements result in some form of failure, defined based on the National Quality Forum's measure of quality in joint replacement surgery.
+
+\subsection{Within-market Variation in Specialist Quality and Efficiency}
+\label{sec:iqr}
+
+As reflected in Table \ref{tab:sum-pairs} and Figures \ref{fig:network-size-yearly} and \ref{fig:network-size}, most PCPs have experience referring patients to between 3 and 5 unique specialists per year and around 10 unique specialists over our entire 2013-2018 estimation period. For context, we observe an average of nearly 70 orthopedic surgeons performing a major joint replacement per market per year, or 83 specialists per market over the full estimation period. So the average network size of 10 specialists over the estimation period implies that an average PCP remains unfamiliar with over 85\% of available specialists in their market. This suggests a lack of experimentation with other specialists and therefore a potential opportunity for quality and efficiency improvements if PCPs could better allocate their referrals to higher quality and more efficient specialists in their market. 
+
+To illustrate the potential gains from such a reallocation, we consider the variation in failure rates and episode spending across specialists \emph{within} each HRR. Specifically, Figure \ref{fig:iqr-quality} plots the differences between the 75th and 25th percentiles of surgeon-specific failure rates within an HRR. This illustrates the hypothetical reduction in failure rates if PCPs could replace referrals to surgeons at the 75th percentile of failure rates (within their market) with referrals to surgeons at the 25th percentile. The implication of Figure \ref{fig:iqr-quality} is that failure rates could be reduced by between 4 and 8 percentage points in most markets, for those patients who are reallocated from surgeons at the highest quartile of failure rates (with a mean of 12.8\%) to surgeons at the lowest quartile (with a mean of 7.6\%).
+We present a similar analysis of 90-day episode spending in Figure \ref{fig:iqr-spending}, which suggests possible savings of nearly \$8,000 per episode when moving from specialists initiating relatively high-spending episodes (75th percentile of the market-specific spending distribution) to specialists initiating relatively low-spending episodes (25th percentile).
+
+A simple descriptive analysis of specialist capacity further suggests that such a reallocation of patients (from lowest-performing to highest-performing quartile of specialist quality) may be feasible, as illustrated in Figures \ref{fig:capacity} and \ref{fig:reallocate}. Figure \ref{fig:capacity} presents a histogram of ``potential excess capacity'' among the relevant (highest-performing) specialists per HRR and year. We calculate excess capacity as the difference between a specialist's yearly operations and that same specialist's 75th percentile of yearly operations across all years. We then limit to the best 25 percent of specialists with the lowest failure-rates, and we sum their specialist-specific excess capacities for each HRR and year. Figure \ref{fig:reallocate} presents the total count of operations by (lowest-performing) specialists in the highest quartile of the failure-rate distribution per HRR and year, therefore summarizing the total number of possible patients to be reallocated. Note that these totals are not restricted to planned and elective procedures, and instead are based on a broader set of all procedures in which a given specialist is listed as the operating physician. From this descriptive analysis, over 95\% of markets appear to have sufficient capacity among top-quartile specialists to accommodate the potential reallocation. While there are many other demands on specialists' time outside of surgical procedures, Figures \ref{fig:capacity} and \ref{fig:reallocate} are at least consistent with the presence of excess surgical capacity to accommodate some within-market reallocations of patients. 
+
+%%% REDUCED-FORM, OR DESIGN-BASED, EVIDENCE
+
+\section{Do PCPs Respond to Bad Outcomes?}
+\label{sec:reduced_form}
+
+Before presenting our structural learning model, we first consider design-based evidence of PCP responses to negative surgical outcomes of their patients. We estimate this response by exploiting variation in the patient outcomes across PCPs referring to the same specialist, using event studies that compare referral rates between PCPs whose patients do and do not experience failures following procedures by the same specialist. The sample and data for this analysis are constructed as follows:
+
+\begin{enumerate}
+\item Create a quarterly panel of all PCP-specialist pairs with at least one referral between them. Quarters in which there are no referrals are treated as zeros. We also weaken the restriction on specialist volume from requiring 20 operations performed in each year to requiring 20 operations performed in at least one year over our panel.
+
+\item Find all specialists, indexed with $j$, with at least one failure event during the estimation period from 2013 through 2018. For each failure event, $f=1,...,F_{j}$, denote the quarter of each event by $q_{j}(f)$, so that $q_{j}(1)$ denotes the quarter of first failure for specialist $j$, $q_{j}(2)$ denotes the quarter of the second failure, etc. Further denote by $\underline{q}$ and $\overline{q}$ the first and last quarter of the analysis, respectively.
+
+\item Find all PCPs who ever refer to specialist $j$ between $\underline{q}$ and $\min(q_{j}(2)-1, \overline{q})$, which is either the quarter before the second failure or the last quarter in the data. Drop all observations outside of these time windows, as defined for each specialist. We construct similar cohorts based on the second, third, and fourth failure events.
+
+\item Identify the PCP(s) whose patient(s) experienced a failure following a referral to specialist $j$ in $q_j(1)$.\footnote{Typically only one patient experiences a failure from a given specialist in a given quarter, but there are cases where specialists are associated with multiple failures in the same quarter.} Denote this set of PCPs as type $k=1$, which constitutes the treatment group for this analysis. Similarly, identify PCPs without any patients experiencing a failure with specialist $j$ over the relevant time period, and denote this set of PCPs as type $k=0$ to capture the control group.
+
+\item Calculate the mean number of referrals per quarter from each PCP type, removing the referral(s) that resulted in failure. Denote the mean quarterly patients referred to specialist $j$ from PCP type $k$ by $\bar{r}_{jkt}$.\footnote{We collapse the data by ``PCP type'' primarily to ease the computational burden. Results are unchanged if we instead estimate Equation \ref{eqn:eventstudy} at the PCP-specialist-quarter level, allowing for both specialist and PCP fixed effects.}
+\end{enumerate}
+
+With this notation and sample construction, we then estimate by OLS the following event study specification:
+\begin{equation}
+  \bar{r}_{jkt} = \gamma_{j,t} + \delta I(k=1) + \sum_{\substack{\tau=-9 \\ \tau \neq -1}}^{9} \lambda_{\tau} I(k=1, t=\tau) + \varepsilon_{jkt},
+  \label{eqn:eventstudy}
+\end{equation}
+where $\gamma_{j,t}$ denotes specialist-by-quarter fixed effects, $I(k=1)$ is an indicator set to one for the treated PCPs (i.e., those PCPs whose referrals to specialist $j$ experienced a failure), and $I(k=1, t=\tau)$ is an indicator set to one if the quarter is in period $\tau$ relative to the failure quarter, $q_{j}(1)$.\footnote{Results are similar if we include specialist and quarter fixed effects separately, or specialist-by-type fixed effects and quarter fixed effects.} We estimate Equation \eqref{eqn:eventstudy} separately for four treatment cohorts: the first cohort is defined using the first failure event, as specified above; the subsequent cohorts are defined in an analogous way using the subsequent failure events. For example, cohort two considers the second failure event, with the sample constructed using $q_{j}(2)$ as the reference period for each specialist and containing all quarters from $\max(q_j(1) + 1, q_j(2)-9)$ to $\min(q_{j}(3)-1, \overline{q})$. We then estimate separate event studies for each of the first four failures, as well as a ``stacked'' version where we append all four cohorts into a single analysis. The stacked event study follows \cite{cengiz2019}, where we cluster standard errors by specialist and cohort.\footnote{In the stacked estimation, the same control observations may repeat across failure cohorts (e.g., first failure, second failure, etc.). We therefore include a richer set of specialist-cohort-type fixed effects, in addition to specialist-quarter fixed effects.}
+
+We summarize the results from the stacked event study in Figure \ref{fig:event}, where we find a statistically significant reduction of approximately 0.05 referrals per quarter per specialist from affected PCPs (i.e., those PCPs whose patients experienced a bad outcome) relative to unaffected PCPs (i.e., PCPs who refer to the same specialists but whose patients did not experience a bad outcome). Our specification normalizes $\lambda_{\tau=-1}=0$. In the underlying data for this event study, the average referral rate for treated pairs in the pre-failure periods is 0.194. Our estimates therefore imply that a failure event leads to an approximate 25\% reduction in referrals from a PCP to the specialist with the failure. Event study results for individual failure cohorts are consistent with out stacked estimates and presented in the supplemental appendix.
+
+%%% STRUCTURAL MODEL
+
+\section{Bayesian Learning Model}
+\label{sec:model}
+
+Our structural model describes a PCP who refers patients to orthopedic surgeons for major joint replacements.
+There are multiple surgeons available in the market (a geographic area).  When a patient arrives who needs this treatment, the PCP selects one surgeon to recommend to the patient, and the patient follows the recommendation and receives treatment from that surgeon.\footnote{\cite{freedman2015} find that the PCP's recommendation is the most commonly cited reason from a patient in their selection of an oncologist, with similar results documented in \cite{barkowski2018}.} The outcome of the surgery is binary (success or failure), and is observed by the PCP.  The probability of success, which is the definition of ``quality'' in this model, varies across surgeons. The PCP does not know these probabilities, but they have beliefs about specialist quality that are updated based on the outcomes experienced by their patients.
+
+We solve and estimate the model for both myopic and forward-looking behavior. In addition to this learning process, the model includes two other important mechanisms that can limit the allocation of patients to higher quality surgeons: habit persistence and capacity constraints. The former is captured with a \emph{familiarity effect} relating to the number of patients referred to a surgeon in the past, and the latter is approximated with a \emph{congestion effect} arising from the total number of patients being treated by the surgeon at the time (i.e., referrals from other PCPs).  
+
+\subsection{Model Specification}
+\label{sec:specification}
+
+The PCP, $i$, refers each patient to some surgeon, $j$, from a set of available surgeons, $J_i$.  Patients arrive sequentially, so patients and time can both be denoted with $t$. The choice of specialist is given by a set of indicators, $D_{ijt}, j \in J_i$, where $D_{ijt} = 1$ if patient $t$ is referred to specialist $j$, otherwise $D_{ijt} = 0$. The binary health outcome is $Y_{ijt}$, with $Y_{ijt}=1$ for success and  $Y_{ijt}=0$ for failure (i.e., complication, readmission, or death).
+
+The probability of success with surgeon $j$ is $q_j$. This is the same for all patients, such that our model features vertical but not horizontal differentiation.\footnote{The models in \cite{coscelli2004}, \cite{ching2010}, \cite{ferreyra2011}, and \cite{chan2013} similarly emphasize vertical differentiation among drugs, while those in \cite{crawford2005} and \cite{dickstein2018} consider horizontal differentiation in terms of the match quality between drugs and individual patients.} The PCP values the patient's outcome, which could reflect altruism and other intrinsic motivations as well as extrinsic motivations such as malpractice liability. There are other factors, denoted $x_{ijt}$, affecting the patient's net benefit from a particular surgeon, such as their distance to the surgeon's facility, and these factors are also valued by the PCP.
+
+Beyond the patient's outcome, the PCP may value working with specialists with whom they have some prior experience. Defining $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ as the number of past patients referred to specialist $j$, this \emph{familiarity effect} is given by $f(e_{ijt})$, where $f$ is increasing and concave. In addition, the capacity constraints of individual surgeons generate a negative congestion effect among patients referred to the same surgeon. Let $n_{jt}$ denote the total number of patients being treated by surgeon $j$ around time $t$, which includes referrals from \emph{other} PCPs around that time (e.g., $n_{jt} \equiv \sum_k D_{kjs}, \ s \in [t - \tau, t + \tau]$ for some $\tau$), and let $z_j$ denote fixed attributes that affect a surgeon's capacity, such as non-clinical work (e.g., administrative responsibilities or academic research). The \emph{congestion effect} is then given by $c(n_{jt}, z_j)$, where $c$ is decreasing in $n$.
+
+The PCP's realized utility from referring patient $t$ to specialist $j$ is then
+\begin{equation}
+U_{ijt} \equiv \alpha Y_{ijt} + u(x_{ijt}) + f(e_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt},
+\label{eqn:pcp_utility}
+\end{equation}
+where $\alpha$ is the weight on the patient's outcome, $u(x_{ijt})$ is the value placed on the other patient-specific factors, and $f(e_{ijt})$ and $c(n_{jt}, z_j)$ are the familiarity and congestion effects described above, respectively. The term $\xi_{j}$ is a specialist fixed effect, which captures time-invariant demand factors that need not be related to surgical outcomes (e.g., office amenities, health system branding, other advertising). Finally, $\epsilon_{ijt}$ is an idiosyncratic shock that captures other choice-specific factors, which has an assumed Type I extreme value distribution.
+
+The presence of $c(n_{jt}, z_j)$ in $U_{ijt}$ can be interpreted as the PCP internalizing the effects of congestion on the patient's net benefit from a surgeon. This can be given a structural interpretation based on waiting times, or it can be considered an approximation for other mechanisms. Either way, including this term is important to prevent bias in estimates of the responsiveness to patient outcomes, given here by $\alpha$ and the learning parameters, and counterfactuals based on those estimates \citep[see][]{richards-shubik2021}.
+
+\subsection{Learning Process}
+\label{sec:learning}
+
+The PCP does not know the quality of each specialist, but rather has beliefs about the possible values of $q_j$, for each $j$. These beliefs are specified with the beta distribution, denoted $\mathrm{Beta}(a, b)$, which is a natural and tractable modeling choice when outcomes are binary or binomial. All PCPs have the same initial beliefs (i.e., priors) about all specialists in their market, with the parameters equal to $(a_0, b_0)$.
+
+PCPs use Bayesian inference to update their beliefs about $q_j$ and thereby learn about the quality of each specialist based on the outcomes experienced by their patients. Specifically, the parameters $(a,b)$ are updated based on the numbers of successes and failures among the patients referred to specialist $j$ in the past, as follows:
+\begin{equation*}
+a_{ijt} = a_0 + \sum_{s=1}^{t-1} Y_{ijs} \ \ \text{ and } \ \ b_{ijt} = b_0 + \sum_{s=1}^{t-1} (D_{ijs} - Y_{ijs}).
+\end{equation*}
+Then, from the beta distribution, the mean and variance of the beliefs about $q_j$ 
+%at the beginning of period $t$ (when the patient arrives), which use the history up to period $t-1$, 
+are given by
+\begin{equation}
+m_{ijt} \equiv \frac{ a_{ijt} }{ a_{ijt} + b_{ijt} } \text{ and }
+v_{ijt} \equiv \frac{ a_{ijt} b_{ijt} }{ (a_{ijt} + b_{ijt})^2 (a_{ijt} + b_{ijt} + 1) } . \label{eqn:mean_var}
+\end{equation}
+Thus, $m_{ijt}$ denotes the Bayesian expectation of the probability of success for referral $t$ to specialist $j$, which is a function of the priors $(a_0, b_0)$ and the observed outcomes among patients previously sent to that specialist. More successes will increase $a_{ijt}$, thus increasing $m_{ijt}$; however, the magnitude of this increase is affected by $(a_{0},b_{0})$. Larger values of $a_0$ and $b_0$ decrease the responsiveness of $m_{ijt}$ to patient outcomes, and we accordingly refer to the sum of $a_0 + b_0$ as the ``strength'' of the priors. Intuitively, the priors act as fictitious numbers of successes and failures in governing a PCPs updated beliefs, so the sum $a_0 + b_0$ acts as a fictitious number of patients referred to specialist $j$ before the first actual patient. Because the variance, $v_{ijt}$ in Equation \eqref{eqn:mean_var}, decreases in $a + b$, this sum is commonly referred to as the ``precision'' of the beliefs (analogously, $a_0 + b_0$ is the precision of the priors).
+
+\subsection{Myopic and Forward-Looking Behavior}
+A myopic PCP simply chooses the specialist with the highest expected payoff for the current patient:
+\begin{equation}
+\max_{j \in J_i} \ \text{E} \left[ U_{ijt} | \dots \right]
+= \max_j \left\{ \alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt} \right\} .
+\label{eqn:myopic}
+\end{equation}
+Thus if PCPs are myopic, they unambiguously tend to refer to specialists with whom they have had more successes in the past, all else equal. 
+
+If PCPs are forward-looking, they also value experimenting with relatively unknown specialists. The choice of specialist for referral $t$ involves both the utility for the current patient and the value of learning more about the quality of the specialists in the market, which could benefit future patients.  The solution to this dynamic problem simplifies with the use of a \emph{Gittins index} \citep{gittins1979, gittins1979bio}, which expresses the value of learning about specialist $j$ as a function of the mean and variance of the current beliefs about that specialist. We denote the index abstractly as $g(m_{ijt}, v_{ijt})$, but this function is well approximated with a fairly simple and tractable closed-form expression developed by \cite{brezzi2002}. 
+
+The Gittins index requires four key assumptions: 
+(i) one option is chosen at a time; (ii) the unchosen options do not affect the current outcome; (iii) the expected returns do not change for the unchosen options; and (iv) beliefs are independent across options. These assumptions are not uncontroversial, but they are relatively unproblematic in our application. Typically, (i) one surgeon treats the patient, and (ii) other surgeons do not assist or interfere with the operation. For (iii) and (iv), we assume that PCPs perceive surgeons to have fixed quality and to be independent of each other.  There would be no depreciation of skills among unchosen surgeons (i.e., unchosen surgeons continue to receive patients from other PCPs) and no important spillovers in quality among surgeons. To this last point, we may rely on the surgeon fixed effects to absorb time-invariant correlations among surgeons, for example among those who operate in the same hospitals.
+
+With forward-looking behavior, the PCP's present discounted utility is given by value functions, which can be written abstractly as follows:
+\begin{equation*}
+V_{it}(\dots) = \max_{j \in J_i} \ \left\{ \mathrm{E} \left[ U_{ijt} | \dots \right]
++ \beta \mathrm{E} V_{i, t+1}(\dots) \right\},
+\end{equation*}
+where $\beta$ is a known discount factor, and the ellipses ($\dots$) represent the relevant state variables. These value functions simplify because there are no dynamics in $x$, $n$, $z$, $\xi$, and $\epsilon$. Patients are assumed to arrive randomly, which makes $x$ exogenous, $z$ and $\xi$ are fixed over time while $\epsilon$ is independent, and we assume there are enough patients and PCPs such that no individual PCP can affect $n$. Hence the components of the future value function related to these terms do not vary across choices in the current period. They are also additively separable and therefore drop out from the differences across choices and can be ignored in estimation. This leaves the value of learning about the quality of a specialist, captured by the Gittins index, and the present discounted value of increasing familiarity with a specialist. In connection to a Gittins index, the latter is computed as the present discounted value of sending every future patient to the same specialist, denoted $\overline{\overline{f}}(e_{ijt})$.\footnote{The Gittins index is defined as a lump sum payment that makes an individual indifferent between using one option and retiring it.  Because $f$ is increasing in $e$, the value from $f$ is maximized by sending every future patient to the currently chosen specialist.}
+
+%\footnote{We also abstract from the possibility of aggregate/observational learning from $n$, in the current version of the model.}
+
+Thus, the forward-looking choice problem simplifies as
+\begin{equation} 
+\max_{j \in J_i} \left\{ \alpha g(m_{ijt}, v_{ijt}) + \overline{\overline{f}}(e_{ijt}) + u(x_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt} \right\}.
+\label{eqn:dynamic}
+\end{equation}
+Unlike the myopic model, the forward-looking model assigns some value to experimenting with specialists with whom the PCP has less past experience.
+That is because the Gittins index is increasing in the variance, $v_{ijt}$, and the variance is decreasing in the number of past patients (in Equation~\eqref{eqn:mean_var}, $v_{ijt}$ is decreasing in $a_{ijt} + b_{ijt}$). 
+It is therefore possible for the Gittins index to assign a higher value to a specialist with a lower current expectation for the probability of success but a larger variance: e.g., $m_{ijt} < m_{ikt}$, $v_{ijt} > v_{ikt}$, and $g(m_{ijt}, v_{ijt}) > g(m_{ikt}, v_{ikt})$.
+%Another difference with myopic behavior is that here the PCP considers the present discounted value of familiarity with the specialist for future patients, not just the current value, which is indicated by replacing $f(e_{ijt})$ with $\overline{\overline{f}}(e_{ijt})$.
+
+\iffalse
+NOTE:
+The Gittins index is based on using only one alternative until it is retired.  So this can include the present discounted value of familiarity.  See \cite{gong2018} for a specification that yields a closed-form PDV. 
+\fi
+
+\subsection{Identification} 
+\label{sec:identification}
+
+Here we develop a formal argument for the identification of the parameters in the myopic model, and we offer a simple conjecture for the identification of the forward-looking model. We also discuss simulation results that indicate the difficulty of estimating the strength of the priors ($a_0 + b_0$) in practice.
+
+%\footnote{The conjecture will be formalized in a future version.} 
+
+First, given a distribution for the shocks $\epsilon$, the conditional choice probabilities identify differences in utility between the alternatives. The effects of the pairwise characteristics, $u(x)$, and the specialist fixed effects, $\xi$, are identified subject to standard normalizations (e.g., one fixed effect is set equal to zero). Because the number of patients at a specialist, $n_{jt}$, is endogenous, the congestion effect, $c(n_{jt}, z_j)$, is identified with an instrument for the probability that patients \emph{other than patient t} see specialist $j$. A natural instrument for this is the distances between \emph{other} patients and specialist $j$ \citep[see the description of the estimation procedure in Section \ref{sec:estimation}, and][for further details]{richards-shubik2021}.
+
+\iffalse
+The remaining terms are $\alpha m$ and $f(e)$.
+We start by expanding and rearranging the former.
+Recall $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ and let $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / e_{ijt}$.
+Then
+$$
+\alpha m_{ijt} 
+= \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} }
+= \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} } 
++ \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}
+$$
+\fi
+
+This leaves the terms $\alpha m$ and $f(e)$ in Equation \eqref{eqn:myopic}. The parameter $\alpha$ is identified in the limit as the number of past patients sent to a specialist grows large (i.e., so-called ``identification at infinity'').\footnote{A related argument is given verbally in \cite{ching2013}, for a normal-normal learning model.} To show this, recall $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ and let $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / e_{ijt}$. Then $\alpha m_{ijt}$ from Equation \eqref{eqn:mean_var} can be rearranged as
+\begin{equation}
+\alpha m_{ijt} = \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} }
++ \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}.
+\label{eqn:ID_eta}
+\end{equation}
+In the limit as $e_{ijt} \rightarrow \infty$, we have $\alpha m_{ijt} = \alpha \cdot 0 + \alpha \cdot 1 \cdot \bar y_{ijt}$.
+Thus, intuitively, $\alpha$ is identified by variation in the success rate among specialists to whom a PCP has sent many patients in the past.
+
+To continue the argument, it is useful to re-parameterize $a_0$ and $b_0$ as $\eta \equiv (a_0 + b_0)$ and $\rho \equiv \frac{a_0}{a_0 + b_0}$. The strength of the priors, $\eta$, is identified by the interaction between $e_{ijt}$ and $\bar y_{ijt}$ when $e_{ijt}$ is finite. This interaction appears in the second term in \eqref{eqn:ID_eta}, where $\eta$ is now the only unknown parameter since $\alpha$ is identified in the limit. Because $\eta$ is positive, the marginal effect of the success rate ($\bar y_{ijt}$) increases with the number of past patients ($e_{ijt}$),\footnote{Note that $e / (\eta + e)$ goes from 0 to 1 as $e$ goes from 0 to $\infty$.} and $\eta$ governs this interaction---i.e., how quickly the marginal effect of the success rate increases with the number of past patients referred to a specialist.
+
+To identify the prior mean, $\rho$, we use the observed average success rate in the market.  This assumes that PCPs have a general awareness of the overall success rate of the procedure in their market, and have rational expectations.\footnote{\cite{coscelli2004}, \cite{crawford2005}, \cite{chan2013}, and \cite{dickstein2018} similarly use a rational expectations assumption to identify the prior beliefs in their models.}  It might instead be possible to identify $\rho$ (equivalently $a_0$) from the choice data, but this would require a strong functional form assumption to separate the first term in \eqref{eqn:ID_eta}, $\alpha \frac{ a_0 }{ (a_0 + b_0) + e}$, from the familiarity effect, $f(e)$.
+
+Finally, then, the familiarity effect is identified by the remainder of the marginal effect of experience with a specialist that is not absorbed by $\alpha m$ (i.e., what is left over from $\alpha \frac{ a_0 }{ (a_0 + b_0) + e}$).
+% Intuitively, we need to fully identify the priors (both the ratio and the strength) in order to recover the effect of familiarity, because we need to know exactly how experience washes away the priors in order to separate that from the effect of familiarity.
+A standard normalization is required, such as $f(0) = 0$. Also $f$ must be bounded as $e \rightarrow \infty$; otherwise, familiarity would dominate the effects of all other attributes as $e \rightarrow \infty$. This does not seem desirable from a modeling perspective, and it would nullify the argument for the identification $\alpha$ in the limit.
+
+Most of the related papers in the literature provide thoughtful, verbal discussions of identification.  The formal argument above offers additional insights because it makes precise the variation that is crucial for each parameter. In particular, it shows how the parameter $\alpha$ is identified.
+This parameter, which gives the utility weight on the outcome (or ``use experience'') is omitted from the models in \cite{crawford2005}, \cite{ferreyra2011}, \cite{dickstein2018}, and \cite{gong2018} but included in those in \cite{ching2010} and \cite{ching2013}, for example. In some cases, this omission may be innocuous because outcomes are not observed, so the scale of the outcome is estimated and naturally incorporates the utility weight (i.e., the scale is in terms of utility).  However, it is not clear that this is unrestrictive when outcomes are binary, as in \cite{dickstein2018} and \cite{gong2018}, which fixes the scale of the experienced outcome even if it is unobserved. This is potentially important because the shocks in these models have a parametric distribution with an assumed scale. Consequently, fixing the utility weight on the outcome would imply that it has the identical impact on utility as all the factors captured in the shocks---or equivalently, the marginal rate of substitution between the outcome and the shocks is assumed to be known.
+
+Separately, simulation exercises suggest that the strength of the priors, $\eta \equiv (a_0 + b_0)$, may be poorly identified in practice. (The exercises are presented in Appendix xxx.) While $\alpha$ is recovered reasonably well in simulated data, $\eta$ is noisy, and the likelihood function with respect to $\eta$ is relatively flat. For some intuition into the problem, consider the second term in Equation \eqref{eqn:ID_eta}, which shows how $\eta$ is identified from the interaction between the number of past patients ($e_{ijt}$) and the success rate among those patients ($\bar y_{ijt}$), as discussed above. From that term (omitting $\alpha$), the cross partial of $e$ and $\bar y$ would be $1/(\eta + e) - e/(\eta + e)^2$, which exhibits little variation over a range of values for $\eta$. For example, using the mean number of past patients (conditional on any past referrals from $i$ to $j$), shown in Table \ref{tab:sum-pairs}  (see ``running referrals''), this cross partial ranges from 0.033 to 0.056 when $\eta$ ranges from 1 to 20, which is little variation relative to the scale of the error terms in the model. Consequently, for the estimation of the model, we fix $\eta$ at one of a set of alternative values.
+
+Last, we turn to the identification of the forward-looking model. From \cite{brezzi2002}, the Gittins index is closely approximated by 
+\begin{equation}
+\tilde g(m,v) \equiv    m + \sqrt{v} \cdot \psi \left( \frac{v}{-\ln(\beta) \, m (1-m)} \right),
+\label{eqn:gittins_approx}    
+\end{equation}
+%(To relate this to the general solution in \cite{brezzi2002}, the $m_j$ and $v_j$ are the mean and variance of the beliefs about the unknown parameter $q_j$, while the $m_j (1-m_j)$ is the variance of the reward given the mean of the beliefs.)
+where $\psi$ is a known function derived by \cite{brezzi2002}, and $\beta$ is the known discount factor.\footnote{\cite{ching2013} discuss the conditions and challenges for identifying the discount factor in structural learning models. We treat it as a known parameter.} Substituting $\tilde g$ for $g$, the forward-looking model shown in Equation \eqref{eqn:dynamic} has no additional free parameters beyond those of the myopic model in Equation \eqref{eqn:myopic}. The only differences between the myopic model \eqref{eqn:myopic} and the dynamic model \eqref{eqn:dynamic} are that $\tilde g(m,v)$ and $\overline{\overline{f}}(e)$ appear in place of $m$ and $f(e)$, respectively. The Gittins index approximation, $\tilde g(m,v)$, involves the same free parameters as the mean of the current beliefs, $m$, which are $a_0$ and $b_0$ (or equivalently, $\rho$ and $\eta$), and the same data (the numbers of past referrals and successes). As for the present discounted value of familiarity, $\overline{\overline{f}}(e)$, it has a known relationship with the current value of familiarity \citep[see][for an equivalent result applied to an effect of learning by doing]{gong2018}. Thus it seems reasonable to conclude that the forward-looking model is identified under the same conditions as the myopic model.
+% WRONG: $\overline{\overline{f}}(e) = (1-\beta)^{-1}f(e)$.
+
+
+
+%%% STRUCTURAL ESTIMATION
+
+\section{Estimation of the Learning Model}
+\label{sec:structural}
+
+Below we provide details of the empirical specification, variable definitions, and estimation procedure. We then present the parameter estimates and counterfactual results.
+
+\subsection{Empirical Specification} 
+\label{sec:specification}
+
+Recall the maximization problem for a myopic PCP from Equation \eqref{eqn:myopic},
+\begin{equation*}
+\max_{j \in J_i} \ \text{E} \left[ U_{ijt} | \dots \right]
+= \max_j \left\{ \alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt} \right\} .
+\end{equation*}
+In estimating this equation, we assume that the the idiosyncratic shocks, $\epsilon$, have a Type I extreme value distribution, which yields a multinomial logit model. The fixed effects, $\xi$, are free parameters, which are separately identified due to the large number of patients relative to the number of surgeons per market. Congestion is assumed to be constant within pre-specified time periods (e.g., a calendar year), so that $c(n_{jt}, z_j) \equiv c(n_{j, \tau(t)}, z_j)$, where $\tau(t)$ is the period containing $t$. This is for computational feasibility because, in the first step of estimation (described below), the congestion effect is  absorbed into a composite fixed effect, $\delta_{j, \tau(t)} \equiv c(n_{j, \tau(t)}, z_j) + \xi_{j}$, and one of these must be recovered for each surgeon in each relevant time period. The capacity shifters, $z_j$, are omitted due to data limitations, and we specify the congestion effect to be linear so that $c(n_{j, \tau(t)}, z_j) \equiv \gamma n_{j, \tau(t)}$. There is one patient-specific factor, differential distance, specified with a linear effect on utility: $u(x_{ijt}) \equiv \pi x_{ijt}$. The effect of familiarity, $f(e_{ijt})$, is specified non-parametrically using a series of indicators for different levels of $e_{ijt}$. Specifically, we separate $e_{ijt}$ into bins $[0]$, $[1]$, $[2]$, $[3]$, $[4]$, $[5]$, $[6,7]$, $[8,10]$, $[11,15]$, $[16,\infty)$ and include indicator variables $\kappa_{b}$ for each bin, $b$, excluding $\kappa_{0}$.
+
+For the prior beliefs, we use the re-parameterization introduced in Section \ref{sec:identification}:
+\begin{equation}
+     \rho \equiv \frac{a_0}{a_0 + b_0}
+     \ \ \text{ and } \ \ 
+     \eta \equiv a_0 + b_0 ,
+\end{equation}
+which are respectively the mean and strength of the priors. Hence, the mean of the current beliefs about the quality of specialist $j$ in period $t$ is specified as
+\begin{equation}
+    m_{ijt} = 
+    \frac{\rho \eta + y_{ijt}}{\eta + e_{ijt}} ,
+\label{eqn:mean_belief}    
+\end{equation}
+where $y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs}$ is the number of success among patients referred to $j$ in the past, and $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ is the number of patients referred to $j$, as defined previously.
+The expected utility for a myopic PCP is thus:
+\begin{equation}
+    \text{E} \left[ U_{ijt} | \dots \right] =
+    \alpha \frac{\rho \eta + y_{ijt}}{\eta + e_{ijt}}
+    + \pi x_{ijt} + \sum_{b \in B}\kappa_{b} I(e_{ijt} \in {b}) + \underbrace{\gamma n_{j, \tau(t)} + \xi_{j}}_{\delta_{j, \tau(t)}} + \epsilon_{ijt} .
+\label{eqn:myopic_spec}    
+\end{equation}
+As discussed in Section \ref{sec:learning}, the analogous expected utility for a forward-looking PCP is
+\begin{equation}
+    \text{E} \left[ U_{ijt} | \dots \right] =
+    \alpha \tilde g(m_{ijt},v_{ijt})
+    + \pi x_{ijt} + \sum_{b \in B}\kappa_{b} I(e_{ijt} \in {b}) + \underbrace{\gamma n_{j, \tau(t)} + \xi_{j}}_{\delta_{j, \tau(t)}} + \epsilon_{ijt},
+\label{eqn:fwd_spec}    
+\end{equation}
+where $\tilde g(m_{ijt},v_{ijt})$ is approximated using Equation \eqref{eqn:gittins_approx}. In both the myopic and forward-looking models, the parameters $\alpha, \pi, \kappa_{1},...,\kappa_{B}$, and the composite fixed effects $\delta_{j, \tau(t)}$ are estimated from the referral decisions, while $\rho$ is set equal to the mean success rate in the market and $\eta$ is given one of a set of fixed values, as discussed in Section \ref{sec:identification}. 
+
+
+\subsection{Variable Definitions}
+
+For each PCP-specialist pair, the running variables $e_{ijt}$ and $y_{ijt}$ give the numbers of referrals and successes prior to patient and time $t$. However, because our sample begins in 2008, we do not observe the complete history for every pair. Experiences from many years in the past may also be less salient for current referral decisions. To address these issues and employ comparable observation periods to construct histories for all PCPs and specialists, we limit the running variables to a five-year look-back period.\footnote{For example, consider a referral from PCP $i$ to specialist $j$ for an inpatient admission on January 1, 2017. Our running variables for this referral are constructed using admissions from January 1, 2012 through December 31, 2016.} Referrals and outcomes occurring more than five years in the past are thereby assumed not to affect the current referral decision. While this five-year period is somewhat arbitrary, some cutoff is necessary in order to ensure a common length of history for all PCP-specialist pairs. We selected five years as it seems reasonably long, and it splits our available data into two similar periods: 2008-2012 is the baseline period from which the initial histories are constructed, and 2013-2018 is the estimation period. The specialist-level patient volumes, $n_{j, \tau(t)}$, which are used for the congestion effect, are defined using three-year periods (2013-2015 and 2016-2018).
+ 
+We construct choice sets based on the patient's HRR. For concreteness, denote a patient $i$'s HRR as $h_{i}$. We then take the set of specialists operating on any patient in HRR $h_{i}$, limiting to specialists with at least 20 surgeries in a calendar year. This initial choice set might include specialists located outside of a given HRR but that nonetheless operate on patients residing in $h_{i}$. Next, we exclude any specialists whose nearest practice location is above the 90th percentile of other specialists in that patient's choice set (or beyond 75 miles). The distance between the patient and the specialist is computed using the zip codes of the patient's residence and the specialist's nearest practice location. The resulting choice sets contain about 81 orthopedic surgeons, on average, compared to 83 specialists per HRR on average, so that our distance restriction does little to limit the effective choice sets.
+
+
+\subsection{Estimation Procedure}
+\label{sec:estimation}
+
+The specifications in Equations \eqref{eqn:myopic_spec} and \eqref{eqn:fwd_spec} yield relatively standard multinomial logit models, with the exception of the congestion effect. \cite{richards-shubik2021} provides a two-step approach to estimate these models with a congestion effect, which is based on methods from \cite{bayer2007} and closely related to the demand estimation from \cite*{berry1995}. 
+
+In the first step, the congestion effect, $\gamma n_{j, \tau(t)}$, is absorbed into the composite fixed effect, $\delta_{j, \tau(t)}$, and the resulting multinomial logit is estimated via maximum likelihood. In the second step, $\gamma$ is estimated with a linear regression defined by the identity $\delta_{j, \tau(t)} \equiv \gamma n_{j, \tau(t)} + \xi_{j}$. Because $n_{j, \tau(t)}$ is endogenous to $\xi_j$, and since $\xi_{j}$ represents part of the error term in this second step regression, we estimate $\gamma$ via two-stage least squares. We employ as an instrument the predicted number of patients, $\hat n_{j, \tau(t)}$, generated using a simple multinomial logit with only distance as the independent variable. In relation to the individual referral decision in the first step, the exclusion restriction for this instrument comes from the distances between \emph{all other patients} and specialist $j$. Specifically, $\hat n_{j, \tau(t)}$ is generated using the distances, $x_{kjs}$, from all PCPs $k$ and patients $s$ in the market during the relevant time period, while only the current patient's distance, $x_{ijt}$, affects the given referral decision.
+
+The estimation of the multinomial logit in the first step is further simplified because $\rho$ is set equal to the mean specialist quality in that HRR and $\eta$ is fixed at predetermined values of 1 and 5.\footnote{From Table \ref{tab:sum-pairs}, PCPs refer an average of 4.1 patients per year in total, or 4.4 patients to one specialist over five years, so these values for $\eta$ span a reasonable range for the strength of the priors in relation to the information learned from actual patients.} The utility specification is therefore linear in the remaining parameters. Finally, we constrain $\alpha$ to be weakly positive so that successful patient outcomes $(Y_{ijt}=1)$ are weakly preferred by PCPs. We impose this constraint using an exponential transformation (i.e., $\alpha = \text{e}^{\tilde \alpha}$), implemented using the algorithm proposed in \cite{fader1992}. In our setup, that algorithm amounts to an iterative procedure in which we propose an initial value, $\tilde \alpha_{0}=\ln (\alpha_0)$, construct the variable $\tilde{m}_{ijt,0}=\text{e}^{\tilde \alpha_{0}} \times m_{ijt}$, estimate the coefficient on this transformed variable, $\widehat{\Delta}_{0}$, and update with $\tilde \alpha_{1} = \tilde \alpha_{0} + (\widehat{\Delta}_{0} - 1)$. This process continues until $\tilde \alpha$ converges, which we denote as $\tilde \alpha^{*}$. Our final estimate for $\alpha$ then follows from the transformation of $\tilde \alpha^{*}$, with $\hat{\alpha} = \text{e}^{\tilde \alpha^{*}}$.
+
+We estimate the model separately in each of the 306 HRRs in our data, both to examine variation across markets and for computational feasibility, avoiding the simultaneous estimation of many thousands of specialist FEs. We further estimate these separately for $\eta \in \{1,5\}$. The distributions of estimates across HRRs are summarized by taking a weighted average of the estimates from each HRR, weighted by the number of observations per HRR. The congestion effect, $\gamma$, is estimated separately in each HRR along with the other parameters, and it is also estimated nationwide by pooling the composite fixed effects ($\hat \delta_{j, \tau(t)}$) and predicted numbers of patients ($\hat n_{j, \tau(t)}$) across all HRRs.
+
+
+\subsection{Parameter Estimates}
+
+Out of 306 HRRs, our constrained maximum likelihood estimation converged in over 90\% of markets, with slight variation across the myopic versus forward-looking models and the values of $\eta$.\footnote{Specifically, in the myopic (forward-looking) case, the estimation converged for 280 (277) markets for $\eta=1$ and 281 (279) markets for $\eta=5$.} Parameter estimates from the myopic model are presented in Table \ref{tab:parameters_myopic}, with analogous results for the forward-looking case in Table \ref{tab:parameters_fwd}. The tables present the coefficient estimates of $\alpha$, $\pi$, $\gamma$, and $\kappa$ using different values for $\eta$, as indicated, along with the estimates of the prior mean $\rho$ that come from the observed success rates (and therefore do not vary with $\eta$). We summarize the estimates for familiarity focusing on the intervals up to 10 patients for brevity. As noted above, $\alpha$, $\pi$, and $\kappa$ are estimated separately in each HRR while $\gamma$ is estimated by pooling across HRRs. For $\alpha$, $\pi$, and $\kappa$, we present the mean across HRRs along with certain percentiles.
+
+In both the myopic and forward-looking models, the estimates of $\pi$ are in line with other estimates of the effect of distance found in the literature, and are fairly similar across the values of $\eta$. The estimates for familiarity are also similar across $\eta$ and are generally large and increasing, suggesting that familiarity plays a potentially large role in driving referrals. Finally, the estimates of $\gamma$ imply that an increase of 100 patients (nearly 2/3rds of a standard deviation) over the 2013-2018 estimation period would reduce the referral probability by around 0.03, which is nearly a 17\% relative reduction.\footnote{This partial effect is computed as $\gamma$ divided by 0.18 for the relative reduction, where 0.18 reflects the mean choice probability conditional on the PCP-specialist pair having a non-zero referral history. UPDATE}
+
+The estimates of $\alpha$ indicate that PCPs place small to moderate weights on patient outcomes depending on the market. Larger values of $\eta$ yield larger estimates of $\alpha$, which is natural because $\alpha$ is divided by $\eta + e$ to form a composite ``coefficient'' on $y$ in Equation \eqref{eqn:myopic_spec}, with a similar scaling effect in the forward-looking case. We estimate slightly larger values for $\alpha$ in the forward-looking models, consistent with the additional informational value from patient outcomes in a forward-looking versus myopic decision. Focusing on the smallest estimate of the mean value of $\alpha$, in the myopic model with $\eta = 1$ (in Table \ref{tab:parameters_myopic}, column ``Mean''), its ratio to the corresponding mean estimate of $\pi$ implies that on average PCPs view the difference between success and failure as worth a little over 3 miles of extra travel distance for the patient. Such a small marginal rate of substitution is consistent with other estimates in the literature finding small quality elasticities of demand. Also, the national mean estimate of $\alpha$ is reasonably precise. A simple estimate of its standard error can be computed by dividing the standard deviation across HRRs (in column ``SD/SE'') by the square root of the number of HRRs, which gives a naive standard error of 0.011.
+
+To further interpret the role of patient outcomes in PCP referrals, we present the partial effect of one additional failure in Figure \ref{fig:alpha_partial} among PCP-specialist pairs with non-zero referral histories. [We present partial effects relative to the mean probability of referral, again limiting to pairs with non-zero referral histories, with results for the myopic case in the top panel and the forward-looking case in the bottom panel.] The figure plots the distribution of average partial effects across HRRs. It illustrates two key findings. First, there are some markets in which PCPs essentially do not respond meaningfully to specialist failures (i.e., $\hat \alpha = 0$). Second, conditional on a response, xxx. While these effects are perhaps small in the context of a single referral,\footnote{Note that our reduced-form evidence in Section \ref{sec:reduced_form} focuses only on cases where more than one PCP refers patients to the same specialist and where at least one (but not all) of the specialist's patients experienced a failure in a given quarter. This yields a relatively unique sample of PCP-specialist pairs, such that effect sizes across the different analyses are not comparable.} the effect translates to 3 weeks worth of surgeries per year for an average specialist (among our sample of patients).
+
+\subsection{Counterfactuals}
+
+Using our model of PCP learning and referrals, and the estimates summarized in Tables \ref{tab:parameters_myopic} and \ref{tab:parameters_fwd}, we consider two primary counterfactuals. Both sets of counterfactuals simulate the reallocation of patients and the effects on patient health under full information, in which PCPs have perfectly accurate beliefs about specialist quality (i.e., $\rho$ is set to the true probability of success for each specialist, as observed in the data). The counterfactuals differ in regard to our assumptions on the role of familiarity. In one case, we initialize familiarity to 0, and in the other, we initialize familiarity as observed in the data as of the time of the first referral. We refer to the first set of counterfactuals as ``resetting familiarity'' and the second set as ``existing familiarity.''\footnote{Under ``existing familiarity'', the counterfactuals therefore simulate a shock where the PCPs unexpectedly receive perfect information about specialist quality on January 1, 2013.}  In both cases, the number of patients referred to each specialist can change going forward, which naturally allows the familiarity effect to change along with quality information. Familiarity therefore compounds the effect of improved quality information.\footnote{In the supplemental appendix, we also consider a simulation in which familiarity is shut off entirely. These results are qualitatively similar to those in the main text, but the effects of full information are more muted since the feedback loop between quality information and familiarity no longer plays a role.} 
+
+The results under ``resetting familiarity'' are summarized in Figure \ref{fig:cf_full}, where we find that [describe proportion] of existing referrals would be reallocated. This represents a substantial change in demand for many specialists. The changes in health outcomes are more modest, which is not surprising given the relatively small average failure rate. [give a number] In other words, the probability of a negative outcome falls by xxx\% relative to the average rate of [about] 0.1 (see embedded comment about dollar value: 0.3 percentage points on a base of 90\%) under referrals with full information. These results include adjustments for changes in congestion, as discussed in Section \ref{sec:estimation}, and are relatively similar across different values of $\eta$. Analogous results under ``existing familiarity'' are summarized in Figure \ref{fig:cf_full_current}.
+
+Collectively, our counterfactuals indicate that PCPs respond modestly to the outcomes experienced by their patients, but that learning about quality differences among specialists is slow---partly because opportunities for learning (e.g., negative outcomes) are somewhat rare. There is also a nontrivial congestion among patients referred to the same specialists, which slightly reduces the ability of the market to allocate patients to better performing specialists. Consequently, the response to changes in PCP information is relatively muted, particularly any subsequent effects on patient health. 
+
+Interestingly, however, our counterfactuals show that full information could have large effects in settings where familiarity plays less of a role. This is evident from the leftward shift in reallocation and, to a much lesser extent, health effects when resetting familiarity in Figure \ref{fig:cf_full} versus when starting with existing familiarity in Figure \ref{fig:cf_full_current}. For example, when PCPs establish a practice or join an existing practice in a new location, improved information may facilitate much faster convergence of referrals toward higher quality specialists. 
+
+%%% DISCUSSION
+
+\section{Discussion}
+\label{sec:discuss}
+
+This paper examines how primary care physicians (PCPs) learn and make referral decisions in the context of referrals for orthopedic surgery. Using 100\% Medicare FFS claims data spanning 11 years, we estimate a structural learning model to understand how PCPs respond to patient outcomes, and we explore counterfactual scenarios to evaluate the efficiency of referrals under more complete information and without any attachment to specialists from to prior relationships.
+
+Employing both a design-based event study and structural models of PCP referrals, we find that PCPs modestly adjust their referrals based on negative patient outcomes; however, this responsiveness remains relatively limited. PCP referral patterns are also heavily influenced by familiarity with specialists, often overpowering the role of observable quality differences. The slow pace of learning and the weight of prior relationships highlight a significant inefficiency in referral markets. Additionally, capacity constraints among specialists present a further challenge to reallocating patients to higher-quality providers, even when quality information is improved. Nonetheless, counterfactual analyses indicate that meaningful gains in patient outcomes are achievable through more complete information and decreased reliance on familiarity and prior relationships.
+
+Our results suggest that while PCPs demonstrate some responsiveness to negative outcomes, their overall adaptability is constrained. For example, referral probabilities change by less than 5\% on average following adverse events, underscoring the inertia inherent in referral behaviors. This conservatism is exacerbated by the infrequency of negative outcomes, which limits opportunities for learning. Market characteristics also appear to play a meaningful role in shaping PCP responses. In concentrated markets with fewer specialists, PCPs exhibit stronger responses to patient outcomes, likely due to more salient quality differences. Conversely, in less concentrated markets, the abundance of options may dilute attention to individual outcomes.
+
+From a policy perspective, our results suggest a muted effect of efforts toward quality transparency, such as centralized platforms for sharing specialist performance metrics or public reporting of specialist quality. Tailored interventions in concentrated markets could amplify the impact of quality-focused policies by leveraging the stronger PCP responses observed in these settings. Moreover, given the strength of PCP-specialist familiarity in driving future referrals, information campaigns or decision-support tools may be most effective when targeted to PCPs entering a new geographic market.
+
+
+%%% BIBLIOGRAPHY
+
+\pagebreak
+\bibliography{BibTeX_Library}
+
+
+
+%%% TABLES AND FIGURES
+
+\clearpage
+\newpage
+\section*{Tables and Figures}
+
+%%% FIGURES
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Size of PCP Referral Networks over 2013-2018\footnote{Figure depicts the frequency histogram of PCP network size over the 2013-2018 estimation period.}}
+\centerline{%
+    \includegraphics[scale=0.5]{results/figures/desc/NetworkSize_1_1_0.png}
+}
+\label{fig:network-size}
+\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Highest Referral Shares over 2013-2018\footnote{Figure depicts the frequency histogram of the ``highest-share'' specialist per PCP over the 2013-2018 estimation period.}}
+\centerline{%
+    \includegraphics[scale=0.5]{results/figures/desc/HighestShare_1_1_0.png}
+}
+\label{fig:network-share}
+\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[c]{\textwidth}
+\caption[caption]{Potential Reduction in Failure Rate \\ (by hospital referral region)\footnote{Figure depicts the interquartile range of failure rates per 100 surgeries across specialists within each HRR over the 2013-2018 estimation period.}}
+\includegraphics[scale=0.5]{results/figures/desc/Failure_IQR_1_1_0.png}
+\label{fig:iqr-quality}
+\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Potential Reduction in Episode Spending \\ (by hospital referral region)\footnote{Figure depicts the interquartile range of mean episode spending per specialist per HRR over the 2013-2018 estimation period. Episode spending is measured as the total Medicare payments over a 90-day period beginning from the date of admission.}}
+\centerline{%
+    \includegraphics[scale=0.5]{results/figures/desc/Payment_IQR_1_1_0.png}
+}
+\label{fig:iqr-spending}
+\end{minipage}
+\end{figure}
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption{Potential Excess Capacity \\ (by hospital referral region)\footnote{Figure depicts the estimated number of additional annual procedures that could be performed collectively among the specialists in the top 25 percent of the quality distribution. Excess capacity for a single specialist is measured as the difference between the 90th percentile of that specialists count of yearly operations less the observed count of operations in that year.}}
+\centerline{%
+    \includegraphics[width=\linewidth]{results/figures/desc/Excess_Capacity.png}
+}
+\label{fig:capacity}
+\end{minipage}
+\end{figure}
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption{\small Hypothetical Reallocation \\ (by hospital referral region)\footnote{Figure depicts the count of procedures among the lowest 25th percentile of specialists, aggregated across all specialists in a given HRR.}}
+\centerline{%
+    \includegraphics[scale=0.5]{results/figures/desc/Hypo_Reallocate.png}
+}
+\label{fig:reallocate}
+\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Event Study of Specialist Failures\footnote{Figure depicts stacked event study estimates following \cite{cengiz2019}, based on Equation~\eqref{eqn:eventstudy}. Our stacked specification includes specialist X quarter fixed effects as well as specialist X cohort X PCP `type' fixed effects. The event study coefficient at time $\tau = -1$ is normalized to 0.}}
+\centerline{%
+    \includegraphics[scale=0.5]{results/figures/rf/EventStudy_Stacked_1_1_0.png}
+}
+\label{fig:event}
+\end{minipage}
+\end{figure}
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Partial Effect of Failures\footnote{Figure depicts the mean change in referral probabilities among PCP-specialist pairs with some referral history, averaged within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, 280 (277) HRRs in the myopic (forward-looking) case for $\eta=1$ and 281 (279) in the myopic (forward-looking) case for $\eta=5$.}}
+\begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic Referrals}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Partial_Effect_Failure_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Partial_Effect_Failure_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking Referrals}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Partial_Effect_Failure_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Partial_Effect_Failure_FWD_eta5.png}
+\end{tabular}
+\label{fig:alpha_partial}
+\end{minipage}
+\end{figure}
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Counterfactuals from Full Information and Resetting Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to 0. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, 280 (277) HRRs in the myopic (forward-looking) case for $\eta=1$ and 281 (279) in the myopic (forward-looking) case for $\eta=5$.}}
+\begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic Referrals, Reallocation}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Full_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Full_eta5.png} \\
+\multicolumn{2}{c}{\textit{Myopic Referrals, Health Improvements}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_Effect_Full_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_Effect_Full_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking Referrals, Reallocation}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Full_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Full_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking Referrals, Health Improvements}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_Effect_Full_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_Effect_Full_FWD_eta5.png}
+\end{tabular}
+\label{fig:cf_full}
+\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Counterfactuals from Full Information and Existing Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to observed values as of January 2013. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, 280 (277) HRRs in the myopic (forward-looking) case for $\eta=1$ and 281 (279) in the myopic (forward-looking) case for $\eta=5$.}}
+\begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic Referrals, Reallocation}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_eta5.png} \\
+\multicolumn{2}{c}{\textit{Myopic Referrals, Health Improvements}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_Effect_Current_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_Effect_Current_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking Referrals, Reallocation}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Current_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Current_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking Referrals, Health Improvements}} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_Effect_Current_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_Effect_Current_FWD_eta5.png}
+
+\end{tabular}
+\label{fig:cf_full_current}
+\end{minipage}
+\end{figure}
+
+
+
+%%% TABLES
+\newpage
+\begin{table}
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[caption]{\textbf{Descriptive Statistics for Patients and Referrals}\footnote{Mean values with standard deviations in parenthesis. As discussed in the main text, the period from 2008-2012 is our baseline period used to form histories of PCP/specialist pairs over a common time period, and the period from 2013-2018 is our estimation period. We present summary statistics separately by those time periods for consistency with our final estimation.}}
+\centerline{%
+    \begin{tabular}{lrrr}
+        \input{results/tables/sum-stats-all_1_1_0.tex}
+    \end{tabular}
+}
+\label{tab:sum-referral}
+\end{minipage}
+\end{table}
+
+\newpage
+\begin{table}
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[caption]{\textbf{Descriptive Statistics for PCPs and PCP/Specialist Pairs}\footnote{Mean values calculated per year, with standard deviations in parenthesis. As discussed in the main text, the period from 2008-2012 is our baseline period used to form histories of PCP/specialist pairs over a common time period, and the period from 2013-2018 is our estimation period. We present summary statistics separately by those time periods for consistency with our final estimation.}}
+\centerline{%
+    \begin{tabular}{lrrr}
+        \input{results/tables/sum-stats-pairs_1_1_0.tex}
+    \end{tabular}
+}
+\label{tab:sum-pairs}
+\end{minipage}
+\end{table}
+
+\clearpage
+\newpage
+
+
+\begin{table}
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[caption]{\textbf{Structural Parameter Estimates, Myopic Model}\footnote{Estimates of specification in Equation \eqref{eqn:myopic_spec}, using the procedure described in Section \ref{sec:estimation}, with different values of $\eta$ as indicated. Parameters $\alpha, \pi, \rho$ are estimated separately by HRR; the table reports their distribution, where SD is standard deviation across HRRs. For $\gamma$, the ``mean'' is the point estimate and SE is the standard error from a single nationwide estimation. All familiarity coefficients are presented as the mean across HRRs with standard errors in parentheses. Results limited to HRRs in which our constrained maximization routine converged, 280 HRRs for $\eta=1$ and 281 for $\eta=5$.}}
+\bigskip
+\centerline{%
+    \begin{tabular}{lrrrrrrr}
+        \input{results/tables/MyopicCoefficient_Table.tex}
+    \end{tabular}
+}
+\bigskip
+\label{tab:parameters_myopic}
+\end{minipage}
+\end{table}
+
+\clearpage
+\newpage
+
+\begin{table}
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[caption]{\textbf{Structural Parameter Estimates, Forward-looking Model}\footnote{Estimates of specification in Equation \eqref{eqn:fwd_spec}, using the procedure described in Section \ref{sec:estimation}, with different values of $\eta$ as indicated. Parameters $\alpha, \pi, \rho$ are estimated separately by HRR; the table reports their distribution, where SD is standard deviation across HRRs. For $\gamma$, the ``mean'' is the point estimate and SE is the standard error from a single nationwide estimation. All familiarity coefficients are presented as the mean across HRRs with standard errors in parentheses. Results limited to HRRs in which our constrained maximization routine converged, 277 HRRs for $\eta=1$ and 279 for $\eta=5$.}}
+\bigskip
+\centerline{%
+    \begin{tabular}{lrrrrrrr}
+        \input{results/tables/ForwardCoefficient_Table.tex}
+    \end{tabular}
+}
+\bigskip
+\label{tab:parameters_fwd}
+\end{minipage}
+\end{table}
+
+
+%%% END
+
+\end{document}
