@@ -53,12 +53,17 @@ Stata exports have known issues. Always check and fix after importing new tables
 - `\multiclumn` → `\multicolumn`
 - Missing braces: `\multicolumn{N}{c}Text` → `\multicolumn{N}{c}{Text}`
 
-**Style rules:**
+**Style rules (descriptive stats tables):**
 - Use `\hline\hline` after the column header row and before the Observations row
 - Use `\hline` above and below `\emph{...}` subheader rows
 - Do not stack `\hline\hline` + `\hline` (if a subheader immediately follows the header, `\hline\hline` alone suffices)
 - No `\midrule`, `\addlinespace`, or other booktabs commands — use `\hline` only
 - Keep `\emph{...}` for subheader labels
+
+**Style rules (coefficient/parameter tables):**
+- Use `\hline\hline` after the main header row (Parameter, Mean, SD/SE, percentiles)
+- Use `\\[-0.5ex]` between parameter sections (alpha, pi, rho, gamma, kappa) for spacing — no dividing lines
+- For the kappa section: `\cline{2-8}` below the subheader, then `\hline\hline` below the `1, 2, 3...` range row
 
 ## Known Issues
 - `results/_archive/figures/lpoly_hhi.png` - deprecated, referenced in appendix but not in repo (compile error in Overleaf)
