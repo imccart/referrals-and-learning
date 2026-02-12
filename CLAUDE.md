@@ -40,8 +40,25 @@ Old VRDC exports live in `results/_archive/` (gitignored).
 1. New VRDC exports go to `results/_archive/YYYYMM-spec-name/`
 2. Review and validate against current tracked version
 3. Rename files if needed (e.g., remove "2" suffix from filenames)
-4. Copy to spec folder, commit with descriptive message
-5. After pushing, pull into Overleaf to sync
+4. Apply table formatting fixes (see below)
+5. Copy to spec folder, commit with descriptive message
+6. After pushing, pull into Overleaf to sync
+
+## Table Formatting (post-export fixes)
+
+Stata exports have known issues. Always check and fix after importing new tables:
+
+**Typo fixes:**
+- `\multoclumn` → `\multicolumn`
+- `\multiclumn` → `\multicolumn`
+- Missing braces: `\multicolumn{N}{c}Text` → `\multicolumn{N}{c}{Text}`
+
+**Style rules:**
+- Use `\hline\hline` after the column header row and before the Observations row
+- Use `\hline` above and below `\emph{...}` subheader rows
+- Do not stack `\hline\hline` + `\hline` (if a subheader immediately follows the header, `\hline\hline` alone suffices)
+- No `\midrule`, `\addlinespace`, or other booktabs commands — use `\hline` only
+- Keep `\emph{...}` for subheader labels
 
 ## Known Issues
 - `results/_archive/figures/lpoly_hhi.png` - deprecated, referenced in appendix but not in repo (compile error in Overleaf)
