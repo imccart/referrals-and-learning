@@ -15,6 +15,7 @@ Project syncs with Overleaf via GitHub. Key points:
 - LaTeX paths are from project root (e.g., `results/figures/desc/foo.png`)
 - Presentation images live in `presentations/images/`
 - Papers live in `papers/`, presentations in `presentations/tex/`
+- **Status**: GitHub ready; pull into Overleaf after fwd-timevary results added
 
 ## Results Organization
 
@@ -38,5 +39,11 @@ Old VRDC exports live in `results/_archive/` (gitignored).
 
 1. New VRDC exports go to `results/_archive/YYYYMM-spec-name/`
 2. Review and validate against current tracked version
-3. Rename files if needed (e.g., remove "2" suffix)
+3. Rename files if needed (e.g., remove "2" suffix from filenames)
 4. Copy to spec folder, commit with descriptive message
+5. After pushing, pull into Overleaf to sync
+
+## Known Missing Figures (will fail in Overleaf)
+- `results/_archive/figures/lpoly_hhi.png` - deprecated, not in repo
+- `results/_archive/figures/MFX_HRR_1_1_0.png` - deprecated, not in repo
+- `results/figures/fwd-timevary/*` - placeholder until new results arrive
