@@ -10,19 +10,19 @@ Research on physician referrals and learning about specialist quality. Joint wor
 
 ## Overleaf Integration
 
-Project syncs with Overleaf via GitHub. Key points:
-- `grants/` is gitignored (stays in Overleaf + local, not GitHub)
+Project syncs with Overleaf via GitHub (new Overleaf project created from GitHub repo).
+- `grants/` is gitignored (uploaded manually to Overleaf; stays Overleaf + local, not GitHub)
 - LaTeX paths are from project root (e.g., `results/figures/desc/foo.png`)
+- Overleaf main document: `papers/learning-draft.tex`
 - Presentation images live in `presentations/images/`
 - Papers live in `papers/`, presentations in `presentations/tex/`
-- **Status**: GitHub ready; pull into Overleaf after fwd-timevary results added
 
 ## Results Organization
 
 Results are organized by **specification**, not export date:
 
 - `myopic-timevary/` - Main baseline (all markets, unestimated alpha=0)
-- `fwd-timevary/` - Forward-looking model (placeholder, results coming)
+- `fwd-timevary/` - Forward-looking model
 - `*-excl_unest/` - Sensitivity: excludes markets with unestimated alpha
 - `myopic-timevary-practice/` - Practice-level robustness (myopic only)
 
@@ -43,7 +43,7 @@ Old VRDC exports live in `results/_archive/` (gitignored).
 4. Copy to spec folder, commit with descriptive message
 5. After pushing, pull into Overleaf to sync
 
-## Known Missing Figures (will fail in Overleaf)
-- `results/_archive/figures/lpoly_hhi.png` - deprecated, not in repo
-- `results/_archive/figures/MFX_HRR_1_1_0.png` - deprecated, not in repo
-- `results/figures/fwd-timevary/*` - placeholder until new results arrive
+## Known Issues
+- `results/_archive/figures/lpoly_hhi.png` - deprecated, referenced in appendix but not in repo (compile error in Overleaf)
+- `results/_archive/figures/MFX_HRR_1_1_0.png` - deprecated, same as above
+- `\ref{fig:network-size-yearly}` in draft has no matching `\label` (renders as "??")
