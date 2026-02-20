@@ -1,0 +1,170 @@
+% NIH grant proposal file (2011)
+
+\documentclass[12pt]{article}
+
+% Packages to load
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{natbib, comment}
+\setcitestyle{round}
+
+% Arial font that NIH allows
+\renewcommand{\familydefault}{\sfdefault}
+\linespread{1.15}
+
+% Better and richer math environment
+\usepackage{amsmath}
+
+% EPS and PDF figures
+\usepackage{graphicx, hyperref}
+
+% Make 0.5'' margins on all sides
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+
+% Add itemize*, description*, and enumerate* environments to shrink white space between list items
+\usepackage{mdwlist}
+
+% No page numbers
+\pagestyle{empty}
+
+% Compress white space around titles
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\titlespacing{\paragraph}{0pt}{*0}{*2}
+
+% Separate new paragraphs by 0.2 cm of white space (rather than indents)
+\usepackage{parskip}
+\setlength{\parskip}{0.2cm}
+
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+
+% Begin document
+
+\begin{document}
+
+\begin{comment}
+\section*{LOI General Content}
+
+Organizational Information
+\begin{itemize}
+\item Legal Name, Employer ID Number (EIN)
+\item Address, Phone Number
+\item Current Fiscal Year Budget
+\item Contact Information
+\item Name, Office Address, Email, and Office Phone Number for the project’s Primary Contact, and the organization’s Primary Contact.
+\end{itemize}
+
+Project Information
+\begin{itemize}
+\item Project Title
+\item Brief Project Description (1-2 sentences)
+\item Estimated Length of Project, Project Start and End Dates
+\item Estimated Total Project Cost, Amount of Funding already Secured (if applicable)
+\end{itemize}
+
+Amount Requested of RRF
+
+RRF grant pathway (Advocacy, Direct Service, Professional Education & Training, Research, or Organizational Capacity Building) that best describes your proposed project.
+
+RRF priority area (Caregiving, Housing, Economic Security in Later Life, or Social and Intergenerational Connectedness) your project addresses. Select only the primary area. If your project does not directly align with a Priority Area, you are welcome to submit an idea for consideration as an “Other Promising Project.”
+\end{comment}
+
+\section*{Statement of Need and Proposed Solution}
+
+\begin{comment}
+Provide a brief (no more than 2 paragraphs - approximately 350 words) statement about the primary issue the project will address, how you intend to address it, and why this project is needed at this time. If you indicated that your project falls into the category of “Other Promising Projects,” use this space to discuss how your project: presents a promising opportunity to advance the field of aging; addresses a time-sensitive and urgent issue; promotes a new opportunity for collaboration; or promotes positive perceptions of aging.
+Goals and Objectives
+
+Tell us the overarching Goals and SMART(IE) Objectives of your project. You should have no more than 1-2 goals, and each goal should have no more than 3-4 objectives. You may use bullet points in this section.
+\end{comment}
+
+Medicare spending surpassed \$800 \textbf{billion} in 2021, with the Medicare trust fund now projected to be depleted by 2028. Medicare beneficiaries also receive very different amounts and qualities of care both across and even within geographic areas. One potential solution to this problem is to improve primary care physician (PCP) referrals. By ensuring that patients are being referred to the right specialists and receiving the appropriate tests and treatments, PCPs can help to reduce unnecessary spending and improve the overall quality of care provided to Medicare beneficiaries. Additionally, PCPs can play a crucial role in coordinating care and ensuring that patients receive appropriate follow-up care, which can help to reduce the risk of complications and readmissions. Improving PCP referrals is therefore an important step in reducing Medicare spending and improving the quality of care provided to beneficiaries. 
+
+Our proposal centers around two specific goals, with more detailed objectives listed in each goal:
+\vspace{.05in}
+\paragraph{Goal 1:} \textit{Describe PCP referral networks empirically and examine the association between salient network statistics and measures of health care quality and cost.}
+\begin{itemize}
+    \item Construct referral networks between PCPs and specialists using Medicare claims data, focusing on major joint surgery where PCP referrals are known to heavily influence a patient's choice of orthopedic surgeon. 
+    \item Compute key statistics such as degree centrality and network density, along with measures of referral concentration (e.g., the proportion of a PCP's patients sent to a given specialist). 
+    \item Examine the association between these network statistics and measures of costs, quality, and utilization. 
+\end{itemize}
+
+\vspace{.05in}
+\paragraph{Goal 2:} \textit{Estimate the responsiveness of PCP referrals to signals about specialist quality, and examine the implications for patient health and Medicare spending using a model of physician learning.}
+\begin{itemize}
+    \item Quantify the relationship between PCP referrals and specialist quality, focusing specifically on changes in PCP referrals following negative patient outcomes. 
+    \item Examine this relationship in the context of a structural learning model in which PCPs learn about specialist quality over time and update referral patterns accordingly.
+\end{itemize}
+
+
+
+\newpage
+\section*{Target Population}
+\begin{comment}
+Provide a description of the target population, including number of people your project will reach/effect (sample size for research proposals), how you will reach the population (recruitment), and demographic information or geographic location where relevant. This description should be no more than 1 paragraph - approximately 150 words.
+\end{comment}
+
+Since our analysis is based on Medicare fee-for-service (FFS) claims data, our target population consists entirely of individuals ages 65 and above. Our data also cover the entire population of Medicare FFS beneficiaries, with over 4.5 million elective orthopedic surgeries from 2008 through 2018. Included in our data is information about patient sex and race/ethnicity, and we will use this information to examine subsamples of patients to assess whether referral patterns are different along these dimensions. We will conduct similar sub-analyses for urban versus rural areas, where we suspect far fewer opportunities for PCPs to adjust referral patterns in rural areas.
+
+
+\newpage
+\subsection*{Diversity, Equity,  Inclusion (DEI) Lens}
+\begin{comment}
+In two to three sentences, please describe how your organization will bring a DEI lens to the proposed project. If your project does not have a DEI focus, write “N/A.”  RRF’s definition of Diversity, Equity, and Inclusion can be found on RRF’s Frequently Asked Questions webpage.
+\end{comment}
+
+While we cannot identify sexual orientation or gender in the claims data, we can identify each beneficiary's sex and race/ethnicity. This will allow us to examine heterogeneities in PCP referrals by patient sex and race. In future work, we also hope to incorporate physician race/ethnicity information in order to examine potential biases and discrimination in the PCP referral process. 
+
+\newpage
+\subsection*{Methods}
+
+\begin{comment}
+Please describe the specific methods you will use to accomplish your goals and objectives. No more than 2 paragraphs - approximately 350 words.
+For a research project, include the study design and information on the intervention where relevant.
+\end{comment}
+
+This is a retrospective observational study of PCP referrals among Medicare patients. Our analysis will use Medicare fee-for-service (FFS) claims data covering the population of all inpatient major joint replacements from 2008 through 2018, or just over 4.5 million inpatient stays. We will access these data with an existing Data Use Agreement (DUA) through the CMS Virtual Research Data Center (VRDC). In order to identify referring PCPs with the claims data, we will assign patients to PCPs based on a combination of two common approaches in the literature: 1) the referring physician listed in the inpatient claims data; and 2) the most frequently visited physician for evaluation and management visits over the prior year. 
+
+To address \textbf{Goal 1}, we will estimate using linear and non-linear regression analysis the correlation between PCP network measures (e.g., network size and concentration) on health care utilization, spending, and quality. In addition to simple regression adjustment, we will pursue a causal analysis by exploiting PCPs that newly enter a given market. Our causal analysis will employ a difference-in-differences (DD) research design, in which treated PCPs are those that have moved or recently started practice in a new market, and control PCPs are those that remain in the same market. To address \textbf{Goal 2}, we will employ discrete choice analysis within a structural physician learning framework. Specifically, we will estimate discrete choices models of PCP referrals to specialists for major joint replacements. If PCPs are myopic, our model reduces to a standard multinomial logit model. If PCPs are forward-looking, the structural model corresponds to a multi-armed bandit problem, where PCPs face an ``experimentation vs.~exploitation'' tradeoff between trying a relatively unfamiliar specialist vs.~using a well known one with at least adequate quality. The problem can be solved via the use of a \emph{Gittins index}, which facilitates a straightforward approach for estimation of the forward-looking model. Our structural model will make it possible to forecast the effects of policy interventions that improve learning, such as increased transparency of accessible and relevant physician quality metrics or the effects of restricted referral patterns via hospital acquisitions of physician practices.
+
+
+
+
+\newpage
+\subsection*{Evaluation and Impact}
+\begin{comment}
+Discuss your evaluation criteria and methods, this section should include expected outcomes and a brief statement on dissemination where applicable. This section should be no more than 1-2 paragraphs - approximately 200 words.
+For research projects, include information on measurement strategies, data collection, and planned analyses.
+\end{comment}
+
+Our results will inform policy-makers as to the potential costs of existing informational frictions in PCP referral networks and the benefits to policies that can successfully reduce these frictions. The main purpose of our structural model (\textbf{Goal 2}) is to generate policy simulations that quantify the gains which would be achieved if PCPs could learn about specialist quality more rapidly and thereby improve the allocation of patients to specialists.
+
+We will disseminate our results to audiences of academics, practitioners, and policy makers. We will submit abstracts to relevant regional and national conferences, such as the annual conferences of the American Society for Health Economists, Association for Public Policy Analysis \& Management, the Allied Social Sciences, and Academy Health. Preliminary results from this project will be published in the National Bureau of Economic Research’s working paper series to expedite dissemination, and we will submit the final results for publication in high profile academic journals such as the \textit{American Economic Review} or the \textit{Review of Economics and Statistics}.
+
+
+\newpage
+\subsection*{Organizational Qualifications/Partners/Stakeholders}
+\begin{comment}
+Include information on who is leading the project, their qualifications, and partner organizations/stakeholders that will be involved. No more than 2 paragraphs - approximately 350 words.
+\end{comment}
+
+Ian McCarthy, PhD will serve as the Principal Investigator (PI) on the project with co-investigator Seth Richards-Shubik, PhD. Dr.~McCarthy is an Associate Professor of Economics at Emory University and a Research Associate at the National Bureau of Economic Research. His research focuses on the effects of institutions, policies, and market structure on health care pricing and delivery. He has published several articles in leading economics journals, including the \textit{Journal of Human Resources}, the \textit{Journal of Industrial Economics}, and the \textit{Journal of Health Economics}. Dr.~McCarthy also has extensive experience working with Medicare FFS claims data within the CMS VRDC environment.
+
+Dr.~Richards-Shubik is an Associate Professor of Economics at Lehigh University and a Research Associate at the National Bureau of Economic Research. He is an expert in empirical industrial organization and structural modeling, particularly when applied to the health care setting. Collectively, the research team is well-prepared to work with the proposed Medicare FFS claims data and employ the proposed research designs. The research team also has a strong record of high-profile and well-cited publications in economics and health policy.
+
+
+\newpage
+\subsection*{Prospective Project Budget}
+
+\begin{comment}
+In a few sentences, describe how you generally anticipate RRF funds being used to support your proposed project (i.e., supporting costs for personnel, consultants, program materials, technology, dissemination activities).
+\end{comment}
+
+We will request funding for summer salary, data access through the VRDC (annual fees are required to access the data), graduate research assistance, and conference travel.
+
+
+\end{document}

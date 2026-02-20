@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx,amssymb,amsmath,setspace, comment}
+\usepackage{ulem}
+\usepackage{wrapfig}
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
+\usepackage[round]{natbib}
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+\setlength{\intextsep}{0pt} % remove space between text and wrapfigure
+\setlength{\columnsep}{5pt} % reduce space between columns
+
+%%\input{EmoryLetterDefs}
+%%\renewcommand\Emoryre{Letter of Inquiry for 2016-2017 Funding Cycle: Project Narrative}
+
+\begin{document}
+\noindent {\large \textbf{Project Title:}} Referrals in the Presence of Uncertainty and Learning Frictions
+
+\vspace{-.1in}
+\subsection*{Project Summary}
+\vspace{-.1in}
+Expert referrals are crucial in many industries, including finance, law, and health care, where clients rely on referrals among experts to find a specialist with the relevant skills for a particular problem. However, these referrals are often made in the face of significant uncertainty, because one expert may not be fully informed about the quality and skills of other experts in the market. Understanding decision making in these contexts remains an important area of research across several disciplines \citep{ching2013}. 
+
+One area where decision making under uncertainty is particularly salient is in referrals from primary care physicians (PCPs) to specialists. First, as Kenneth Arrow stated over 60 years ago, ``Uncertainty as to the quality of the product is perhaps more intense [in health care] than in any other important commodity'' \citep{arrow1963}. There are also frictions in the extent and speed at which PCPs can identify the best specialists in the market, including behavioral persistence based on prior referral patterns and other potential biases. Second, the health care system is increasingly reliant on referrals, with as many as 30\% of visits to PCPs resulting in a referral to a specialist for additional care \citep{wright2022}, a near two-fold increase in referral rates in the last decade \citep{barnett2012aim}, and a heavy reliance on physician recommendations among patients \citep{chernew2021}. The study of PCP referrals to specialists therefore offers an ideal setting to examine decision making under uncertainty and learning frictions, and \textbf{directly applies to the RSF funding priority of behavioral science and decision making in context}.
+
+Using comprehensive Medicare claims data over more than a decade, our project applies a model of learning and habit formation to examine the relationship between PCP referrals and specialist quality. In addition to providing reduced-form causal evidence, we will estimate a structural learning model in which PCPs learn about specialist quality over time and update referral patterns accordingly. While our analysis considers health outcomes as a signal of specialist quality, our contribution is to the area of decision making under uncertainty and learning. Health care is a major area of economic activity, and referrals in health care have substantial implications for efficiency and equity \citep{vanryn2002,finkelstein2016,molitor2018}, but the central economic contribution of our project is about understanding decision making more broadly.
+
+\begin{comment}
+Through their influence on specialist selection, PCP referral networks are a natural candidate for examining sources of and potential solutions to health care inequality and inefficiency, for two major reasons: 1) there is ample opportunity to improve patient health and lower health care costs if PCPs can better direct patients to more efficient and higher quality specialists; and 2) adjusting PCP referrals is an arguably more realistic and actionable way to reduce variation in care due to differential provider behaviors, rather than attempting to adjust specialist practice styles. We posit that a \textbf{substantial amount of health care inequality and inefficiency would be removed if PCPs could more quickly identify the highest-quality and most efficient specialists in their markets and refer patients accordingly.} 
+\end{comment}
+
+\vspace{-.1in}
+\subsection*{Objectives and Research Plan}
+\vspace{-.1in}
+Our specific research questions are: 
+\begin{enumerate}
+    \item Does a PCP's network of referrals evolve over time in response to poor patient outcomes?
+    \item What are the potential gains from reducing learning frictions and minimizing behavioral persistence in the PCP's decision making process?
+\end{enumerate}
+
+\noindent \textit{Data and Descriptive Statistics:} \\
+Our proposed analysis relies on four main data sources: 1) the 100\% Medicare claims files (covering all Part A and Part B claims) from 2008 to 2018; 2) information on patient characteristics from the Medicare beneficiary summary files; 3) data on physician practice characteristics from the Medicare Data on Provider Practice and Specialty (MD-PPAS); and 4) data on hospital characteristics from the American Hospital Association (AHA) Annual Surveys. The key information we extract from these data are:
+
+\begin{enumerate}
+    \item \textbf{Inpatient Surgeries:} Our analysis focuses on PCP referrals to specialists for planned and elective major joint replacements among Medicare beneficiaries aged 65 and above. These restrictions allow us to better identify the referring PCP and are commonly performed by a single orthopedic surgeon (rather than a team of specialists).
+    
+    \item \textbf{Referrals:} We identify the referring PCP based on frequency of ``evaluation and management'' visits to PCPs over the prior 12-month period before a given surgery, limited to PCPs that the patient visited at least 2 times in the prior year. This process closely follows \cite{pham2009} and \cite{agha2017} and has been recently validated in \cite{dugoff2018}.
+
+    \item \textbf{Specialist Quality:} We collect all Parts A and B claims for every patient identified in step 1. We then measure specialist quality (i.e., the object over which PCPs are learning over time) based on 90-day readmission, 90-day mortality, and 90-day complications. We define a ``failure'' as any readmission, complication, or mortality within 90 days of discharge.
+
+\end{enumerate}
+
+\begin{wrapfigure}{R}{0.6\textwidth}
+  \caption{Network Size for Orthopedic Referrals}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/NetworkSize_1_1_0.png}
+  \end{center}
+  \label{fig:network-size}
+\end{wrapfigure}
+
+
+Based on preliminary data for major joint replacements, we observe over 4.5 million inpatient stays from 2008 through 2018. Imposing the restrictions on orthopedic surgeons and referring PCPs reduces our set of referrals to around 2.9 million inpatient stays. Finally, in order to assess referral histories for every possible PCP/specialist pair, we split our data into a baseline period (2008-2012) and an estimation period (2013-2018). Our final data are at the patient/procedure level, where the key variables include the orthopedic specialist for the patient's elective surgery, the referring PCP for that surgery, and the spending and quality outcomes for that surgery. 
+
+From these data, we can begin to describe PCP referral networks in orthopedic surgery. The distribution of referral network sizes is presented in Figure \ref{fig:network-size} and shows the total number of unique specialists to which a PCP refers patients over the estimation period. The typical PCP sends patients to relatively few specialists (around 10), and the frequency distribution reveals a long tail, illustrating the presence of a small set of PCPs with very large network sizes. Conditional on a small network size, referrals among a given PCP's network are also relatively equally distributed, with a PCP's most commonly referred specialist accounting for 20\% to 40\% of all referrals from that PCP over the estimation period; however, nearly 2\% of PCPs isolate their referrals to just a single specialist.
+
+From Figure \ref{fig:network-size}, most PCPs have experience referring patients to around 10 unique specialists over our estimation period. For context, we observe an average of around 50 specialists performing a major joint replacement per Hospital Referral Region (HRR) per year. A network size of 10 specialists over the same time period implies that an average PCP remains unfamiliar with 80\% of specialists in their market. This reflects an apparent lack of experimentation in referral patterns and therefore a potential opportunity for quality and efficiency improvements if PCPs could better allocate their referrals to higher quality and more efficient specialists in their market. 
+
+\begin{wrapfigure}{R}{0.6\textwidth}
+  \caption{Potential Reduction in Spending}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/Payment_IQR_1_1_0.png}
+  \end{center}
+  \label{fig:iqr-spending}
+\end{wrapfigure}
+
+To illustrate the potential gains from such a reallocation, we consider the variation in spending across specialists per market (HRR). Figure \ref{fig:iqr-spending} shows the differences between the 75th and 25th percentiles of surgeon-specific spending (90-day episodes) by HRR. The implication of Figure \ref{fig:iqr-spending} is that there is a potential savings of nearly \$8,000 per episode when moving from relatively high-spending (75th percentile of the spending distribution) to relatively low-spending (25th percentile) specialists.
+
+
+\medskip
+\noindent \textit{Research Plan and Methods:} \\
+To examine PCP learning, we will estimate a structural learning model in which PCPs have imperfect information and must learn about the quality and ease of working with the specialists available in their market. We use the framework of a multi-armed bandit to model how referring physicians choose specialists and learn about specialist quality over time \citep{dickstein2018, gong2018}. This framework specifies a set of options whose payoffs are not precisely known. The physician repeatedly chooses among the options over time and learns about the distribution of payoffs from each option based on the outcomes that occur.
+
+If behavior is myopic, the PCP simply chooses the specialist with the highest expected payoff for the current patient, and PCPs unambiguously tend to refer to specialists with whom they have had more successes in the past, all else equal. If instead PCPs are forward-looking, they also value experimenting with relatively unknown specialists.  Then choices consider both the utility for the current patient and the value of learning more about the quality of specialists in the market. The solution to this dynamic problem simplifies with the use of a \emph{Gittins index} \citep{gittins1979}, which expresses the value of learning about a given specialist as a function of the mean and variance of the current beliefs about that specialist. This function is well approximated with a fairly tractable closed-form expression \citep{brezzi2002}. 
+
+\medskip
+\noindent \textit{Preliminary Analysis:} \\
+Before considering referrals in the context of physician learning, we first establish reduced-form evidence of a response from PCPs to negative surgical outcomes of their patients. We estimate this response by exploiting differential information signals across PCPs for the same specialist using a balanced panel of PCP/specialist pairs. The details of this estimation are excluded for brevity; however, we summarize the results in Figure \ref{fig:event}, where we find a statistically significant reduction of nearly 0.1 referrals per month per specialist from affected PCPs (i.e., those PCPs whose patients experienced a bad outcome) relative to unaffected PCPs (i.e., PCPs who refer to the same set of specialists but whose patients did not experience a bad outcome).
+
+\begin{wrapfigure}{R}{0.5\textwidth}
+  \caption{Event Study of Specialist Failures}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/EventStudy_Stacked_1_1_0.png}
+  \end{center}
+  \label{fig:event}
+\end{wrapfigure}
+
+To more directly examine the variation and responses that will inform our learning model, we estimate a discrete-choice model of PCP referrals. Our specification includes the pairwise failure rate from prior referrals, the proportion of the PCP's past patients referred to each specialist, the distance between the patient and the hospital where the specialist primarily operates, and specialist fixed effects.  We estimate this separately by Hospital Referral Region (HRR), and for each referral, we define the choice set as all active orthopedic surgeons in that HRR in that year. The identifying variation in this specification comes from differences \emph{across PCPs} in the failure rates among the patients they have referred to the same specialist. Unobserved factors that drive a specialist's overall volume, which would contaminate the estimated response if they are correlated with patient outcomes, are absorbed by the specialist fixed effects. In addition, our long panel of data enables us to use the timing of events by considering the effect of past outcomes on future referrals, which further supports the interpretation of our estimated responses as a learning effect.
+
+From this analysis, the overall national average marginal effect of the failure rate is -0.0502. Based on nearly 4.5 referrals per PCP/specialist pair and a 33\% average share of referrals to the most common specialist, this reflects a 3.4\% relative reduction in referral probability in response to a failure. The magnitude of this effect is economically meaningful and the estimate is statistically significant, thereby suggesting some learning on behalf of PCPs about the quality of specialists in their market; however, the magnitude of learning remains small relative to the effect of past referrals. A PCP's prior relationship with a specialist therefore appears to act as a significant barrier to learning. If funded, the immediate goal of our project is to further develop a structural model of PCP referrals and learning so that we can better quantify the change in referral patterns under hypothetical reductions to existing learning frictions. We will also introduce the role of congestion in specialist referrals, to accommodate the fact that referrals cannot simply go to the highest quality expert in all cases.
+
+
+\vspace{-.1in}
+\subsection*{Relationship to RSF Priorities}
+\vspace{-.1in}
+By modeling and quantifying how PCPs learn and adjust their referrals over time, our analysis will speak to information problems in the referral process and the extent to which learning frictions and habit persistence may pose a barrier to efficient learning among PCPs. This directly aligns with the Russell Sage Foundation's Priority area of \textbf{Behavioral Science and Decision Making in Context}. 
+
+\vspace{-.1in}
+\subsection*{Qualifications and Responsibilities of Key Investigators}
+\vspace{-.1in}
+Ian McCarthy, PhD (PI) is an Associate Professor of Economics at Emory University and a Research Associate at the National Bureau of Economic Research. He has extensive experience with empirical analysis of Medicare claims data, including with the Virtual Research Data Center (VRDC) environment intended for use in this study. Seth Richards-Shubik, PhD (Co-PI) is an Associate Professor of Economics at Lehigh University and a Research Associate at the National Bureau of Economic Research. He is an expert in empirical industrial organization and structural analysis, including the estimation of learning models in the health care context.
+
+\vspace{-.1in}
+\subsection*{Budget and Justification}
+\vspace{-.1in}
+We request \$35,000 per year (\$70,000 total direct costs) for access to the Centers for Medicare and Medicaid Service Virtual Research Data Center (VRDC). The fee includes a virtual ``seat'' in the VRDC (\$13,000 per year), a CMS project fee (\$15,000 per year), additional cloud storage (\$4,000), and software licensing (\$3,000). The VRDC allows access to complete Medicare Fee-for-Service claims data as is by far the most affordable way to access such comprehensive data. We also request \$20,000 per year for a graduate student research assistant, as well as \$25,000 per year in salary support, split equally among Dr. McCarthy and Dr. Richards-Shubik. 
+
+Incorporating a fringe rate of 28\%, we request \$57,600 for summary salary and research assistant funding, \$70,000 in data costs for access to restricted-use Medicare claims data in the VRDC, and 15\% in indirect costs. Our total budget request is approximately \$150,000.
+
+\pagebreak
+\setstretch{1}
+\bibliographystyle{apalike}
+\bibliography{BibTeX_Library}
+
+\end{document} 

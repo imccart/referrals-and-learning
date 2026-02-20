@@ -1,0 +1,104 @@
+% NIH grant proposal file (2011)
+
+\documentclass[12pt]{article}
+
+% Packages to load
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{natbib}
+\setcitestyle{round}
+
+% Arial font that NIH allows
+\renewcommand{\familydefault}{\sfdefault}
+\linespread{1.85}
+
+% Better and richer math environment
+\usepackage{amsmath}
+
+% EPS and PDF figures
+\usepackage{graphicx}
+
+% Make 0.5'' margins on all sides
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+
+% Add itemize*, description*, and enumerate* environments to shrink white space between list items
+\usepackage{mdwlist}
+
+% No page numbers
+\pagestyle{empty}
+
+% Compress white space around titles
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\titlespacing{\paragraph}{0pt}{*0}{*2}
+
+% Separate new paragraphs by 0.2 cm of white space (rather than indents)
+\usepackage{parskip}
+\setlength{\parskip}{0.2cm}
+
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+
+% Begin document
+
+\begin{document}
+
+\noindent \textbf{Project Title:} Efficiency in Physician Referrals \\
+\noindent \textbf{Study Duration:} January 2026 - September 2027 \\
+\noindent \textbf{Anticipated Budget:} \$120,000
+
+
+\vspace{.2in} \textbf{Statement of Significance and Impact:} Referral decisions made by primary care physicians (PCPs) are a critical yet underexamined driver of variation in health care quality and spending. Despite growing policy attention to delivery system reform, wide gaps persist in the efficiency of physician referrals, particularly for high-cost, high-stakes procedures like joint replacement surgery. Using comprehensive Medicare data, our research has shown that many patients are referred to specialists whose performance is well below market benchmarks, even when higher-performing alternatives have ample capacity.
+
+This project investigates whether policy tools—specifically informational interventions and incentive-aligned care delivery models—can improve referral efficiency. Extending the research teams' existing work on PCP referrals and learning, the analysis will evaluate the effects of dashboards, peer comparisons, and financial nudges. We will further examine directly whether PCPs exposed to shared savings contracts or participating in Accountable Care Organizations (ACOs) refer more efficiently in practice. These findings directly inform efforts by CMS, commercial payers, and health systems to improve affordability and quality through better care coordination.
+
+\vspace{.2in}
+\noindent \textbf{Research Questions:} We address the following questions:
+
+\begin{itemize}
+  \item To what extent do PCPs refer patients to inefficient specialists, and how does this affect downstream quality and spending?
+  \item How do referral patterns evolve in response to outcome feedback, capacity constraints, and organizational ties?
+  \item Can simulated informational interventions (e.g., dashboards, peer benchmarking) improve referral efficiency and equity?
+  \item Do PCPs participating in ACOs or shared savings contracts exhibit more efficient referral patterns?
+\end{itemize}
+
+
+\vspace{.2in}
+\noindent \textbf{Research Design:} We use 100\% of Medicare fee-for-service claims from 2008 to 2018, linked with the Medicare Beneficiary Summary File, MD-PPAS (physician characteristics), and AHA Annual Surveys (hospital characteristics). We will focus on elective inpatient surgeries (e.g., joint replacement, spinal fusion) and the associated referral paths. The analytic unit is the patient-procedure, with each patient linked to the referring PCP and operating specialist. These data are available as part of the research team's existing CMS VRDC data access, although annual fees are required for continued access.
+
+\uline{Referral Inefficiency and Structural Model:} Preliminary results show that 30--40\% of patients are referred to specialists whose complication rates are above the market median, despite available capacity among top-quartile surgeons. We estimate a dynamic model of PCP referral behavior in which PCPs learn about specialist performance through patient outcomes. The model incorporates habit formation and congestion and allows us to simulate policy counterfactuals such as autcome dashboards (i.e., shared feedback from peers), referral nudges (i.e., habit reduction), and incentive alignment (i.e., simulated shared savings payments).
+
+\uline{Evaluation of ACO and Shared Savings Exposure:} We will use two complementary strategies to identify exposure to shared savings contracts and ACOs:
+
+\begin{enumerate}
+  \item \textit{Physician-Level ACO Participation}: We will link the Medicare Shared Savings Program (MSSP) Public Use Files (PUFs) to our physician sample using National Provider Identifiers (NPIs). These files provide annual rosters of ACO participants, which we will crosswalk to our PCPs by year.
+
+  \item \textit{Hospital-Level Shared Savings Exposure}: We will use the CMS Comprehensive Care for Joint Replacement (CJR) participant lists and Bundled Payments for Care Improvement (BPCI) initiative data. These identify hospitals in mandatory or voluntary bundled payment programs. Using hospital identifiers in inpatient claims, we will flag whether a given specialist is affiliated with a hospital exposed to these programs.
+\end{enumerate}
+
+We will then estimate models comparing referral efficiency (e.g., percent of patients referred to top-quartile specialists in the market) across physicians and hospitals with and without shared savings exposure. Identification will leverage year-to-year entry and exit of ACO/bundled payment contracts, with market and year fixed effects. We will also examine heterogeneities in effects of these programs based on organizational affiliation of physicians and hospitals, as measured by tax IDs and observed claims.
+
+\vspace{.2in}
+\noindent \textbf{Key Personnel:} 
+\begin{itemize}
+    \item Ian McCarthy, Associate Professor, Emory University \& NBER 
+    \item Seth Richards-Shubik, Associate Professor, Johns Hopkins University \& NBER
+\end{itemize}
+
+\vspace{.2in}
+\noindent \textbf{Dissemination Plans}: We anticipate two primary research papers from this work, one focused on PCP learning and structural simulations, and another focused on delivery model evaluation. Each paper will targeted to peer reviewed journals in economics or health policy.
+
+Findings will also be shared via NBER Working Papers, presentations at major health policy conferences including AcademyHealth and the American Society of Health Economists, and policy briefs for CMS, ACO organizations, and state Medicaid agencies.
+
+
+\vspace{.2in}
+\noindent \textbf{Other Support:} This project builds directly on previously funded work but no overlapping funding exists for this proposed extension.
+
+
+\vspace{.2in}
+\noindent \textbf{Related Prior/Ongoing Research:} The investigative team has extensive experience modeling physician behavior using Medicare claims and developing structural models of health care decision-making. This includes work on physician agency, practice consolidation, and dynamic treatment choice. Preliminary findings from existing work demonstrate that our data and analytic infrastructure are already in place, and that large opportunities exist to improve referral efficiency---especially in high-variation, high-cost specialties like orthopedics and cardiology.
+
+\end{document} 

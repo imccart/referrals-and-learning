@@ -1,0 +1,387 @@
+% NIH grant proposal file (2011)
+
+\documentclass[12pt]{article}
+
+% Packages to load
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+
+% Arial font that NIH allows
+\renewcommand{\familydefault}{\sfdefault}
+\linespread{1.05}
+
+% Better and richer math environment
+\usepackage{amsmath}
+
+% EPS and PDF figures
+\usepackage{graphicx}
+
+% Make 0.5'' margins on all sides
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+
+% Add itemize*, description*, and enumerate* environments to shrink white space between list items
+\usepackage{mdwlist}
+
+% No page numbers
+\pagestyle{empty}
+
+% Compress white space around titles
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\titlespacing{\paragraph}{0pt}{*0}{*2}
+
+% Separate new paragraphs by 0.2 cm of white space (rather than indents)
+\usepackage{parskip}
+\setlength{\parskip}{0.2cm}
+
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+
+% title page info
+\title{Improving Healthcare Quality and Equity by Understanding the Sources and Evolution of Physician Referral Networks}
+\author{PI: Ian McCarthy, PhD \\
+Co-PI: Seth Richards-Shubik, PhD}
+
+\date{October 2024}
+
+% Begin document
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\section{Specific Aims}
+\vspace{.1in}
+
+Degenerative joint disease affects over 30 million Americans and is one of the most common causes of adult disability. Despite efforts to reduce the rate of surgical intervention, joint replacement surgery remains one of the most common treatments—particularly among individuals aged 65 and above. For these patients, referrals from primary care physicians (PCPs) to orthopedic specialists are crucial, yet significant disparities in patient outcomes suggest that \textbf{referral practices could be optimized to improve health outcomes and reduce healthcare inequality}. This research seeks to describe and analyze PCP-specialist referral networks to understand how they correlate with healthcare quality, costs, patient outcomes, and equity in care. We also aim to investigate how these networks are initially established and how they evolve over time in response to patient outcomes and specialist quality. Our overarching goal is to inform policies that could improve referral practices, helping PCPs better identify high-quality specialists and ultimately enhance the quality, equity, and access to care for Medicare beneficiaries undergoing joint replacement surgery. Our proposal centers on the following three \textbf{specific aims}:
+
+\vspace{.05in}
+\paragraph{Aim 1:} \textit{Describe PCP referral networks empirically and examine the association between salient network statistics and measures of healthcare quality, cost, and equity}
+
+We will construct referral networks between PCPs and specialists using Medicare claims data, focusing on joint replacement surgery, and we will examine the association of key network statistics---such as degree centrality, network density, and referral concentration---with healthcare quality, costs, and equity. Successfully completing Aim 1 will provide a comprehensive understanding of how PCP-specialist referral networks correlate with patient outcomes, with a particular focus on identifying disparities and informing policies that promote more equitable and efficient care delivery for older adults.
+
+\vspace{.05in}
+\paragraph{Aim 2:} \textit{Examine the initial formation of referral relationships between PCPs and specialists, and quantify the role of physician and institutional characteristics in forming these relationships, with attention to equity and access}
+
+We will analyze the formation of PCP-specialist referral relationships by focusing on PCPs who have recently entered a practice or moved to a new geographic area. This analysis will examine physician characteristics (e.g., gender, age, medical school affiliation) and institutional factors (e.g., health system integration, practice characteristics) that may influence referral patterns and contribute to inequities in access to high-quality specialists, especially for vulnerable populations. For example, PCPs in certain areas may be less likely to refer to high-quality specialists due to geographic or institutional constraints, limiting patient access and reinforcing health disparities. Completing Aim 2 will identify key drivers of initial PCP-specialist networks and their impact on healthcare quality, costs, and equity.
+
+
+\vspace{.05in}
+\paragraph{Aim 3:} \textit{Examine the evolution of PCP referral networks over time in response to patient outcomes and specialist quality, with a focus on identifying policies to improve equity and care delivery} 
+
+We will analyze how PCP referral patterns change over time in response to variations in patient outcomes and specialist quality. This analysis will be framed within a structural learning model where PCPs adjust their referral behaviors based on perceived improvements in patient health and the costs of forming new specialist relationships. By quantifying these adjustments, we aim to identify barriers that prevent timely referrals to high-quality specialists and inequities in referrals across patient characteristics. Successfully completing Aim 3 will help identify policies to optimize referral practices for joint replacement surgery.
+
+\vspace{.05in}
+Our proposal is motivated by the pursuit of practical solutions to enhance the quality, equity, and access to care for joint replacement patients. Optimizing PCP referrals can address disparities more effectively than by trying to change specialist quality, which is notoriously difficult. Our findings will inform policymakers about the costs of referral inefficiencies in PCP-specialist networks and the benefits of reducing these inefficiencies to enhance care, equity, and outcomes for Medicare beneficiaries undergoing joint replacement.
+
+\newpage
+
+\section{Research Strategy}
+\vspace{.1in}
+
+\subsection{Significance}
+\vspace{.1in}
+
+Over 30 million Americans suffer from osteoarthritis (also known as degenerative joint disease) \cite{odonnell2018}, with a particularly high prevalence among those aged 65 and above. Postler et al.~\cite{postler2018} note that ``half of the world's population aged 65 or older suffers from some form of osteoarthritis.'' While pain management and physical therapy can delay joint degradation, joint replacement surgery remains the primary treatment for end-stage joint disease, significantly improving patients' quality of life \cite{goodman2020}. However, alongside the increasing prevalence of degenerative joint disease and subsequent joint replacement surgeries, there exists significant geographic variation in the quality of these surgeries across the U.S. \cite{tsai2013}. This variation is emblematic of broader disparities in the U.S. healthcare system \cite{wennberg1973, gottlieb2010, miller2011, wennberg2003}, driven more by physician practice styles, organizational structures, and provider behaviors than by patient preferences or underlying health needs \cite{cooper2019, epstein2009, finkelstein2016, molitor2018, moy2020, vanryn2002}. Such disparities in care, particularly among socioeconomically disadvantaged populations, underscore the need for research that addresses these inequities in access to high-quality care.
+
+Our research considers adjustments to primary care physician (PCP) referral networks as a potential means to reduce variation in healthcare quality and spending, while also improving equity in care. Given the PCP's influence on patients' healthcare decisions \cite{chernew2021} and the prevalence of PCP referrals in U.S. healthcare \cite{barnett2012aim, wright2022}, these networks are a natural candidate for examining sources of and potential solutions to variation in care. We posit that a substantial amount of variation in healthcare quality, Medicare spending, and related disparities could be mitigated if PCPs could more efficiently identify and refer patients to the highest-quality specialists in their markets. Our findings will inform policymakers about the costs of current informational frictions within PCP referral networks and the potential benefits of policies aimed at reducing these frictions. Improving PCP referral practices, rather than attempting to change individual specialist practices directly, also offers a pragmatic solution to improving care delivery and equity, particularly given the well-documented challenges in altering physician practice styles \cite{wilensky2016}. 
+
+Preliminary analysis of major joint replacements using Medicare claims data identified over 400,000 Medicare beneficiaries aged 65 and above undergoing planned, elective joint replacement surgeries each year, accounting for nearly \$5 billion in Medicare expenditures annually. Among these patients, around 0.6\% (about 2,600 patients) die within 90 days of their operation, and over 9\% (about 37,500 patients) are readmitted within 90 days of discharge. Moreover, the risk of poor outcomes varies dramatically across specialists. Among experienced orthopedic surgeons nationwide, the probability of a failure event—defined as mortality, readmission, or complication—ranges from 1\% to over 20\%, with the 25th percentile of failure rates being less than half of the 75th percentile. 
+
+Significant variation also exists within local markets, defined as hospital referral regions (HRRs), which is critical since changes to PCP referral patterns would reallocate patients within markets, not across them. Figure \ref{fig:iqr_quality} illustrates the differences in surgeon-specific failure rates by HRR, showing the potential for substantial reductions in failure risks if PCPs referred patients to lower-failure-rate specialists (from the 25th percentile) rather than higher-failure-rate specialists (from the 75th percentile). Similarly, Figure \ref{fig:iqr_spending} suggests potential savings of around \$8,000 per 90-day episode when moving from relatively inefficient (75th percentile) to relatively efficient (25th percentile) specialists.
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{.45\textwidth}
+    \centering
+    \caption{Potential Quality Improvement \\ (by Hospital Referral Region) \\}
+    \includegraphics[width=\linewidth]{figures/Failure_IQR_1_1_0.png}
+  \label{fig:iqr_quality}
+\end{minipage}%
+\begin{minipage}{.45\textwidth}
+    \centering
+    \caption{Potential Spending Reduction \\ (by Hospital Referral Region) \\}
+    \includegraphics[width=\linewidth]{figures/Payment_IQR_1_1_0.png}
+  \label{fig:iqr_spending}
+\end{minipage}
+\vspace{-.2in}
+\end{figure}
+
+Importantly, the observed variation in outcomes reflected in Figure~\ref{fig:iqr_quality} does not affect all patients equally. For example, after adjusting for HRR and time, a 75 year old patient is around 5\% more likely to see a specialist in the lowest quartile of the quality distribution in their HRR compared to a 65 year old patient. Similarly, Black patients and Hispanic patients are 32\% and 47\% more likely to see lowest-quartile specialists in their HRR, respectively. Reallocating patients to higher quality specialists within a given HRR therefore promises both significant quality improvements on average as well as improvements in healthcare equity.
+
+Preliminary analysis further suggests that such a reallocation of patients (from lowest to highest quartile of specialists within a market) is feasible, as illustrated in Figures \ref{fig:capacity} and \ref{fig:reallocate}. Figure \ref{fig:capacity} presents a histogram of the total estimated excess capacity among relevant specialists per HRR and year. We calculate excess capacity as the difference between a specialist's yearly operations and that same specialist's 90th percentile of yearly operations across all years. We then limit to only the top 25th percentile of specialists in the failure-rate distribution, and we sum the remaining specialist-specific excess capacities for each HRR and year. Figure \ref{fig:reallocate} presents the total count of patients in the lowest quartile of the failure-rate distribution per HRR and year, therefore summarizing the total number of possible patients to be reallocated. Together, Figures \ref{fig:capacity} and \ref{fig:reallocate} suggest there is sufficient capacity to accommodate potential within-market reallocations of patients. On average (across HRRs and years), the number of hypothetically reallocated patients constitute only 30\% of the potentially available excess capacity among top-quartile specialists in the same market and year, and over 95\% of markets appear to have sufficient capacity among top-quartile specialists to accommodate the potential reallocation.
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{.47\textwidth}
+    \centering
+    \caption{\small Potential Excess Capacity \\ (by Hospital Referral Region) \\}
+    \includegraphics[width=\linewidth]{figures/Excess_Capacity.png}
+  \label{fig:capacity}
+\end{minipage}%
+\hfill
+\begin{minipage}{.47\textwidth}
+    \centering
+    \caption{\small Hypothetical Reallocation \\ (by Hospital Referral Region) \\}
+    \includegraphics[width=\linewidth]{figures/Hypo_Reallocate.png}
+  \label{fig:reallocate}
+\end{minipage}
+\vspace{-.2in}
+\end{figure}
+
+\vspace{.2in}
+\subsection{Innovation}
+\vspace{.1in}
+
+We view inefficiencies in PCP referral networks as a significant contributor to the persistent unexplained variation in healthcare quality and spending illustrated in Figures \ref{fig:iqr_quality} and \ref{fig:iqr_spending}. Due to uncertainty about quality \cite{arrow1963} and other informational and market frictions, referring physicians do not systematically send patients to higher-quality specialists \cite{kolstad2009, gaynor2016}. \uline{The key innovation of our proposal is that we consider PCP-specialist referral networks as critical underlying factors behind otherwise unexplained variation in healthcare quality, spending, and equity.} Against this backdrop, our proposed research will contribute to three distinct areas of economics and health policy.
+
+\uline{First, we contribute to the literature on physician referral networks.} This literature typically considers physician networks in the context of shared patients \cite{landon2012, barnett2012mc, landon2018, linde2019}, where the focus is often on ``undirected'' physician networks, with connections reflecting two-way relationships. A smaller literature addresses ``directed'' graphs in which referring physicians, such as PCPs, are connected to specialists \cite{agha2017, agha2018, zeltzer2020}.
+
+Our contribution to this literature is threefold: 1) unlike studies of undirected networks \cite{landon2012, barnett2012mc, landon2018, linde2019}, we focus on directed networks where PCPs significantly influence the flow of patients to specialists; 2) compared to existing work on directed networks \cite{agha2017, agha2018, zeltzer2020}, our study specifically examines referrals in the context of orthopedic surgery, providing a more targeted analysis; and 3) while previous literature often assumes network structures are static, we will further examine how these networks are initially formed (Aim 2) and evolve over time in response to patient outcomes (Aim 3).
+
+\uline{Second, we contribute to the literature on physician learning.} Most of this literature focuses on learning in the context of prescription drugs \cite{coscelli2004, crawford2005, ferreyra2011, chan2013, dickstein2018, ching2010}, where learning is often based on the physician's own experience or external information sources such as peer interactions or performance disclosures \cite{ho2002,kolstad2013}. Gong~\cite{gong2018} explores physician learning in the context of brain aneurysm treatments, allowing for both skill accumulation and learning about treatment effectiveness.
+
+Relatively few studies address learning in the context of specialist referrals. Johnson~\cite{johnson2011} and Sarsons~\cite{sarsons2023} discuss PCP learning in relation to referral patterns, but they do not directly examine referral networks, learning frictions, or network evolution over time. Our specific aims will address these gaps by providing a detailed examination of referral networks, their role in patient outcomes and equity, and the implications of several potential policies thought to better guide referrals in joint replacement surgery.
+
+\uline{Third, we contribute to the literature on physician agency concerning referrals.} This research extends the traditional understanding of physician agency to include the influence of PCPs on the location of care \cite{baker2016, lin2021nber}. In the context of PCPs, the referral process is a critical aspect of decision-making authority. Studies such as Freedman et al.~\cite{freedman2015}, Barkowski~\cite{barkowski2018}, and Chernew et al.~\cite{chernew2021} demonstrate the importance of PCP recommendations in patient decisions. Similar to Walden~\cite{walden2016}, we consider PCP referrals a key dimension of physician agency, but our analysis seeks to determine the relationship between these networks and key patient outcomes (Aim 1), how these networks are formed (Aim 2), and how they evolve in the context of learning about specialist quality (Aim 3).
+
+
+
+\vspace{.2in}
+\subsection{Approach}
+Our proposed analysis relies on \uline{four central data sources}: 1) the 100\% Medicare claims files (covering all Part A and Part B claims) from 2008 to 2018; 2) information on patient characteristics from the Medicare beneficiary summary files; 3) data on physician practice characteristics from Medicare Data on Provider Practice and Specialty (MD-PPAS); and 4) data on hospital characteristics from the American Hospital Association (AHA) Annual Surveys. In the remainder of this section, we first discuss details of our dataset construction and then present details of our proposed empirical analysis for each aim.
+
+\vspace{.1in}
+\subsubsection{Dataset Construction}
+There will be three primary components to our final analytic dataset:
+\begin{enumerate}
+    \item \textbf{Inpatient Surgeries:} Our analysis will focus on PCP referrals to specialists for planned and elective inpatient procedures among Medicare beneficiaries aged 65 and above. Planned and elective procedures will be identified from the admission source codes on the inpatient claim. We will focus on elective surgeries because they tend to follow a ``standard'' referral process such that we can better identify the referring PCP and associated network of specialists. 
+    
+    We will form PCP referral networks specific to each area of medical specialty. Based on our prior experience with these data, we anticipate focusing on orthopedic procedures (DRGs 453-473, 480-491, and 503-508) as these are the most commonly occurring codes for planned and elective inpatient procedures. For example, out of over 2.2 million planned and elective inpatient stays in 2010, over 15\% are for a major hip or knee replacement without major complications (DRG 470). The other most common DRG codes are 460 (spinal fusion), 491 (back and neck procedures), 039 (extracranial procedures), 330 (major small and large bowel procedures), and 247 (percutaneous cardiovascular procedures). In future work, we also hope to consider referral networks for colorectal procedures, cardiology, and general surgery in order to investigate heterogeneities in referrals by clinical area.
+
+    \item \textbf{Referrals:} We will identify the referring PCP as the physician with the highest frequency of ``evaluation and management'' visits over the prior 12-month period before a given surgery. If there is no such physician with sufficient visits, the physician with the highest total billed claims will be taken as the PCP. This process follows Pham et al.~\cite{pham2009} and Agha et al.~\cite{agha2017} in their assignment of PCPs to patients and has been recently validated in Dugoff et al.~\cite{dugoff2018}. We will also consider identifying referrals using the referring physician listed in the claims data, as per Sarsons~\cite{sarsons2023}; however, our preliminary analysis suggests that this field often does not identify a true ``referring'' physician, instead often listing the operating physician themselves.
+
+    \item \textbf{Quality Outcomes:} In order to form a complete picture of outcomes for each surgery, we will merge the patients identified as part of the surgeries in step 1 to the full population of inpatient, outpatient, and physician services claims. From there, we will measure total spending up to 30/60/90 days after discharge, and we will measure quality based on 30/60/90-day readmission, 30/60/90-day mortality, and 30/60/90-day complications. Our measures of complications follow from the CMS Comprehensive Care for Joint Replacement Model and the National Quality Forum and are identifiable in the claims data based on ICD-9 and ICD-10 codes.
+
+\end{enumerate}
+
+The unit of observation in our primary dataset will be a patient/procedure. For each patient/procedure, our data will include the operating physician/specialist for the patient's elective surgery, the referring PCP for that surgery, and the quality and spending outcomes for that surgery. Our proposed analysis considers the referring PCP and specialist as individual physicians; however, as part of our sensitivity analyses, we will broaden the measure of ``physician'' to the practice-level. Our analysis will also accommodate the potential mediating effect of system affiliation in referral patterns, as prior work highlights the role of such affiliation on physician and hospital behaviors \cite{lin2021, lin2021nber, richards-shubik2021}. 
+
+Based on our preliminary analysis, we observe over 4.5 million inpatient stays associated with planned and elective major joint replacements from 2008 through 2018. We classify physicians as PCPs based on specialty codes in the MD-PPAS data, and we require patients to have visited the referring PCP at least 2 times in the prior 12-month period. Restricting to procedures performed by orthopedic surgeons and where a referring PCP can be identified reduces the sample to approximately 3 million inpatient stays. In order to focus on physicians with sufficient experience in diagnosing and treating orthopedic patients, we further restrict our sample to PCPs with at least 20 total referrals over our time period and with at least three consecutive years with one or more referrals. And we restrict our sample to surgeons with at least 20 operations per year. Our final analytic sample consists of just over 2 million planned and elective major joint replacements, in which the referring physician is a PCP with regular referrals for these procedures and in which the operating physician is an orthopedic surgeon with sufficient yearly volume.
+
+Our preliminary analysis also divides the data into two periods: 1) the baseline period from 2008-2012, which provides a common time frame from which to form observed histories for PCP/specialist pairs; and 2) the estimation period from 2013-2018, for which the baseline period provides the initial values of the histories.
+
+\vspace{.1in}
+\subsubsection{Analysis for Aim 1}
+
+\begin{wrapfigure}{R}{0.5\textwidth}
+  \caption{Network Degree for Orthopedic Referrals}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/LLNetworkSize_1_1_0.png}
+  \end{center}
+  \label{fig:size}
+\end{wrapfigure}
+
+The goals of \textbf{Aim 1} are to: 1) comprehensively describe \textit{PCP referral networks}, which we define as the set of all specialists to which a PCP refers patients for joint replacement surgery; and 2) examine the relationship between these network measures and health care quality, cost, and equity. We will focus on the following measures to describe a PCP referral network:
+
+\begin{enumerate}
+    \item \textit{Network size or degree}: the number of specialists to which a given PCP refers patients.
+    \item \textit{Network concentration}: the share of patients that a PCP sends to each specialist in their network, which we then square and sum across specialists for the same PCP in order to form a Herfindahl-Hirschman Index for each PCP. Similar measures of concentration have been used to proxy for care coordination in the management of chronic diseases \cite{agha2018}.
+\end{enumerate}
+
+Based on physician NPI, we identify around 51,000 unique PCPs and 9,250 unique specialists over our estimation period (2013-2018). The distribution of network degree across PCPs is presented in Figure \ref{fig:size}, which exhibits a power law distribution that is common in many networks. There is a large mass of PCPs with very small network sizes, but there are also practices with many connections, which may function as influential nodes in the network. 
+
+Relatedly, PCP referral networks are highly concentrated, with an average PCP referring over 65\% of their patients to a single specialist. Figure \ref{fig:share} presents the distribution of ``highest-share'' specialists across PCPs, weighted by number of referrals. Here, we calculate each specialist's share of a given PCP's total referrals, and we find the maximum of all such shares for each PCP. As is evident from Figure \ref{fig:share}, most PCP referral networks are significantly concentrated, with the majority of PCPs isolating their referrals to a single specialist. Nonetheless, a meaningful share of PCPs split their referrals among two or more specialists.
+
+\begin{wrapfigure}{R}{0.5\textwidth}
+  \caption{Highest-share Specialists}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/HighestShareWeighted_1_1_0.png}
+  \end{center}
+  \label{fig:share}
+\end{wrapfigure}
+
+Given our measures of PCP referral network size and concentration, Aim 1 will examine the relationship between these measures and healthcare spending, quality, and equity. This analysis considers per patient spending and health outcomes as a function of patient, physician, and hospital characteristics via a series of regressions of the form:
+\begin{equation}
+    y_{k(ij)t} = g\left(x_{kt}, w_{ht}, z_{ijt}, \delta_{t}, \delta_{i}, \delta_{j} \right) + \varepsilon_{kt}
+    \label{eqn:aim1_reg2}
+\end{equation}
+where $y_{k(ij)t}$ denotes the outcome for patient $k$, with PCP $i$ and specialist $j$, at time $t$; $x_{kt}$ denotes patient characteristics, such as age, gender, diagnoses, and prior health care utilization; $w_{ht}$ denotes hospital characteristics based on the patient's admitting hospital; $z_{ijt}$ denotes PCP-specialist measures such as network size and network concentration, as well as characteristics of each PCP and specialist separately; $\delta_{t}$, $\delta_{i}$, and $\delta_{j}$ denote time, PCP, and specialist fixed effects, respectively; and $\varepsilon_{kt}$ is an error term that is assumed to be additively separable from the conditional mean function, $g()$. We will also consider specifications that exclude $\delta_{i}$ and $\delta_{j}$ in order to capture the relationship between referrals and specialist practice styles. For example, since we anticipate practice styles to be relatively stable over time, specifications of Equation \ref{eqn:aim1_reg2} that include $\delta_{j}$ cannot inform as to the relationship between referrals and specialist practice style.
+
+For our spending measures, we will estimate Equation \ref{eqn:aim1_reg2} using the generalized within-estimator \cite{correia2017}. For our quality measures, we will estimate logistic regression models to accommodate the binary outcome of each surgery. The results will quantify the relationship between PCP-specialist network measures and patient-level spending and health outcomes. For example, it may be that that small PCP referral networks or heavily concentrated networks are associated with worse health outcomes, since a small and concentrated network may reflect an unwillingness to experiment with different specialists in the PCP's market. Alternatively, small and concentrated referral networks may reflect an equilibrium outcome of PCP learning about specialist quality, in which PCPs have sequentially ruled-out lower quality specialists over time. In this case, smaller and more concentrated networks may be associated with better health outcomes. 
+
+Finally, we will measure equity by first aggregating patient outcomes to the specialist level (e.g., the rate of complications among all patients for specialist $j$ in year $t$) and constructing the distribution of health outcomes and spending across all specialists in a given HRR. We will then identify the percentile rank of each specialist and assign this rank to patient $k$, denoted $\tilde{y}_{k(i)t}$. Conceptually, $\tilde{y}_{k(i)t}$ captures patient $k$'s access to high quality or efficient specialists as a function of the referral network of their PCP. We will estimate regressions analogous to Equation~\eqref{eqn:aim1_reg2} using $\tilde{y}_{k(i)t}$ as our outcome. The results will quantify the relationship between PCP network statistics and a patient's access to top specialists. For example, it may be that PCPs with more concentrated referral networks also tend to isolate referrals to top specialists, which would be reflected by a positive relationship between network concentration and the patient's percentile rank. 
+
+\vspace{.1in}
+\subsubsection{Analysis for Aim 2}
+In \textbf{Aim 2}, we seek to understand the initial PCP network (before any first-hand experience with specialists in their market), to quantify the extent to which observable characteristics govern that network, and to interpret the magnitude of those characteristics relative to specialist quality. To the extent that referral networks are rigid over time, quality and efficiency gains in the referral process would depend on changing these initial conditions, in which case understanding the primary determinants of the initial PCP-specialist referral network is critical for effective policy solutions.
+
+To estimate the initial network formation process, we will apply methods in Jochmans~\cite{jochmans2018} and model the referral decision of a PCP $i$ to a specialist $j$ as a function of three factors. The first component consists of observed characteristics $x_{ij}$ that reflect the similarity between the PCP and the specialist, the second component $a_{ij}$ describes the utility from matching on unobserved attributes, and the last component, denoted by $\varepsilon_{ij}$, reflects idiosyncratic shocks that affect the referral decision. PCP $i$ will refer to specialist $j$ if the total surplus from the referral is positive:
+\begin{equation}\label{eq:referral}
+    y_{ij} = \m{1} \left(x_{ij}'\beta + a_{ij} + \varepsilon_{ij} \geq 0\right)
+\end{equation}
+
+Equation \eqref{eq:referral} is a reduced form representation of the referral decision, where $y_{ij}$ takes the value of 1 if PCP $i$ refers to specialist $j$ and 0 otherwise. The decision to refer to a specialist also depends on the matching of observed and unobserved characteristics. Observed characteristics $x_{ij}$ include working in the same hospital and practice group, attending the same medical school, having the same gender, as well as similarities in years of experience and distance between offices. The parameter of interest is $\beta$, which captures the effect of observed characteristics on the referral decision.
+
+Sorting in the referral networks is driven by the fact that PCPs and specialists could choose locations that better match their observed and unobserved attributes. Setting $a_{ij} = \alpha_i + \alpha_j - g(\xi_i, \xi_j)$ allows for the presence of individual-specific unobserved heterogeneity for both PCPs and specialists, denoted by $\alpha_i$ and $\alpha_j$, respectively. The unobserved heterogeneity $\alpha_i$ can be seen as sources of PCP productivity and $\alpha_j$ as specialist prestige or quality. The last term, $\xi_i$, refers to preferences reflecting sorting into local markets. Similar preferences between a PCP and specialist, denoted by $-g(\xi_i, \xi_j)$, imply that PCP $i$ and specialist $j$ will be more likely to refer to each other.
+
+Link formation based on observed characteristics, $x_{ij}$, and unobserved heterogeneity, $\alpha_i$ and $\alpha_j$, describe two distinct features of real world networks: homophily and degree heterogeneity. Lastly, the error term $\varepsilon_{ij}$ captures the idiosyncratic shocks that affect the referral decision. Under the assumption that $\varepsilon_{ij}$ is distributed as a Type I extreme value, the probability of observing a referral from PCP $i$ to specialist $j$ is given by
+\begin{equation}\label{eq:probability}
+    \operatorname{Pr}(y_{ij} = 1 | x_{ij}) = \frac{e^{x_{ij}'\beta + a_{ij}}}{1 + e^{x_{ij}'\beta + a_{ij}}}.
+\end{equation}
+
+Zeltzer~\cite{zeltzer2020} uses a similar model to study gender bias in referral networks. A key identification assumption in his analysis is that geographical sorting into markets, $\xi$, is not correlated with gender (i.e., there are no omitted clinical factors that are correlated with both the likelihood of a referral and the gender of both physicians); however, with the goal of estimating $\beta$ for a larger set of observed characteristics, this assumption becomes more problematic. 
+
+To remove the role of endogenous sorting into markets, $\xi$, from the unobserved attributes, $a_{ij}$, we focus on the initial referral decision. The sample of interest is PCPs that recently started practice or those that moved to a non-contiguous state in the previous year. Under the assumption that PCPs do not move in search of better specialists, this approach eliminates preferences on geographic sorting from the referral decisions.
+
+If the referral network does not have complete overlap between PCPs and specialists, we can difference out the unobserved heterogeneity, $\alpha_i$ and $\alpha_j$, and estimate the parameters for the observed characteristics, $x_{ij}$. Jochmans~\cite{jochmans2018} shows how to remove the unobserved heterogeneity from the model, similar to a difference-in-differences identification strategy, by focusing on quadruples of two PCPs ($i, k$) and two specialists ($j, l$). The intuition is to compare the difference in referrals between PCPs $i$ and $k$ to specialists $j$ and $l$.
+
+In order to remove $\alpha_i$ and $\alpha_j$ from Equation~ \eqref{eq:probability}, it is necessary to transform the outcome $y_{ij}$ and characteristics $x_{ij}$, 
+\begin{align*}
+    \tilde{y}_m & = \frac{(y_{ij} - y_{il}) - (y_{kj} - y_{kl})}{2}\text{, and} \\
+    \tilde{x}_m & = (x_{ij} - x_{il}) - (x_{kj} - x_{kl}),
+\end{align*}
+for each quadruple $m=1,...,M$ consisting of two PCPs ($i, k$) and two specialists ($j, l$). Under these transformations, the only values that contribute to identification of $\beta$ are $\tilde{y} \in \{-1, 1\}$. We can then estimate $\beta$ by maximizing the log-likelihood function
+\begin{equation}\label{eq:likelihood}
+    L(\beta) = \sum_{m=1}^M 1\{\tilde{y}_m=-1\} \times \log F(\tilde{x}_m'\beta) \ + \ 1\{\tilde{y}_m=1\} \times \log (1-F(\tilde{x}_m'\beta)),
+\end{equation}
+where the transformed outcome $\tilde{y}$ resembles the process of differencing out the fixed effects, $\alpha_i$ and $\alpha_j$. For inference we take into account the dependence between the quadruples of nodes following Jochmans~\cite{jochmans2018}.
+
+Having identified key observable characteristics driving initial PCP-specialist relationships, we will next analyze how these characteristics align with patient demographics, such as socioeconomic status, race/ethnicity, and insurance type, in their selection of PCPs. We will estimate the effects of patient demographics on PCP choice using traditional discrete choice methods, such as conditional logit models. The results of this analysis, alongside our analysis of PCP-specialist relationships, will allow us to assess whether certain patient groups are disproportionately linked to PCPs who have limited access to high-quality specialists. By exploring these dynamics, we aim to quantify how disparities in PCP-specialist referral relationships may contribute to broader inequities in healthcare access and outcomes. 
+
+\vspace{.1in}
+\subsubsection{Analysis for Aim 3}
+The central goal of \textbf{Aim 3} is to examine the responsiveness of PCP referral networks to patient outcomes and specialist quality. Our first approach to this aim will be to estimate the relationship between the quality outcome of a given procedure and subsequent referrals to that specialist. We will then expand upon the reduced-form evidence by estimating a structural model of physician learning. We discuss each of these approaches in more detail below:
+
+\vspace{.1in}
+\subsubsection*{Reduced-form Approach for Aim 3}
+We first consider design-based evidence of PCP responses to negative surgical outcomes of their patients. We estimate this response by exploiting variation in the patient outcomes across PCPs referring to the same specialist, using event studies that compare referral rates between PCPs who do and do not observe a failure by the same surgeon. The sample and data for this analysis are constructed as follows:
+
+\begin{enumerate}
+\item Create a quarterly panel of all PCP-specialist pairs with at least one referral between them. Quarters in which there are no referrals are treated as zeros.
+
+\item Find all specialists, indexed with $j$, with at least one failure event during the estimation period from 2013 through 2018. For each failure event, $f=1,...,F_{j}$, denote the quarter of each event by $q_{j}(f)$, so that $q_{j}(1)$ denotes the quarter of first failure for specialist $j$, $q_{j}(2)$ denotes the quarter of the second failure, etc. Further denote by $\underline{q}$ and $\overline{q}$ the first and last quarter of the analysis, respectively.
+
+\item Find all PCPs who ever refer to specialist $j$ between $\underline{q}$ and $\min(q_{j}(2)-1, \overline{q})$, which is either the quarter before the second failure or the last quarter in the data. Drop all observations outside of these time windows, as defined for each specialist. We construct similar cohorts based on the second, third, and fourth failure events.
+
+\item Identify the PCP(s) whose patient(s) experienced a failure following a referral to specialist $j$ in $q_j(1)$. Denote this set of PCPs as type $k=1$, which constitutes the treatment group for this analysis. Similarly, identify PCPs without any patients experiencing a failure with specialist $j$, and denote this set of PCPs as type $k=0$ to capture the control group.
+
+\item Calculate the mean number of referrals per quarter from each PCP type, removing the referral(s) that resulted in failure. Denote the mean quarterly patients referred to specialist $j$ from PCP type $k$ by $\bar{r}_{jkt}$.
+\end{enumerate}
+
+With this notation and sample construction, we estimate by OLS the following event study specification:
+\begin{equation}
+  \bar{r}_{jkt} = \gamma_{jt} + \delta I(k=1) + \sum_{\substack{\tau=-9 \\ \tau \neq -1}}^{9} \lambda_{\tau} I(k=1, t=\tau) + \varepsilon_{jkt},
+  \label{eqn:eventstudy}
+\end{equation}
+where $\gamma_{j}$ denotes specialist-by-quarter fixed effects, $I(k=1)$ is an indicator set to one for the treated PCPs (i.e., those PCPs whose referrals to specialist $j$ experienced a failure), and $I(k=1, t=\tau)$ is an indicator set to one if the quarter is in period $\tau$ relative to the failure quarter, $q_{j}(1)$. We consider four treatment cohorts: the first cohort is defined using the first failure event, as specified above; the subsequent cohorts are defined in an analogous way using the subsequent failure events. We estimate Equation~\eqref{eqn:eventstudy} separately for each of the first four failures, as well as a ``stacked'' version where we append all four cohorts into a single analysis \cite{cengiz2019}.
+
+\begin{wrapfigure}{hR}{0.5\textwidth}
+  \caption{Event Study of Specialist Failures}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/EventStudy_FEq_Stacked_1_1_0.png}
+  \end{center}
+  \label{fig:event}
+\end{wrapfigure}
+
+We present preliminary results from the stacked event study in Figure \ref{fig:event}, where we find a statistically significant reduction of approximately 0.06 referrals per quarter per specialist from affected PCPs (i.e., those PCPs whose patients experienced a bad outcome) relative to unaffected PCPs (i.e., PCPs who refer to the same specialists but whose patients did not experience a bad outcome). In the underlying data for this event study, the average referral rate for treated pairs in the pre-failure periods is 0.194. Our estimates therefore imply that a failure event leads to a 31\% reduction in referrals from a PCP to the specialist with the failure. 
+
+\vspace{.1in}
+\subsubsection*{Structural Approach for Aim 3}
+In order to examine referrals in the context of physician learning and its effects on patient outcomes, we will expand upon our reduced-form analysis to estimate a structural model of PCP learning and referrals. Our structural model begins with a baseline theoretical framework in which PCPs are not perfectly informed about the specialists in their market and must learn about the quality and ease of working with various providers. The model will have three key features: 1) \textit{learning}, wherein PCPs have beliefs about the quality of each specialist which are updated by experience from sending their patients to different specialists; 2) habit persistence in referrals, which is captured with a \textit{familiarity effect} relating to the number of patients referred to a surgeon in the past; and 3) capacity constraints of specialists, which are approximated with a \textit{congestion effect} arising from the total number of patients being treated by the surgeon at the time (i.e., referrals from other PCPs). These features will enable us to identify important possible sources of inefficiency in referrals. One is that the learning process may be too myopic, which implies that PCPs do not experiment enough among the available specialists before settling on their preferred set of providers. Another is that PCPs may simply prefer working with familiar specialists, beyond the improvement in patient outcomes that arises from well-established relationships. Last, allowing for capacity constraints is important because they limit the extent to which referrals can respond to provider quality in equilibrium \cite{richards-shubik2021}.
+
+In the model, PCP $i$ refers each patient to some surgeon, $j$, from a set of available surgeons, $J_{i}$. Patients arrive sequentially, so patients and time can both be denoted with $t$. The choice of specialist is given by a set of indicators, $D_{ijt}, j \in J_{i}$, where $D_{ijt} = 1$ if patient $t$ is referred to specialist $j$, otherwise $D_{ijt} = 0$. The outcome of the surgery for the patient is a binary measure: $Y_{ijt} \in 0,1$, with 1 being success (e.g., no complication or readmission). The probability of success for specialist $j$, a key dimension of quality, is $q_{j} \equiv \Pr(Y_{ijt} = 1)$, which is assumed constant over time and across patients.
+
+The PCP values the patient's outcome, which could reflect altruism and other intrinsic motivations as well as extrinsic motivations such as malpractice liability. There are other factors, denoted $x_{ijt}$, affecting the patient's net benefit from a particular surgeon, such as their distance to the surgeon's facility, and these factors are also valued by the PCP. Beyond the patient's outcome, the PCP may value working with specialists with whom they have some prior experience. Defining $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ as the number of past patients referred to specialist $j$, this \textit{familiarity effect} is given by $f(e_{ijt})$, where $f$ is increasing and concave. In addition, the capacity constraints of individual surgeons generate a negative congestion effect among patients referred to the same surgeon. Let $n_{jt}$ denote the total number of patients being treated by surgeon $j$ around time $t$, which includes referrals from \textit{other} PCPs around that time (e.g., $n_{jt} \equiv \sum_k D_{kjs}, \ s \in [t - \tau, t + \tau]$ for some $\tau$), and let $z_j$ denote fixed attributes that affect a surgeon's capacity, such as non-clinical work (e.g., administrative responsibilities or academic research). The \textit{congestion effect} is then given by $c(n_{jt}, z_j)$, where $c$ is decreasing in $n$.
+
+The PCP's realized utility from referring patient $t$ to specialist $j$ is then
+\begin{equation}
+U_{ijt} \equiv \alpha Y_{ijt} + u(x_{ijt}) + f(e_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt},
+\label{eqn:pcp_utility}
+\end{equation}
+where $\alpha$ is the weight on the patient's outcome, $u(x_{ijt})$ is the value placed on the other patient-specific factors, and $f(e_{ijt})$ and $c(n_{jt}, z_j)$ are the familiarity and congestion effects described above, respectively. The term $\xi_{j}$ is a specialist fixed effect, which captures time-invariant demand factors that need not be related to surgical outcomes (e.g., office amenities, health system branding, other advertising). Finally, $\epsilon_{ijt}$ is an idiosyncratic shock that captures other choice-specific factors, which has an assumed Type I extreme value distribution.
+
+The presence of $c(n_{jt}, z_j)$ in $U_{ijt}$ can be interpreted as the PCP internalizing the effects of congestion on the patient's net benefit from a surgeon. As Richards-Shubik \textit{et al.} \cite{richards-shubik2021} demonstrate, this can be given a structural interpretation based on waiting times, or it can be considered an approximation for other mechanisms. Either way, including this term is important to prevent bias in estimates of the responsiveness to patient outcomes, given here by $\alpha$ and the learning parameters, and counterfactuals based on those estimates \cite{richards-shubik2021}.
+
+
+\vspace{.1in}
+\paragraph{Learning process:} The PCP does not know the quality of each specialist exactly, but rather has beliefs about the possible values of $q_{j}$, for each $j$. These beliefs are specified with the beta distribution, denoted $\mathrm{Beta}(a, b)$, which is a natural and tractable modeling choice when outcomes are binary or binomial. All PCPs have the same initial beliefs (i.e., priors) about all specialists, with the parameters equal to $(a_0, b_0)$. They learn about the quality of each specialist based on the outcomes experienced by their patients, using Bayesian inference to update their beliefs about $q_{j}$. Specifically, the parameters $(a,b)$ are updated based on the numbers of successes and failures among the patients referred to specialist $j$ in the past, as follows:
+\begin{equation*}
+a_{ijt} = a_0 + \sum_{s=1}^{t-1} Y_{ijs} \ \ \text{ and } \ \ b_{ijt} = b_0 + \sum_{s=1}^{t-1} (D_{ijs} - Y_{ijs}).
+\end{equation*}
+Then, from the beta distribution, the mean and variance of the beliefs about $q_{j}$ are given by
+\begin{equation}
+m_{ijt} \equiv \frac{ a_{ijt} }{ a_{ijt} + b_{ijt} } \text{ and }
+v_{ijt} \equiv \frac{ a_{ijt} b_{ijt} }{ (a_{ijt} + b_{ijt})^2 (a_{ijt} + b_{ijt} + 1) }. 
+\label{eqn:mean_var}
+\end{equation}
+Thus, $m_{ijt}$ denotes the expectation of the probability of success for referral $t$ to specialist $j$, which is increasing in the number of observed successes among patients previously sent to that specialist, but which also depends on the priors $(a_0, b_0)$. The variance, $v_{ijt}$, decreases in the number of patients previously sent to a specialist.
+
+\vspace{.1in}
+\paragraph{Myopic behavior:} A myopic PCP simply chooses the specialist with the highest expected payoff for the current patient:
+\begin{equation}
+\max_{j \in J_i} \ \text{E} \left[ U_{ijt} | \dots \right]
+= \max_j \left\{ \alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt} \right\} .
+\label{eqn:myopic}
+\end{equation}
+Thus if PCPs are myopic, they unambiguously tend to refer to specialists with whom they have had more successes in the past, all else equal. 
+
+\vspace{.1in}
+\paragraph{Forward-looking behavior:} If PCPs are forward-looking, they also value experimenting with relatively unknown specialists, because then the choice of specialist for referral $t$ involves both the utility for the current patient and the value of learning more about the quality of the specialists in the market, which could benefit future patients. The solution to this dynamic problem simplifies with the use of a \textit{Gittins index} \cite{gittins1979, gittins1979bio}, which expresses the value of learning about specialist $j$ as a function of the mean and variance of the current beliefs about that specialist. We denote the index abstractly as $g(m_{ijt}, v_{ijt})$, but this function is well approximated with a fairly simple and tractable closed-form expression developed by \cite{brezzi2002}. 
+
+With forward-looking behavior, the PCP's choices are based on the overall (current and future discounted) value of referrals, which can be written abstractly as follows:
+\begin{equation*}
+V_{it}(\dots) = \max_{j \in J_i} \ \left\{ \mathrm{E} \left[ U_{ijt} | \dots \right]
++ \beta \mathrm{E} V_{i, t+1}(\dots) \right\},
+\end{equation*}
+where $\beta$ is a known discount factor, and the ellipses ($\dots$) represent the relevant state variables. These value functions simplify greatly because there are no dynamics in $x$, $n$, $z$, $\xi$, and $\epsilon$. This leaves the Gittins index, which has a closed-form expression, and the present discounted value of increasing familiarity with a specialist, which also has a closed-form expression (denoted $\overline{\overline{f}}(e)$). Thus, the forward-looking choice problem simplifies as
+\begin{equation} 
+\max_{j \in J_i} \left\{ \alpha g(m_{ijt}, v_{ijt}) + \overline{\overline{f}}(e_{ijt}) + u(x_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt} \right\}.
+\label{eqn:dynamic}
+\end{equation}
+The key difference with myopic behavior is that Equation \ref{eqn:dynamic} involves $g(m_{ijt}, v_{ijt})$, which is increasing in the variance. The forward-looking model therefore assigns some value to trying specialists with whom the PCP may have less prior experience.
+
+\vspace{.1in}
+\paragraph{Estimation:} We have obtained preliminary estimates for the myopic version of the model using the methods presented in \cite{richards-shubik2021}. This amounts to the estimation of a multinomial logit discrete choice model via maximum likelihood, with an additional two-step procedure to estimate the congestion effect. The model is estimated separately in each of the 306 HRRs in our data, both to examine variation across markets and for computational feasibility (so that over 10,000 specialist fixed effects do not have to be estimated simultaneously). Because the Gittins index can be approximated with a tractable function of the mean and variance in Equation \eqref{eqn:mean_var}, the computational burden will be no greater to estimate the forward-looking model. Thus we are confident that it will be feasible to estimate both the myopic and forward-looking versions of our structural model.
+
+\vspace{.1in}
+\paragraph{Policy simulations:} The purpose of estimating a structural model is to simulate outcomes under counterfactual policy environments. The learning model will enable us to produce several types of informative simulations. First, we will quantify the losses due to learning frictions by simulating the gains that would occur if PCPs were perfectly informed about the quality of each specialist in their area. Second, we will measure the potential benefits from: 1) improving learning, by having PCPs update their beliefs based on the outcomes of all patients treated by a specialist, not just their own (similar to the ideal effect of surgeon ``report cards''); and 2) reducing habit persistence, by eliminating the familiarity effect that leads PCPs to stick with specialists who may not have the best performance. In all simulations, we will examine \emph{consequences for equity} by comparing the changes in outcomes among patient groups defined by age, gender, race/ethnicity, and neighborhood income.
+
+To complete \textbf{Aim 3} of our research proposal, we will fully \uline{develop and assess our structural model and generate informative counterfactual policy simulations} described above. The research team has extensive experience in developing and estimating these types of structural econometric models in the U.S. healthcare setting.
+
+\vspace{.2in}
+\subsection{Inclusion of Priority Populations}
+The primary priority populations included in this study are the elderly, women, racial/ethnic minorities, and residents of inner cities and rural areas. Since our analysis is based on Medicare fee-for-service claims data, our population of interest focuses entirely on individuals ages 65 and above. Included in our data is information about patient gender and race/ethnicity, and we will use this information to examine subsamples of patients to assess whether referral patterns are different along these dimensions. We will conduct similar sub-analyses for urban versus rural areas, where we suspect far fewer opportunities for PCPs to adjust referral patterns in rural areas.
+
+\vspace{.2in}
+\subsection{Limitations}
+The central limitation to our empirical analysis is the potential role of unobserved factors that shape a PCP's established relationships and that also affect the probability of referral for any given patient. We will attempt to overcome these limitations with a series of alternative analyses and specifications, focusing on plausibly exogenous ``shocks'' to PCP referral networks as a source of variation in PCP referrals. Examples of such shocks include new movement of PCPs across markets, specialists that newly enter a market, or existing specialists leaving the market.
+
+Another potential limitation is the use of Medicare fee-for-service claims data, which may capture a different referral network than would be observed in other insurance markets (albeit a referral network free from any network restraints placed by the insurer). Addressing this limitation would require a significant investment in additional data. As such, we will not directly address this issue in the current research plan; however, our long-term goals include examining heterogeneities in referral patterns across different insurance markets.
+
+\vspace{.2in}
+\subsection{Timeline and Dissemination}
+We expect to complete this research in four years. We present a detailed timeline of our proposed research below, where each goal is described alongside the anticipated date of completion. This timeline anticipates funding beginning in July of 2025. Since our data access must be paid for annually, our budget and timeline include necessary time for peer review and revision at high-profile economics journals, which often exceeds one year.
+\begin{itemize}[leftmargin=.6in]
+    \item[10/25] Form analytic data with PCP referral networks and quality outcomes for each referral
+    \item[2/26] Complete draft of paper describing PCP referral networks and patient outcomes (\textbf{Aim 1})
+    \item[9/26] Complete draft of paper examining initial PCP referral networks (\textbf{Aim 2}); begin presenting work at local, regional, and national conferences
+    \item[1/27] Complete first draft of paper on PCP learning (\textbf{Aim 3}); Submit initial referral paper for peer-reviewed publication
+    \item[8/27] Submit learning paper for peer-reviewed publication
+    \item[8/28] Revise existing papers as needed based on peer-review
+    \item[7/29] Finalize publications and replication files
+\end{itemize}
+
+We plan to disseminate the research to audiences of academics, practitioners, and policy makers.  We will submit abstracts to relevant conferences, such as the annual conferences of the American Society for Health Economists, Association for Public Policy Analysis \& Management, and Academy Health. Preliminary results from this project will be published in the National Bureau of Economic Research’s working paper series to expedite dissemination.  We will submit the final results for publication in academic journals such as the \textit{American Economic Review} or \textit{Review of Economics and Statistics} as well as more policy-oriented journals such as \textit{Health Affairs}.
+
+
+\newpage
+
+\bibliographystyle{unsrt}
+\bibliography{BibTeX_Library}
+
+\end{document} 

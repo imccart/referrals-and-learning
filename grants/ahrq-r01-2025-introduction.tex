@@ -1,0 +1,71 @@
+% NIH grant proposal file (2011)
+
+\documentclass[12pt]{article}
+
+% Packages to load
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{comment}
+
+% Arial font that NIH allows
+\renewcommand{\familydefault}{\sfdefault}
+\linespread{1.05}
+
+% Better and richer math environment
+\usepackage{amsmath}
+
+% EPS and PDF figures
+\usepackage{graphicx}
+
+% Make 0.5'' margins on all sides
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+
+% Add itemize*, description*, and enumerate* environments to shrink white space between list items
+\usepackage{mdwlist}
+
+% No page numbers
+\pagestyle{empty}
+
+% Compress white space around titles
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\titlespacing{\paragraph}{0pt}{*0}{*2}
+
+% Separate new paragraphs by 0.2 cm of white space (rather than indents)
+\usepackage{parskip}
+\setlength{\parskip}{0.2cm}
+
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+% Begin document
+
+\begin{document}
+\thispagestyle{empty}
+
+\newpage
+\section*{Introduction}
+\vspace{.1in}
+Below we outline key changes in our resubmission that significantly strengthen the clarity, rigor, and policy relevance of our proposal.
+
+\vspace{.1in}
+\paragraph{Stronger evidence on potential quality improvements and cost savings.} To better support our premise, we present evidence of wide variation in specialist quality and spending within geographic markets, and substantial gains from more efficient referral allocation. For example, failure rates (mortality, readmission, or complication within 90 days) differ by more than 15 percentage points across surgeons within the same region, and referring to more efficient surgeons reduces average 90-day spending by roughly \$8,000. We highlight this point not to claim that referral patterns are the \textit{source} of such variation, but instead that there is an \textit{opportunity} to significantly reduce spending and improve quality simply by reallocating patients to different specialists, for which PCP referrals is one key determinant.
+
+\vspace{.1in}
+\paragraph{Clearer aims and improved empirical design.} Each of our three aims has been revised for greater conceptual clarity and feasibility. \textit{Aim 1} retains its focus on describing referral networks, but centers more clearly on measurable patterns---such as network concentration---and their relationship to patient outcomes and spending. \textit{Aim 2} has been substantially rewritten to focus on network formation using a semi-parametric model of PCP–specialist matching. We leverage relocating physicians to isolate referral decisions made under limited information, and estimate the relative influence of geographic, demographic, and organizational factors. \textit{Aim 3} offers a more structured framework to study PCP learning using both reduced-form event studies and a structural model of specialist selection under uncertainty. This revised framing improves coherence across aims and ensures feasibility of estimation.
+
+\vspace{.1in}
+\paragraph{Updated framing to focus on spending and quality.} We revised the overall framing of the proposal to emphasize referral behavior as a tractable and policy-relevant lever for improving health care quality and reducing unnecessary spending. This focus is closely aligned with AHRQ’s delivery system priorities and avoids themes not directly supported by our data or empirical approach.
+
+\vspace{.1in}
+\paragraph{Improved alignment with AHRQ delivery system priorities.} The revised proposal directly supports AHRQ’s interest in identifying tractable, provider-facing interventions that improve care coordination and efficiency. Rather than rely on technology adoption or infrastructure changes, we focus on informational frictions, learning dynamics, and behavioral constraints—factors that are amenable to scalable policy solutions. Our final aim includes simulations of real-world interventions such as referral dashboards or shared performance feedback to evaluate their potential impact on referral efficiency and outcomes.
+
+\vspace{.1in}
+\paragraph{External validity.} While our analysis is limited to Medicare fee-for-service (FFS), we believe this the ideal setting for evaluating referral inefficiencies. Medicare FFS patients face fewer network restrictions and less gatekeeping compared to Medicare Advantage or commercial plans, allowing us to isolate informational frictions in PCP referral behavior.
+
+\vspace{.1in}
+\paragraph{Budget and timeline.} We appreciate one of the reviewer’s concerns about project scope, budget, and timeline. While our initial analytic work is feasible within a shorter window, the proposed 4-year timeline reflects the long publication cycles typical in economics, which often include multiple rounds of revision, coupled with the high annual cost of maintaining access to the Medicare claims data in the VRDC.
+
+\end{document} 

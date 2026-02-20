@@ -1,0 +1,288 @@
+\documentclass[12pt,letter]{article}
+\usepackage[toc,page]{appendix}
+\usepackage{graphicx,amssymb,amsmath,setspace,comment,verbatim,titling,pgf,lscape}
+\usepackage{titletoc}
+\usepackage{tocloft}
+\usepackage{endnotes,comment}
+\usepackage[english]{babel}
+\usepackage[NoDate]{currvita}
+\usepackage{marvosym}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,urlcolor=blue,a4paper,linktocpage=true]{hyperref}
+\usepackage[left=2cm,right=2cm,top=1cm,bottom=2cm]{geometry}
+\usepackage{sectsty}
+\usepackage{fancyhdr}
+\usepackage{pdfpages}
+\usepackage[round]{natbib}
+
+
+% Operators:
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\V}{\mathrm{V}}
+\newcommand{\C}{\matrm{Cov}}
+\newcommand{\dd}{\mathrm{d}}
+
+% Environments:
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+
+% To avoid errors in urls.
+\catcode`~=11 % make LaTeX treat tilde (~) like a normal character
+\newcommand{\urltilde}{\kern -.15em\lower .7ex\hbox{~}\kern .04em}
+\catcode`~=13 % revert back to treating tilde (~) as an active character
+
+% Pagestyle to omit page numbers for front matter
+\fancypagestyle{nopage}{
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+}
+
+\renewcommand\cftpartfont{\bfseries \Large \color{black}}
+
+\begin{document}
+
+% Title Page
+\thispagestyle{nopage}
+\begin{center}
+    {\huge{\sc URC Grant Application}}
+
+    \vspace{2in}
+    {\Large {\bfseries PI: Ian McCarthy } \\
+
+    \vspace{.3in}
+    Assistant Professor \\
+    Department of Economics \\
+    Emory University \\
+
+
+    \vspace{1in}
+    {\bfseries Co-investigator: Seth Richards-Shubik} \\
+
+    \vspace{.3in}
+    Assistant Professor \\
+    Department of Economics \\
+    Lehigh University
+
+    \vspace{2in}
+    {\bfseries Physician Learning and Specialist Referrals}}
+\end{center}
+
+% Table of Contents Page
+\newpage
+\renewcommand\contentsname{Table of Contents}
+\tableofcontents
+\thispagestyle{nopage}
+
+%Begin Main Text
+\newpage
+\setcounter{page}{1}
+\section{Abstract}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
+The existing health economics literature finds that as much as 30\% of the \$3.5 trillion annual U.S. health care expenditures could be eliminated without sacrificing quality of care; however, designing policies to achieve such efficiency gains has proven difficult. We examine this issue in the context of primary care physicians and their referral patterns to specialists. Exploiting rich data from the universe of Medicare claims over several years, the goal of this research is to empirically estimate the extent of physician learning in specialist referrals and the potential improvement in quality of care and efficiency if learning could be improved. If such gains are small, or if achieving these gains is sufficiently costly, then our research will help to illustrate the inherent limitations of policies aimed at reducing geographic variation in health care expenditures. If instead the gains to improved learning are substantial, or small but achievable at low cost, then our research will help to identify areas in which learning could be improved most easily. For example, our research could point to policy restrictions on physician-hospital integration as a way to improve physician learning. Alternatively, our research may support or refute arguments to directly limit physician referral options.
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+\newpage
+\section{Budget}
+\label{sec:budget}
+Dr. McCarthy previously secured funding through the Agency for Health Care Research and Quality (AHRQ) for a series of research projects related to physician behaviors and the relationship between physicians and hospitals. All of these projects rely on Medicare claims data for the empirical analysis, which are accessed remotely via a ``Virtual Research Data Center'' or VRDC. The VRDC is a more cost-effective way to access large amounts of Medicare and Medicaid claims data from the Centers for Medicare and Medicaid Services (CMS). For example, Dr. McCarthy currently has access to 100\% of the Medicare inpatient and institutional outpatient claims from 2007 through 2015. Purchasing these data directly from CMS would cost in excess of \$500,000.
+
+Although the total costs to access the claims data through the VRDC are lower, there are incremental costs incurred every year in order to maintain access to the data. As discussed in more detail in Section \ref{sec:current}, existing VRDC access and server space has been paid for through August 2019. Importantly, the scope of the current proposal is also covered under Dr. McCarthy's existing Data Use Agreement (DUA RSCH-2015-27710). As such, the budget request for the current proposal is limited to funds required for an additional year of access to the Medicare claims data and the required server space for these data, as itemized below:
+\begin{table}[htb!]
+\caption[caption]{\textbf{Itemized Budget}}
+\centering
+\centerline{
+\begin{tabular}{rl}
+    \hline
+    User access seat renewal & \$25,000 \\
+    Server space & \$4,000 \\
+    \hline\hline
+    Total & \$29,000
+\end{tabular}}
+\end{table}
+
+The proposed budget would allow for an additional year of access to the Medicare claims data from September 2019 through August 2020. We do not intend to complete our proposed aims in a single fiscal year. Rather, our goals during the 2019-2020 funding period are to compile sufficient evidence to facilitate a competitive AHRQ R01 grant application in the next academic year in order to secure additional funding through 2022.
+
+\newpage
+\section{Current Funding}
+\label{sec:current}
+There are two relevant sources of current funding, which we discuss in more detail below:
+
+\subsection*{Grant 1: AHRQ K99/R00, Current Grant Number R00HS022431}
+\begin{itemize}
+    \item PI: Ian McCarthy (no other individuals are on the grant)
+    \item Original K99 Title: Analysis and Dissemination of Patient-Centered Outcomes and its Impact on Patient-Reported Quality of Life
+    \item Updated R00 Title: The Measurement and Evaluation of Competition in Healthcare Delivery Markets
+    \item Funding Amount: \$743,360
+    \item Funding Period (R00): 9/2014 - 8/2018, including a one year no-cost extension
+\end{itemize}
+Funding for Dr. McCarthy's K99/R00 grant has technically expired; however, given the long publication process in economics, research related to those aims will continue through the current academic year. This K99/R00 grant remains relevant for the current proposal because the DUA covering grant R00HS022431 will also cover preliminary analysis of the proposed aims in Section \ref{sec:plan}.
+
+\vspace{.1in}
+\noindent \textbf{Project Summary:}
+Competition in health care delivery markets is a critical area of health policy and is the subject of increasing regulatory interest. However, the empirical literature in this area is qualitatively lacking both in terms of the patient health outcomes considered as well as the underlying methodology for measuring market concentration. For example, to the extent that a patient's admitting hospital is not decided solely by the patient but is instead a joint decision between the patient and physician, existing analyses of hospital market concentration based solely on hospital choice are inaccurate and potentially misleading. The proposed research pursues a more applicable measurement and assessment of competition in the health care delivery market. Adapting existing methods and concepts from the literature, I propose a new measure of market share and thus market concentration that incorporates the hospital's broader physician network in determining where care is ultimately received, and I examine the improved predictive power from using this alternative measure of market concentration.
+
+\subsection*{Grant 2: AHRQ R01, Grant Number R01HS024712}
+\begin{itemize}
+    \item PI: Mehul Raval, Northwestern University
+    \item Co-investigator: Ian McCarthy
+    \item Title: The Value of Children's Hospitals -- Are Increased Costs Justified by Improved Outcomes or Driven by Internal and External Economic Forces?
+    \item Funding Amount: \$1,313,416
+    \item Funding Period: 4/2017 - 1/2021
+\end{itemize}
+Funding under grant R01HS024712 covers Dr. McCarthy's summer salary for 2019 and 2020 (30\% annual effort in 2019 and 2020). The research covered by grant R01HS024712 is otherwise unrelated to grant R00HS022431 and the current proposal.
+
+\vspace{.1in}
+\noindent \textbf{Project Summary:}
+Children’s hospitals (CH) provide high volume, specialized, and resource intense care to the sickest children who often require highly-trained care providers and cutting edge technology. Though CH comprise less than 5\% of all hospitals in the U.S., they account for 40\% of pediatric inpatient days and 50\% of national pediatric healthcare costs. In the era of high consumer demand for healthcare at specialized centers, there is compelling health utilization cost data suggesting that the cost of common and routine procedures and care at CH, not just highly specialized care, is greater at CH than at non-children’s hospitals (NCH). Research by our team has demonstrated that costs are higher at CH compared to NCH for several commonly performed surgical procedures including appendectomy and pyloromyotomy. Although outcomes for highly specialized surgical care have been shown to be superior at CH, outcomes at CH and NCH are similar for many commonly performed surgical procedures. Further study is warranted to determine the economic factors that are driving higher costs at CH. Prior research has been limited by the use of costs derived from hospital level charges.
+
+Since true costs or expenses are not available, the next best option is to use payments as provided by private insurance carriers. The Health Care Cost Institute (HCCI) was established in 2011 to help complete the picture on actual health care spending by bringing together payment data from four of the nation’s largest insurance carriers. This health services research proposal will be the first to systematically examine CH and NCH using data on actual payments for 25\% of privately insured children in the U.S using HCCI data. We have identified 11 common surgical procedures that are performed at CH and NCH across the U.S. We aim to directly assess the value of children's surgical care by testing for any quality or price differentials among CH and NCH for these procedures. We will then examine the sources of any such differentials, with particular interest in the role of hospital market structure and competition on quality and payment differentials. We have assembled a team of experts including a content expert in children’s surgical care with experience in risk-adjusted hospital-level outcome comparison (Raval), a methodologic expert in measurement and evaluation of competition in healthcare markets (McCarthy), and a healthcare administrator with expertise in healthcare costs, quality, and access as well as healthcare delivery innovation (Sanfilippo). Our overall goal is to accumulate evidence to inform policy and reimbursement implications for newly forming pediatric accountable care organizations focused on a ``pediatric differential'' where higher costs are justified by improved outcomes. To our knowledge, this will be the first project to directly assess the value of children’s surgical care using payment data. Our results will inform patients, physicians, hospitals, and payers by encouraging pricing transparency and cultivating a high quality, value-centric healthcare system for children in the US.
+
+\newpage
+\section{Research Plan}
+\label{sec:plan}
+Health care expenditures in the U.S. vary dramatically across geography, and much of this variation is unexplained by differences in patients or observed quality of care. A natural policy question arises -- how can policy help to reduce physician-driven variation in care? We examine this question in the context of primary care physicians (PCPs) and referral patterns of specialists. Motivated with a theoretical model of physician learning, our goal is to empirically estimate the extent of physician learning in specialist referrals and the potential improvements in care and efficiency if learning could be improved. Our proposal centers on the following three \textbf{specific aims}:
+\begin{enumerate}
+    \item[\textbf{Aim 1:}] Quantify the extent to which PCPs adjust referrals in response to specialist quality. \\
+    \noindent Analysis from \cite{johnson2011} and \cite{sarsons2018} suggests that the referral patterns of primary care physicians are relatively rigid. The goal of \textbf{Aim 1} is to provide summary statistics on the relationship between specialist quality and PCP referrals. This analysis will focus on major joint replacements, as these surgeries are typically elective and referral-driven. From the observed claims, we will measure specialist quality from observed complications, readmissions, and mortality. The central question in this aim is whether PCP referrals change over time given observed changes in patient outcomes among specialists.
+
+    \item[\textbf{Aim 2:}] Estimate the magnitude of PCP learning in specialist referral patterns and heterogeneities based on observed practice and hospital characteristics. \\
+    \noindent Observed rigidities in the referral process could be optimal if there are sufficient costs to updating referral patterns. For example, it may be difficult to learn about the performance of unfamiliar specialists. In addition, it may be costly to establish good communication with new specialty practices, which is vital to manage follow-up care effectively. We will develop a theoretical and structural econometric model of physician learning that disentangles these costs from other more harmful frictions in the learning process. In particular, the model will distinguish between the objective value of established relationships, which yield better patient outcomes, and a behavioral bias in favor of working with familiar specialists regardless of the effect on patient health. The goal of \textbf{Aim 2} is then to use the model to: 1) quantify the salient costs and frictions in the setting of PCP referrals; and 2) examine which observable characteristics of the market, the physician's practice, and hospital relationships modify these factors in the learning process.
+
+    \item[\textbf{Aim 3:}] Estimate the potential increase in patient quality of care and efficiency due to improved physician learning. \\
+    \noindent Our theoretical model is designed to quantify the changes in the PCP learning/referral process along at least three dimensions: 1) greater availability of information about specialist performance; 2) elimination of any behavioral bias that favors familiar specialists; and 3) loosening of specialist capacity constraints. To examine behavior along the first dimension, our structural analysis will allow physicians to incorporate information on the outcomes of all patients (not just their own patients). And to examine changes along the second dimension, our structural model will posit a counter-factual in which subjective preference for working with familiar specialists is removed (as distinct from the objective benefits from established relationships). Finally, our model can simulate the benefits of specialist entry, which can improve outcomes by reducing capacity constraints overall.
+\end{enumerate}
+
+Successfully completing our aims will quantify the potential benefits to patients from improved PCP learning in specialist referrals, thus aiding future health policy toward maximizing efficiency of PCP referrals to specialists.
+
+\subsection*{Significance}
+Hospital and physician services constitute the two largest components of U.S. health expenditures and jointly accounted for over \$1.7 trillion in U.S. health spending in 2016 (52\% of total health expenditures). There is also strong empirical evidence that a large share of this spending is not driven by patient preferences \citep{zuckerman2010,finkelstein2016}. Such variation is also unexplained by differences in the underlying quality of care \citep{skinner1997,baicker2004spending}. As a result, authors estimate that as much as 30\% of annual U.S. health care expenditures could be eliminated without sacrificing quality of care \citep{wennberg2003}. \cite{finkelstein2016} specifically estimate that as much as 60\% of residual geographic variation in health care expenditures can be explained by supply-side factors. \cite{molitor2018} similarly finds that, among variation driven by supply-side factors, the style of practice to which a physician joins can explain as much as 50\% of such variation. The existing literature therefore strongly suggests that the majority of otherwise unexplained variation in health care expenditures is driven by physician practice patterns and the physician's underlying influence of treatment decisions and locations of care.
+
+Minimizing variation in health care expenditures for otherwise identical patients and identical quality of care is a significant goal of modern U.S. health economics and health policy, and it constitutes the core purpose of our research proposal. Our proposed research posits that a significant amount of unexplained variation could be removed if PCPs could perfectly match each patient to their ideal specialist. Our proposed theoretical model of PCP learning and referrals allows for several natural impediments to learning, such as the relationship value of existing PCP/specialist pairs, uncertainty of other specialists in the market, and capacity constraints of existing specialists. Within this theoretical construct, our research will identify and quantify the potential gains from improved PCP learning. If such gains are small, or if achieving these gains is sufficiently costly, then our research will help to illustrate the inherent limitations of policies aimed at reducing geographic variation. If instead the gains to improved learning are substantial, or small but achievable at low cost, then our research will help to identify areas in which learning could be improved most easily. For example, our research could point to policy restrictions on physician-hospital integration as a way to improve PCP learning. Alternatively, our research may support or refute arguments to directly limit PCP referral options.
+
+\subsection*{Innovation}
+Reducing physician-driven variation in care partly involves adjusting financial incentives to which physicians have responded in advantageous ways \citep{gruber1996,clemens2014}. Clear examples of such physician behaviors are relatively limited, and as such, addressing physician financial incentives is unlikely to explain major portions of observed (and otherwise unexplained) variation in health care expenditures. Instead of focusing on financial incentives as a source of variation in care, our proposal focuses on rigidities in the PCP referral process as an important source of variation. This is the broad innovation of our proposed research.
+
+More specifically, our proposed research will contribute to three areas of economics. First and most directly, we contribute to the literature on physician learning. The majority of this literature focuses on physician learning in context of prescription drugs. For example, \cite{coscelli2004}, \cite{crawford2005}, and \cite{ferreyra2011} study physician learning in the anti-ulcer drug market, and \cite{chan2013} similarly study physician learning with regard to side effects and treatment effectiveness of Viagra and Cialis. These studies tend to model physician learning based on the physician's own experience, wherein physicians update their behaviors as they receive more information on the effectiveness and potential side effects of a given drug. Other studies consider learning based on outside sources of information such as the physician's peers or disclosure of physician performance \citep{ho2002,kolstad2013}. In a recent working paper, \cite{gong2018} studies physician learning in the context of treatment for brain aneurysms, allowing for both skill accumulation (i.e., learning by doing) as well as learning about treatment effectiveness. Authors have also recently examined learning in the context of technology abandonment, as in \cite{berez2018} and \cite{howard2017}.
+
+Relatively few papers focus on learning in the context of specialist referrals. In an unpublished working paper, \cite{johnson2011} considers PCP learning as a potential mechanism by which specialists receive more or less referrals over time; however, the author does not directly estimate the role of learning separate from other potential mechanisms. More recently, \cite{sarsons2018} examines changes to PCP referrals as a function of patient outcomes for different surgeons. The author finds that PCPs are more likely to substitute away from surgeons with poor patient outcomes, but that the response is larger for female surgeons compared to male surgeons. While both \cite{johnson2011} and \cite{sarsons2018} discuss physician learning in the context of referrals, the authors do not directly study or quantify learning in this market.
+
+Our second contribution relates to the literature on ``shopping'' in health care. Despite the prevalence of high deductibles and other cost-sharing provisions, this literature increasingly finds that patients are particularly bad at shopping for health care. For example, in a study of lower-limb MRI scans, \cite{cooper2018} find that less than 1\% of individuals used a price transparency tool to shop for a lower price scan. As a result, consumers failed to consider an average of 6 lower-cost facilities between their residence and the location of their chosen facility. If patients appear unwilling or unable to shop for health care services, then the burden of identifying high-value care should perhaps be shifted more toward the physician. Indeed, in a randomized study providing specialist cost information to some PCPs in California, \cite{barkowski2018} finds that PCPs were significantly more responsive to this information than patients. A natural question is whether and how much this type of ``physician-led shopping'' occurs naturally. Our analysis will be the first to examine this issue in the context of PCP referrals.
+
+Finally, our proposal contributes to the literature on physician agency. In general, any finding of variation in health care expenditures that is not explained by quality or patient preferences suggests the presence of physician agency. Studies such as \cite{finkelstein2016} and \cite{molitor2018}, while not explicitly discussing the role of physician agency, nonetheless follow a long literature documenting the physician's informational advantage over the patient and subsequent influence over treatment decisions \citep{arrow1963,mcguire2000}. In the context of primary care, the physician's decision-making authority is most salient in the referral process. Indeed, \cite{freedmanr2015} find that the primary care physician's recommendation is the most commonly cited reason from a patient in their selection of an oncologist, with similar results documented in \cite{barkowski2018}. Our study will examine whether PCPs, in learning about specialist quality and updating referral patterns accordingly, can exercise physician agency to improve patient outcomes.
+
+\subsection*{Approach}
+As mentioned previously, we do not intend to complete this research proposal under this funding mechanism. Rather, our goal is to address Aim 1 of our proposal while generating sufficient preliminary analysis for Aims 2 and 3, which will form the basis of a future external grant application. Drawing on prior research using Medicare claims data, our proposed analysis will use Medicare inpatient, outpatient, and physician office claims from 2008 to 2015. We will also exploit information on patient characteristics (the Medicare beneficiary summary files) as well as physician practice characteristics from the CMS National Plan and Provider Enumeration System (NPPES).
+
+To focus on surgeries for which a PCP referral is most likely, we will limit the analysis to major joint replacements that are indicated as elective procedures and initiated by a physician, insurer, or clinic referral. Our choice to focus on major joint replacements is twofold: 1) elective major joint replacements will tend to follow a ``standard'' referral process such that we can better identify the referring PCP; and 2) among elective procedures in the Medicare claims data, major joint replacement constitutes the largest proportion of procedures observed in the data.\footnote{Major joint replacements are indicated clearly in the inpatient claims data based on the Diagnosis Related Group (DRG) cods 469 and 470.}
+
+We will use the 100\% inpatient claims to identify all major joint replacement surgeries. Will also use the full inpatient as well as the institutional outpatient claims to identify readmissions and complications associated with each surgery. Finally, our preliminary analysis will exploit a 20\% sample of physician office visits (all physician office claims for a 20\% sample of Medicare beneficiaries) in order to identify referring physicians for each inpatient surgery, and our goal is to expand the physician office claims data to cover 100\% of all relevant patients as part of a future R01 application. In the remainder of this section, we first discuss details of our dataset construction and then briefly discuss our theoretical framework and identification strategy.
+
+\subsubsection*{Dataset Construction}
+There will be three primary components to our final dataset:
+\begin{enumerate}
+    \item \textbf{Inpatient Surgeries:} After limiting the full set of claims data to elective major joint replacements, we observe approximately 380,000 total surgeries per year from 2008 through 2015. This reflects the population of all elective major joint replacements in Medicare fee-for-service (FFS) over this time frame.
+    \item \textbf{Surgical Outcomes:} In order to form a complete picture of outcomes for each surgery, we merge the patients identified as part of the surgeries in step 1 to the full population of inpatient and institutional outpatient claims. This provides a dataset of all inpatient and institutional outpatient claims among patients receiving an elective major joint replacement at some point over our panel. There are over 1 million such claims per year on average.
+    \item \textbf{Referrals:} The physician office claims data (referred to by CMS as the Carrier Files) can be used to identify the referring physician for each surgery. We will identify the referring physician with a two-step process. First, we will extract all physician office claims over 12-months prior to the surgery among the set of patients undergoing major joint surgery. Second, we will identify each patients PCP as the physician with the most ``evaluation and management'' visits for each patient or, if no such physician exists, the physician with the highest total billed claims.\footnote{This process follows \cite{pham2009} and \cite{agha2017} in their assignment of PCPs to patients.}
+\end{enumerate}
+Collectively, our data will include outcomes for each surgery, the operating physician (i.e., orthopedic specialist) for each surgery, and the referring PCP for each surgery. We have already created the inpatient surgery data and collected the relevant claims to measure outcomes. The next steps as part of this proposal are to identify a set of relevant quality outcomes that can be determined from our claims data and to identify the referring physician for each surgery. Note that our current data covered under DUA RSCH-2015-27710 only allows access to physician office claims for a 20\% sample of Medicare beneficiaries. This will be more than sufficient for a preliminary analysis, but will not provide a comprehensive picture of referral patterns. As such, our goal for the current proposal is to compile sufficient preliminary data to submit a competitive AHRQ R01 application, which would provide the necessary funding for an additional CMS data request that would include all physician office claims for the sample of patients receiving a major joint replacement surgery.
+
+\subsubsection*{Theoretical Framework}
+We will adopt a theoretical learning model to investigate inefficiencies and frictions in the market for referrals. In this model, PCPs are not perfectly informed about the specialists in their market and must learn about the quality and ease of working with various providers. The model will have three key features:
+\begin{enumerate}
+    \item \textbf{Learning:} PCPs have beliefs about the quality of each specialist, which are updated by experience from sending their patients to different specialists.
+    \item \textbf{Relationships:} Communication is improved by sharing more patients with a specialist, and this improves patient outcomes.	Also PCPs prefer to work with specialists with whom they have shared more patients (as a matter of taste, subjective utility).
+    \item \textbf{Capacity Constraints:} Specialists have increasing marginal costs and cannot treat an infinite number of patients.
+\end{enumerate}
+These features of the model will enable us to identify important possible sources of inefficiency. One is that the learning process may be too myopic, which implies that PCPs do not experiment enough among the available specialists before settling on their preferred set of providers. Another is that PCPs enjoy working with familiar specialists, beyond the improvement in patient outcomes that arises from well-established relationships.  These mechanisms could have slightly different empirical implications. Last, allowing for capacity constraints is important because they limit the extent to which referrals can respond to provider quality in equilibrium.
+
+Development of the full theoretical model and estimating equations derived from the model is part of our research proposal. Here, we introduce some preliminary theory to highlight the key tradeoff between PCP learning and relationships. For ease of exposition, we ignore heterogeneities across patients, and we do not consider capacity constraints. In this setup, PCP $i$ sends a patient to some specialist $j$ in period $t$ (for now just one patient per period), and $D_{ijt} = 1$ indicates this event, otherwise $D_{ijt} = 0$.  The outcome of the treatment is binary: $Y_{ijt} \in 0,1$, with 1 being success.  The true probability of success with specialist $j$ is $p_j \equiv \Pr(Y_{ijt} = 1)$, which is constant over time and across patients.
+
+PCPs do not know $p_j$ but use Bayesian inference to learn about it from their patients' outcomes.  The beliefs about $p_j$ are specified as a beta distribution, with parameters $(a_0, b_0)$ in the initial period (i.e., the common prior beliefs about specialist quality) and $(a_{ijt}, b_{ijt})$ in period $t$.  These parameters are updated based on the numbers of successes and failures experienced with specialist $j$, as follows:
+\[
+a_{ijt} = a_0 + \sum_{s=1}^t Y_{ijs} , \ \ \ \ \ \ \ \ \ \ b_{ijt} = b_0 + \sum_{s=1}^t (D_{ijs} - Y_{ijs}) .
+\]
+The mean and variance of the beta distribution are simple expressions of these parameters, which will be used below.  Specifically we define the mean and variance of the prior distribution in period $t$, which uses the history up to period $t-1$, as follows:
+\begin{align}
+m_{ijt} & \equiv \frac{ a_{ij,t-1} }{ a_{ij,t-1} + b_{ij,t-1} } \\
+v_{ijt} & \equiv \frac{ a_{ij,t-1} b_{ij,t-1} }{ (a_{ij,t-1} + b_{ij,t-1})^2 (a_{ij,t-1} + b_{ij,t-1} + 1) } .
+\end{align}
+
+The utility for the patient in period $t$ is the sum of their outcome, weighted by a parameter $\alpha$, plus other unobserved factors (to the econometrician), $\epsilon_{ijt}$, which have a known parametric distribution (e.g., extreme value). Hence patient utility is $$ U_{ijt} \equiv \alpha Y_{ijt} + \epsilon_{ijt} .$$ PCPs are assumed to be perfect agents for their patients, so this is their payoff as well. If PCPs are myopic, they simply choose the specialist with the highest expected utility for the current patient:
+\[
+\max_j \E[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} ]
+= \max_j \left\{ \alpha \E[ Y_{ijt} | a_{ij,t-1}, b_{ij,t-1} ]+ \epsilon_{ijt} \right\} .
+\]
+The expectation of $Y_{ijt}$ integrates over the beliefs about $p_j$, which are based on the experience with that specialist up to period $t-1$.  Hence we have
+\[
+\max_j \E[ U_{ijt} | a_{ij,t-1}, b_{ij,t-1} ]
+= \max_j \left\{ \alpha m_{ijt} + \epsilon_{ijt} \right\} .
+\]
+Thus if PCPs are myopic, they tend to refer to specialists with whom they have had more successes in the past.
+
+If PCPs are forward-looking, they also value experimenting with relatively unknown specialists.  The choice of specialist in period $t$ involves both the utility for the current patient and the value of learning more about the quality of specialists in the market, which could benefit future patients.  In general the solution for a problem like this can be complicated, but in our case it simplifies with the use of a \emph{Gittins index}.  This expresses the value of learning more about specialist $j$ as a function of the mean and variance of the current beliefs about that specialist.  We denote this abstractly as $g(m_{ijt}, v_{ijt})$.  Then, we replace the current patient's utility with the overall value of referring to specialist $j$:
+$$ V_{ijt} \equiv U_{ijt} + g(m_{ijt}, v_{ijt}) = \alpha Y_{ijt} + g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} .$$
+The new maximization problem is thus
+\[
+\max_j \E[ V_{ijt} | a_{ij,t-1}, b_{ij,t-1} ]
+= \max_j \left\{ \alpha m_{ijt} + g(m_{ijt}, v_{ijt}) + \epsilon_{ijt} \right\} .
+\]
+The difference with myopic behavior is that this involves the term $g(m_{ijt}, v_{ijt})$, which is increasing in the variance. The forward-looking model therefore assigns some value to trying specialists with whom the PCP may have less prior experience.
+
+Part of Aim 2 of our research proposal is to further develop our theoretical model and form a set of estimating equations for our empirical applications. Dr. Richards-Shubik has extensive experience in developing and estimating these types of structural econometric models.
+
+\subsubsection*{Identification and Estimation Strategy}
+Empirically, our final goal is to structurally estimate a theoretical model of PCP learning and referrals (Aim 3). This will allow us to consider counter-factual scenarios in which, for example, physician learning is improved via greater available information on specialist quality or a reduction of behavioral bias in favor of familiar specialists. The structural model will also allow us to say more about these mechanisms and their effects on patient quality of care than would be possible with a purely reduced-form estimation.
+
+For purposes of this application, we focus our empirical discussion around a reduced-form econometric approach that will provide preliminary descriptive evidence on the mechanisms underlying any future structural approach. Related directly to Aim 1, the central reduced-form empirical question we have in mind is, ``do primary care physicians adjust their referral patterns in response to specialist quality?'' If so, we are also interested in whether the quality signal must come only from PCP $i$'s patients or if negative outcomes for other patients also influence PCP $i$'s referrals. In addition, we are interested in heterogeneities in this responsiveness based on the existing relationship of the PCP and specialist as well as capacity constraints of specialists in the market.
+
+To address these questions in a reduced-form setting, we will estimate a standard discrete choice model in which each PCP considers the specialist to which they will refer a given patient. Specifically, denote PCP $i$'s (latent) utility from referring patient $k$ to specialist $j$ by
+\begin{equation}
+    y^{*}_{ijk}=\beta X_{jk} + \gamma Z_{j} + \delta D_{ij} + \varepsilon_{ijk},
+    \label{eqn:latent_u}
+\end{equation}
+where $X_{jk}$ denotes a vector of patient characteristics interacted with specialist characteristics, $Z_{j}$ a vector of specialist characteristics, and $D_{ij}$ denotes a vector of PCP characteristics interacted with specialist characteristics. The referral, $y_{ijk}$, is then set to 1 if specialist $j$ is chosen and 0 otherwise. Assuming $\varepsilon_{ijk}$ in Equation \ref{eqn:latent_u} is identically and independently distributed with type I extreme value distribution, the probability of PCP $i$ referring patient $k$ to specialist $j$ follows from the standard conditional logit \citep{mcfadden1973}:
+\begin{equation}
+    P_{ijk}=P\left(y_{ijk}=1 \right) = \frac{\text{exp} \left( \beta X_{jk} + \gamma Z_{j} + \delta D_{ij} \right)}{\sum_{m \in N_{i}} \text{exp}\left( \beta X_{mk} + \gamma Z_{m} + \delta D_{im} \right)},
+    \label{eqn:pr_hosp_u}
+\end{equation}
+where $N_{i}$ denotes the number of specialists in PCP $i$'s choice set. We can then estimate $\beta$, $\gamma$, and $\delta$ using standard discrete choice estimation techniques.
+
+Key variables of interest in this model include: 1) the observed outcomes of the specialist in the prior year (e.g., the mortality rate, readmission rate, complication rate, and spending among PCP $i$'s patients that were referred to specialist $j$); 2) the aggregate outcomes of the specialist in the prior year (e.g., specialist $j$'s overall mortality, readmission, complication, and spending rates regardless of the source of the referral); 3) measures of the existing relationship between PCP $i$ and specialist $j$ (e.g., the share of PCP $i$'s referrals going to specialist $j$ in the prior year); and 4) measures of specialist capacity constraints. These variables will enter individually into the model and via interaction terms. Coefficient estimates for these variables will then provide evidence as to whether PCP $i$ is responsive to negative outcomes of specialist $j$. The results will further identify whether PCP $i$ appears to respond only to the signal among their own patients or if they respond to the overall signal (including that of other patients) of specialist $i$. Finally, the results will help to quantify any differential response to specialist quality or spending as a function of the pre-existing relationships.
+
+For example, denote by $\hat{\delta}_{1}$ the coefficient estimate on the share of PCP referrals to a given specialist over the prior period, and denote by $\hat{\gamma}_{1}$ the coefficient estimate on the observed outcomes of a given specialist over the prior period. If our estimates are such that $\hat{\delta}_{1}$ is large relative to $\hat{\gamma}_{1}$, then this preliminary descriptive evidence would suggest that behavioral biases among physicians may overpower physician learning.
+
+\subsubsection*{Timeline and Goals}
+As mentioned previously, achieving the aims of our current proposal are beyond the scope of this URC funding mechanism. In particular, appropriately completing our goals will require at least \$65,000 in additional funding over two years in order to form a complete picture of PCP referrals (not including salary). The additional funding is not unreasonable, and there are several opportunities to apply for such funding. With this in mind, our goals under the URC funding mechanism are to provide compelling preliminary evidence on each aim. For example, even with the relatively limited 20\% sample, we can estimate the discrete choice model and assess whether PCPs appear to respond to negative quality outcomes among specialists. By the end of the URC funding, our goal is to have secured additional funding for 3 years via an AHRQ R01.
+
+The timeline of our proposed research and future funding plan is detailed below, where each goal is described alongside the anticipated date of completion.
+\begin{itemize}
+    \item[5/2019] Form the quality outcomes for each surgery in our claims data. The quality outcomes will include mortality, readmissions, and infections, all of which can be identified from the 100\% inpatient and institutional outpatient claims data available under Dr. McCarthy's current DUA.
+    \item[6/2019] Identify the referring physician for each major joint replacement surgery based on the algorithm discussed previously.
+    \item[8/2019] Finalize our theoretical model and derive a set of estimating equations for future structural estimation.
+    \item[9/2019] Finalize reduced-form estimates based on 20\% carrier files currently available and begin writing paper for academic dissemination.
+    \item[10/2019] Submit AHRQ R01 grant proposal.
+    \item[2/2020] Finalize structural econometric estimation based on 20\% carrier file.
+    \item[4/2020] Submit reduced-form paper based on 20\% carrier file for publication and conference presentations.
+\end{itemize}
+
+\newpage
+\section{McCarthy Condensed CV}
+\label{sec:CV}
+\includepdf[pagecommand={}]{McCarthy_CV_Short.pdf}
+
+\newpage
+\section{URC Form}
+\label{sec:CV}
+\includepdf[pagecommand={}]{URC_Signed_Form.pdf}
+
+
+\pagebreak
+\bibliographystyle{authordate1}
+\bibliography{BibTeX_Library}
+
+
+\end{document} 

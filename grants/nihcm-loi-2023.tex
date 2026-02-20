@@ -1,0 +1,99 @@
+% NIH grant proposal file (2011)
+
+\documentclass[12pt]{article}
+
+% Packages to load
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{natbib}
+\setcitestyle{round}
+
+% Arial font that NIH allows
+\renewcommand{\familydefault}{\sfdefault}
+\linespread{1.85}
+
+% Better and richer math environment
+\usepackage{amsmath}
+
+% EPS and PDF figures
+\usepackage{graphicx}
+
+% Make 0.5'' margins on all sides
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+
+% Add itemize*, description*, and enumerate* environments to shrink white space between list items
+\usepackage{mdwlist}
+
+% No page numbers
+\pagestyle{empty}
+
+% Compress white space around titles
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\titlespacing{\paragraph}{0pt}{*0}{*2}
+
+% Separate new paragraphs by 0.2 cm of white space (rather than indents)
+\usepackage{parskip}
+\setlength{\parskip}{0.2cm}
+
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+
+% Begin document
+
+\begin{document}
+
+\noindent \textbf{Project Title:} Efficiency and Learning in Referrals for Joint Replacement \\
+\noindent \textbf{Study Duration:} January 2023 - September 2024 \\
+\noindent \textbf{Anticipated Budget:} \$55,000
+
+\vspace{.2in}
+\noindent \textbf{Summary of Proposed Work:} Physician practice styles and other provider behaviors increasingly emerge as a major source of variation in health care expenditures and quality of care \citep{finkelstein2016,molitor2018}, and thus a key source of quality disparities and inefficiency in the U.S. health care system; however, policy solutions to remove this variation are elusive and require significant changes in physician behaviors. Our proposal considers referral patterns from primary care physicians (PCPs) to specialists as an important contributor to such inefficiencies. We will quantify the extent of learning in PCP referrals to specialists and consider the welfare implications of improving the efficiency of this learning process.
+
+\vspace{.2in} \textbf{Statement of Significance and Impact:} Over 400,000 elderly Medicare beneficiaries undergo a planned and elective major joint replacement each year, accounting for Medicare expenditures of nearly \$5 billion per year. Among these patients, around 0.6\% (about 2,600 patients per year) die within 90 days of their operation, and over 9\% of patients (around 37,500 patients per year) are readmitted within 90 days of discharge. As such, while major joint replacements are relatively safe among otherwise healthy beneficiaries, these procedures still expose patients to significant health risks.
+
+Importantly, the risk of a poor health outcome is heterogeneous across orthopedic surgeons. Among experienced surgeons with reasonable volumes, the probability of a poor outcome (defined as mortality, readmission, or infection) ranges from 1\% to over 20\%, and the 75th percentile of surgeon-level risk is double the 25th percentile. Such variation in specialist quality (and physician practice styles more generally) is a major source of inefficiency in U.S. health care \citep{finkelstein2016,molitor2018}. Our proposal considers referrals from primary care physicians (PCPs) to specialists---i.e., PCP referral networks---as a potential mechanism to address this inefficiency. 
+
+PCP referral networks have the potential to improve quality and efficiency for two related reasons. First, by choosing or recommending providers for specialty services, PCP referrals are an important determinant of the observed variations in health care expenditures and quality. As a result, there is an opportunity to improve patient health and reduce costs if PCPs can better direct patients to more efficient and higher quality specialists. Second, addressing PCP referral decisions may offer a relatively practical and actionable avenue to change patterns of care. An established body of research has found significant barriers to changing individual physician practice styles, so it may be more feasible to improve the allocation of referrals across specialists rather than the treatment decisions of the specialists themselves.
+
+\vspace{.2in}
+\noindent \textbf{Research Questions:} This research seeks to understand the existing barriers to optimal referrals for major joint replacement and to estimate the scope for improving efficiency if those barriers can be addressed. Our specific research goals are:
+
+\begin{enumerate}
+    \item Empirically describe referral networks for major joint replacement and examine the association between salient network statistics and measures of health care quality and cost.
+    
+    \item Estimate the responsiveness of PCP referrals to signals about specialist quality, and examine the implications for patient health and Medicare spending using a model of physician learning.
+    
+\end{enumerate}
+
+
+\vspace{.2in}
+\noindent \textbf{Research Design:} We will use Medicare fee-for-service (FFS) claims data covering the population of all inpatient major joint replacements from 2008 through 2018, or just over 4.5 million inpatient stays. As an initial and preliminary analysis, we assign patients to PCPs based on a combination of two common approaches in the literature \citep[e.g.,][]{sarsons2018, zeltzer2020, pham2009, agha2017}, and we estimate multinomial logit models of PCP referrals to specialists for major joint replacements. This simplified model can be interpreted as a basic specification of a rational but myopic learning model. Our preliminary analysis finds a small but statistically significant effect of negative outcomes on future referrals, with an elasticity of -2\%. This response, however, is overpowered by the PCP's familiarity with the specialist, suggesting that negative surgical outcomes have little effect on PCP referrals among established PCP-specialist pairs. While preliminary, these results suggest major frictions in the referral process, wherein PCPs may value prior relationships with specialists over signals of poor surgical quality. 
+
+As part of \textbf{Aim 1}, we will more closely examine how PCP/specialist referral networks develop and evolve over time, focusing on plausibly exogenous changes to the potential referral network (such as changes due to PCP or specialist movers and changes due to hospital acquisitions of physician practices). For \textbf{Aim 2}, we will continue to refine our preliminary discrete choice models, ultimately estimating a structural learning model in which PCPs have imperfect information and must learn about the quality and ease of working with the specialists available in their market. If PCPs are forward looking, the structural model corresponds to a multi-armed bandit problem, where PCPs face an ``experimentation vs.~exploitation'' tradeoff between trying a relatively unfamiliar specialist vs.~using a well known one with at least adequate quality. The problem can be solved via the use of a \emph{Gittins index} \citep{gittins1979}, which facilitates a straightforward approach for estimation of the forward-looking model. Our structural model will make it possible to forecast the effects of policy interventions that improve learning, such as increased transparency of accessible and relevant physician quality metrics or the effects of restricted referral patterns via hospital acquistions of physician practices.
+
+\vspace{.2in}
+\noindent \textbf{Key Personnel:} 
+\begin{itemize}
+    \item Ian McCarthy, Associate Professor, Emory University \& NBER 
+    \item Seth Richards-Shubik, Associate Professor, Lehigh University \& NBER
+\end{itemize}
+
+\vspace{.2in}
+\noindent \textbf{Dissemination Plans}: We plan to disseminate the research to audiences of academics, practitioners, and policy makers.  We will submit abstracts to relevant conferences, such as the annual conferences of the American Society for Health Economists, Association for Public Policy Analysis \& Management, and American Economic Association. Preliminary results from this project will be published in the National Bureau of Economic Research’s working paper series to expedite dissemination. We will submit the final results for publication in economics journals.
+
+\vspace{.2in}
+\noindent \textbf{Other Support:} We do not anticipate needing any funding other than through the NIHCM.
+
+\vspace{.2in}
+\noindent \textbf{Related Prior/Ongoing Research:} Using Medicare claims data in the CMS VRDC, we have constructed a dataset of PCP referrals to orthopedic specialists, patient outcomes associated with each surgery, and several physician/hospital/patient characteristics, including patient distance to specialists and the hospitals in which they have admitting privileges. From these data, we have estimated preliminary choice models in which a PCP's choice set consists of all specialists in the beneficiary's hospital referral region. The variables of interest in these choice models include the failure rate (i.e., the relative frequency of readmissions, complications, or mortality among prior referrals) and the share of a PCP's prior referrals going to the specialist. Continued access to the VRDC is required in order to: 1) examine how PCP/specialist networks are established and how they evolve over time (\textbf{Aim 1}); 2) expand our current discrete choice analysis to consider heterogeneities by the saliency of the quality signal and the extent to which PCPs incorporate information from their peer PCPs (\textbf{Aim 2}); and ultimately develop and estimate our structural model of PCP learning (\textbf{Aim 2}).
+
+\clearpage
+
+\bibliographystyle{plainnat}
+\bibliography{BibTeX_Library}
+
+\end{document} 

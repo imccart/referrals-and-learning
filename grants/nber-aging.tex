@@ -1,0 +1,111 @@
+% NIH grant proposal file (2011)
+
+\documentclass[12pt]{article}
+
+% Packages to load
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{natbib}
+\setcitestyle{round}
+
+% Arial font that NIH allows
+\renewcommand{\familydefault}{\sfdefault}
+\linespread{1.05}
+
+% Better and richer math environment
+\usepackage{amsmath}
+
+% EPS and PDF figures
+\usepackage{graphicx}
+
+% Make 0.5'' margins on all sides
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+
+% Add itemize*, description*, and enumerate* environments to shrink white space between list items
+\usepackage{mdwlist}
+
+% No page numbers
+\pagestyle{empty}
+
+% Compress white space around titles
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\titlespacing{\paragraph}{0pt}{*0}{*2}
+
+% Separate new paragraphs by 0.2 cm of white space (rather than indents)
+\usepackage{parskip}
+\setlength{\parskip}{0.2cm}
+
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+
+% title page info
+\title{\vspace{-2em}Efficiency and Learning in Referrals for Joint Replacement}
+\author{
+Ian McCarthy, Emory University
+\and
+Seth Richards-Shubik, Lehigh University
+}
+
+% \date{May 2021}
+
+% Begin document
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{-.2in}
+
+\subsection*{Background}
+
+Over 400,000 elderly Medicare beneficiaries undergo a planned and elective major joint replacement each year, accounting for Medicare expenditures of nearly \$5 billion per year. Among these patients, around 0.6\% (about 2,600 patients per year) die within 90 days of their operation, and over 9\% of patients (around 37,500 patients per year) are readmitted within 90 days of discharge. As such, while major joint replacements are relatively safe among otherwise healthy beneficiaries, these procedures still expose patients to significant health risks.
+
+Importantly, the risk of a poor health outcome is heterogeneous across orthopedic surgeons. Among experienced surgeons with reasonable volumes, the probability of a poor outcome (defined as mortality, readmission, or infection) ranges from 1\% to over 20\%, and the 75th percentile of surgeon-level risk is double the 25th percentile.
+
+Such variation in specialist quality (and physician practice styles more generally) is a major source of inefficiency in U.S. health care \citep{finkelstein2016,molitor2018}. Our proposal considers referrals from primary care physicians (PCPs) to specialists---i.e., PCP referral networks---as a potential mechanism to address this inefficiency. PCP referral networks have the potential to improve quality and efficiency for two related reasons. First, by choosing or recommending providers for specialty services, PCP referrals are an important determinant of the observed variations in health care expenditures and quality. As a result, there is an opportunity to improve patient health and reduce costs if PCPs can better direct patients to more efficient and higher quality specialists. Second, addressing PCP referral decisions may offer a relatively practical and actionable avenue to change patterns of care. An established body of research has found significant barriers to changing individual physician practice styles, so it may be more feasible to improve the allocation of referrals across specialists rather than the treatment decisions of the specialists themselves.
+
+
+\vspace{.05in}
+\subsection*{Aims}
+
+This research seeks to understand the existing barriers to optimal referrals for major joint replacement and to estimate the scope for improving efficiency if those barriers can be addressed.
+
+\vspace{.05in}
+\paragraph{Aim 1: Empirically describe referral networks for major joint replacement and examine the association between salient network statistics and measures of health care quality and cost.}
+
+We will construct referral networks between PCPs and specialists (and their respective practices) using Medicare claims data, focusing on planned and elective major joint replacements. From these networks, we will compute key statistics such as degree centrality and network density, along with measures of referral concentration (e.g., the proportion of a PCP's patients sent to a given specialist). We will examine the association between these network statistics and measures of quality, utilization, and costs. We will also describe the evolution of these referral networks over time, with particular attention to the role of health system integration. Successfully completing \textbf{Aim 1} will offer a comprehensive description of referral networks for joint replacement, spanning several years and covering the population of PCPs and orthopedic surgeons.
+
+\vspace{.05in}
+\paragraph{Aim 2: Estimate the responsiveness of PCP referrals to signals about specialist quality, and examine the implications for patient health and Medicare spending using a model of physician learning.}
+
+We will quantify the relationship between PCP referrals and specialist quality, focusing specifically on changes in PCP referrals following negative patient outcomes. We will also examine this relationship in the context of a structural learning model in which PCPs learn about specialist quality over time and update referral patterns accordingly. Successfully completing \textbf{Aim 2} will quantify the potential gains in patient health and reduction in Medicare spending if PCPs were able to more efficiently learn about specialist quality and improve the allocation of patients to specialists.
+
+\vspace{.05in}
+\subsection*{Approach}
+We will use Medicare fee-for-service (FFS) claims data covering the population of all inpatient major joint replacements from 2008 through 2018, or just over 4.5 million inpatient stays. As an initial and preliminary analysis, we assign patients to PCPs based on a combination of two common approaches in the literature \citep[e.g.,][]{sarsons2018, zeltzer2020, pham2009, agha2017}, and we estimate multinomial logit models of PCP referrals to specialists for major joint replacements. This simplified model can be interpreted as a basic specification of a rational but myopic learning model. Our preliminary analysis finds a small but statistically significant effect of negative outcomes on future referrals, with an elasticity of -2\%. This response, however, is overpowered by the PCP's familiarity with the specialist, suggesting that negative surgical outcomes have little effect on PCP referrals among established PCP-specialist pairs. 
+
+While preliminary, these results suggest major frictions in the referral process, wherein PCPs may value prior relationships with specialists over signals of poor surgical quality. As part of \textbf{Aim 1}, we will use the pilot funding to expand on this analysis, incorporating other information known to be relevant to referrals and hospital choice (e.g., distance) while also considering alternative formulations of the choice sets for each referral. 
+
+For \textbf{Aim 2}, we will develop and estimate a complete structural learning model in which PCPs have imperfect information and must learn about the quality and ease of working with the specialists available in their market. If PCPs are forward looking, the structural model corresponds to a multi-armed bandit problem, where PCPs face an ``expermentation vs.~exploitation'' tradeoff between trying a relatively unfamiliar specialist vs.~using a well known one with at least adequate quality. The problem can be solved via the use of a \emph{Gittins index} \citep{gittins1979}, which facilitates a straightforward approach for estimation of the forward-looking model. Our structural model will make it possible to forecast the effects of policy interventions that improve learning, such as increased transparency of accessible and relevant physician quality metrics.
+
+Our current access to these data expires in September 2022, which we hope to extend through September 2023 with the pilot funds. We then plan to apply for funding from the NIA and other agencies to support data access and the continuation of this research in future years. 
+
+\vspace{.05in}
+\subsection*{Contribution}
+Our proposal builds on an established patient-sharing literature, which shows a strong correlation between health care utilization and various network measures \citep{landon2012, barnett2012physician, landon2018}; however, network structures specifically between PCPs and specialists remain far less explored in this literature, and the mechanisms underlying PCP referral patterns are largely unexamined. We aim to study these referral patterns empirically, identify sources of informational frictions in referral patterns over time, including relationships between physicians and their larger health systems, and quantify the effects of changes in referral patterns on health care quality and efficiency. 
+
+Our proposal fits with the NBER Center for Aging and Health Research themes of \textit{The Dynamics of the Health Care Ecosystem} as well as \textit{Data Analytics, Information Technology, and Health Care Decision-Making}. Our results will further inform policy-makers as to the potential costs of existing informational frictions in PCP referral networks and the benefits to policies that can successfully reduce these frictions or other restrictions on the choice of specialists.
+
+
+
+\clearpage
+
+\bibliographystyle{plainnat}
+\bibliography{BibTeX_Library}
+
+\end{document} 

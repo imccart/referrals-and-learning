@@ -1,0 +1,111 @@
+% NIH grant proposal file (2011)
+
+\documentclass[12pt]{article}
+
+% Packages to load
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+
+% Arial font that NIH allows
+\renewcommand{\familydefault}{\sfdefault}
+\linespread{1.05}
+
+% Better and richer math environment
+\usepackage{amsmath}
+
+% EPS and PDF figures
+\usepackage{graphicx}
+
+% Make 0.5'' margins on all sides
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+
+% Add itemize*, description*, and enumerate* environments to shrink white space between list items
+\usepackage{mdwlist}
+
+% No page numbers
+\pagestyle{empty}
+
+% Compress white space around titles
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\titlespacing{\paragraph}{0pt}{*0}{*2}
+
+% Separate new paragraphs by 0.2 cm of white space (rather than indents)
+\usepackage{parskip}
+\setlength{\parskip}{0.2cm}
+
+\setlength{\belowcaptionskip}{-1ex} % remove extra space above and below in-line float (e.g., captions)
+\setlength{\abovecaptionskip}{1.5ex} % remove extra space above and below in-line float (e.g. captions)
+
+% Begin document
+
+\begin{document}
+\begin{center}
+\textbf{IRB Protocol for Research Proposal} \\
+\textbf{Title:} How Efficient is the Market for Physician Referrals? \\
+\textbf{PI:} Ian McCarthy \\
+\textbf{Co-Investigator:} Seth Richards-Shubik
+\end{center}
+
+\subsection*{Rationale}
+Hospital and physician services constitute the two largest components of U.S. health expenditures and jointly accounted for over \$2 trillion in U.S. health spending in 2019 (52\% of total health expenditures). There is also strong empirical evidence that a large share of this spending is not driven by patient preferences \cite{zuckerman2010,finkelstein2016}. Such variation is also unexplained by differences in the underlying quality of care \cite{skinner1997,baicker2004spending}. As a result, authors estimate that as much as 30\% of annual U.S. health care expenditures could be eliminated without sacrificing quality of care \cite{wennberg2003}. 
+
+Minimizing variation in health care expenditures for otherwise identical patients and identical quality of care is a significant goal of modern U.S. health economics and health policy. Reaching this goal first requires that we identify the underlying mechanisms of such variation. To this end, authors estimate as much as 60\% of residual geographic variation in health care expenditures can be explained by supply-side factors \cite{finkelstein2016}. Among this supply-side variation, physician practice style can explain as much as 50\% \cite{molitor2018}. The conclusion from this literature is that \textbf{the majority of otherwise unexplained variation in health care expenditures is driven by physician practice patterns}, facilitated by the physicians' underlying influence on treatment decisions and location of care.
+
+Our proposed research directly applies to the area of supply-side variation, with a focus on Primary Care Physician (PCP) referrals as a central factor in determining subsequent physician and hospital services. We posit that a substantial amount of unexplained variation in health care expenditures and quality would be removed if PCPs could perfectly match each patient to their ideal specialist. Our proposed model of PCP learning and referrals allows for several natural impediments to learning, such as the relationship value of existing PCP/specialist pairs, uncertainty of other specialists in the market, and capacity constraints of existing specialists. Within this theoretical construct, our research will identify and quantify the potential gains from improved PCP learning. If such gains are small, or if achieving these gains is sufficiently costly, then our research will help to illustrate the inherent limitations of policies aimed at reducing geographic variation. If instead the gains to improved learning are substantial, or small but achievable at low cost, then our research will help to identify areas in which learning could be improved most easily. For example, our research could point to policy restrictions on physician-hospital integration as a way to improve PCP learning. Alternatively, our research may support or refute arguments to directly limit PCP referral options.
+
+Our focus on PCP referral networks is also motivated by the search for practical and actionable health care policy to reduce supply-side variation in health care. Viewing physician treatment decisions as the source of variation necessarily implies that the solution to minimizing health care inefficiencies lies in changing physician behaviors. Unfortunately, an established body of research now demonstrates the many barriers to changing physician behaviors \cite{wilensky2016}. This research largely confirms what physicians and other practicing clinicians have long known -- it is very hard to change physician practice patterns. It is only more difficult to affect such change on a large scale, particularly with broad (i.e., non-individualized) health care policy. Our proposed research envisions an opportunity to improve efficiency and quality not by changing what physicians do, but instead by changing which physicians do it. This is a much more feasible adjustment, and through a deeper understanding of PCP referral networks, it is possible that such adjustments are easily achieved without added burden on patients.
+
+Ultimately, two important facts highlight the significance of our proposed research: 1) in examining sources of supply-side variation, \uline{our study will help identify the underlying mechanisms that allow an estimated 30\% of wasteful health care expenditures} to persist in the modern health care environment; and 2) in focusing on PCP referral networks as a source of variation, \uline{our study will guide practical and scalable interventions to alleviate such waste}. 
+
+
+\vspace{.1in}
+\subsection*{Methodology}
+The project relies entirely on retrospective, observational data from a variety of external datasets. Our primary data is the Medicare claims data for individuals aged 65 years and older who have undergone a planned and elective inpatient procedure. Patients eligible for Medicare due to disability, end-stage renal disease, or other non-age related criteria will be excluded. We will also limit the data to designated specialties, such as orthopedics and cardiac surgery. These specialities will be identified by specific DRG codes based on a preliminary review of the inpatient claims data.
+
+Our analysis will use 100\% of all Medicare claims data for inpatient, outpatient, physician and professional services (i.e., ``carrier'' claims), home health, and skilled nursing facility claims. We will supplement these data with information form the American Hospital Association Annual Surveys, as well as the hospital cost report information system and the SK\&A physician data.
+
+The goal of the project is to examine physician referral patterns and physician networks. The 100\% claims files are necessary in order to form a complete picture of physician referral patterns and connections across physicians. We will employ standard statistical and econometric analysis in order to examine the relationship between physician networks and health care costs, quality, and utilization. We will also study the development and evolution of physician referral patterns over time.
+
+
+\vspace{.1in}
+\subsection*{Informed consent}
+N/A
+
+\vspace{.1in}
+\subsection*{Confidentiality}
+We believe this research falls under human subjects exemption #4, because it uses secondary data not collected for this study. The data has been de-identified, such that subjects cannot be identified. 
+
+The central dataset used for our study is the Medicare claims data. These data provide information on services and procedures provided to Medicare beneficiaries by physicians and other healthcare professionals. The data contains information about healthcare utilization; payments (both "allowed amounts" and payments from Medicare); and submitted charges. Because the Medicare claims data identifies the physicians and facilities, it can be used to identify physician referrals to specialists and the outcomes of those surgeries. Importantly, all data accessed by the researches will have been de-identified. The researchers will have no way to link data back to individual subjects, and they will have no contact with the subjects.
+
+New computer code (e.g. in STATA or MATLAB) will be generated as part of the work done for this project which will be made publicly available via the data and computer code archives of the journals to which the papers produced for this project are submitted. All of the data-related files will be posted on the NBER public use data archive: (https://www.nber.org/research/data). It will be possible to download all the replication files needed to replicate the results of the project. These will include, among others, all the files pertaining data cleaning, so that interested researchers can re-create the same sample from the publicly available datasets. 
+
+Additional data for this project includes American Hospital Association (AHA) annual surveys, hospital Medicare Cost Reports, and SK/&A data on physician practices. None of these data contain any patient identifiable information.
+
+\vspace{.1in}
+\subsection*{Risks and benefits}
+All the basic processing of raw Medicare claims data is conducted centrally through the NBER's full-time data management personnel. Data extracts will be made available to investigators, based on the data authorized by CMS for this project. Extracts will consist of de-identified data. 
+
+We propose to use the Medicare claims data to conduct an investigation of PCP referrals to specialists and examine whether such referrals appear to respond sufficiently to specialist quality. This research is
+expected to provide insight into how to best use PCPs as accountable patient navigators in order to improve quality of care and reduce spending. In that there are no foreseeable risks, the general benefits to society outweigh the risks for this population.  
+
+\vspace{.1in}
+\subsection*{Compensation}
+There will be no payment/compensation to the subjects included in this study. There will be no costs to the subjects since this is an analysis of existing datasets.
+
+\vspace{.1in}
+\subsection*{Procedures for vulnerable populations}
+N/A
+
+\vspace{.1in}
+\subsection*{Research outside of the United States}
+N/A
+
+
+\bibliographystyle{unsrt}
+\bibliography{BibTeX_Library}
+
+\end{document} 
