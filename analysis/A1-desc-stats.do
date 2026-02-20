@@ -512,17 +512,6 @@ gen events_saved=iqr_failure*patients_75_failures/100
 total events_saved
 
 ******************************************************************
-** Correlation between low performing specialists and patient characteristics
-
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
-merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
-keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN}
-rename readmit readmit_90 
-keep if Year>=2013 
-
-
-******************************************************************
 ** Describe feasiblity of reallocation
 use "${DATA_FINAL}SpecialistCapacity_year.dta", clear
 drop if patients>365
@@ -556,7 +545,146 @@ graph export "${RESULTS_FINAL}Hypo_Reallocate.png", as(png) replace
 
 ** summarize excess capacity relative to reallocation
 gen relative_reallocate=hypo_reallocate/excess_capacity
+qui sum relative_reallocate
+local cap_sufficient = r(mean)
+qui gen sufficient = (relative_reallocate <= 1)
+qui sum sufficient
+local cap_pct: di %2.0f r(mean)*100
+local cap_pct = strtrim("`cap_pct'")
 
+
+******************************************************************
+** Paper numbers — auto-generated scalars
+
+* Unique PCPs and specialists (from estimation period)
+local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
+use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
+keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN}
+
+bys Practice_ID: gen _pcp_obs=_n
+qui count if _pcp_obs==1
+local n_pcps: di %9.0fc r(N)
+local n_pcps = strtrim("`n_pcps'")
+drop _pcp_obs
+
+bys Specialist_ID: gen _spec_obs=_n
+qui count if _spec_obs==1
+local n_specs: di %9.0fc r(N)
+local n_specs = strtrim("`n_specs'")
+drop _spec_obs
+
+* Per-year stats for estimation period (pairs table)
+keep if Year>=2013
+collapse (count) patients=bene_id (sum) any_bad, by(Practice_ID Specialist_ID Year)
+bys Practice_ID Year: gen spec_count=_n
+bys Practice_ID Year: egen tot_specs=max(_n) if spec_count==spec_count
+bys Practice_ID Year: egen tot_patients=sum(patients)
+bys Practice_ID Year: egen tot_failures=sum(any_bad)
+
+* Per PCP-year averages
+preserve
+bys Practice_ID Year: keep if spec_count==1
+qui sum tot_patients
+local mean_refs_pcp: di %3.1f r(mean)
+local mean_refs_pcp = strtrim("`mean_refs_pcp'")
+qui sum tot_specs
+local mean_specs_pcp: di %3.1f r(mean)
+local mean_specs_pcp = strtrim("`mean_specs_pcp'")
+qui sum tot_failures
+local mean_failures_pcp: di %3.1f r(mean)
+local mean_failures_pcp = strtrim("`mean_failures_pcp'")
+restore
+
+* Per pair-year averages
+qui sum patients
+local mean_refs_pair: di %3.1f r(mean)
+local mean_refs_pair = strtrim("`mean_refs_pair'")
+
+* Failure rate
+qui sum any_bad
+local tot_bad = r(sum)
+qui sum patients
+local tot_pat = r(sum)
+local failure_rate_mean: di %2.0f `tot_bad'/`tot_pat' * 100
+local failure_rate_mean = strtrim("`failure_rate_mean'")
+
+* Specialist failure rate percentiles
+use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
+keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN}
+keep if Year>=2013
+collapse (sum) any_bad (count) patients=bene_id, by(Specialist_ID)
+gen spec_fail_rate = any_bad / patients
+qui sum spec_fail_rate, detail
+local spec_fail_p25: di %4.1f r(p25)*100
+local spec_fail_p25 = strtrim("`spec_fail_p25'")
+local spec_fail_p75: di %4.1f r(p75)*100
+local spec_fail_p75 = strtrim("`spec_fail_p75'")
+
+* IQR stats from spec_quality_distribution
+use spec_quality_distribution, clear
+collapse (p25) any_p25=prop_failures (p75) any_p75=prop_failures ///
+	(p50) pay_p50=mean_episode (p25) pay_p25=mean_episode (p75) pay_p75=mean_episode, by(bene_hrr Year)
+gen iqr_failure = (any_p75 - any_p25)*100
+gen iqr_payment = (pay_p75 - pay_p25)/1000
+qui sum iqr_failure, detail
+local iqr_p25: di %3.1f r(p25)
+local iqr_p25 = strtrim("`iqr_p25'")
+local iqr_med: di %3.1f r(p50)
+local iqr_med = strtrim("`iqr_med'")
+local iqr_p75: di %3.1f r(p75)
+local iqr_p75 = strtrim("`iqr_p75'")
+qui sum iqr_payment, detail
+local pay_iqr_med: di %3.0f r(p50)
+local pay_iqr_med = strtrim("`pay_iqr_med'")
+
+* Choice set and market stats
+local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
+local hrr_count = 0
+local total_cs = 0
+local total_specs_hrr = 0
+local cs_n = 0
+forvalues i=1/500 {
+	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta"
+	if _rc==0 {
+		local hrr_count = `hrr_count' + 1
+		use "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta", clear
+		qui bys casevar: gen _cs = _N if _n==1
+		qui sum _cs
+		local total_cs = `total_cs' + r(sum)
+		local cs_n = `cs_n' + r(N)
+		qui bys Specialist_ID: gen _so = (_n==1)
+		qui count if _so==1
+		local total_specs_hrr = `total_specs_hrr' + r(N)
+	}
+}
+local mean_cs: di %2.0f `total_cs'/`cs_n'
+local mean_cs = strtrim("`mean_cs'")
+local mean_specs_hrr: di %2.0f `total_specs_hrr'/`hrr_count'
+local mean_specs_hrr = strtrim("`mean_specs_hrr'")
+
+* Write file
+local outfile "${RESULTS_FINAL}paper-numbers-desc.tex"
+file open fh using "`outfile'", write replace
+file write fh "%% Auto-generated by A1-desc-stats.do — do not edit by hand" _n
+file write fh "\newcommand{\nPCPs}{`n_pcps'}" _n
+file write fh "\newcommand{\nSpecialists}{`n_specs'}" _n
+file write fh "\newcommand{\meanRefsPerPCP}{`mean_refs_pcp'}" _n
+file write fh "\newcommand{\meanSpecsPerPCP}{`mean_specs_pcp'}" _n
+file write fh "\newcommand{\meanRefsPerPair}{`mean_refs_pair'}" _n
+file write fh "\newcommand{\meanFailuresPerPCP}{`mean_failures_pcp'}" _n
+file write fh "\newcommand{\failureRateMean}{`failure_rate_mean'}" _n
+file write fh "\newcommand{\specFailurePtwentyfive}{`spec_fail_p25'}" _n
+file write fh "\newcommand{\specFailurePseventyfive}{`spec_fail_p75'}" _n
+file write fh "\newcommand{\failureIQRPtwentyfive}{`iqr_p25'}" _n
+file write fh "\newcommand{\failureIQRMedian}{`iqr_med'}" _n
+file write fh "\newcommand{\failureIQRPseventyfive}{`iqr_p75'}" _n
+file write fh "\newcommand{\paymentIQRMedian}{`pay_iqr_med'}" _n
+file write fh "\newcommand{\capacitySuffPct}{`cap_pct'}" _n
+file write fh "\newcommand{\meanChoiceSet}{`mean_cs'}" _n
+file write fh "\newcommand{\meanSpecsPerHRR}{`mean_specs_hrr'}" _n
+file close fh
 
 
 log close

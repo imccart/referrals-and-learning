@@ -44,6 +44,8 @@ reshape long patients readmit mortality_30 mortality_60 mortality_90 any_comp an
 bys pair: egen total_pair_patients=total(patients)
 save "${DATA_FINAL}QuarterlyReferralPanel.dta", replace
 
+
+
 ******************************************************************
 ** Create balanced data of quarterly referrals at practice level
 use temp_base_data, clear
@@ -317,13 +319,10 @@ sum patients if treat_group==1 & event_time<0
 sum patients if treat_group==0
 sum patients if event_time<0 | treat_group==0
 
-egen group_fe=group(Specialist_ID quarter)
+egen spec_q_fe=group(Specialist_ID quarter)
 areg patients F9event F8event F7event F6event F5event F4event F3event F2event ///
-	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.treat_group, absorb(group_fe) cluster(Specialist_ID)
+	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.treat_group, absorb(spec_q_fe) cluster(Specialist_ID)
 
-
-areg patients F9event F8event F7event F6event F5event F4event F3event F2event ///
-	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.quarter i.treat_group, absorb(Specialist_ID) cluster(Specialist_ID)
 gen coef = .
 gen se = .
 forvalues i = 2(1)9 {
@@ -343,7 +342,7 @@ gen ci_bottom = coef - 1.96*se
 
 * Limit ourselves to one observation per period
 keep if event_time>=-9 & event_time<=9
-drop if event_time==0
+*drop if event_time==0
 keep event_time coef se ci_*
 duplicates drop
 sort event_time
@@ -368,7 +367,6 @@ keep pair Practice_ID Specialist_ID patients spec_cumul_failure cumul_failures t
 
 collapse (mean) patients (first) quarter2, by(Specialist_ID treat_group quarter)
 
-
 gen event_time=(quarter-quarter2)*treat_group
 replace event_time=-1 if event_time==.
 
@@ -382,8 +380,10 @@ gen F9event=(event_time<=-9)
 gen L9event=(event_time>=9)
 save event_time2, replace
 
+egen spec_q_fe=group(Specialist_ID quarter)
 areg patients F9event F8event F7event F6event F5event F4event F3event F2event ///
-	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.quarter i.treat_group, absorb(Specialist_ID) cluster(Specialist_ID)
+	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.treat_group, absorb(spec_q_fe) cluster(Specialist_ID)
+
 gen coef = .
 gen se = .
 forvalues i = 2(1)9 {
@@ -403,7 +403,7 @@ gen ci_bottom = coef - 1.96*se
 
 * Limit ourselves to one observation per period
 keep if event_time>=-9 & event_time<=9
-drop if event_time==0
+*drop if event_time==0
 keep event_time coef se ci_*
 duplicates drop
 sort event_time
@@ -441,8 +441,10 @@ gen F9event=(event_time<=-9)
 gen L9event=(event_time>=9)
 save event_time3, replace
 
+egen spec_q_fe=group(Specialist_ID quarter)
 areg patients F9event F8event F7event F6event F5event F4event F3event F2event ///
-	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.quarter i.treat_group, absorb(Specialist_ID) cluster(Specialist_ID)
+	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.treat_group, absorb(spec_q_fe) cluster(Specialist_ID)
+
 gen coef = .
 gen se = .
 forvalues i = 2(1)9 {
@@ -462,7 +464,7 @@ gen ci_bottom = coef - 1.96*se
 
 * Limit ourselves to one observation per period
 keep if event_time>=-9 & event_time<=9
-drop if event_time==0
+*drop if event_time==0
 keep event_time coef se ci_*
 duplicates drop
 sort event_time
@@ -499,8 +501,10 @@ gen F9event=(event_time<=-9)
 gen L9event=(event_time>=9)
 save event_time4, replace
 
+egen spec_q_fe=group(Specialist_ID quarter)
 areg patients F9event F8event F7event F6event F5event F4event F3event F2event ///
-	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.quarter i.treat_group, absorb(Specialist_ID) cluster(Specialist_ID)
+	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.treat_group, absorb(spec_q_fe) cluster(Specialist_ID)
+
 gen coef = .
 gen se = .
 forvalues i = 2(1)9 {
@@ -520,7 +524,7 @@ gen ci_bottom = coef - 1.96*se
 
 * Limit ourselves to one observation per period
 keep if event_time>=-9 & event_time<=9
-drop if event_time==0
+*drop if event_time==0
 keep event_time coef se ci_*
 duplicates drop
 sort event_time
@@ -545,16 +549,19 @@ forvalues g=2/4 {
 
 ** for interpretation
 sum patients if treat_group==1 & event_time<0
+local es_base = r(mean)
 sum patients if treat_group==0
 sum patients if event_time<0 | treat_group==0
 save temp_stacked_est, replace
 
 
 use temp_stacked_est, clear
-egen spec_group=group(Specialist_ID group)
+egen spec_q_fe=group(Specialist_ID quarter)
+egen spec_group_fe=group(Specialist_ID group treat_group)
 
-areg patients F9event F8event F7event F6event F5event F4event F3event F2event ///
-	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.quarter i.treat_group, absorb(spec_group) cluster(spec_group)
+reghdfe patients F9event F8event F7event F6event F5event F4event F3event F2event ///
+	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event, absorb(spec_q_fe spec_group_fe) cluster(spec_group)
+local es_coef = abs(_b[L0event])
 gen coef = .
 gen se = .
 forvalues i = 2(1)9 {
@@ -574,7 +581,7 @@ gen ci_bottom = coef - 1.96*se
 
 * Limit ourselves to one observation per period
 keep if event_time>=-9 & event_time<=9
-drop if event_time==0
+**drop if event_time==0
 keep event_time coef se ci_*
 duplicates drop
 sort event_time
@@ -585,14 +592,54 @@ twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
 graph save "${RESULTS_FINAL}EventStudy_Stacked_`r_type'", replace
-graph export "${RESULTS_FINAL}EventStudy_Stacked_`r_type'.png", as(png) replace			
+graph export "${RESULTS_FINAL}EventStudy_Stacked_`r_type'.png", as(png) replace
+
+** Paper numbers — event study scalars
+local es_pct: di %2.0f `es_coef'/`es_base' * 100
+local es_pct = strtrim("`es_pct'")
+
+local outfile "${RESULTS_FINAL}paper-numbers-rf.tex"
+file open fh using "`outfile'", write replace
+file write fh "%% Auto-generated by A2-reduced-form.do — do not edit by hand" _n
+file write fh "\newcommand{\eventStudyCoef}{`=string(`es_coef', "%5.3f")'}" _n
+file write fh "\newcommand{\eventStudyBaseRate}{`=string(`es_base', "%5.3f")'}" _n
+file write fh "\newcommand{\eventStudyPctReduction}{`es_pct'}" _n
+file close fh
 
 
-use temp_stacked_est, clear
-egen spec_group=group(Specialist_ID group quarter)
+** Group 1 (CLEAN - NO FAILURES IN RECENT PERIOD)
+use temp_panel_group_1, clear
+format quarter %tq
+sort Specialist_ID pair quarter
+replace patients=patients-any_bad
+keep pair Practice_ID Specialist_ID patients spec_cumul_failure spec_cumul_patients cumul_failures treat_group quarter quarter1 quarter2
 
+collapse (mean) patients (first) quarter1, by(Specialist_ID treat_group quarter)
+
+gen time_since_failure=quarter-quarter1
+gen event_time=(quarter-quarter1)*treat_group
+replace event_time=-1 if event_time==0 & treat_group==0
+bys Specialist_ID: egen min_time_since_failure=min(time_since_failure)
+keep if min_time_since_failure < -3
+
+forvalues l = 0/8 {
+    gen L`l'event = (event_time==`l')
+}
+forvalues l = 1/8 {
+    gen F`l'event = (event_time==-`l')
+}
+gen F9event=(event_time<=-9)
+gen L9event=(event_time>=9)
+
+** for interpretation
+sum patients if treat_group==1 & event_time<0
+sum patients if treat_group==0
+sum patients if event_time<0 | treat_group==0
+
+egen spec_q_fe=group(Specialist_ID quarter)
 areg patients F9event F8event F7event F6event F5event F4event F3event F2event ///
-	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.treat_group, absorb(spec_group) cluster(spec_group)
+	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.treat_group, absorb(spec_q_fe) cluster(Specialist_ID)
+
 gen coef = .
 gen se = .
 forvalues i = 2(1)9 {
@@ -612,7 +659,7 @@ gen ci_bottom = coef - 1.96*se
 
 * Limit ourselves to one observation per period
 keep if event_time>=-9 & event_time<=9
-drop if event_time==0
+*drop if event_time==0
 keep event_time coef se ci_*
 duplicates drop
 sort event_time
@@ -622,8 +669,8 @@ set scheme uncluttered
 twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
-graph save "${RESULTS_FINAL}EventStudy_FEq_Stacked_`r_type'", replace
-graph export "${RESULTS_FINAL}EventStudy_FEq_Stacked_`r_type'.png", as(png) replace			
+graph save "${RESULTS_FINAL}EventStudy_Group1_CLEAN_`r_type'", replace
+graph export "${RESULTS_FINAL}EventStudy_Group1_CLEAN_`r_type'.png", as(png) replace			
 
 
 ******************************************************************	
@@ -700,6 +747,120 @@ twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
 graph save "${RESULTS_FINAL}PCP_EventStudy_Stacked_`r_type'", replace
 graph export "${RESULTS_FINAL}PCP_EventStudy_Stacked_`r_type'.png", as(png) replace			
+
+
+******************************************************************	
+** Event Studies based on Peer information
+
+** PCP practice tax IDs
+use temp_base_data, clear
+format Practice_ID %12.0f
+collapse (count) patients=bene_id, by(Practice_ID pcp_phy_tin1 Year)
+bys Practice_ID Year: egen max_patients=max(patients)
+keep if max_patients==patients
+bys Practice_ID Year: gen obs=_n
+keep if obs==1
+keep Practice_ID pcp_phy_tin1 Year
+save temp_pcp_taxid, replace
+
+use temp_reduced_form, clear
+gen Year=yofd(dofq(quarter))
+merge m:1 Specialist_ID quarter using spec_failure_quarter, nogenerate keep(master match)
+merge m:1 Specialist_ID using spec_quarter_of_failures, nogenerate keep(master match)
+merge m:1 Practice_ID Year using temp_pcp_taxid, nogenerate keep(master match)
+egen pair_tin=group(pcp_phy_tin1 Specialist_ID)
+bys pair_tin quarter: egen tin_cumul_failures=sum(cumul_failures)
+
+** drop specialists with no failure in time period
+drop if quarter1==.
+
+** definte treatment groups (check number of quarters in spec_quarter_of_failures file)
+gen group_1=(quarter<quarter2) if quarter2!=.
+replace group_1=1 if quarter2==.
+forvalues q=2/23 {
+	local prior_q=`q'-1
+	local next_q=`q'+1
+	gen group_`q'=(quarter`prior_q'<quarter & quarter<quarter`next_q') if quarter`prior_q'!=. & quarter`next_q'!=.
+	replace group_`q'=(quarter`prior_q'<quarter) if quarter`next_q'==. & quarter`prior_q'!=.
+}
+gen group_24=(quarter23<quarter) if quarter23!=.
+
+forvalues q=1/10 {
+	preserve
+	keep if group_`q'==1
+	bys pair: egen min_failures=min(cumul_failures)
+	bys pair_tin: egen tin_min_failures=min(tin_cumul_failures)
+	bys pair: egen max_failures=max(tin_cumul_failures)
+	bys pair_tin: egen tin_max_failures=max(tin_cumul_failures)
+	gen treat_group=(min_failures==max_failures & tin_min_failures<tin_max_failures)
+	**drop if cumul_failures>(`q'+1)
+	save temp_panel_group_`q', replace
+	restore
+}
+
+** Group 1
+use temp_panel_group_1, clear
+format quarter %tq
+sort Specialist_ID pair quarter
+replace patients=patients-any_bad
+keep pair Practice_ID Specialist_ID patients spec_cumul_failure spec_cumul_patients cumul_failures tin_cumul_failures treat_group quarter quarter1 quarter2
+
+collapse (mean) patients (first) quarter1, by(Specialist_ID treat_group quarter)
+
+gen event_time=(quarter-quarter1)*treat_group
+replace event_time=-1 if event_time==0 & treat_group==0
+
+forvalues l = 0/8 {
+    gen L`l'event = (event_time==`l')
+}
+forvalues l = 1/8 {
+    gen F`l'event = (event_time==-`l')
+}
+gen F9event=(event_time<=-9)
+gen L9event=(event_time>=9)
+save event_time1, replace
+
+** for interpretation
+sum patients if treat_group==1 & event_time<0
+sum patients if treat_group==0
+sum patients if event_time<0 | treat_group==0
+
+egen spec_q_fe=group(Specialist_ID quarter)
+areg patients F9event F8event F7event F6event F5event F4event F3event F2event ///
+	L0event L1event L2event L3event L4event L5event L6event L7event L8event L9event i.treat_group, absorb(spec_q_fe) cluster(Specialist_ID)
+
+gen coef = .
+gen se = .
+forvalues i = 2(1)9 {
+    replace coef = _b[F`i'event] if F`i'event==1
+    replace se = _se[F`i'event] if F`i'event==1
+}
+forvalues i = 0(1)9 {
+    replace coef = _b[L`i'event] if L`i'event==1
+    replace se = _se[L`i'event] if L`i'event==1
+}
+replace coef = 0 if F1event==1
+replace se=0 if F1event==1
+
+* Make confidence intervals
+gen ci_top = coef+1.96*se
+gen ci_bottom = coef - 1.96*se
+
+* Limit ourselves to one observation per period
+keep if event_time>=-9 & event_time<=9
+*drop if event_time==0
+keep event_time coef se ci_*
+duplicates drop
+sort event_time
+
+local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"	     
+set scheme uncluttered
+twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
+    (function y = 0, range(-9 9)), xtitle("Event Time") ///
+    ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-1(.2)1)
+graph save "${RESULTS_FINAL}EventStudy_Group1_Placebo_`r_type'", replace
+graph export "${RESULTS_FINAL}EventStudy_Group1_Placebo_`r_type'.png", as(png) replace			
+
 
 
 

@@ -1,167 +1,145 @@
 set logtype text
 capture log close
 local logdate = string( d(`c(current_date)'), "%dCYND" )
-log using "${LOG_PATH}MyopicLearning_`logdate'.log", replace
+log using "${LOG_PATH}MNL_`logdate'.log", replace
 
 ******************************************************************
-**	Title:		PCP Referrals & Myopic Learning
+**	Title:		PCP Referrals with MNL Specifications
 **	Author:		Ian McCarthy
 **	Date Created:	1/3/2019
-**	Date Updated:	7/25/2023
+**	Date Updated:	9/24/2025
+**	Note:		Regressor list should include everything except 'm'
 ******************************************************************
 
 
 ******************************************************************
-** Estimation with FE
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
-forvalues i=1/457 {
-	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta"
-	if _rc==0 {
-		use "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta", clear
-		do "${CODE_FILES}_clean-analysis.do"
+** RUN SPECIFICATIONS
 
-		** prepare for cmclogit syntax
-		egen referral=group(bene_id admit)
-		keep Practice_ID Specialist_ID choice referral case_obs casevar common_ref prop_failures_run prop_patients_run bene_spec_distance bene_distance diff_dist
-		cmset Practice_ID referral case_obs
-			
-		** estimate and save results
-		gsort casevar -common_ref			
-		if ${OUTSIDE_OPTION}==1 {
-			capture cmclogit choice c.prop_failures_run##c.prop_patients_run diff_dist ib0.Specialist_ID, noconstant basealternative(0) iterate(100)
-		}
-		else if ${OUTSIDE_OPTION}==0 {
-			capture cmclogit choice c.prop_failures_run##c.prop_patients_run diff_dist ib(freq).Specialist_ID, noconstant iterate(100)
-		}
-		if _rc==0 {
-			est store cmclogit_est`i'
-			matrix b1=get(_b)
-			matrix var_cov=e(V)
-			matrix var_diag=vecdiag(var_cov)
-			matrix c1=(`i', e(converged), b1)'
-			matrix var1=(`i', e(converged), var_diag)'
-			svmat double c1, name(coef_`i')
-			svmat double var1, name(coef_se_`i')
-			gen coef_names_`i'=""
-			replace coef_names_`i'="hrr" if _n==1
-			replace coef_names_`i'="converged" if _n==2
-			local cov_list=rowsof(c1)
-			local names : rownames c1
-			forvalues l=3/`cov_list' {
-				local name : word `l' of `names'
-				replace coef_names_`i'="`name'" if _n==`l'
-			}
-			local conv=e(converged)
-		
-			preserve
-			keep if coef_`i'!=.
-			keep coef_`i' coef_se_`i' coef_names_`i'
-			replace coef_se_`i'=sqrt(coef_se_`i')
-			save coef_data_`i', replace
-			restore
-			
-			if `conv'>0 {
-				est restore cmclogit_est`i'
-				predict yhat
-				gen touse=e(sample)
-				replace touse=0 if missing(yhat)
-			
-				capture margins if touse, dydx(prop_failures_run prop_patients_run) outcome(1) alternative(1) post
-				if _rc==0 {
-					est store mfx_est
-					mat var_mat=e(V)
-					matrix b2=e(b)
-					matrix c2=(`i',b2,sqrt(var_mat[1,1]),sqrt(var_mat[2,2]))'
-					svmat double c2, name(mfx_`i')
-				
-					gen mfx_names_`i'=""
-					replace mfx_names_`i'="hrr" if _n==1
-					replace mfx_names_`i'="mfx_failures" if _n==2
-					replace mfx_names_`i'="mfx_patients" if _n==3
-					replace mfx_names_`i'="mfx_failures_se" if _n==4
-					replace mfx_names_`i'="mfx_patients_se" if _n==5
-				
-					keep if mfx_`i'!=.
-					keep mfx_`i' mfx_names_`i'
-					save mfx_data_`i', replace
-				}
-			}
-			est drop cmclogit_est`i'
-		}
-	}
-}	
+global RESULTS_FINAL "${PROJ_PATH}results/pcp-level/"	
+
+** Baseline specification
+run_mnl_specs, regressors(diff_dist fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20 ib(freq).Specialist_ID)
+save "${RESULTS_FINAL}MNL_Specs1.dta", replace
+
+** Role of practice affiliation
+run_mnl_specs, regressors(diff_dist prac_vi fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20 ib(freq).Specialist_ID)
+save "${RESULTS_FINAL}MNL_Specs2.dta", replace
+
+** Role of peer information
+run_mnl_specs, regressors(diff_dist practice_info_1 practice_info_2 fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20 ib(freq).Specialist_ID)
+save "${RESULTS_FINAL}MNL_Specs3.dta", replace
 
 
-forvalues i=1/457 {
-	capture confirm file "coef_data_`i'.dta"
-	if _rc==0 {
-		use coef_data_`i', clear
-		rename coef_`i'1 coef_val
-		rename coef_se_`i'1 coef_se
-		rename coef_names_`i' coef_name
-		save coef_data_`i', replace
-	}
+
+******************************************************************
+** ORGANIZE RESULTS
+
+** baseline
+use "${RESULTS_FINAL}MNL_Specs1.dta", clear
+gen hrr=coef_val if coef_name=="hrr"
+replace hrr=hrr[_n-1] if hrr==.
+
+replace coef_name="belief_s" if coef_name=="o.belief_s"
+keep if inlist(coef_name, "belief_s", "converged", "log_like", "diff_dist") | ///
+	inlist(coef_name, "fmly_np_1", "fmly_np_2", "fmly_np_3", "fmly_np_4", "fmly_np_5", "fmly_np_7", "fmly_np_10", "fmly_np_15", "fmly_np_20")
+
+rename coef_val est_
+rename coef_se se_
+reshape wide est_ se_, i(hrr) j(coef_name) string
+
+foreach x of newlist converged log_like {
+	rename est_`x' `x'
+	drop se_`x'
 }
+order hrr converged log_like
+drop if converged==0
 
-local step=0
-forvalues i=1/457 {
-	capture confirm file "coef_data_`i'.dta"
-	if _rc==0 {
-		local step=`step'+1
-		if `step'==1 {
-			use coef_data_`i', clear
-		}
-		else {
-			append using coef_data_`i', force
-		}
-	}
-	capture erase "coef_data_`i'.dta"	
-}
+drop est_fmly_np* se_fmly_np* converged
+replace se_belief_s=est_belief_s*se_belief_s
+gen spec="baseline"
+save temp_specs1, replace
 
-if ${OUTSIDE_OPTION}==1 {
-	save "${RESULTS_FINAL}MyopicHRR_Coef_`r_type'.dta", replace
-}
-else if ${OUTSIDE_OPTION}==0 {
-	save "${RESULTS_FINAL}MyopicHRR_CoefFull_`r_type'.dta", replace
-}
 
-				
-		
-forvalues i=1/457 {
-	capture confirm file "mfx_data_`i'.dta"
-	if _rc==0 {
-		use mfx_data_`i', clear
-		rename mfx_`i'1 mfx_val
-		rename mfx_names_`i' mfx_name
-		save mfx_data_`i', replace
-	}
-}
-		
-local step=0
-forvalues i=1/457 {
-	capture confirm file "mfx_data_`i'.dta"
-	if _rc==0 {
-		local step=`step'+1
-		if `step'==1 {
-			use mfx_data_`i', clear
-		}
-		else {
-			append using mfx_data_`i', force
-		}
-	}
-	capture erase "mfx_data_`i'.dta"		
-}
+** with integration
+use "${RESULTS_FINAL}MNL_Specs2.dta", clear
+gen hrr=coef_val if coef_name=="hrr"
+replace hrr=hrr[_n-1] if hrr==.
 
-if ${OUTSIDE_OPTION}==1 {
-	save "${RESULTS_FINAL}MyopicHRR_mfx_`r_type'.dta", replace
+replace coef_name="belief_s" if coef_name=="o.belief_s"
+keep if inlist(coef_name, "belief_s", "converged", "log_like", "diff_dist", "prac_vi") | ///
+	inlist(coef_name, "fmly_np_1", "fmly_np_2", "fmly_np_3", "fmly_np_4", "fmly_np_5", "fmly_np_7", "fmly_np_10", "fmly_np_15", "fmly_np_20")
+
+rename coef_val est_
+rename coef_se se_
+reshape wide est_ se_, i(hrr) j(coef_name) string
+
+foreach x of newlist converged log_like {
+	rename est_`x' `x'
+	drop se_`x'
 }
-else if ${OUTSIDE_OPTION}==0 {
-	save "${RESULTS_FINAL}MyopicHRR_mfxFull_`r_type'.dta", replace
+order hrr converged log_like
+drop if converged==0
+
+drop est_fmly_np* se_fmly_np* converged
+replace se_belief_s=est_belief_s*se_belief_s
+gen spec="vi"
+save temp_specs2, replace
+
+
+
+** with other pcp info
+use "${RESULTS_FINAL}MNL_Specs3.dta", clear
+gen hrr=coef_val if coef_name=="hrr"
+replace hrr=hrr[_n-1] if hrr==.
+
+replace coef_name="belief_s" if coef_name=="o.belief_s"
+keep if inlist(coef_name, "belief_s", "converged", "log_like", "diff_dist", "practice_info_1", "practice_info_2") | ///
+	inlist(coef_name, "fmly_np_1", "fmly_np_2", "fmly_np_3", "fmly_np_4", "fmly_np_5", "fmly_np_7", "fmly_np_10", "fmly_np_15", "fmly_np_20")
+
+rename coef_val est_
+rename coef_se se_
+reshape wide est_ se_, i(hrr) j(coef_name) string
+
+foreach x of newlist converged log_like {
+	rename est_`x' `x'
+	drop se_`x'
 }
+order hrr converged log_like
+drop if converged==0
 
-log close
+drop est_fmly_np* se_fmly_np* converged
+replace se_belief_s=est_belief_s*se_belief_s
+gen spec="other_info"
+save temp_specs3, replace
 
-capture reg choice spec_failures_run
-est store reg_test
 
-est table reg_test
+** merge results
+use temp_specs1, clear
+append using temp_specs2
+append using temp_specs3
+
+tempfile table_tex
+postfile table_tex str200 line using "`table_tex'", replace
+post table_tex ("")
+post table_tex ("& & & \multoclumn{5}{c}{Percentile} \\")
+post table_tex ("\cline{4-8}")
+post table_tex ("Parameter & Mean & 10th & 25th & 50th & 75th & 90th \\")
+post table_tex ("\hline")
+
+qui sum est_belief_s if spec=="baseline", detail
+post table_tex (" Baseline & `=string(r(mean), "%9.4f")' & `=string(r(p10), "%9.4f")'  & `=string(r(p25), "%9.4f")'  & `=string(r(p50), "%9.4f")'  & `=string(r(p75), "%9.4f")'  & `=string(r(p90), "%9.4f")' \\")
+post table_tex ("\hline")
+
+qui sum est_belief_s if spec=="vi", detail
+post table_tex (" Integrated & `=string(r(mean), "%9.4f")' & `=string(r(p10), "%9.4f")'  & `=string(r(p25), "%9.4f")'  & `=string(r(p50), "%9.4f")'  & `=string(r(p75), "%9.4f")'  & `=string(r(p90), "%9.4f")' \\")
+post table_tex ("\hline")
+
+qui sum est_belief_s if spec=="other_info", detail
+post table_tex (" Peer Outcomes & `=string(r(mean), "%9.4f")' & `=string(r(p10), "%9.4f")'  & `=string(r(p25), "%9.4f")'  & `=string(r(p50), "%9.4f")'  & `=string(r(p75), "%9.4f")'  & `=string(r(p90), "%9.4f")' \\")
+post table_tex ("\hline")
+postclose table_tex
+
+use "`table_tex'", clear
+outfile line using "${RESULTS_FINAL}MNL_Specs.tex", noquote replace
+
+
