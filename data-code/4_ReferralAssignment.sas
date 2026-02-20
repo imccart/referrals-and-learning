@@ -16,13 +16,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -46,8 +46,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -65,13 +65,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -95,8 +95,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -113,13 +113,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -143,8 +143,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -161,13 +161,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -191,8 +191,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -209,13 +209,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -239,8 +239,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -257,13 +257,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -287,8 +287,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -305,13 +305,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -335,8 +335,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -353,13 +353,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -383,8 +383,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -401,13 +401,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -431,8 +431,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -449,13 +449,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -479,8 +479,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
@@ -497,13 +497,13 @@ PROC SQL;
 	DROP TABLE WORK.Unique_Stays;
 	CREATE TABLE WORK.Unique_Stays AS
 	SELECT DISTINCT BENE_ID, CLM_FROM_DT AS Date, OP_PHYSN_NPI, ORG_NPI_NUM AS Facility_ID
-	FROM IMC969SL.MajorJoint_&year_data
+	FROM PL027710.MajorJoint_&year_data
 	GROUP BY BENE_ID, CLM_FROM_DT, ORG_NPI_NUM, OP_PHYSN_NPI;
 QUIT;
 
 DATA WORK.Carrier;
-	SET	IMC969SL.OrthoCarrier_&year_data
-  		IMC969SL.OrthoCarrier_&year_lag;
+	SET	PL027710.OrthoCarrier_&year_data
+  		PL027710.OrthoCarrier_&year_lag;
 RUN;
 
 
@@ -527,8 +527,8 @@ QUIT;
 
 /* Group merged data by physician, beneficiary, and date of inpatient admission */
 PROC SQL;
-	DROP TABLE IMC969SL.PreSurgery_Physicians_&year_data;
-	CREATE TABLE IMC969SL.PreSurgery_Physicians_&year_data AS
+	DROP TABLE PL027710.PreSurgery_Physicians_&year_data;
+	CREATE TABLE PL027710.PreSurgery_Physicians_&year_data AS
 	SELECT Physician_ID, BENE_ID, Date, Phy_Tax_ID, count(BENE_ID) AS Visits, max(Visit_Date) AS Max_Visit_Date FORMAT=DATE9.,
 		min(Visit_Date) AS Min_Visit_Date FORMAT=DATE9.
 	FROM WORK.Referrals_&year_data
