@@ -41,11 +41,11 @@ global PCP_Practice=1   /* 0 denotes decision between physician and physician, 1
 ** file paths based on global values
 if ${PCP_Practice}==1 {
 	global DATA_FINAL "${PROJ_PATH}data/pcp-practice-level/"
-	global RESULTS_FINAL "${PROJ_PATH}results/pcp-practice-level/"
+	global RESULTS_BASE "${PROJ_PATH}results/pcp-practice-level/"
 } 
 else if ${PCP_Practice}==0 {
 	global DATA_FINAL "${PROJ_PATH}data/pcp-level/"
-	global RESULTS_FINAL "${PROJ_PATH}results/pcp-level/"	
+	global RESULTS_BASE "${PROJ_PATH}results/pcp-level/"	
 }
 
 
@@ -56,7 +56,10 @@ global SPEC_MIN=20
 ** time-varying congestion
 global CONG_t=1
 if ${CONG_t}==1 {
-	global RESULTS_FINAL "${RESULTS_FINAL}time_vary/"
+	global RESULTS_FINAL "${RESULTS_BASE}time_vary/"
+}
+else if ${CONG_t}==0 {
+	global RESULTS_FINAL "${RESULTS_BASE}time_constant/"
 }
 
 

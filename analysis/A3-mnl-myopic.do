@@ -15,19 +15,18 @@ log using "${LOG_PATH}MNL_`logdate'.log", replace
 ******************************************************************
 ** RUN SPECIFICATIONS
 
-global RESULTS_FINAL "${PROJ_PATH}results/pcp-level/"	
 
 ** Baseline specification
 run_mnl_specs, regressors(diff_dist fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20 ib(freq).Specialist_ID)
-save "${RESULTS_FINAL}MNL_Specs1.dta", replace
+save "${RESULTS_BASE}MNL_Specs1.dta", replace
 
 ** Role of practice affiliation
 run_mnl_specs, regressors(diff_dist prac_vi fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20 ib(freq).Specialist_ID)
-save "${RESULTS_FINAL}MNL_Specs2.dta", replace
+save "${RESULTS_BASE}MNL_Specs2.dta", replace
 
 ** Role of peer information
 run_mnl_specs, regressors(diff_dist practice_info_1 practice_info_2 fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20 ib(freq).Specialist_ID)
-save "${RESULTS_FINAL}MNL_Specs3.dta", replace
+save "${RESULTS_BASE}MNL_Specs3.dta", replace
 
 
 
@@ -35,7 +34,7 @@ save "${RESULTS_FINAL}MNL_Specs3.dta", replace
 ** ORGANIZE RESULTS
 
 ** baseline
-use "${RESULTS_FINAL}MNL_Specs1.dta", clear
+use "${RESULTS_BASE}MNL_Specs1.dta", clear
 gen hrr=coef_val if coef_name=="hrr"
 replace hrr=hrr[_n-1] if hrr==.
 
@@ -61,7 +60,7 @@ save temp_specs1, replace
 
 
 ** with integration
-use "${RESULTS_FINAL}MNL_Specs2.dta", clear
+use "${RESULTS_BASE}MNL_Specs2.dta", clear
 gen hrr=coef_val if coef_name=="hrr"
 replace hrr=hrr[_n-1] if hrr==.
 
@@ -88,7 +87,7 @@ save temp_specs2, replace
 
 
 ** with other pcp info
-use "${RESULTS_FINAL}MNL_Specs3.dta", clear
+use "${RESULTS_BASE}MNL_Specs3.dta", clear
 gen hrr=coef_val if coef_name=="hrr"
 replace hrr=hrr[_n-1] if hrr==.
 
@@ -140,6 +139,6 @@ post table_tex ("\hline")
 postclose table_tex
 
 use "`table_tex'", clear
-outfile line using "${RESULTS_FINAL}MNL_Specs.tex", noquote replace
+outfile line using "${RESULTS_BASE}MNL_Specs.tex", noquote replace
 
 

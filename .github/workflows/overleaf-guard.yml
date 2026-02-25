@@ -1,0 +1,23 @@
+name: Overleaf guard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'analysis/**'
+      - 'data-code/**'
+
+jobs:
+  flag-code-change:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Flag code file changes
+        run: |
+          echo "Code files were modified in this push:"
+          git diff --name-only HEAD~1 HEAD -- analysis/ data-code/
+          echo ""
+          echo "If this came from Overleaf, revert with: git revert HEAD && git push"
+          exit 1

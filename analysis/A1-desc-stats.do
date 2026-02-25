@@ -13,7 +13,7 @@ log using "${LOG_PATH}Descriptive_`logdate'.log", replace
 ******************************************************************
 ** Details of dataset construction and other scalars
 local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
-use "${RESULTS_FINAL}data_build_detail_`r_type'.dta", clear
+use "${RESULTS_BASE}data_build_detail_`r_type'.dta", clear
 **keep if year>=2013
 format step_* %12.0fc
 collapse (sum) step_*, by(code_section)
@@ -171,11 +171,12 @@ estpost sum bene_age bene_white bene_black bene_male ///
 	tot_pcp_size pcp_male tot_spec_size spec_male pcp_distance hosp_distance readmit mortality_90 any_comp any_bad
 est store sum_all
 
-esttab sum_all_pre sum_all_post sum_all using "${RESULTS_FINAL}sum-stats-all_`r_type'.tex", replace ///
-	refcat (bene_age "\emph{Patient Characteristics}" tot_pcp_size "\emph{PCP Characteristics}" tot_spec_size "\emph{Specialist Characteristics}" pcp_distance "\emph{Distance}" readmit_90 "\emph{Quality Outcomes}", nolabel) ///
-	stats(N, fmt(%9.0fc) labels("\midrule Observations")) ///
+esttab sum_all_pre sum_all_post sum_all using "${RESULTS_BASE}sum-stats-all_`r_type'.tex", replace ///
+	refcat(bene_age "\emph{Patient Characteristics}" tot_pcp_size "\hline \emph{PCP Characteristics}" tot_spec_size "\hline \emph{Specialist Characteristics}" pcp_distance "\hline \emph{Distance}", nolabel) ///
+	stats(N, fmt(%9.0fc) labels("\hline\hline Observations")) ///
 	mtitle("2008-2012" "2013-2018" "Overall") ///
-	cells(mean(fmt(3)) sd(par)) label booktabs nonum collabels(none) gaps f noobs
+	posthead(\hline\hline) ///
+	cells(mean(fmt(3)) sd(par)) label nonum collabels(none) f noobs
 
 
 ** referral graphs (combining all post-period years)
@@ -241,15 +242,15 @@ set scheme uncluttered
 hist max_share, frequency color(gray) ///
 	ylabel(0(1000)5000) ///
 	ytitle("Frequency") xtitle("Share of Most Common Referral") legend(off)
-graph save "${RESULTS_FINAL}HighestShare_`r_type'", replace
-graph export "${RESULTS_FINAL}HighestShare_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}HighestShare_`r_type'", replace
+graph export "${RESULTS_BASE}HighestShare_`r_type'.png", as(png) replace		
 
 set scheme uncluttered
 hist max_share if max_share>0.01 [fweight=practice_patients], frequency color(gray) ///
 	ylabel(0 25000 "25" 50000 "50" 75000 "75" 100000 "100") ///
 	ytitle("Frequency (1000s)") xtitle("Share of Most Common Referral") legend(off)
-graph save "${RESULTS_FINAL}HighestShareWeighted_`r_type'", replace
-graph export "${RESULTS_FINAL}HighestShareWeighted_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}HighestShareWeighted_`r_type'", replace
+graph export "${RESULTS_BASE}HighestShareWeighted_`r_type'.png", as(png) replace		
 
 set scheme uncluttered
 bys specialist_per_pcp: gen freq=_N
@@ -257,11 +258,11 @@ graph twoway scatter freq specialist_per_pcp, color(gray) xscale(log) yscale(log
 	xlabel(1 "10^0" 10 "10^1" 100 "10^2" 1000 "10^3") ///
 	ylabel(1 "10^0" 10 "10^1" 100 "10^2" 1000 "10^3" 10000 "10^4") ///
 	ytitle("Frequency") xtitle("Network Size") legend(off)
-graph save "${RESULTS_FINAL}LLNetworkSize_`r_type'", replace
-graph export "${RESULTS_FINAL}LLNetworkSize_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}LLNetworkSize_`r_type'", replace
+graph export "${RESULTS_BASE}LLNetworkSize_`r_type'.png", as(png) replace		
 
 preserve
-graph use "${RESULTS_FINAL}LLNetworkSize_`r_type'"
+graph use "${RESULTS_BASE}LLNetworkSize_`r_type'"
 serset dir
 serset use, clear
 gen ln_freq=log(freq)
@@ -273,16 +274,16 @@ set scheme uncluttered
 hist specialist_per_pcp if specialist_per_pcp<50, frequency color(gray) discrete ///
 	ylabel(0(1000)6000) ///
 	ytitle("Frequency") xtitle("Unique Specialists") legend(off)
-graph save "${RESULTS_FINAL}NetworkSize_`r_type'", replace
-graph export "${RESULTS_FINAL}NetworkSize_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}NetworkSize_`r_type'", replace
+graph export "${RESULTS_BASE}NetworkSize_`r_type'.png", as(png) replace		
 
 local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 set scheme uncluttered
 hist practice_patients if practice_patients<100, frequency color(gray) discrete ///
 	ylabel(0(500)2500) ///
 	ytitle("Frequency") xtitle("Total Patients Referred") legend(off)
-graph save "${RESULTS_FINAL}TotalReferrals_`r_type'", replace
-graph export "${RESULTS_FINAL}TotalReferrals_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}TotalReferrals_`r_type'", replace
+graph export "${RESULTS_BASE}TotalReferrals_`r_type'.png", as(png) replace		
 
 
 
@@ -348,12 +349,13 @@ estpost sum practice_patients specialist_per_pcp practice_failures patients pcp_
 est store sum_all
 
 local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
-esttab sum_all_pre sum_all_post sum_all using "${RESULTS_FINAL}sum-stats-pairs_`r_type'.tex", replace ///
+esttab sum_all_pre sum_all_post sum_all using "${RESULTS_BASE}sum-stats-pairs_`r_type'.tex", replace ///
 	stats(running_patients_mean running_patients_sd running_failure_mean running_failure_sd N, ///
 	fmt(%9.3fc %9.3fc %9.3fc %9.3fc %9.0fc) ///
-	labels("Running Referrals" " " "Running Failure Rate" " " "\midrule Observations")) ///
+	labels("\hline\hline Running Referrals" " " "Running Failure Rate" " " "\hline\hline Observations")) ///
 	mtitle("2008-2012" "2013-2018" "Overall") ///
-	cells(mean(fmt(3)) sd(par)) label booktabs nonum collabels(none) gaps f noobs
+	posthead(\hline\hline) ///
+	cells(mean(fmt(3)) sd(par)) label nonum collabels(none) f noobs
 
 
 ** figures
@@ -362,22 +364,22 @@ collapse (mean) patients, by(Year)
 set scheme uncluttered
 graph twoway connected patients Year, xtitle("Year") ytitle("Referrals per Specialist") ///
 	legend(off) ylabel(0(1)2) xlabel(2008(1)2018)
-graph save "${RESULTS_FINAL}Referrals_per_Spec_Yearly_`r_type'", replace
-graph export "${RESULTS_FINAL}Referrals_per_Spec_Yearly_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}Referrals_per_Spec_Yearly_`r_type'", replace
+graph export "${RESULTS_BASE}Referrals_per_Spec_Yearly_`r_type'.png", as(png) replace		
 
 use temp_networks_yearly, clear
 keep if practice_count==1
 set scheme uncluttered
 graph box max_share [fweight=practice_patients], over(Year) ytitle("Shares of Most Common Referral by PCP") ///
 	legend(off) ylabel(0(.1)1) nooutsides note("")
-graph save "${RESULTS_FINAL}WeightedMaxShare_Box_Yearly_`r_type'", replace
-graph export "${RESULTS_FINAL}WeightedMaxShare_Box_Yearly_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}WeightedMaxShare_Box_Yearly_`r_type'", replace
+graph export "${RESULTS_BASE}WeightedMaxShare_Box_Yearly_`r_type'.png", as(png) replace		
 
 set scheme uncluttered
 graph box specialist_per_pcp if specialist_per_pcp<100, over(Year) ///
 	ytitle("Network Size") legend(off) nooutsides note("") 
-graph save "${RESULTS_FINAL}Network_Box_Yearly_`r_type'", replace
-graph export "${RESULTS_FINAL}Network_Box_Yearly_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}Network_Box_Yearly_`r_type'", replace
+graph export "${RESULTS_BASE}Network_Box_Yearly_`r_type'.png", as(png) replace		
 
 
 use temp_networks_yearly, clear
@@ -386,8 +388,8 @@ collapse (mean) specialist_per_pcp, by(Year)
 set scheme uncluttered
 graph twoway connected specialist_per_pcp Year, xtitle("Year") ytitle("Network Size") ///
 	legend(off) ylabel(0(1)5) xlabel(2008(1)2018)
-graph save "${RESULTS_FINAL}Network_Mean_Yearly_`r_type'", replace
-graph export "${RESULTS_FINAL}Network_Mean_Yearly_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}Network_Mean_Yearly_`r_type'", replace
+graph export "${RESULTS_BASE}Network_Mean_Yearly_`r_type'.png", as(png) replace		
 
 use temp_networks_yearly, clear
 keep if practice_count==1
@@ -395,8 +397,8 @@ collapse (mean) practice_patients, by(Year)
 set scheme uncluttered
 graph twoway connected practice_patients Year, xtitle("Year") ytitle("Total Referrals") ///
 	legend(off) ylabel(0(1)5) xlabel(2008(1)2018)
-graph save "${RESULTS_FINAL}Referrals_Yearly_`r_type'", replace
-graph export "${RESULTS_FINAL}Referrals_Yearly_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}Referrals_Yearly_`r_type'", replace
+graph export "${RESULTS_BASE}Referrals_Yearly_`r_type'.png", as(png) replace		
 
 use temp_networks_yearly, clear
 keep if practice_count==1
@@ -404,8 +406,8 @@ replace specialist_per_pcp=. if specialist_per_pcp>1000
 collapse (mean) max_share specialist_per_pcp, by(Year)
 graph twoway connected max_share Year, xtitle("Year") ytitle("Mean Shares of Most Common Referral") ///
 	legend(off) ylabel(0(.1)1) xlabel(2008(1)2018)
-graph save "${RESULTS_FINAL}MaxShare_Mean_Yearly_`r_type'", replace
-graph export "${RESULTS_FINAL}MaxShare_Mean_Yearly_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}MaxShare_Mean_Yearly_`r_type'", replace
+graph export "${RESULTS_BASE}MaxShare_Mean_Yearly_`r_type'.png", as(png) replace		
 
 
 ******************************************************************
@@ -487,20 +489,20 @@ set scheme uncluttered
 hist iqr_mort if iqr_mort<5 & patients>100, frequency color(gray) ///
 	ylabel(0(50)300) ///
 	ytitle("Frequency") xtitle("Interquartile Range of Mortality Rate (per 100)") legend(off)
-graph save "${RESULTS_FINAL}Mortality_IQR_`r_type'", replace
-graph export "${RESULTS_FINAL}Mortality_IQR_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}Mortality_IQR_`r_type'", replace
+graph export "${RESULTS_BASE}Mortality_IQR_`r_type'.png", as(png) replace		
 
 hist iqr_failure if iqr_failure<20 & patients>100, frequency color(gray) ///
 	ylabel(0(50)250) ///
 	ytitle("Frequency") xtitle("Interquartile Range of Failure Rate (per 100)") legend(off)
-graph save "${RESULTS_FINAL}Failure_IQR_`r_type'", replace
-graph export "${RESULTS_FINAL}Failure_IQR_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}Failure_IQR_`r_type'", replace
+graph export "${RESULTS_BASE}Failure_IQR_`r_type'.png", as(png) replace		
 
 hist iqr_payment if iqr_payment<50, frequency color(gray) ///
 	ylabel(0(50)200) ///
 	ytitle("Frequency") xtitle("Interquartile Range of Episode Payments ($1,000s)") legend(off)
-graph save "${RESULTS_FINAL}Payment_IQR_`r_type'", replace
-graph export "${RESULTS_FINAL}Payment_IQR_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}Payment_IQR_`r_type'", replace
+graph export "${RESULTS_BASE}Payment_IQR_`r_type'.png", as(png) replace		
 
 
 ** lives saved
@@ -530,8 +532,8 @@ hist capacity_cap, frequency color(gray) ///
 	ylabel(0(100)500) ///
 	bin(16) xscale(range(0 600)) xlabel(0(100)500 500 ">500", add) ///	
 	ytitle("Frequency") xtitle("Estimated Excess Annual Capacity") legend(off)
-graph save "${RESULTS_FINAL}Excess_Capacity", replace
-graph export "${RESULTS_FINAL}Excess_Capacity.png", as(png) replace		
+graph save "${RESULTS_BASE}Excess_Capacity", replace
+graph export "${RESULTS_BASE}Excess_Capacity.png", as(png) replace		
 
 ** patients hypothetically reallocated by market
 gen hypo_cap=min(hypo_reallocate, 1000)
@@ -540,8 +542,8 @@ hist hypo_cap, frequency color(gray) ///
 	ylabel(0(100)500) ///
 	bin(21) xscale(range(0 1100)) xlabel(0(100)900 1000 ">1000", add) ///
 	ytitle("Frequency") xtitle("Hypothetically Reallocated Patients") legend(off)
-graph save "${RESULTS_FINAL}Hypo_Reallocate", replace
-graph export "${RESULTS_FINAL}Hypo_Reallocate.png", as(png) replace		
+graph save "${RESULTS_BASE}Hypo_Reallocate", replace
+graph export "${RESULTS_BASE}Hypo_Reallocate.png", as(png) replace		
 
 ** summarize excess capacity relative to reallocation
 gen relative_reallocate=hypo_reallocate/excess_capacity
@@ -665,7 +667,7 @@ local mean_specs_hrr: di %2.0f `total_specs_hrr'/`hrr_count'
 local mean_specs_hrr = strtrim("`mean_specs_hrr'")
 
 * Write file
-local outfile "${RESULTS_FINAL}paper-numbers-desc.tex"
+local outfile "${RESULTS_BASE}paper-numbers-desc.tex"
 file open fh using "`outfile'", write replace
 file write fh "%% Auto-generated by A1-desc-stats.do — do not edit by hand" _n
 file write fh "\newcommand{\nPCPs}{`n_pcps'}" _n

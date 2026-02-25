@@ -4,8 +4,15 @@ data/*
 # Grant applications in overleave
 grants/*
 
-# Claude Code local settings
+# Admin (DUA, IRB)
+admin/
+
+# Emails
+_emails/
+
+# Claude Code
 .claude/
+CLAUDE.md
 
 # Archived results (old VRDC exports, kept locally only)
 results/_archive/

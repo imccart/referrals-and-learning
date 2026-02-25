@@ -208,16 +208,16 @@ graph twoway (connected patients quarter if spec_cumul_failure==1 & cumul_failur
 	     (connected patients quarter if spec_cumul_failure==1 & cumul_failures==1, color(black) lpattern(dash)), ///
 	      xtitle("Quarter") ytitle("Patients") ylabel(0(1)5) ///
 	      text(0.3 2013 "With Failures", place(e)) text(3.4 2013 "Without Failures", place(e))
-graph save "${RESULTS_FINAL}MeanPatients_Fail1_`r_type'", replace
-graph export "${RESULTS_FINAL}MeanPatients_Fail1_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}MeanPatients_Fail1_`r_type'", replace
+graph export "${RESULTS_BASE}MeanPatients_Fail1_`r_type'.png", as(png) replace			
 
 graph twoway (connected patients quarter if spec_cumul_failure==2 & cumul_failures==0, color(black) lpattern(solid)) ///
 	     (connected patients quarter if spec_cumul_failure==2 & cumul_failures==1, color(gs10) lpattern(dot)) ///
 	     (connected patients quarter if spec_cumul_failure==2 & cumul_failures==2, color(black) lpattern(dash)), ///
 	      xtitle("Year") ytitle("Patients") ylabel(0(1)6) ///
 	      text(0.7 2013 "With Failures", place(e)) text(5.1 2013 "Without Failures", place(e))
-graph save "${RESULTS_FINAL}MeanPatients_Fail2_`r_type'", replace
-graph export "${RESULTS_FINAL}MeanPatients_Fail2_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}MeanPatients_Fail2_`r_type'", replace
+graph export "${RESULTS_BASE}MeanPatients_Fail2_`r_type'.png", as(png) replace			
 
 
 graph twoway (connected patients quarter if spec_cumul_failure==3 & cumul_failures==0, color(black) lpattern(solid)) ///
@@ -226,8 +226,8 @@ graph twoway (connected patients quarter if spec_cumul_failure==3 & cumul_failur
 	     (connected patients quarter if spec_cumul_failure==3 & cumul_failures==3, color(black) lpattern(dash)), ///
 	      xtitle("Year") ytitle("Patients") ylabel(0(1)7) ///
 	      text(0.7 2013 "With Failures", place(e)) text(6.1 2013 "Without Failures", place(e))
-graph save "${RESULTS_FINAL}MeanPatients_Fail3_`r_type'", replace
-graph export "${RESULTS_FINAL}MeanPatients_Fail3_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}MeanPatients_Fail3_`r_type'", replace
+graph export "${RESULTS_BASE}MeanPatients_Fail3_`r_type'.png", as(png) replace			
 	     
 use temp_reduced_form, clear
 merge m:1 Specialist_ID quarter using spec_failure_quarter, nogenerate keep(master match)
@@ -248,8 +248,8 @@ graph twoway (connected patients quarter if fail_quantile==1, color(black) lpatt
 	(connected patients quarter if fail_quantile==4, color(gs10) lpattern(solid)), ///
 	legend(off) ytitle("Referrals Received") ylabel(0(.05).2) xtitle("Quarter") ///
 	xlabel(212(4)232) text(0.11 225 "Lowest Quartile Failures", place(e)) text(.06 224 "Highest Quartile Failures", place(e))
-graph save "${RESULTS_FINAL}MeanPatients_FailureQuartile_`r_type'", replace
-graph export "${RESULTS_FINAL}MeanPatients_FailureQuartile_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}MeanPatients_FailureQuartile_`r_type'", replace
+graph export "${RESULTS_BASE}MeanPatients_FailureQuartile_`r_type'.png", as(png) replace		
 
 	     
 	     
@@ -352,8 +352,8 @@ set scheme uncluttered
 twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
-graph save "${RESULTS_FINAL}EventStudy_Group1_`r_type'", replace
-graph export "${RESULTS_FINAL}EventStudy_Group1_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}EventStudy_Group1_`r_type'", replace
+graph export "${RESULTS_BASE}EventStudy_Group1_`r_type'.png", as(png) replace			
 
 
 
@@ -413,8 +413,8 @@ set scheme uncluttered
 twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
-graph save "${RESULTS_FINAL}EventStudy_Group2_`r_type'", replace
-graph export "${RESULTS_FINAL}EventStudy_Group2_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}EventStudy_Group2_`r_type'", replace
+graph export "${RESULTS_BASE}EventStudy_Group2_`r_type'.png", as(png) replace			
 
 
 
@@ -474,8 +474,8 @@ set scheme uncluttered
 twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
-graph save "${RESULTS_FINAL}EventStudy_Group3_`r_type'", replace
-graph export "${RESULTS_FINAL}EventStudy_Group3_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}EventStudy_Group3_`r_type'", replace
+graph export "${RESULTS_BASE}EventStudy_Group3_`r_type'.png", as(png) replace			
 
 
 ** Group 4
@@ -534,8 +534,8 @@ set scheme uncluttered
 twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
-graph save "${RESULTS_FINAL}EventStudy_Group4_`r_type'", replace
-graph export "${RESULTS_FINAL}EventStudy_Group4_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}EventStudy_Group4_`r_type'", replace
+graph export "${RESULTS_BASE}EventStudy_Group4_`r_type'.png", as(png) replace			
 
 
 ** Pooled/stacked estimates
@@ -591,14 +591,14 @@ set scheme uncluttered
 twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
-graph save "${RESULTS_FINAL}EventStudy_Stacked_`r_type'", replace
-graph export "${RESULTS_FINAL}EventStudy_Stacked_`r_type'.png", as(png) replace
+graph save "${RESULTS_BASE}EventStudy_Stacked_`r_type'", replace
+graph export "${RESULTS_BASE}EventStudy_Stacked_`r_type'.png", as(png) replace
 
 ** Paper numbers — event study scalars
 local es_pct: di %2.0f `es_coef'/`es_base' * 100
 local es_pct = strtrim("`es_pct'")
 
-local outfile "${RESULTS_FINAL}paper-numbers-rf.tex"
+local outfile "${RESULTS_BASE}paper-numbers-rf.tex"
 file open fh using "`outfile'", write replace
 file write fh "%% Auto-generated by A2-reduced-form.do — do not edit by hand" _n
 file write fh "\newcommand{\eventStudyCoef}{`=string(`es_coef', "%5.3f")'}" _n
@@ -669,8 +669,8 @@ set scheme uncluttered
 twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
-graph save "${RESULTS_FINAL}EventStudy_Group1_CLEAN_`r_type'", replace
-graph export "${RESULTS_FINAL}EventStudy_Group1_CLEAN_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}EventStudy_Group1_CLEAN_`r_type'", replace
+graph export "${RESULTS_BASE}EventStudy_Group1_CLEAN_`r_type'.png", as(png) replace			
 
 
 ******************************************************************	
@@ -745,8 +745,8 @@ set scheme uncluttered
 twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-.2(.1).2)
-graph save "${RESULTS_FINAL}PCP_EventStudy_Stacked_`r_type'", replace
-graph export "${RESULTS_FINAL}PCP_EventStudy_Stacked_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}PCP_EventStudy_Stacked_`r_type'", replace
+graph export "${RESULTS_BASE}PCP_EventStudy_Stacked_`r_type'.png", as(png) replace			
 
 
 ******************************************************************	
@@ -858,8 +858,8 @@ set scheme uncluttered
 twoway (sc coef event_time, connect(line) xline(0)) (rcap ci_top ci_bottom event_time) ///
     (function y = 0, range(-9 9)), xtitle("Event Time") ///
     ytitle("Point Estimates and 95% CIs") xlabel(-9(1)9) ylabel(-1(.2)1)
-graph save "${RESULTS_FINAL}EventStudy_Group1_Placebo_`r_type'", replace
-graph export "${RESULTS_FINAL}EventStudy_Group1_Placebo_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}EventStudy_Group1_Placebo_`r_type'", replace
+graph export "${RESULTS_BASE}EventStudy_Group1_Placebo_`r_type'.png", as(png) replace			
 
 
 
@@ -900,8 +900,8 @@ twoway (scatter trans1 trans2 if trans3>=.8, mcolor(gs4) msize(vhuge)) ///
   ylabel(0(1)10) xlabel(0(1)10) xtitle("") ytitle("") ///
   legend(cols(1) stack position(3)  ///
   order(1 ".8-1.0" 2 ".4-.8" 3 ".2-.4" 4 ".1-.2" 5 ".05-.1" 6 "0-.05"))
-graph save "${RESULTS_FINAL}TransitionHeatMap_`r_type'", replace
-graph export "${RESULTS_FINAL}TransitionHeatMap_`r_type'.png", as(png) replace			
+graph save "${RESULTS_BASE}TransitionHeatMap_`r_type'", replace
+graph export "${RESULTS_BASE}TransitionHeatMap_`r_type'.png", as(png) replace			
 
     
 ******************************************************************
@@ -936,13 +936,13 @@ collapse (mean) patients any_bad, by(quarter)
 format quarter %tq
 graph twoway connected patients quarter, color(black) legend(off) ///
 	xtitle("Calendar Time") ytitle("Count of Patients Referred") ylabel(0(.2)1)
-graph save "${RESULTS_FINAL}Referrals_All", replace
-graph export "${RESULTS_FINAL}Referrals_All.png", as(png) replace			
+graph save "${RESULTS_BASE}Referrals_All", replace
+graph export "${RESULTS_BASE}Referrals_All.png", as(png) replace			
 
 graph twoway connected any_bad quarter, color(black) legend(off) ///
 	xtitle("Calendar Time") ytitle("Count of Failures") ylabel(0(.02).1)
-graph save "${RESULTS_FINAL}Failures_All", replace
-graph export "${RESULTS_FINAL}Failures_All.png", as(png) replace			
+graph save "${RESULTS_BASE}Failures_All", replace
+graph export "${RESULTS_BASE}Failures_All.png", as(png) replace			
 restore
 
 
@@ -953,8 +953,8 @@ collapse (mean) patients, by(quarter)
 format quarter %tq
 graph twoway connected patients quarter, color(black) legend(off) ///
 	xtitle("Calendar Time") ytitle("Count of Patients Referred") ylabel(0(.2)1)
-graph save "${RESULTS_FINAL}Referrals_NoFailures", replace
-graph export "${RESULTS_FINAL}Referrals_NoFailures.png", as(png) replace			
+graph save "${RESULTS_BASE}Referrals_NoFailures", replace
+graph export "${RESULTS_BASE}Referrals_NoFailures.png", as(png) replace			
 restore
 
 preserve
@@ -964,8 +964,8 @@ collapse (mean) patients, by(quarter)
 format quarter %tq
 graph twoway connected patients quarter, color(black) legend(off) ///
 	xtitle("Calendar Time") ytitle("") ylabel(0(.2)1)
-graph save "${RESULTS_FINAL}Referrals_OneFailure", replace
-graph export "${RESULTS_FINAL}Referrals_OneFailure.png", as(png) replace		
+graph save "${RESULTS_BASE}Referrals_OneFailure", replace
+graph export "${RESULTS_BASE}Referrals_OneFailure.png", as(png) replace		
 restore
 
 preserve
@@ -975,15 +975,15 @@ collapse (mean) patients, by(event_time)
 keep if event_time>=-12 & event_time<=12
 graph twoway connected patients event_time, color(black) xline(0) legend(off) ///
 	xtitle("Event Time") ytitle("") ylabel(0(.2)1) xlabel(-12(2)12)
-graph save "${RESULTS_FINAL}Referrals_OneFailure_EventTime", replace
-graph export "${RESULTS_FINAL}Referrals_OneFailure_EventTime.png", as(png) replace			
+graph save "${RESULTS_BASE}Referrals_OneFailure_EventTime", replace
+graph export "${RESULTS_BASE}Referrals_OneFailure_EventTime.png", as(png) replace			
 restore
 
 set scheme uncluttered
-graph combine "${RESULTS_FINAL}Referrals_OneFailure.gph" "${RESULTS_FINAL}Referrals_OneFailure_EventTime.gph", ///
+graph combine "${RESULTS_BASE}Referrals_OneFailure.gph" "${RESULTS_BASE}Referrals_OneFailure_EventTime.gph", ///
 	col(1) iscale(1) l1("Count of Patients Referred")
-graph save "${RESULTS_FINAL}Referrals_OneFailure_Combined", replace
-graph export "${RESULTS_FINAL}Referrals_OneFailure_Combined.png", as(png) replace			
+graph save "${RESULTS_BASE}Referrals_OneFailure_Combined", replace
+graph export "${RESULTS_BASE}Referrals_OneFailure_Combined.png", as(png) replace			
 
 	
 preserve
@@ -993,8 +993,8 @@ collapse (mean) patients, by(quarter)
 format quarter %tq
 graph twoway connected patients quarter, color(black) legend(off) ///
 	xtitle("Calendar Time") ytitle("") ylabel(0(.25)2.5)
-graph save "${RESULTS_FINAL}Referrals_TwoFailure", replace
-graph export "${RESULTS_FINAL}Referrals_TwoFailure.png", as(png) replace				
+graph save "${RESULTS_BASE}Referrals_TwoFailure", replace
+graph export "${RESULTS_BASE}Referrals_TwoFailure.png", as(png) replace				
 restore
 
 preserve
@@ -1005,15 +1005,15 @@ collapse (mean) patients, by(event_time)
 keep if event_time>=-12 & event_time<=12
 graph twoway connected patients event_time, color(black) xline(0) legend(off) ///
 	xtitle("Event Time") ytitle("") ylabel(0(2)14) xlabel(-12(2)12)
-graph save "${RESULTS_FINAL}Referrals_TwoFailure_EventTime", replace
-graph export "${RESULTS_FINAL}Referrals_TwoFailure_EventTime.png", as(png) replace				
+graph save "${RESULTS_BASE}Referrals_TwoFailure_EventTime", replace
+graph export "${RESULTS_BASE}Referrals_TwoFailure_EventTime.png", as(png) replace				
 restore
 
 set scheme uncluttered
-graph combine "${RESULTS_FINAL}Referrals_TwoFailure.gph" "${RESULTS_FINAL}Referrals_TwoFailure_EventTime.gph", ///
+graph combine "${RESULTS_BASE}Referrals_TwoFailure.gph" "${RESULTS_BASE}Referrals_TwoFailure_EventTime.gph", ///
 	col(1) iscale(1) l1("Count of Patients Referred")
-graph save "${RESULTS_FINAL}Referrals_TwoFailure_Combined", replace
-graph export "${RESULTS_FINAL}Referrals_TwoFailure_Combined.png", as(png) replace			
+graph save "${RESULTS_BASE}Referrals_TwoFailure_Combined", replace
+graph export "${RESULTS_BASE}Referrals_TwoFailure_Combined.png", as(png) replace			
 
 
 preserve
@@ -1022,8 +1022,8 @@ collapse (mean) patients, by(event_time)
 keep if event_time>=-12 & event_time<=12
 graph twoway connected patients event_time, color(black) xline(0) legend(off) ///
 	xtitle("Quarter from Bad Outcome") ytitle("Count of Patients Referred") ylabel(0(1)10) xlabel(-12(1)12)
-graph save "${RESULTS_FINAL}PairFailureTrends", replace
-graph export "${RESULTS_FINAL}PairFailureTrends.png", as(png) replace			
+graph save "${RESULTS_BASE}PairFailureTrends", replace
+graph export "${RESULTS_BASE}PairFailureTrends.png", as(png) replace			
 restore
 
 
@@ -1038,8 +1038,8 @@ graph twoway (connected patients quarter if group_line==1, color(black) lpattern
 	xtitle("Calendar Time") ytitle("Count of Patients Referred") ylabel(0(.1).5) ///
 	legend(on) legend(label(1 "No Failures") label(2 "1 Failure") label(3 "2+ Failures")) ///
 	legend(rows(1)) legend(region(lwidth(none)))
-graph save "${RESULTS_FINAL}Referrals_ByGroup", replace
-graph export "${RESULTS_FINAL}Referrals_ByGroup.png", as(png) replace		
+graph save "${RESULTS_BASE}Referrals_ByGroup", replace
+graph export "${RESULTS_BASE}Referrals_ByGroup.png", as(png) replace		
 restore
 
 
@@ -1073,13 +1073,13 @@ set scheme uncluttered
 keep if quarter_count>0
 graph twoway connected total_specialists quarter_count, color(black) legend(off) ///
 	ytitle("Total Specialists Considered") ylabel(1(.5)2.5) xtitle("Quarter from Entry")
-graph save "${RESULTS_FINAL}SizeEvolution_`r_type'", replace
-graph export "${RESULTS_FINAL}SizeEvolution_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}SizeEvolution_`r_type'", replace
+graph export "${RESULTS_BASE}SizeEvolution_`r_type'.png", as(png) replace		
 
 graph twoway connected new_specialists quarter_count, color(black) legend(off) ///
 	ytitle("New Specialists Considered") ylabel(0(.5)1.5) xtitle("Quarter from Entry")
-graph save "${RESULTS_FINAL}ExperimentEvolution_`r_type'", replace
-graph export "${RESULTS_FINAL}ExperimentEvolution_`r_type'.png", as(png) replace		
+graph save "${RESULTS_BASE}ExperimentEvolution_`r_type'", replace
+graph export "${RESULTS_BASE}ExperimentEvolution_`r_type'.png", as(png) replace		
 
 
 

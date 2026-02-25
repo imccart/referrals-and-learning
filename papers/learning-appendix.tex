@@ -238,15 +238,16 @@ Consequently, much of the identifying variation for $\alpha$ comes from the firs
 
 If PCPs are more likely to refer patients to specialists to whom they have sent more patients in the past, then $e$ would have a positive relationship with the specified utility function.  Hence the first term, with $e$ in the denominator, would contribute to a negative estimate of $\alpha$.  The model includes a separate familiarity effect, specified as $\beta \log (1+e)$, which should absorb this, but the distribution of the estimates of $\alpha$ across HRRs is similar whether we include that term or not.
 
+\begin{comment}
 IDEA: Compare the distribution of estimates of $\alpha$ with and without the familiarity effect.  Try other specifications of the familiarity effect, if we see some potentially important differences between these distributions.  (The analysis here suggests that the way familiarity is specified could be important for absorbing the problematic effect of the first term above.)
 
 We have found that positive estimates of $\alpha$ are obtained using a low value of $\eta$.  The correlation between the two terms, $\frac{\rho \eta}{\eta + e_{ijt}}$ and $\frac{y_{ijt}}{\eta + e_{ijt}}$, turns out to be smaller when $\eta$ is smaller.  Specifically, we consider the correlation between the terms when there is any past experience with a specialist ($e > 0$), because otherwise there is no variation in the terms.
 When $\eta$ is equal to 1, 5, 10, 20, this correlation is -0.5698, -0.8555, -0.9003 -0.9225, respectively (in one set of simulations).  Thus the second term, which contains the number of past successes, has much more separate variation when $\eta$ is low.
-(The correlation between the two terms is always very large, like -0.98, if we include the observations where $e_{ijt} = 0$.) 
+(The correlation between the two terms is always very large, like -0.98, if we include the observations where $e_{ijt} = 0$.)
 
 IDEA: Add indicator for no past experience with a specialist.
 
-We have also found that the correlation in the estimates of $\alpha$ and $\beta$ (across HRRs) increases in magnitude (becomes more negative) as $\eta$ increases.  The correlation is around zero when $\eta=1$, around -0.5 when $\eta=5$, and is close to -1 with the larger values of 10 and 20 [DOUBLE CHECK NUMBERS].  
+We have also found that the correlation in the estimates of $\alpha$ and $\beta$ (across HRRs) increases in magnitude (becomes more negative) as $\eta$ increases.  The correlation is around zero when $\eta=1$, around -0.5 when $\eta=5$, and is close to -1 with the larger values of 10 and 20 [DOUBLE CHECK NUMBERS].
 This makes sense considering the marginal effect of $e$ on utility, which comes from the learning term and the familiarity term as follows:
 \[
 \frac{\partial U}{\partial e} =
@@ -256,9 +257,9 @@ If $y$ supplies little separate variation from $e$ (which is the case except whe
 
 Taken together, results above seem to be consistent with a conjecture that the variation in the term $\frac{y_{ijt}}{\eta + e_{ijt}}$, as separate from the variation in the term $\frac{\rho \eta}{\eta + e_{ijt}}$, is crucial to obtain a positive estimate of $\alpha$.
 A low value of $\eta$ permits this conditional variation, which enables $\alpha$ to be better identified separately from $\beta$ and results in positive estimates of $\alpha$.
+\end{comment}
 
-IDEA: Estimate without the term $\frac{\rho \eta}{\eta + e_{ijt}}$.  Instead define the variable $m$ as just $\frac{y_{ijt}}{\eta + e_{ijt}}$.
-(Just to see if the conjecture is right.)
+% TODO: Estimate without the term $\frac{\rho \eta}{\eta + e_{ijt}}$.  Instead define the variable $m$ as just $\frac{y_{ijt}}{\eta + e_{ijt}}$. (Just to see if the conjecture is right.)
 
 %%% ESTIMATION DETAILS
 
@@ -266,7 +267,8 @@ IDEA: Estimate without the term $\frac{\rho \eta}{\eta + e_{ijt}}$.  Instead def
 \label{app:estimation}
 
 To constrain $\alpha \geq 0$ we estimate $\ln \alpha$ and specify the beliefs term as $\exp(\ln \alpha) \cdot m$.
-We use an iterative procedure proposed in [ADD REFERENCE xxx], which makes it possible to employ standard estimation commands designed for multinomial logits where all terms are linear in parameters.
+We use an iterative procedure proposed in % TODO: add reference
+which makes it possible to employ standard estimation commands designed for multinomial logits where all terms are linear in parameters.
 The procedure is based on a first-order Taylor series approximation of the term that is nonlinear in parameters.
 With the exponential function this is simply
 $$ \exp(\ln \alpha_2) \cdot m \approx \left[ \exp(\ln \alpha_1) + (\ln \alpha_2 - \ln \alpha_1) \exp(\ln \alpha_1) \right] \cdot m,$$
@@ -281,18 +283,18 @@ hence:
     \ln \alpha_2 = \ln \alpha_1 + \hat \pi_1 - 1 .
 \]
 Furthermore, because the estimated coefficient $\hat \pi_1$ by definition improves the likelihood, using $\exp(\ln \alpha_2)$ should produce a higher likelihood than $\exp(\ln \alpha_1)$.
-[ADD REFERENCE xxx] prove that this algorithm converges to the maximum likelihood estimate of $\ln \alpha$ under standard regularity conditions.
+% TODO: add reference — proves this algorithm converges to the MLE of $\ln \alpha$ under standard regularity conditions.
 For some intuition note that at the maximum, $\ln \alpha_*$, the likelihood cannot be improved, and so the value of $\hat \pi$ should be one; i.e., in terms of the Taylor expansion
 \[
     \exp(\ln \alpha_*)
     = \underbrace{[1 + (\ln \alpha_* - \ln \alpha_*)]}_{\hat \pi_*} \exp(\ln \alpha_*)
     = \underbrace{[1]}_{\hat \pi_*} \exp(\ln \alpha_*)
 \] 
-Also, following [ADD REFERENCE xxx], the standard error for $\hat \alpha$ would be
+The standard error then follows as % TODO: add reference
 \[
     SE(\hat \alpha) = \exp(\ln \alpha_*) SE(\hat \pi_*)
 \]
-because $\hat \alpha = \exp(\ln \alpha_*) = \exp(\ln \alpha_* + \hat \pi_* - 1)$ and asymptotically we only need to consider the variation in $\hat \pi_*$ (Lemma 2 in [ADD REFERENCE xxx]).
+because $\hat \alpha = \exp(\ln \alpha_*) = \exp(\ln \alpha_* + \hat \pi_* - 1)$ and asymptotically we only need to consider the variation in $\hat \pi_*$ . % TODO: add reference (Lemma 2)
 
 %%%
 
@@ -308,12 +310,12 @@ MOVE TO APPENDIX (descriptive logits): For each specialist in the choice set, we
 
 \section{Counterfactuals without Familiarity}
 
-The purpose of this counterfactual is to estimate the potential changes in referrals and subsequently patient health if PCPs could rely entirely on specialist quality, with full information, and without any attachment due to prior relationships. These results are presented in Figure \ref{fig:cf_fullfam}. Here, we estimate much larger effects on referral probabilities, with changes of more as 20\% and 30\% relatively common across HRRs. The health effects of such a scenario nonetheless remain relatively small, again with an increase in the \textit{ex ante} probability of a successful surgery of 0.3\% on average.
+The purpose of this counterfactual is to estimate the potential changes in referrals and subsequently patient health if PCPs could rely entirely on specialist quality, with full information, and without any attachment due to prior relationships. These results are presented in Figure \ref{fig:cf_fullfam}. Here, we estimate larger effects on referral probabilities, with reallocation of 30 to 40 percent relatively common across HRRs. The health effects of such a scenario nonetheless remain relatively small, with an increase in the \textit{ex ante} probability of a successful surgery of around 0.4 percentage points on average.
 
 %%% BIBLIOGRAPHY
 
 \pagebreak
-\bibliographystyle{authordate1}
+\bibliographystyle{aer}
 \bibliography{BibTeX_Library}
 
 %%% TABLES AND FIGURES
@@ -401,7 +403,7 @@ Put this in a multinomial logit, so that
 \[
 p_{ijt} = \frac{\exp(v_{ijt})}{\sum_k \exp(v_{ikt})} ,
 \]
-where $v$ is the linear index for utility without the logit error term (i.e., \eqref{eqn:learning_utility} without $\epsilon_{ijt}$).
+where $v$ is the linear index for utility without the logit error term (i.e., the PCP utility function without $\epsilon_{ijt}$).
 The differences $v_{ijt} - v_{ikt}$, etc., are identified by the observed choice probabilities.
 
 Consider the case where $e_{ijt} = 0$ and $e_{ikt} = 0$.
@@ -493,7 +495,7 @@ This completes the identification argument.
 \subsubsection{Forward looking model}
 
 Identification of the forward looking model may follow from essentially the same argument.
-Note that the Gittins index in \eqref{eqn:gittins} below equals $m_{ijt}$ plus a known function of $m$, $v$, and $e$ (b/c the discount rate is assumed to be known).
+Note that the Gittins index equals $m_{ijt}$ plus a known function of $m$, $v$, and $e$ (since the discount rate is assumed to be known).
 
 However the algebra may not work out cleanly, to separate $\check y$ from $e$, so there may not be simple expressions using reduced form parameters.  Might have more complicated expressions involving powers of $\check y$.
 
@@ -596,7 +598,7 @@ Therefore $f$ can be recovered at all observed values of $e$.
 \section{Descriptive Multinomial Logit}
 \label{sec:myopic-logit}
 
-The reduced-form of the myopic model is a discrete choice model with specialist fixed effects. The main difference with the structural model is that the reduced-form does not include the parameters for the initial prior beliefs, $(a_0, b_0)$. Instead, the coefficient on the outcome variable, $m_{ijt}$, reflects both the concern for patient health (the parameter $\alpha$) and the prior beliefs. In this section, we estimate the reduced form separately in each of 276 HRRs and present the distribution of marginal effects of past outcomes on future referrals across these markets, along with the effects of other key factors.
+The reduced-form of the myopic model is a discrete choice model with specialist fixed effects. The main difference with the structural model is that the reduced-form does not include the parameters for the initial prior beliefs, $(a_0, b_0)$. Instead, the coefficient on the outcome variable, $m_{ijt}$, reflects both the concern for patient health (the parameter $\alpha$) and the prior beliefs. In this section, we estimate the reduced form separately in each of 296 HRRs and examine the sensitivity of our main results to alternative specifications.
 
 \subsection{Empirical Specification}
 
@@ -618,66 +620,5 @@ The use of specialist fixed effects provides fairly robust identification of lea
 
 \subsection{Results}
 
-Table \ref{tab:coefficients} presents the distributions of logit coefficients across the 296 HRRs used for estimation. The table reports 10th, 25th, 50th, 75th, and 90th percentiles, as well as patient-weighted national averages. The main effect of the proportion of past patients sent to a specialist is positive throughout the distribution, as expected, but so is the main effect of the proportion of past failures. The interaction of the two variables, which has a negative coefficient throughout the distribution, is therefore important for the failure rate to have the expected negative marginal effect on referrals.
+Table \ref{tab:coefficients} presents the distribution of the estimated learning parameter, $\alpha$, across three specifications. The ``Baseline'' column reproduces our main structural estimates. The ``Integrated'' specification adds a dummy variable for whether the PCP and specialist belong to the same practice, and the ``Peer Outcomes'' specification further includes a measure of specialist quality derived from the outcomes of other PCPs' patients in the same practice. The distribution of $\alpha$ is stable across all three specifications, suggesting that our main estimates are not driven by practice integration or confounded by information that PCPs could obtain through channels other than their own patients' outcomes.
 
-The marginal effects of failures and familiarity are also presented in the bottom panel of Table \ref{tab:coefficients}, where we find a negative albeit imprecisely estimated marginal effect on failures and a positive effect on prior patients. To interpret these estimates, note first that there is an average of 4.4 referrals per PCP-specialist pair over 5 years. One additional bad outcome (e.g., a readmission) among the patients sent by a PCP to a particular specialist would therefore increase the failure rate for that pair by about 0.23. The marginal effect of the -0.075 implies that one additional failure will tend to reduce the referral probability by $0.23 \times 0.075 = 0.017$. Relative to the average probability of a referral to the highest-share specialist, which is about 0.4, this is just over a 4\% relative reduction. While this effect is somewhat small, it is not trivial, and is in line with other estimates in the literature on the response to provider quality.
-
-The effect of failures on referrals is stronger (more negative) with specialists to whom the PCP has sent more patients, while it could be positive with specialists to whom few patients have been sent. One possible interpretation is that the same failure rate acts as a stronger signal of specialist quality when a PCP has sent more patients to a specialist. Such an interpretation is consistent with our learning model, wherein the the variance of the beliefs on physician quality is lower as the share of prior referrals increases.
-
-Figure \ref{fig:mfx} plots the distributions of the marginal effects of the failure rate across HRRs. Specifically, these are the average marginal effects on a PCP's highest-share specialist (i.e., the one most frequently chosen), which incorporate the main effect from failures and the interaction term between failures and past patients, computed separately for each HRR. Across all 296 HRRs, 59 (or 20\%) yield a statistically significant negative marginal effect of failures.
-
-
-\subsection{Market-Level Factors and Learning}
-
-Figure \ref{fig:mfx} shows substantial heterogeneity across HRRs in the responsiveness of PCP referrals to the outcomes achieved for their patients by individual specialists. To explore these potentially important differences across markets, we estimate a series of regressions that measure the association between the marginal effects of the failure rate and various market-level factors. These factors include: 1) the size of the market (i.e., the number of patients in our sample); 2) the number of specialists; 3) the number of PCPs; 4) the ratios of the number of specialists to the numbers of patients or PCPs; 5) the market concentration, measured as the Herfindahl-Hirschman Index (HHI) among the specialists, computed with our sample of patients; and 6) the extent of vertical integration, measured as the share of patients in our sample treated by a specialist with the same tax ID as the PCP. Many of these factors are highly correlated with each other, so we estimate only univariate regressions or bivariate regressions that include the number of patients (to control for market size) along with one other factor. All regressions are weighted by the inverse of the standard errors of the marginal effects. 
-
-Table \ref{tab:market} presents the results. The numbers of specialists and PCPs are negatively associated with the marginal effect of the failure rate on referrals, so markets with more physicians appear to have greater responsiveness to patient outcomes.
-The ratios of specialists to patients or PCPs do not yield precise or consistent estimates, however, so we cannot tell whether this association arises from a greater relative availability of specialists, or from other implications of the overall supply of physician services.
-
-The market concentration among the specialists in each HRR appears to have an important association with the responsiveness to outcomes. Controlling for the market size, the point estimate of 0.08 in row 12 implies that an increase in the HHI from 0.1 (relatively unconcentrated) to 0.3 (relatively concentrated) would reduce the magnitude of the marginal effect of the failure rate on referrals by 0.016, about one-quarter of the national average marginal effect. Figure \ref{fig:hhi} provides a flexible plot of this association, using a local linear regression.  Most of the decrease in the responsiveness to outcomes occurs below an HHI of 0.25, while in the relatively concentrated markets above this HHI the marginal effect is roughly constant around -0.35. In comparison, the average marginal effect of the failure rate in markets with an HHI below 0.25 is -0.071. This HHI is the standard threshold for ``highly concentrated''markets,\footnote{\url{https://www.justice.gov/atr/herfindahl-hirschman-index}} so we find that in geographic areas where the market for orthopedic surgery is highly concentrated, PCP referrals are only half as responsive to patient outcomes as they are in other markets.
-
-\subsection{Discussion of Reduced-form Results}
-
-Overall, we find that a minority of markets (20\%) have a statistically significant response to specialist outcomes, but these markets are somewhat larger than average and consequently have greater statistical power. Pooling the markets together, the national average response is strongly statistically significant. We then compare the estimated marginal effects with market-level factors such as the numbers of PCPs and specialists, as well as the extent of concentration and integration within the market.  We find that the responsiveness to outcomes is positively related to the number of doctors in the market---both PCPs and specialists---and negatively related to market concentration among specialists.
-
-
-\begin{figure}[htb]
-\centering
-\begin{minipage}[h]{6in}
-\caption[caption]{\textbf{Marginal Effects of Failure Rate}\footnote{Figure presents the histogram of marginal effects on the failure rate, estimated separately for each HRR.}}
-\centerline{%
-    \includegraphics[scale=0.5]{results/_archive/figures/MFX_HRR_1_1_0.png}
-}
-\label{fig:mfx}
-\end{minipage}
-\end{figure}
-
-\newpage
-\begin{figure}[htb]
-\centering
-\begin{minipage}[h]{6in}
-\caption[caption]{\textbf{Marginal Effects of Failure Rate}\footnote{Figure presents the histogram of marginal effects on the failure rate, estimated separately for each HRR.}}
-\centerline{%
-    \includegraphics[scale=0.4]{results/_archive/figures/lpoly_hhi.png}
-}
-\label{fig:hhi}
-\end{minipage}
-\end{figure}
-
-\clearpage
-\newpage
-\begin{landscape}
-\begin{table}
-\centering
-\footnotesize
-\begin{minipage}[h]{6in}
-\caption[caption]{\textbf{Response to Failures and Market Characteristics}\footnote{Coefficient estimates from regression of marginal effect of failures on HRR characteristics. Results based on 296 separate HRRs, with robust standard errors in parenthesis. Each row reflects a separate estimation.}}
-\centerline{%
-    \begin{tabular}{lrrrrrrrr}
-        \input{results/tables/MFX-market-level.tex}
-    \end{tabular}
-}
-\label{tab:market}
-\end{minipage}
-\end{table}
-\end{landscape}
