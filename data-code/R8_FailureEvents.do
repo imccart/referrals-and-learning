@@ -29,6 +29,7 @@ if `t'>2008 {
 		append using "${DATA_FINAL}fwup_visits_`c'.dta"
 	}
 }
+collapse (max) fwup40 fwup70 fwup100 fwup190 fwup375, by(Practice_ID bene_id admit)
 save temp_fwup_stack, replace
 
 use temp_referral_stack, clear

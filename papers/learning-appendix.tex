@@ -6,6 +6,9 @@
 
 \setlength{\droptitle}{-50pt}
 
+\input{results/tables/paper-numbers-desc.tex}
+\input{results/tables/paper-numbers-structural.tex}
+
 \begin{document}
 
 \title{Learning and Efficiency in the Market for Physician Referrals \\ 
@@ -310,7 +313,7 @@ MOVE TO APPENDIX (descriptive logits): For each specialist in the choice set, we
 
 \section{Counterfactuals without Familiarity}
 
-The purpose of this counterfactual is to estimate the potential changes in referrals and subsequently patient health if PCPs could rely entirely on specialist quality, with full information, and without any attachment due to prior relationships. These results are presented in Figure \ref{fig:cf_fullfam}. Here, we estimate larger effects on referral probabilities, with reallocation of 30 to 40 percent relatively common across HRRs. The health effects of such a scenario nonetheless remain relatively small, with an increase in the \textit{ex ante} probability of a successful surgery of around 0.4 percentage points on average.
+The purpose of this counterfactual is to estimate the potential changes in referrals and subsequently patient health if PCPs could rely entirely on specialist quality, with full information, and without any attachment due to prior relationships. These results are presented in Figure \ref{fig:cf_fullfam}. Here, we estimate larger effects on referral probabilities, with reallocation of \reallocationMeanFullFamMyopic{} percent on average across HRRs. The health effects of such a scenario nonetheless remain relatively small, with an increase in the \textit{ex ante} probability of a successful surgery of around \healthFXMeanFullFamMyopic{} percentage points on average.
 
 %%% BIBLIOGRAPHY
 
@@ -321,8 +324,22 @@ The purpose of this counterfactual is to estimate the potential changes in refer
 %%% TABLES AND FIGURES
 
 \clearpage
-\newpage
 \section*{Tables and Figures}
+
+%%% TABLES
+\begin{table}
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[caption]{\textbf{Sensitivity Analysis}\footnote{Estimates of $\alpha$ (for $\eta=1$) across alternative specifications. ``Baseline'' denotes our original estimates for the myopic learning model presented in the main text; ``Integrated'' denotes the estimates for $\alpha$ when including a dummy variable for whether the PCP and specialist are part of the same practice; and ``Peer Outcomes'' denotes the estimates of $\alpha$ when also including a measure of specialist quality based on the PCP's peers (e.g., another measure of quality based solely on the outcomes of other PCPs' patients in the same practice). All specifications are otherwise identical, where we also impose time-invariant congestion for computational ease.}}
+\centerline{%
+    \begin{tabular}{lrrrrrr}
+        \input{results/tables/MNL_Specs.tex}
+    \end{tabular}
+}
+\label{tab:coefficients}
+\end{minipage}
+\end{table}
 
 %%% FIGURES
 
@@ -346,38 +363,20 @@ Third Failure & Fourth Failure \\
 \begin{figure}[htb]
 \centering
 \begin{minipage}[h]{6in}
-\caption[caption]{Counterfactuals from Full Information and No Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and do not incorporate any familiarity in their referral decisions. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, 280 (277) HRRs in the myopic (forward-looking) case for $\eta=1$ and 281 (279) in the myopic (forward-looking) case for $\eta=5$.}}
+\caption[caption]{Counterfactuals from Full Information and No Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and do not incorporate any familiarity in their referral decisions. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} (\nHRRsFWD{}) HRRs in the myopic (forward-looking) case for $\eta=1$ and \nHRRsEtaFiveMyopic{} (\nHRRsEtaFiveFWD{}) in the myopic (forward-looking) case for $\eta=5$.}}
 \begin{tabular}{cc}
 \multicolumn{2}{c}{\textit{Myopic Referrals, Reallocation}} \\
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta5.png} \\
+\includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta1.png} & \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta5.png} \\
 \multicolumn{2}{c}{\textit{Myopic Referrals, Health Improvements}} \\
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_FullFam_Myopic_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_FullFam_Myopic_eta5.png} \\
+\includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_FullFam_Myopic_eta1.png} & \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_FullFam_Myopic_eta5.png} \\
 \multicolumn{2}{c}{\textit{Forward-looking Referrals, Reallocation}} \\
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta5.png} \\
+\includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta1.png} & \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta5.png} \\
 \multicolumn{2}{c}{\textit{Forward-looking Referrals, Health Improvements}} \\
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_FullFam_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_FullFam_FWD_eta5.png}
-
+\includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_FullFam_FWD_eta1.png} & \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_FullFam_FWD_eta5.png}
 \end{tabular}
 \label{fig:cf_fullfam}
 \end{minipage}
 \end{figure}
-
-
-%%% TABLES
-\newpage
-\begin{table}
-\centering
-\footnotesize
-\begin{minipage}[h]{6in}
-\caption[caption]{\textbf{Sensitivity Analysis}\footnote{Estimates of $\alpha$ (for $\eta=1$) across alternative specifications. ``Baseline'' denotes our original estimates for the myopic learning model presented in the main text; ``Integrated'' denotes the estimates for $\alpha$ when including a dummy variable for whether the PCP and specialist are part of the same practice; and ``Peer Outcomes'' denotes the estimates of $\alpha$ when also including a measure of specialist quality based on the PCP's peers (e.g., another measure of quality based solely on the outcomes of other PCPs' patients in the same practice). All specifications are otherwise identical, where we also impose time-invariant congestion for computational ease.}}
-\centerline{%
-    \begin{tabular}{lrrrrrr}
-        \input{results/tables/MNL_Specs.tex}
-    \end{tabular}
-}
-\label{tab:coefficients}
-\end{minipage}
-\end{table}
 
 
 \end{document}
@@ -598,7 +597,7 @@ Therefore $f$ can be recovered at all observed values of $e$.
 \section{Descriptive Multinomial Logit}
 \label{sec:myopic-logit}
 
-The reduced-form of the myopic model is a discrete choice model with specialist fixed effects. The main difference with the structural model is that the reduced-form does not include the parameters for the initial prior beliefs, $(a_0, b_0)$. Instead, the coefficient on the outcome variable, $m_{ijt}$, reflects both the concern for patient health (the parameter $\alpha$) and the prior beliefs. In this section, we estimate the reduced form separately in each of 296 HRRs and examine the sensitivity of our main results to alternative specifications.
+The reduced-form of the myopic model is a discrete choice model with specialist fixed effects. The main difference with the structural model is that the reduced-form does not include the parameters for the initial prior beliefs, $(a_0, b_0)$. Instead, the coefficient on the outcome variable, $m_{ijt}$, reflects both the concern for patient health (the parameter $\alpha$) and the prior beliefs. In this section, we estimate the reduced form separately in each of \nHRRsMNL{} HRRs and examine the sensitivity of our main results to alternative specifications.
 
 \subsection{Empirical Specification}
 

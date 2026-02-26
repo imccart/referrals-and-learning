@@ -1087,6 +1087,11 @@ local n_hrrs = r(N)
 qui count if coef_m==0
 local n_alpha0 = r(N)
 
+use "${RESULTS_FINAL}`coef_prefix'_SummaryHRR.dta", clear
+keep if eta==5
+qui count
+local n_hrrs_eta5 = r(N)
+
 ** alpha/distance ratio
 qui sum coef_m if eta==1
 local mean_alpha = r(mean)
@@ -1100,16 +1105,50 @@ gen success_diff_full=success_prob1_full-success_prob0
 collapse (mean) pij_diff_full success_diff_full, by(hrr)
 merge 1:1 hrr using hrr_size, nogenerate keep(master match)
 qui sum pij_diff_full [aweight=patients]
-local realloc_mean: di %5.3f r(mean)
+local realloc_mean: di %4.1f 100*r(mean)
+local realloc_mean = strtrim("`realloc_mean'")
 qui sum success_diff_full [aweight=patients]
-local health_mean: di %7.5f r(mean)
+local health_mean: di %4.1f 100*r(mean)
+local health_mean = strtrim("`health_mean'")
+
+
+** mean reallocation — FullFam counterfactual
+use "${RESULTS_FINAL}CounterFactuals_`model'5.dta", clear
+gen success_diff_fullfam=success_prob1_fullfam-success_prob0
+collapse (mean) pij_diff_fullfam success_diff_fullfam, by(hrr)
+merge 1:1 hrr using hrr_size, nogenerate keep(master match)
+qui sum pij_diff_fullfam [aweight=patients]
+local realloc_ff: di %4.1f 100*r(mean)
+local realloc_ff = strtrim("`realloc_ff'")
+qui sum success_diff_fullfam [aweight=patients]
+local health_ff: di %4.1f 100*r(mean)
+local health_ff = strtrim("`health_ff'")
+
+
+** mean partial effect of one failure (excluding alpha=0 HRRs)
+use "${RESULTS_FINAL}MarginalEffects_`model'1.dta", clear
+merge 1:1 hrr using "${RESULTS_FINAL}`coef_prefix'_SummaryHRR.dta", nogenerate keep(match) keepusing(coef_m eta)
+keep if eta==1
+merge 1:1 hrr using hrr_size, nogenerate keep(master match)
+qui sum pfx_mean [aweight=patients] if coef_m>0
+local pfx_nonzero: di %3.1f -100*r(mean)
+local pfx_nonzero = strtrim("`pfx_nonzero'")
+qui sum pfx_mean [aweight=patients]
+local pfx_all: di %3.1f -100*r(mean)
+local pfx_all = strtrim("`pfx_all'")
+
 
 file open numfh using "`numfile'", write append
 file write numfh "\newcommand{\reallocationMean`model'}{`realloc_mean'}" _n
 file write numfh "\newcommand{\healthFXMean`model'}{`health_mean'}" _n
+file write numfh "\newcommand{\reallocationMeanFullFam`model'}{`realloc_ff'}" _n
+file write numfh "\newcommand{\healthFXMeanFullFam`model'}{`health_ff'}" _n
+file write numfh "\newcommand{\partialFXNonzero`model'}{`pfx_nonzero'}" _n
+file write numfh "\newcommand{\partialFXAll`model'}{`pfx_all'}" _n
 file write numfh "\newcommand{\nHRRs`model'}{`n_hrrs'}" _n
 file write numfh "\newcommand{\nAlphaZero`model'}{`n_alpha0'}" _n
 file write numfh "\newcommand{\alphaDistRatio`model'}{`alpha_dist'}" _n
+file write numfh "\newcommand{\nHRRsEtaFive`model'}{`n_hrrs_eta5'}" _n
 file close numfh
 
 
