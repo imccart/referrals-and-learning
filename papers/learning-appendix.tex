@@ -327,7 +327,7 @@ The purpose of this counterfactual is to estimate the potential changes in refer
 \section*{Tables and Figures}
 
 %%% TABLES
-\begin{table}
+\begin{table}[h!]
 \centering
 \footnotesize
 \begin{minipage}[h]{6in}
@@ -364,6 +364,7 @@ Third Failure & Fourth Failure \\
 \centering
 \begin{minipage}[h]{6in}
 \caption[caption]{Counterfactuals from Full Information and No Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and do not incorporate any familiarity in their referral decisions. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} (\nHRRsFWD{}) HRRs in the myopic (forward-looking) case for $\eta=1$ and \nHRRsEtaFiveMyopic{} (\nHRRsEtaFiveFWD{}) in the myopic (forward-looking) case for $\eta=5$.}}
+\centerline{%
 \begin{tabular}{cc}
 \multicolumn{2}{c}{\textit{Myopic Referrals, Reallocation}} \\
 \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta1.png} & \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta5.png} \\
@@ -373,7 +374,7 @@ Third Failure & Fourth Failure \\
 \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta1.png} & \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta5.png} \\
 \multicolumn{2}{c}{\textit{Forward-looking Referrals, Health Improvements}} \\
 \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_FullFam_FWD_eta1.png} & \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_FullFam_FWD_eta5.png}
-\end{tabular}
+\end{tabular}}
 \label{fig:cf_fullfam}
 \end{minipage}
 \end{figure}
