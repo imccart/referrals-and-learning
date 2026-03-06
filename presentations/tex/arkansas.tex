@@ -54,7 +54,7 @@
   \and
   \inst{2} Johns Hopkins University and NBER
 }
-\date[]{October 2025}
+\date[]{March 2026}
 
 \begin{document}
 
@@ -67,8 +67,6 @@
 \begin{frame}{Physician referrals}
 \begin{itemize}
 
-\pause
-
 %\item Production network (micro, one service) with substantial informational frictions and heterogeneity in prices and quality
 \item Service market where professionals with general skills (e.g., primary care) direct consumers to professionals with specialized skills
 \bit
@@ -76,7 +74,7 @@
     \item Prices do not clear market in the short run
 \eit
 % Suggests there may be large informational frictions
-\bigskip 
+\bigskip \pause
 
 \item Uncertainty about quality is a defining characteristic of most health care markets:
 \smallskip
@@ -88,7 +86,7 @@
 \bigskip \pause
 
 % Our goal is to analyze this uncertainty in physician referrals...
-\item We use a structural learning model to measure the effects of uncertainty in physician referrals, and to simulate possible reallocations when there is better information about quality %if learning were improved
+\item We use a structural learning model to measure the effects of uncertainty in physician referrals, and to simulate possible reallocations if there were better information about quality %if learning were improved
 
 \end{itemize}
 \end{frame}
@@ -229,10 +227,11 @@ Pollack, Weissman, Lemke, Hussey, and Weiner, \emph{JGenIntMed} 2013)
 \begin{frame}{Our approach} \label{approach}
 \begin{itemize}
 
-\item Develop and estimate a \hyperlink{literature}{structural learning model} of referral decisions
+\item Develop and estimate a structural learning model of referral decisions
 % for joint replacements
 \bit
-    \item Prior work on health care applies learning models to prescribing decisions \\
+    \item Prior work on health care applies learning models to prescribing decisions \  
+    \hyperlink{literature}{\beamerbutton{more}}\\
     \parbox{\linewidth}{\footnotesize (e.g., Crawford and Shum 2005; Ching 2010; Ferreyra and Kosenok 2011; Dickstein 2021)} % Gong is exception
     \item Only vertical differentiation in our model (success rates)
 \eit
@@ -259,7 +258,7 @@ Pollack, Weissman, Lemke, Hussey, and Weiner, \emph{JGenIntMed} 2013)
 \eit
 \medskip
 
-\item Find that one-quarter of referrals would be reallocated under full information, \\
+\item Find that one-quarter xxx of referrals would be reallocated under full information, \\
 still allowing for habit persistence and capacity constraints
 
 \end{itemize}
@@ -434,7 +433,7 @@ ESTIMATION RESULTS
 & {\dots}Any Failure    &       0.109&       0.091&       0.099\\[6pt]
 & Episode spending    &      23,240&      22,557&      22,839\\
 &                     &    (12,717)&    (12,284)&     (12,469)\\[6pt]
-\multicolumn{4}{l}{\emph{Rate per PCP, per year:}}    \\
+\multicolumn{5}{l}{\emph{Rate per PCP, per year: xxx per doctor, do PCPs out and specs in}}    \\
 & Total Referrals     &       3.809&       4.398&       4.134\\
 &                    &     (2.940)&     (3.478)&     (3.261)\\
 & Unique Specialists  &       2.666&       3.109&       2.910\\
@@ -466,7 +465,7 @@ ESTIMATION RESULTS
 \bigskip
 \small
 
-\emph{Average number of specialists per market (HRR): 83}
+\emph{Average number of specialists per market (HRR): 83 xxx changed?}
 % Most PCPs refer their patients to only a tenth of the specialists in their market
 
 % UNNECESSARY DETAIL: 
@@ -659,7 +658,7 @@ ESTIMATION RESULTS
 
 \begin{frame}[t]{Empirical specification (myopic version)} 
 
-\vskip-24pt
+\vskip-24pt \pause 
 
 \begin{equation*}
     \text{E} \left[ U_{ijt} | \dots \right] =
@@ -669,11 +668,25 @@ ESTIMATION RESULTS
     + {\color{spiritblue} \overbrace{\color{black} \gamma n_{jt} }^{c(n_{jt}, z_j)} } + \xi_j + \epsilon_{ijt} .
 \end{equation*}
 
-\vskip-6pt
+\begin{itemize}
 
-{\centering \footnotesize
-($\rho$ -- prior mean $= a_0 / (a_0 + b_0)$, \  $\eta$ -- prior strength $= a_0 + b_0$)
-}
+% NOTE: This formal analysis is new.  Prior papers (Dickstein 2021, Gong 2018) have thoughtful discussions but do not provide formal analysis.
+
+\item Reparameterize beliefs:
+\bit
+    \item $\rho = a_0 / (a_0 + b_0)$ \ (prior mean)
+    \item $\eta = a_0 + b_0$ \ (prior strength )
+\eit
+\medskip
+
+\item Other specification choices
+\bit
+    \item Linear effect of distance: $\pi x_{ijt}$
+    \item Nonparametric familiarity: $\beta_1 I_{e = 1}$, $\beta_2 I_{e = 2}$, \dots, $\beta_K I_{e \geq 16}$
+    \item Linear congestion effect, no shifters: $\gamma n_{jt}$
+\eit
+
+\end{itemize}
 
 \end{frame}
 
@@ -705,7 +718,8 @@ ESTIMATION RESULTS
     \item Specialist fixed effects ($\xi$):
     identified by cases where histories and observables are the same for two specialists 
     % (up to normalization; e.g., one fixed effect is set to zero)
-    \item Effects of patient characteristics $u(x)$: assume patients arrive exogenously
+    \item Effects of patient characteristics $u(x)$: assume patients arrive exogenously \\
+    (esp.~locations that yield the distances)
 \eit
 \bigskip \pause
 
@@ -862,13 +876,13 @@ ESTIMATION RESULTS
 \includegraphics[scale = 0.32]{results/figures/rf/EventStudy_Stacked_1_1_0.png}
 
 \footnotesize \raggedright
-\emph{Dep.~var.~mean = 0.194 (treated group before event), relative reduction is 25\%}
+\emph{Dep.~var.~mean = 0.194 (treated group before event), relative reduction is 25\% xxx check/update}
 
 \end{frame}
 
 %%%
 
-\begin{frame}{Structural Parameter Estimates} 
+\begin{frame}{Structural Parameter Estimates xxx update} 
 {Estimated separately within 306 HRRs; statistics weighted by number of patients per HRR.}
 
 \footnotesize \pause
@@ -959,7 +973,7 @@ Parameter & Mean & (SD/SE) & 25th & 75th & & Mean & (SD/SE) & 25th & 75th \\
 \fi
 %%% 
 
-\begin{frame}[t]{Counterfactual: reallocation under full information} 
+\begin{frame}[t]{Counterfactual: reallocation under full information xxx} 
 {Distribution across markets of proportion of patients reallocated}
 
 \bigskip
@@ -967,10 +981,11 @@ Parameter & Mean & (SD/SE) & 25th & 75th & & Mean & (SD/SE) & 25th & 75th \\
 \only<1>{
 Simulation:
 \begin{itemize}
-    \item Replace current beliefs with true success probabilities ($q_j$)
-    \item Take histories in baseline period as given
+    \item Replace current beliefs with true success probabilities
+    \item Take histories in baseline period as given (i.e., familiarity with specialists)
     \item Starting from beginning of estimation period, revise referral decisions \\
     and update the accrued familiarity with specialists accordingly
+    \item \textcolor{gray}{Similar results if familiarity is set to zero at beginning}
 \end{itemize}
 }
 \pause
@@ -995,7 +1010,7 @@ Simulation:
 
 %%%
 
-\begin{frame}[b]{Counterfactual: health outcomes under full information} 
+\begin{frame}[b]{Counterfactual: health outcomes under full information xxx} 
 {Distribution across markets of change in success probability}
 
 \bigskip
@@ -1051,7 +1066,7 @@ Simulation:
     \item Provides the first (?)~quantification of impact of informational frictions in referrals
     %\item We find evidence that informational frictions are large
     \bit
-        \item One-quarter of patients would be reallocated under perfect information
+        \item One-quarter xxx of patients would be reallocated under perfect information
         \item Still allowing for other barriers from habit persistence and capacity constraints
     \eit
     \bigskip
