@@ -370,8 +370,8 @@ gen big_coef=(abs(coef_val)>6)
 foreach eta in 1 5 {
 	preserve
 	keep if eta==`eta' & converged==1
-	reg coef_val yhat time_period big_coef [aweight=reg_weight], robust
-	ivreg2 coef_val time_period big_coef (tot_patients=yhat) [aweight=reg_weight], robust
+	reg coef_val yhat time_period big_coef i.hrr [aweight=reg_weight], robust
+	ivreg2 coef_val time_period big_coef i.hrr (tot_patients=yhat) [aweight=reg_weight], robust
 	est store iv_`eta'
 	restore
 }

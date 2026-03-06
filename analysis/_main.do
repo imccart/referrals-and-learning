@@ -100,7 +100,9 @@ do "${CODE_FILES}O2-counterfactuals.do"
 do "${CODE_FILES}O3-figures.do"
 
 ******************************************************************
-** Diagnostics and paper numbers
+** Paper numbers and supplemental diagnostics
 
-do "${CODE_FILES}O5-diagnostics.do"
 do "${CODE_FILES}O4-paper-numbers.do"
+do "${CODE_FILES}S1-diagnostics.do"
+do "${CODE_FILES}S2-pcp-assignment.do"
+do "${CODE_FILES}S3-first-stage.do"

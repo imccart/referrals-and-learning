@@ -215,8 +215,8 @@ end
 ** standard MNL for sensitivity analysis
 capture program drop run_mnl_specs
 program define run_mnl_specs
-	syntax , Regressors(string)
-	
+	syntax , Regressors(string) [Fwup]
+
 	local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 	forvalues i=1/457 {
 		capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta"
@@ -227,8 +227,9 @@ program define run_mnl_specs
 			** prepare for cmclogit syntax
 			egen referral=group(bene_id admit)
 			keep Practice_ID Specialist_ID choice referral case_obs casevar common_ref prop_failures_run prop_patients_run ///
-				pair_success_run spec_qual pair_patients_run pair_failures_run bene_spec_distance bene_distance diff_dist prac_vi pair_new ///
-				fmly_np_* Year pcp_phy_tin1 pcp_phy_tin2				
+				pair_success_run spec_qual pair_patients_run pair_failures_run pair_patients_run_fw pair_failures_run_fw ///
+				bene_spec_distance bene_distance diff_dist prac_vi pair_new ///
+				fmly_np_* Year pcp_phy_tin1 pcp_phy_tin2
 			sum fmly_np_*
 			drop fmly_np_0
 			local step=0
@@ -245,7 +246,15 @@ program define run_mnl_specs
 			cmset Practice_ID referral case_obs
 			qui sum spec_qual
 			local rho=r(mean)
-			gen m=(`rho' + pair_success_run)/(1 + pair_patients_run)
+			if "`fwup'" != "" {
+				gen pair_success_run_fw=pair_patients_run_fw-pair_failures_run_fw
+				replace pair_success_run_fw=0 if pair_success_run_fw==. | pair_success_run_fw<0
+				replace pair_patients_run_fw=0 if pair_patients_run_fw==.
+				gen m=(`rho' + pair_success_run_fw)/(1 + pair_patients_run_fw)
+			}
+			else {
+				gen m=(`rho' + pair_success_run)/(1 + pair_patients_run)
+			}
 		
 			** estimate and save results
 			gsort casevar -common_ref

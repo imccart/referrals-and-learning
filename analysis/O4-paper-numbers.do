@@ -58,6 +58,14 @@ local mean_failures_pcp: di %3.1f r(mean)
 local mean_failures_pcp = strtrim("`mean_failures_pcp'")
 restore
 
+* Per specialist-year averages (received referrals)
+preserve
+collapse (sum) patients, by(Specialist_ID Year)
+qui sum patients
+local mean_refs_spec: di %3.1f r(mean)
+local mean_refs_spec = strtrim("`mean_refs_spec'")
+restore
+
 * Per pair-year averages
 qui sum patients
 local mean_refs_pair: di %3.1f r(mean)
@@ -178,6 +186,7 @@ file write fh "\newcommand{\nSpecialists}{`n_specs'}" _n
 file write fh "\newcommand{\meanRefsPerPCP}{`mean_refs_pcp'}" _n
 file write fh "\newcommand{\meanSpecsPerPCP}{`mean_specs_pcp'}" _n
 file write fh "\newcommand{\meanRefsPerPair}{`mean_refs_pair'}" _n
+file write fh "\newcommand{\meanRefsPerSpec}{`mean_refs_spec'}" _n
 file write fh "\newcommand{\meanFailuresPerPCP}{`mean_failures_pcp'}" _n
 file write fh "\newcommand{\failureRateMean}{`failure_rate_mean'}" _n
 file write fh "\newcommand{\specFailurePtwentyfive}{`spec_fail_p25'}" _n
@@ -274,6 +283,16 @@ foreach model_type in Myopic FWD {
 	local pfx_all: di %3.1f -100*r(mean)
 	local pfx_all = strtrim("`pfx_all'")
 
+	** mean choice probability and relative partial effect (for event study comparison)
+	qui sum pr_mean [aweight=patients] if coef_m>0
+	local pr_base = r(mean)
+	local pr_base_pct: di %4.1f 100*`pr_base'
+	local pr_base_pct = strtrim("`pr_base_pct'")
+	qui sum pfx_mean [aweight=patients] if coef_m>0
+	local pfx_abs = r(mean)
+	local pfx_rel: di %3.1f -`pfx_abs'/`pr_base' * 100
+	local pfx_rel = strtrim("`pfx_rel'")
+
 
 	file write numfh "\newcommand{\reallocationMean`model'}{`realloc_mean'}" _n
 	file write numfh "\newcommand{\healthFXMean`model'}{`health_mean'}" _n
@@ -281,6 +300,8 @@ foreach model_type in Myopic FWD {
 	file write numfh "\newcommand{\healthFXMeanFullFam`model'}{`health_ff'}" _n
 	file write numfh "\newcommand{\partialFXNonzero`model'}{`pfx_nonzero'}" _n
 	file write numfh "\newcommand{\partialFXAll`model'}{`pfx_all'}" _n
+	file write numfh "\newcommand{\partialFXBase`model'}{`pr_base_pct'}" _n
+	file write numfh "\newcommand{\partialFXRelative`model'}{`pfx_rel'}" _n
 	file write numfh "\newcommand{\nHRRs`model'}{`n_hrrs'}" _n
 	file write numfh "\newcommand{\nAlphaZero`model'}{`n_alpha0'}" _n
 	file write numfh "\newcommand{\alphaDistRatio`model'}{`alpha_dist'}" _n
