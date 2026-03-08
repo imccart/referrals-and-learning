@@ -17,6 +17,9 @@ CLAUDE.md
 # Archived results (old VRDC exports, kept locally only)
 results/_archive/
 
+# Simulation (local only, not for repo)
+analysis/simulation/
+
 # Stata temp/log files
 *.log
 *.smcl
