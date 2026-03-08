@@ -48,13 +48,13 @@ bys Practice_ID Year: egen tot_failures=sum(any_bad)
 preserve
 bys Practice_ID Year: keep if spec_count==1
 qui sum tot_patients
-local mean_refs_pcp: di %3.1f r(mean)
+local mean_refs_pcp: di %3.2f r(mean)
 local mean_refs_pcp = strtrim("`mean_refs_pcp'")
 qui sum tot_specs
-local mean_specs_pcp: di %3.1f r(mean)
+local mean_specs_pcp: di %3.2f r(mean)
 local mean_specs_pcp = strtrim("`mean_specs_pcp'")
 qui sum tot_failures
-local mean_failures_pcp: di %3.1f r(mean)
+local mean_failures_pcp: di %3.2f r(mean)
 local mean_failures_pcp = strtrim("`mean_failures_pcp'")
 restore
 
@@ -62,13 +62,13 @@ restore
 preserve
 collapse (sum) patients, by(Specialist_ID Year)
 qui sum patients
-local mean_refs_spec: di %3.1f r(mean)
+local mean_refs_spec: di %3.2f r(mean)
 local mean_refs_spec = strtrim("`mean_refs_spec'")
 restore
 
 * Per pair-year averages
 qui sum patients
-local mean_refs_pair: di %3.1f r(mean)
+local mean_refs_pair: di %3.2f r(mean)
 local mean_refs_pair = strtrim("`mean_refs_pair'")
 
 * Failure rate
@@ -88,9 +88,9 @@ keep if Year>=2013
 collapse (sum) any_bad (count) patients=bene_id, by(Specialist_ID)
 gen spec_fail_rate = any_bad / patients
 qui sum spec_fail_rate, detail
-local spec_fail_p25: di %4.1f r(p25)*100
+local spec_fail_p25: di %4.2f r(p25)*100
 local spec_fail_p25 = strtrim("`spec_fail_p25'")
-local spec_fail_p75: di %4.1f r(p75)*100
+local spec_fail_p75: di %4.2f r(p75)*100
 local spec_fail_p75 = strtrim("`spec_fail_p75'")
 
 
@@ -99,7 +99,7 @@ use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN}
 qui sum pair_patients_cuml
-local running_refs: di %3.1f r(mean)
+local running_refs: di %3.2f r(mean)
 local running_refs = strtrim("`running_refs'")
 
 
@@ -127,11 +127,11 @@ local cuml_network_mean = strtrim("`cuml_network_mean'")
 ** IQR stats from A1 temp file
 use temp_a1_iqr_stats, clear
 qui sum iqr_failure, detail
-local iqr_p25: di %3.1f r(p25)
+local iqr_p25: di %3.2f r(p25)
 local iqr_p25 = strtrim("`iqr_p25'")
-local iqr_med: di %3.1f r(p50)
+local iqr_med: di %3.2f r(p50)
 local iqr_med = strtrim("`iqr_med'")
-local iqr_p75: di %3.1f r(p75)
+local iqr_p75: di %3.2f r(p75)
 local iqr_p75 = strtrim("`iqr_p75'")
 qui sum iqr_payment, detail
 local pay_iqr_med: di %3.0f r(p50)
@@ -244,7 +244,7 @@ foreach model_type in Myopic FWD {
 	local mean_alpha = r(mean)
 	qui sum coef_dist
 	local mean_pi = abs(r(mean))
-	local alpha_dist: di %3.1f `mean_alpha'/`mean_pi'
+	local alpha_dist: di %3.2f `mean_alpha'/`mean_pi'
 
 	** mean reallocation
 	use "${RESULTS_FINAL}CounterFactuals_`model'5.dta", clear
@@ -252,10 +252,10 @@ foreach model_type in Myopic FWD {
 	collapse (mean) pij_diff_full success_diff_full, by(hrr)
 	merge 1:1 hrr using hrr_size, nogenerate keep(master match)
 	qui sum pij_diff_full [aweight=patients]
-	local realloc_mean: di %4.1f 100*r(mean)
+	local realloc_mean: di %4.2f 100*r(mean)
 	local realloc_mean = strtrim("`realloc_mean'")
 	qui sum success_diff_full [aweight=patients]
-	local health_mean: di %4.1f 100*r(mean)
+	local health_mean: di %4.2f 100*r(mean)
 	local health_mean = strtrim("`health_mean'")
 
 
@@ -265,10 +265,10 @@ foreach model_type in Myopic FWD {
 	collapse (mean) pij_diff_fullfam success_diff_fullfam, by(hrr)
 	merge 1:1 hrr using hrr_size, nogenerate keep(master match)
 	qui sum pij_diff_fullfam [aweight=patients]
-	local realloc_ff: di %4.1f 100*r(mean)
+	local realloc_ff: di %4.2f 100*r(mean)
 	local realloc_ff = strtrim("`realloc_ff'")
 	qui sum success_diff_fullfam [aweight=patients]
-	local health_ff: di %4.1f 100*r(mean)
+	local health_ff: di %4.2f 100*r(mean)
 	local health_ff = strtrim("`health_ff'")
 
 
@@ -277,20 +277,20 @@ foreach model_type in Myopic FWD {
 	merge 1:1 hrr using temp_summary_eta1, nogenerate keep(match) keepusing(coef_m)
 	merge 1:1 hrr using hrr_size, nogenerate keep(master match)
 	qui sum pfx_mean [aweight=patients] if coef_m>0
-	local pfx_nonzero: di %3.1f -100*r(mean)
+	local pfx_nonzero: di %3.2f -100*r(mean)
 	local pfx_nonzero = strtrim("`pfx_nonzero'")
 	qui sum pfx_mean [aweight=patients]
-	local pfx_all: di %3.1f -100*r(mean)
+	local pfx_all: di %3.2f -100*r(mean)
 	local pfx_all = strtrim("`pfx_all'")
 
 	** mean choice probability and relative partial effect (for event study comparison)
 	qui sum pr_mean [aweight=patients] if coef_m>0
 	local pr_base = r(mean)
-	local pr_base_pct: di %4.1f 100*`pr_base'
+	local pr_base_pct: di %4.2f 100*`pr_base'
 	local pr_base_pct = strtrim("`pr_base_pct'")
 	qui sum pfx_mean [aweight=patients] if coef_m>0
 	local pfx_abs = r(mean)
-	local pfx_rel: di %3.1f -`pfx_abs'/`pr_base' * 100
+	local pfx_rel: di %3.2f -`pfx_abs'/`pr_base' * 100
 	local pfx_rel = strtrim("`pfx_rel'")
 
 
