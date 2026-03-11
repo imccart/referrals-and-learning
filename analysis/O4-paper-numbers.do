@@ -94,6 +94,57 @@ local spec_fail_p75: di %4.2f r(p75)*100
 local spec_fail_p75 = strtrim("`spec_fail_p75'")
 
 
+** SD of specialist patient volume (for congestion effect interpretation)
+use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
+keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN} & Year>=2013
+collapse (count) patients=bene_id, by(Specialist_ID)
+qui sum patients, detail
+local spec_patients_sd_6yr: di %3.2f r(sd)
+local spec_patients_sd_6yr = strtrim("`spec_patients_sd_6yr'")
+local spec_patients_mean_6yr: di %3.2f r(mean)
+local spec_patients_mean_6yr = strtrim("`spec_patients_mean_6yr'")
+
+** Same for 3-year half-periods
+use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
+keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN} & Year>=2013
+gen half = cond(Year<=2015, 1, 2)
+collapse (count) patients=bene_id, by(Specialist_ID half)
+qui sum patients if half==1, detail
+local spec_patients_sd_h1: di %3.2f r(sd)
+local spec_patients_sd_h1 = strtrim("`spec_patients_sd_h1'")
+local spec_patients_mean_h1: di %3.2f r(mean)
+local spec_patients_mean_h1 = strtrim("`spec_patients_mean_h1'")
+qui sum patients if half==2, detail
+local spec_patients_sd_h2: di %3.2f r(sd)
+local spec_patients_sd_h2 = strtrim("`spec_patients_sd_h2'")
+local spec_patients_mean_h2: di %3.2f r(mean)
+local spec_patients_mean_h2 = strtrim("`spec_patients_mean_h2'")
+
+
+** Referral probabilities: top specialist and conditional on prior referral
+use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
+keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN} & Year>=2013
+collapse (count) patients=bene_id, by(Practice_ID Specialist_ID)
+bys Practice_ID: egen pcp_total=sum(patients)
+gen ref_share=patients/pcp_total
+
+* Average share to PCP's top specialist
+bys Practice_ID: egen max_share=max(ref_share)
+bys Practice_ID: gen _pobs=_n
+qui sum max_share if _pobs==1
+local top_spec_share: di %3.2f r(mean)
+local top_spec_share = strtrim("`top_spec_share'")
+drop _pobs
+
+* Average referral prob conditional on positive referral history
+qui sum ref_share
+local cond_ref_prob: di %3.2f r(mean)
+local cond_ref_prob = strtrim("`cond_ref_prob'")
+
+
 ** Running referrals (cumulative referrals per PCP-specialist pair)
 use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
@@ -145,27 +196,18 @@ local cap_pct: di %2.0f r(mean)*100
 local cap_pct = strtrim("`cap_pct'")
 
 
-** Choice set and market stats
-local hrr_count = 0
-local total_cs = 0
-local total_specs_hrr = 0
-local cs_n = 0
-forvalues i=1/500 {
-	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta"
-	if _rc==0 {
-		local hrr_count = `hrr_count' + 1
-		use "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta", clear
-		qui bys casevar: gen _cs = _N if _n==1
-		qui sum _cs
-		local total_cs = `total_cs' + r(sum)
-		local cs_n = `cs_n' + r(N)
-		qui bys Specialist_ID: gen _so = (_n==1)
-		qui count if _so==1
-		local total_specs_hrr = `total_specs_hrr' + r(N)
-	}
-}
-local mean_cs: di %2.0f `total_cs'/`cs_n'
+** Choice set and market stats (from post-filter estimation data)
+use "${DATA_FINAL}ChoiceEstData_Summary.dta", clear
+qui bys casevar: gen _cs = _N if _n==1
+qui sum _cs
+local mean_cs: di %2.0f r(mean)
 local mean_cs = strtrim("`mean_cs'")
+qui bys hrr Specialist_ID: gen _so = (_n==1)
+qui count if _so==1
+local total_specs_hrr = r(N)
+qui bys hrr: gen _ho = (_n==1)
+qui count if _ho==1
+local hrr_count = r(N)
 local mean_specs_hrr: di %2.0f `total_specs_hrr'/`hrr_count'
 local mean_specs_hrr = strtrim("`mean_specs_hrr'")
 
@@ -202,6 +244,14 @@ file write fh "\newcommand{\runningReferrals}{`running_refs'}" _n
 file write fh "\newcommand{\specsPerHRRYear}{`specs_per_hrr_yr'}" _n
 file write fh "\newcommand{\cumlNetworkSize}{`cuml_network_mean'}" _n
 file write fh "\newcommand{\nHRRsMNL}{`n_hrrs_mnl'}" _n
+file write fh "\newcommand{\specPatientsMeanSixYr}{`spec_patients_mean_6yr'}" _n
+file write fh "\newcommand{\specPatientsSdSixYr}{`spec_patients_sd_6yr'}" _n
+file write fh "\newcommand{\specPatientsMeanHone}{`spec_patients_mean_h1'}" _n
+file write fh "\newcommand{\specPatientsSdHone}{`spec_patients_sd_h1'}" _n
+file write fh "\newcommand{\specPatientsMeanHtwo}{`spec_patients_mean_h2'}" _n
+file write fh "\newcommand{\specPatientsSdHtwo}{`spec_patients_sd_h2'}" _n
+file write fh "\newcommand{\topSpecShare}{`top_spec_share'}" _n
+file write fh "\newcommand{\condRefProb}{`cond_ref_prob'}" _n
 file close fh
 
 

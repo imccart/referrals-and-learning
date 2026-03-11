@@ -42,6 +42,7 @@ We formally show identification of the myopic model, and then we discuss identif
 
 % NOTE: This formal analysis is new.  Prior papers (Dickstein 2021, Gong 2018) have thoughtful discussions but do not provide formal analysis.
 
+\begin{comment}
 $$\alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt}$$
 
 SLIDE
@@ -57,9 +58,9 @@ SLIDE
 
 \item Altruism parameter ($\alpha$): identified by marginal effect of \emph{observed} success rate, in limit as $e \rightarrow \infty$ (``ID at infinity'')
 \[
-\alpha m_{ijt} 
+\alpha m_{ijt}
 = \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} }
-= \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 } 
+= \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 }
 \]
 where $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / \sum_{s=1}^{t-1} D_{ijs}$
 (and $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$)
@@ -70,8 +71,8 @@ where $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / \sum_{s=1}^{t-1} D_{ijs}$
 \item Strength of priors ($a_0 + b_0$):
 how the marginal effect of the success rate changes with experience (i.e., interaction)
 \[
-\alpha m_{ijt} 
-= \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} } 
+\alpha m_{ijt}
+= \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} }
 + \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}
 \]
 \vskip-8pt
@@ -84,11 +85,12 @@ how the marginal effect of the success rate changes with experience (i.e., inter
 \medskip
 
 \end{itemize}
+\end{comment}
 
 
 \subsection{Myopic Model}
 
-Given a distribution for the shocks $\epsilon$, the conditional choice probabilities identify differences in utility between the alternatives. The effects of the pairwise characteristics, $u(x)$, and the specialist fixed effects, $\xi$, are identified subject to standard normalizations (e.g., one fixed effect is set equal to zero). Because the number of patients at a specialist, $n_{jt}$, is endogenous, the congestion effect, $c(n_{jt}, z_j)$, is identified with an instrument for the probability that patients \emph{other than patient t} see specialist $j$. A natural instrument for this is the distances between \emph{other} patients and specialst $j$ \citep[see][]{richards-shubik2021}.
+Given a distribution for the shocks $\epsilon$, the conditional choice probabilities identify differences in utility between the alternatives. The effects of the pairwise characteristics, $u(x)$, and the specialist fixed effects, $\xi$, are identified subject to standard normalizations (e.g., one fixed effect is set equal to zero). Because the number of patients at a specialist, $n_{jt}$, is endogenous, the congestion effect, $c(n_{jt}, z_j)$, is identified with an instrument for the probability that patients \emph{other than patient t} see specialist $j$. A natural instrument for this is the distances between \emph{other} patients and specialist $j$ \citep[see][]{richards-shubik2021}.
 
 \iffalse
 The remaining terms are $\alpha m$ and $f(e)$.
@@ -141,7 +143,7 @@ U_{ijt} \equiv \alpha m_{ijt} + f(e_{ijt}) + \xi_j + \epsilon_{ijt},
 \]
 where $m_{ijt}$ is the current mean of the beliefs about the probability of success at specialist $j$ (using the history before patient $t$), $e_{ijt}$ is the amount of experience with specialist $j$ (the number of past patients $i$ sent to $j$), $f(e_{ijt})$ is the subjective utility from familiarity with specialist $j$, $\xi_j$ is an unobservable specialist fixed effect, and $\epsilon_{ijt}$ is an idiosyncratic shock with a known distribution.
 Also let $\check y_{ijt}$ denote the number of successes among past patients that $i$ sent to $j$.
-NOTE: There is no outside option with utility normalized to zero.
+% NOTE: There is no outside option with utility normalized to zero.
 
 \iffalse
 This omits the effects of other exogenous characteristics, $x_{ijt}$, and the effect of congestion at specialist $j$ (which is proxied with the number of patients treated by specialist $j$ around the same time as patient $t$, denoted $n_{j[t]}$).
@@ -164,7 +166,7 @@ Hence the number of PCPs may need to go to infinity, but the number of patients 
 
 %The effects of the exogenous characteristics, $u(x)$, follow from separate variation in $x$, as is standard.
 %The effect of congestion, $c(n_{jt})$ is identified from separate variation in $n_{jt}$, which requires a valid instrument for the endogenous patient volume, described elsewhere.
-We identify the [other] components of $v$ in steps as follows.
+We identify the remaining components of $v$ in steps as follows.
 \begin{enumerate}
     \item Specialist fixed effects ($\xi$):
 Any cases where the observables are the same for two specialists can be used to identify the fixed effects (up to a standard normalization; e.g., one fixed effect is set to zero).
@@ -180,7 +182,7 @@ Then
 = \frac{ \alpha \bar y_{ijt} }{ 0 + 1 } + \xi_j
 - \frac{ \alpha \bar y_{ikt} }{ 0 + 1 } - \xi_k .
 \]
-[I CAN PULL UP MORE OF THE ALGEBRA FROM BELOW.]
+% [I CAN PULL UP MORE OF THE ALGEBRA FROM BELOW.]
 Hence
 \[ \alpha 
 = \frac{(v_{ijt} - \xi_j) - (v_{ikt} - \xi_k)}
@@ -222,7 +224,6 @@ This identifies $f$ up to a normalization, specifically $f(0) = 0$.
 However this also requires the value of $a_0$, which can be obtained if the prior ratio, $\frac{a_0}{a_0 + b_0}$, is calibrated separately.
 Intuitively, we need to fully identify the priors (both the ratio and the strength) in order to recover the effect of familiarity, because we need to know exactly how experience washes away the priors in order to separate that from the effect of familiarity.
 \end{enumerate}
-QED
 
 %%%
 
@@ -262,7 +263,39 @@ Taken together, results above seem to be consistent with a conjecture that the v
 A low value of $\eta$ permits this conditional variation, which enables $\alpha$ to be better identified separately from $\beta$ and results in positive estimates of $\alpha$.
 \end{comment}
 
-% TODO: Estimate without the term $\frac{\rho \eta}{\eta + e_{ijt}}$.  Instead define the variable $m$ as just $\frac{y_{ijt}}{\eta + e_{ijt}}$. (Just to see if the conjecture is right.)
+
+
+\subsection{Monte Carlo Evidence on the Recovery of $\alpha$}
+\label{app:monte-carlo}
+
+To assess the finite-sample properties of our estimator, we conduct a Monte Carlo simulation calibrated to match key features of our data. We generate referral markets with 50 PCPs and 10 specialists, where each PCP makes 15 referrals per year. We include a burn-in period to establish referral histories and rely on a 6-year estimation window to match the estimation in our real data. Specialists are assigned heterogeneous quality levels (true failure probabilities) drawn from a normal distribution centered at the base failure rate, and each specialist receives a fixed effect drawn independently. PCPs choose specialists according to the structural model in Equation \eqref{eqn:myopic_spec}, with beliefs updated via Bayes' rule after each patient outcome.
+
+We estimate $\hat\alpha$ using the same constrained maximum likelihood procedure used in the main estimation (see Section \ref{app:estimation}), with specialist fixed effects included in the conditional logit. We vary the true $\alpha$ over the range 0.05 to 0.60, the base failure rate over 0.05 to 0.15, and the quality dispersion (standard deviation of failure rates across specialists) over 0.01 to 0.05, yielding 77 parameter configurations after excluding cases where the quality dispersion exceeds the base failure rate. For each configuration, we run 50 replications.
+
+Figure \ref{fig:bias-surface} presents the bias in $\hat\alpha$ as a function of the true $\alpha$ and the base failure rate, holding quality dispersion fixed at 0.03 (approximately matching the interquartile range of failure rates in the data). The surface reveals that bias is primarily driven by the magnitude of the true $\alpha$, with a secondary role for the base failure rate. Bias is largest when the true $\alpha$ is small, because the signal from patient outcomes is weak relative to the noise from the logit errors and the specialist fixed effects. Higher base failure rates improve identification by producing more frequent failures, which accelerates belief updating.
+
+Figure \ref{fig:relbias-alpha} presents the relative bias (as a percentage of the true $\alpha$) for each failure rate, again at quality dispersion of 0.03. Relative bias falls below 10\% for $\hat\alpha \geq 0.30$ when the base failure rate is 0.09 or higher. Among markets with non-zero estimates of $\hat\alpha$, the mean is 0.25 for $\eta = 1$ and 0.43 for $\eta = 5$ in the myopic model (0.32 and 0.54 in the forward-looking model), with the 75th percentile at 0.32 and above in all cases. The overwhelming majority of markets therefore either suggest very little learning ($\hat\alpha = 0$) or fall in the range where the estimator appears to perform well. These simulation results also support our decision to fix $\eta$ rather than estimate it jointly with $\alpha$, as the likelihood surface with respect to $\eta$ is relatively flat across the parameter configurations we examined.
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{5.5in}
+\caption[Bias in $\hat\alpha$]{Bias in $\hat\alpha$ as a function of the true $\alpha$ and the base failure rate, with quality dispersion fixed at 0.03. The surface is smoothed using a polynomial fit to the simulation grid. Darker shading indicates larger bias.}
+\centering
+\includegraphics[width=5in]{results/figures/simulation/fig-bias-surface.png}
+\label{fig:bias-surface}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{5.5in}
+\caption[Relative bias in $\hat\alpha$]{Relative bias in $\hat\alpha$ (as a percentage of the true value) by base failure rate, with quality dispersion fixed at 0.03. The shaded band marks $\pm$10\% relative bias. Arrows indicate values exceeding 150\% (truncated for readability).}
+\centering
+\includegraphics[width=5in]{results/figures/simulation/fig-relbias-by-alpha.png}
+\label{fig:relbias-alpha}
+\end{minipage}
+\end{figure}
+
 
 %%% ESTIMATION DETAILS
 
@@ -270,8 +303,7 @@ A low value of $\eta$ permits this conditional variation, which enables $\alpha$
 \label{app:estimation}
 
 To constrain $\alpha \geq 0$ we estimate $\ln \alpha$ and specify the beliefs term as $\exp(\ln \alpha) \cdot m$.
-We use an iterative procedure proposed in % TODO: add reference
-which makes it possible to employ standard estimation commands designed for multinomial logits where all terms are linear in parameters.
+We use an iterative procedure proposed in \cite{fader1992} which makes it possible to employ standard estimation commands designed for multinomial logits where all terms are linear in parameters.
 The procedure is based on a first-order Taylor series approximation of the term that is nonlinear in parameters.
 With the exponential function this is simply
 $$ \exp(\ln \alpha_2) \cdot m \approx \left[ \exp(\ln \alpha_1) + (\ln \alpha_2 - \ln \alpha_1) \exp(\ln \alpha_1) \right] \cdot m,$$
@@ -286,18 +318,18 @@ hence:
     \ln \alpha_2 = \ln \alpha_1 + \hat \pi_1 - 1 .
 \]
 Furthermore, because the estimated coefficient $\hat \pi_1$ by definition improves the likelihood, using $\exp(\ln \alpha_2)$ should produce a higher likelihood than $\exp(\ln \alpha_1)$.
-% TODO: add reference — proves this algorithm converges to the MLE of $\ln \alpha$ under standard regularity conditions.
+\cite{fader1992} prove that this algorithm converges to the MLE of $\ln \alpha$ under standard regularity conditions.
 For some intuition note that at the maximum, $\ln \alpha_*$, the likelihood cannot be improved, and so the value of $\hat \pi$ should be one; i.e., in terms of the Taylor expansion
 \[
     \exp(\ln \alpha_*)
     = \underbrace{[1 + (\ln \alpha_* - \ln \alpha_*)]}_{\hat \pi_*} \exp(\ln \alpha_*)
     = \underbrace{[1]}_{\hat \pi_*} \exp(\ln \alpha_*)
 \] 
-The standard error then follows as % TODO: add reference
+The standard error then follows from \cite{fader1992} as
 \[
     SE(\hat \alpha) = \exp(\ln \alpha_*) SE(\hat \pi_*)
 \]
-because $\hat \alpha = \exp(\ln \alpha_*) = \exp(\ln \alpha_* + \hat \pi_* - 1)$ and asymptotically we only need to consider the variation in $\hat \pi_*$ . % TODO: add reference (Lemma 2)
+because $\hat \alpha = \exp(\ln \alpha_*) = \exp(\ln \alpha_* + \hat \pi_* - 1)$ and asymptotically we only need to consider the variation in $\hat \pi_*$ (see Lemma 2 in \citealp{fader1992}).
 
 %%%
 

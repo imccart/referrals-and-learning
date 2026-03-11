@@ -328,24 +328,26 @@ save temp_networks_yearly, replace
 replace practice_patients=. if practice_count>1
 replace specialist_per_pcp=. if practice_count>1
 replace practice_failures=. if practice_count>1
-label variable practice_patients "Total Referrals"
+replace specialist_patients=. if specialist_count>1
+label variable practice_patients "Total Referrals (out)"
 label variable specialist_per_pcp "Network Size"
+label variable specialist_patients "Total Referrals (in)"
 label variable patients "Referrals per Specialist"
 label variable pcp_specialist_share "Referral Share"
 label variable practice_failures "Total Failures"
 label variable pcp_specialist_failure "Failure Rate"
 
-estpost sum practice_patients specialist_per_pcp practice_failures patients pcp_specialist_failure if Year<2013
+estpost sum practice_patients specialist_per_pcp practice_failures specialist_patients patients pcp_specialist_failure if Year<2013
 est store sum_all_pre
 
-estpost sum practice_patients specialist_per_pcp practice_failures patients pcp_specialist_failure if Year>=2013
+estpost sum practice_patients specialist_per_pcp practice_failures specialist_patients patients pcp_specialist_failure if Year>=2013
 estadd scalar running_patients_mean=`mean_cuml_pat'
 estadd scalar running_patients_sd=`std_cuml_pat'
 estadd scalar running_failure_mean=`mean_cuml_rate'
 estadd scalar running_failure_sd=`std_cuml_rate'
 est store sum_all_post
 
-estpost sum practice_patients specialist_per_pcp practice_failures patients pcp_specialist_failure
+estpost sum practice_patients specialist_per_pcp practice_failures specialist_patients patients pcp_specialist_failure
 est store sum_all
 
 local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
