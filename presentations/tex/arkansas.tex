@@ -400,7 +400,7 @@ ESTIMATION RESULTS
     % (PCP: 20+ total referrals, specialist: 20+ surgeries per year)  
     % PCP: at least 20 total referrals over our study period and at least three consecutive years with observed referrals
     % Specialist: perform at least 20 surgeries per year (captures xxx\% of all surgeries)
-    \item 2,014,300 surgeries, 10,500 surgeons, 51,700 PCPs in final sample
+    \item 2,241,000 surgeries, 9,250 surgeons, 51,000 PCPs in final sample
 \eit
 \bigskip %\pause
 
@@ -426,23 +426,23 @@ ESTIMATION RESULTS
 &    & (Baseline)     & (Estimation) \\
 &    & 2008-2012     & 2013-2018 & Overall\\
 \hline
-\multicolumn{4}{l}{\emph{Prop.~per patient/episode:}}    \\
-& 90-day Readmission  &       0.081&       0.066&       0.072\\
-& 90-day Mortality    &       0.007&       0.005&       0.006\\
-& 90-day Complication &       0.107&       0.089&       0.097\\
-& {\dots}Any Failure    &       0.109&       0.091&       0.099\\[6pt]
+\multicolumn{4}{l}{\emph{Rate per patient/episode:}}    \\
+& 90-day Complication &       0.112&       0.093&       0.101\\
+& 90-day Readmission  &       0.084&       0.068&       0.075\\
+& 90-day Mortality    &       0.008&       0.005&       0.006\\
+& {\dots}Any Failure  &       0.114&       0.095&       0.103\\[6pt]
 & Episode spending    &      23,240&      22,557&      22,839\\
 &                     &    (12,717)&    (12,284)&     (12,469)\\[6pt]
-\multicolumn{5}{l}{\emph{Rate per PCP, per year: xxx per doctor, do PCPs out and specs in}}    \\
-& Total Referrals     &       3.809&       4.398&       4.134\\
-&                    &     (2.940)&     (3.478)&     (3.261)\\
-& Unique Specialists  &       2.666&       3.109&       2.910\\
+\multicolumn{5}{l}{\emph{Count per PCP, per year: xxx per doctor, do PCPs out and specs in}}    \\
+& Total Referrals     &       4.159&       4.740&       4.477\\
+&                     &     (3.089)&     (3.611)&     (3.398)\\
+& Unique Specialists xxx  &       2.666&       3.109&       2.910\\
 &                    &     (1.580)&     (1.831)&     (1.737)\\[6pt]
 \multicolumn{5}{l}{\emph{Running values per PCP-specialist pair, over past five years:}}    \\
-& Total Referrals     & - - -    &        4.445 & - - -\\
-&                     &     &     (10.453)\\
-& Failure Rate  & - - -    &       0.101 & - - -\\
-&                     &     &     (0.201)\\
+& Total Referrals     & - - -    &        4.101 & - - - \\
+&                     &          &       (9.996) \\
+& Failure Rate        & - - -    &       0.102  & - - - \\
+&                     &          &      (0.206) \\
 % Last panel does not count zeros...
 \hline
 \end{tabular}
@@ -904,8 +904,8 @@ Parameter & Mean & (SD/SE) & 25th & 75th & & Mean & (SD/SE) & 25th & 75th \\
 \ \ ($\eta=5$) & -0.0695 & (0.0061) & -0.0826  & -0.0528 & & -0.0698 & (0.0061) & -0.0830 & -0.0528 \\ 
 \\ 
 \multicolumn{8}{l}{$\gamma$ \color{gray} (congestion effect per 100 patients over 5 years, \emph{single nationwide estimate})} \\  
-\ \ ($\eta=1$) & -2.4967 & (0.9275) & & & & -2.1098 & (0.7111) \\ 
-\ \ ($\eta=5$) & -5.4713 & (3.2063) & & & & -3.1226 & (1.1708) \\ 
+\ \ ($\eta=1$) & xxx & (0.9275) & & & & -2.1098 & (0.7111) \\ 
+\ \ ($\eta=5$) & xxx & (3.2063) & & & & -3.1226 & (1.1708) \\ 
 \hline
 \end{tabular}
 \end{center}
@@ -914,9 +914,9 @@ Parameter & Mean & (SD/SE) & 25th & 75th & & Mean & (SD/SE) & 25th & 75th \\
 
 \begin{itemize}
     % using eta = 1, myopic model:
-    \item $\bar \alpha / \bar \pi$ -- success vs.~failure is worth 4 miles
+    \item $\bar \alpha / \bar \pi$ -- success vs.~failure is worth xxx miles
     (similar to other small estimates in the literature)
-    \item $\gamma$ -- 10 patient increase in volume $\rightarrow$ 22\% relative decrease in referral prob.
+    \item $\gamma$ -- 10 patient increase in volume $\rightarrow$ 22\% xxx relative decrease in referral prob.
 \end{itemize}
 
 \end{frame}
@@ -951,8 +951,8 @@ Parameter & Mean & (SD/SE) & 25th & 75th & & Mean & (SD/SE) & 25th & 75th \\
 \end{frame}
 \fi
 %%% 
-\iffalse
-\begin{frame}[t]{Partial Effect of Failures} 
+
+\begin{frame}[t]{Partial Effect of Failures xxx} 
 \begin{center}
 \begin{tabular}{cc}
     \includegraphics[scale=0.22]{results/figures/myopic-timevary/Mean_Partial_Effect_Failure_eta1.png} &
@@ -970,7 +970,7 @@ Parameter & Mean & (SD/SE) & 25th & 75th & & Mean & (SD/SE) & 25th & 75th \\
 }
 
 \end{frame}
-\fi
+
 %%% 
 
 \begin{frame}[t]{Counterfactual: reallocation under full information} 
@@ -1032,20 +1032,6 @@ Simulation:
 
 \end{frame}
 
-%%%
-\iffalse
-\begin{frame}[b]{Counterfactual: full information and no familiarity [CUT?]} 
-\begin{center}
-\includegraphics[scale=0.31]{results/figures/myopic-timevary/Mean_Health_Effect_FullFam_eta1.png}
-\end{center}
-
-\begin{itemize}
-    \item Much larger reallocation of patients, closer to 30\% (not shown)
-    \item Health effects slightly greater but still relatively small, with increase in the \textit{ex ante} probability of a successful surgery of 0.5\% on average
-\end{itemize}
-
-\end{frame}
-\fi
 %%%
 
 \begin{frame}{Summary} \label{summary}
