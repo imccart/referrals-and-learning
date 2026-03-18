@@ -230,6 +230,8 @@ Intuitively, we need to fully identify the priors (both the ratio and the streng
 \subsection{Finite Sample Performance}
 \label{sec:performance-issues}
 
+% TODO: Cut this, it related to an old estimation procedure. If we had infinite time, we could check if we still get lots of negative alphas, now that we use a nonparametric fn for the familiarity effect.
+
 We recover negative values of $\alpha$ in the majority of markets, whenever $\eta$ is set above a relatively small number.  This may occur because of the way that $\alpha$ attaches to both the number of successes and the number of patients in the model, as follows:
 $$\alpha \frac{\rho \eta + y_{ijt}}{\eta + e_{ijt}}.$$
 This can be split into two terms where the coefficient is constrained to be the same (because $\rho$ and $\eta$ are set at fixed values):
@@ -263,10 +265,12 @@ Taken together, results above seem to be consistent with a conjecture that the v
 A low value of $\eta$ permits this conditional variation, which enables $\alpha$ to be better identified separately from $\beta$ and results in positive estimates of $\alpha$.
 \end{comment}
 
-
+%%%
 
 \subsection{Monte Carlo Evidence on the Recovery of $\alpha$}
 \label{app:monte-carlo}
+
+% TODO (Seth): I have no memory of this... Can we cut it?
 
 To assess the finite-sample properties of our estimator, we conduct a Monte Carlo simulation calibrated to match key features of our data. We generate referral markets with 50 PCPs and 10 specialists, where each PCP makes 15 referrals per year. We include a burn-in period to establish referral histories and rely on a 6-year estimation window to match the estimation in our real data. Specialists are assigned heterogeneous quality levels (true failure probabilities) drawn from a normal distribution centered at the base failure rate, and each specialist receives a fixed effect drawn independently. PCPs choose specialists according to the structural model in Equation \eqref{eqn:myopic_spec}, with beliefs updated via Bayes' rule after each patient outcome.
 
@@ -296,13 +300,36 @@ Figure \ref{fig:relbias-alpha} presents the relative bias (as a percentage of th
 \end{minipage}
 \end{figure}
 
+%%%
+
+\subsection{Simulation study on identification of $\eta$}
+
+Although we have shown that $\eta$ is identified, our preliminary estimates of this parameter exhibited poor performance and so we used fixed values instead. Here we present a simulation study that indicates the data in our application would indeed have little power to inform an estimate of $\eta$.
+
+We simulate a market with 2,500 patients and 25 specialists. For simplicity, the PCP-specialist histories (\# referrals, \# successes) are independent across patients, as though each patient were treated by a different PCP, but the PCPs have prior histories with some specialists. Each PCP has a 0.2 probability of any history with each specialist, independent across specialists. Conditional on any history with a specialist, the number of past referrals is Poisson with mean 4, and the number of past successes is binomial using the number of past referrals and the surgeon's success probability (explained below).
+
+The simulation model has the same specification as our empirical model, except that there is no congestion effect and the familiarity effect is specified as $f(e_ijt) = \beta \ln(1+e_{ijt})$. The parameter values are as follows:
+\begin{itemize} \singlespacing
+    \item $\alpha = 0.3$ (weight on outcome)
+    \item $\pi = -0.07$ (weight on distance)
+    \item $\beta = 0.9$ (weight on familiarity)
+    \item $\eta = 3$ (prior strength)
+    \item $\rho$: explained below (prior mean)
+    \item $\xi$: explained below (fixed effects)
+\end{itemize}
+Specialist qualities, $q_j$, are drawn independently from a normal distribution with mean 0.9 and SD 0.04, and censored symmetrically at 0.81 and 0.99. The prior mean, $\rho$, is set equal to the average of these draws. The specialist fixed effects, $\xi_j$, are given fixed values on a grid from $-1.5$ to $+1.5$ with with equal intervals of 3/25 between values.
+
+Figure X shows the results from four representative simulations. It plots log-likelhood values obtained using a wide range of values for $\eta$ while keeping the other parameters at their true values. It is apparent that the likelihood function is very flat in this parameter. The log likelihood changes by only a few points over the entire span of values for $\eta$. Across 100 such simulations, the average range of the likelihood values is only 2.1 log points and the 95th percentile is 4.3 log points. Based on this, we do not think the data in our application would have good power to yield an informative estimate of $\eta$.
+
+
+
 
 %%% ESTIMATION DETAILS
 
 \section{Estimation}
 \label{app:estimation}
 
-To constrain $\alpha \geq 0$ we estimate $\ln \alpha$ and specify the beliefs term as $\exp(\ln \alpha) \cdot m$.
+To constrain $\alpha \geq 0$ we estimate $\ln \alpha$ and specify the beliefs term as $\exp(\ln \alpha) \cdot m$ (or $\exp(\ln \alpha) \cdot g(m,v)$ in the forward-looking model).
 We use an iterative procedure proposed in \cite{fader1992} which makes it possible to employ standard estimation commands designed for multinomial logits where all terms are linear in parameters.
 The procedure is based on a first-order Taylor series approximation of the term that is nonlinear in parameters.
 With the exponential function this is simply
@@ -359,6 +386,7 @@ The purpose of this counterfactual is to estimate the potential changes in refer
 \section*{Tables and Figures}
 
 %%% TABLES
+
 \begin{table}[h!]
 \centering
 \footnotesize
@@ -374,6 +402,29 @@ The purpose of this counterfactual is to estimate the potential changes in refer
 \end{table}
 
 %%% FIGURES
+
+\newpage
+\begin{figure}[htb]
+\begin{minipage}[h]{6in}
+\centering
+\caption[caption]{Log-Likelihood Values in Four Example Simulations\footnote{Plots of the log-likelihood (``lnL\_list'') against the candidate value of $\eta$ (``eta-hat,'' plotted on a log scale), from four example simulations. All other parameters are held at the values used to generate the simulated data, which consists of 2,500 patients and 25 specialists.}}
+\label{fig:eta-simulation}
+\begin{tabular}{cc}
+\\
+\includegraphics[scale=0.45]{results/figures/simulation/like_eta_1.png}
+&
+\includegraphics[scale=0.45]{results/figures/simulation/like_eta_2.png}
+\\
+\includegraphics[scale=0.45]{results/figures/simulation/like_eta_3.png}
+&
+\includegraphics[scale=0.45]{results/figures/simulation/like_eta_4.png}
+\end{tabular}
+
+
+
+
+\end{minipage}
+\end{figure}
 
 \newpage
 \begin{figure}[htb]
@@ -398,6 +449,7 @@ Third Failure & Fourth Failure \\
 \caption[caption]{Counterfactuals from Full Information and No Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and do not incorporate any familiarity in their referral decisions. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} (\nHRRsFWD{}) HRRs in the myopic (forward-looking) case for $\eta=1$ and \nHRRsEtaFiveMyopic{} (\nHRRsEtaFiveFWD{}) in the myopic (forward-looking) case for $\eta=5$.}}
 \centerline{%
 \begin{tabular}{cc}
+\\
 \multicolumn{2}{c}{\textit{Myopic Referrals, Reallocation}} \\
 \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta1.png} & \includegraphics[height=1.5in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta5.png} \\
 \multicolumn{2}{c}{\textit{Myopic Referrals, Health Improvements}} \\

@@ -67,7 +67,6 @@
 \begin{frame}{Physician referrals}
 \begin{itemize}
 
-%\item Production network (micro, one service) with substantial informational frictions and heterogeneity in prices and quality
 \item Service market where professionals with general skills (e.g., primary care) direct consumers to professionals with specialized skills
 \bit
     \item Substantial heterogeneity  in prices and quality across specialists
@@ -86,7 +85,7 @@
 \bigskip \pause
 
 % Our goal is to analyze this uncertainty in physician referrals...
-\item We use a structural learning model to measure the effects of uncertainty in physician referrals, and to simulate possible reallocations if there were better information about quality %if learning were improved
+\item We use a structural learning model to measure the effects of uncertainty in physician referrals, and to simulate possible reallocations if there were better information about quality
 
 \end{itemize}
 \end{frame}
@@ -98,8 +97,8 @@
 
 \bigskip
 
-\item Total physician/clinical services $+$ hospital care: \$2.25 trillion
-% (2022 National Health Expenditures)
+\item Total physician/clinical services $+$ hospital care: \$2.5 trillion
+% (2024 National Health Expenditures)
 % almost 10% of GDP
 \bit
     \item Primary care accounts for only 5\% -- 8\%
@@ -194,7 +193,6 @@ Patient self-referrals to specialists & 6.0\%   &   2.8\%   &   &   51M &   31M 
 }
 %\vskip8pt
 
-
 \only<3>{
 \item Greater concentration of a physician's referrals (to fewer specialists) is associated with somewhat lower spending and utilization
 \smallskip 
@@ -237,8 +235,7 @@ Pollack, Weissman, Lemke, Hussey, and Weiner, \emph{JGenIntMed} 2013)
 \eit
 \medskip 
 
-% \item Apply to major joint replacements (hip and knee)
-% a specific area of health care with a well defined network of referring physicians and specialists %(joint replacement)
+% \item Apply to major joint replacements (hip and knee) / a specific area of health care with a well defined network of referring physicians and specialists %(joint replacement)
 
 \item Model accounts for important barriers to reallocation beyond information:
 \bit
@@ -316,7 +313,6 @@ Carlin, Feldman, and Dowd, \emph{HlthEcon} 2016)
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BACKGROUND
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -348,7 +344,7 @@ ESTIMATION RESULTS
 % https://doi.org/10.3899/jrheum.170990
 \bit
     \item Expensive: \$23,000 mean ($\approx$ median) episode spending (\$12,500 std.~dev.) 
-    \item Some risk: 9.7\% complications/rehospitalized, 0.6\% die
+    \item Some risk: 10\% complications/rehospitalized, 0.6\% die
     % from our data
 \eit
 \medskip
@@ -379,7 +375,6 @@ ESTIMATION RESULTS
     \item Analysis restricted to persons aged 65+
     \item Approx.~50\%/66\% of all hip/knee replacements at the time
 \eit
-% transaction-level data
 
 \end{itemize}
 \end{frame}
@@ -409,8 +404,6 @@ ESTIMATION RESULTS
 \item Note -- the claims include a ``referring physician'' field, but it is highly unreliable: it is omitted on 34\% of the joint replacement claims, and it lists the \emph{same person} as the operating physician on 64\% of the claims where it is populated.
 \bigskip
 
-%\item Comparison to referrals for heart surgery (Richards-Shubik \emph{et al.}~2022): cardiologists refer to surgeons, can be matched based on a pre-surgery imaging procedure
-
 \end{itemize}
 \end{frame}
 
@@ -433,11 +426,14 @@ ESTIMATION RESULTS
 & {\dots}Any Failure  &       0.114&       0.095&       0.103\\[6pt]
 & Episode spending    &      23,240&      22,557&      22,839\\
 &                     &    (12,717)&    (12,284)&     (12,469)\\[6pt]
-\multicolumn{5}{l}{\emph{Count per PCP, per year: xxx per doctor, do PCPs out and specs in}}    \\
-& Total Referrals     &       4.159&       4.740&       4.477\\
+\multicolumn{5}{l}{\emph{Count per doctor, per year (in sample):}}    \\
+% ALT: PCP -- patients referred
+& Patients referred by PCP    &       4.159&       4.740&       4.477\\
 &                     &     (3.089)&     (3.611)&     (3.398)\\
-& Unique Specialists xxx  &       2.666&       3.109&       2.910\\
-&                    &     (1.580)&     (1.831)&     (1.737)\\[6pt]
+& Unique specialists per PCP  &       3.002&       3.435&       3.239\\
+&                     &     (1.756)&     (1.990)&     (1.900)\\[6pt]
+% & Specialist -- patients treated / Patients treated by specialist xxx  &       2.666&       3.109&       2.910\\
+% &                    &     (1.580)&     (1.831)&     (1.737)\\[6pt]
 \multicolumn{5}{l}{\emph{Running values per PCP-specialist pair, over past five years:}}    \\
 & Total Referrals     & - - -    &        4.101 & - - - \\
 &                     &          &       (9.996) \\
@@ -670,8 +666,6 @@ ESTIMATION RESULTS
 
 \begin{itemize}
 
-% NOTE: This formal analysis is new.  Prior papers (Dickstein 2021, Gong 2018) have thoughtful discussions but do not provide formal analysis.
-
 \item Reparameterize beliefs:
 \bit
     \item $\rho = a_0 / (a_0 + b_0)$ \ (prior mean)
@@ -792,7 +786,7 @@ ESTIMATION RESULTS
 
 \begin{itemize}
 
-\item Estimated separately in 306 geographic markets (HRRs) %; BLP-type procedure
+\item Estimated separately in 280 geographic markets (HRRs)
 \bit
 \item Approach based on Bayer and Timmins (2007) spatial equilibrium model:
 spillovers among consumers who choose the same ``location''
@@ -868,6 +862,7 @@ ESTIMATION RESULTS
 
 \end{frame}
 
+%%%
 
 \begin{frame}{Event study: effect of a failure on the PCP's referrals to that specialist}
 {Differences in referrals per quarter between the PCP ``observing'' the failure vs.~all other PCPs}
@@ -883,7 +878,7 @@ ESTIMATION RESULTS
 %%%
 
 \begin{frame}{Structural Parameter Estimates} 
-{Estimated separately within 306 HRRs; statistics weighted by number of patients per HRR.}
+{Estimated separately within 280 HRRs; statistics weighted by number of patients per HRR.}
 
 \footnotesize \pause
 
@@ -904,8 +899,8 @@ Parameter & Mean & (SD/SE) & 25th & 75th & & Mean & (SD/SE) & 25th & 75th \\
 \ \ ($\eta=5$) & -0.0695 & (0.0061) & -0.0826  & -0.0528 & & -0.0698 & (0.0061) & -0.0830 & -0.0528 \\ 
 \\ 
 \multicolumn{8}{l}{$\gamma$ \color{gray} (congestion effect per 100 patients over 3 years, \emph{single nationwide estimate})} \\  
-\ \ ($\eta=1$) & -0.0913 & (0.0153) & & & & \multicolumn{2}{c}{\color{spiritblue} estimation} \\ 
-\ \ ($\eta=5$) & -0.1158 & (0.0169) & & & & \multicolumn{2}{c}{\color{gray} in process} \\ 
+\ \ ($\eta=1$) & -0.0913 & (0.0153) & & & & \multicolumn{2}{c}{\color{gray} -- estimation --} \\ 
+\ \ ($\eta=5$) & -0.1158 & (0.0169) & & & & \multicolumn{2}{c}{\color{gray} -- in process --} \\ 
 
 \hline
 \end{tabular}
@@ -952,45 +947,51 @@ Parameter & Mean & (SD/SE) & 25th & 75th & & Mean & (SD/SE) & 25th & 75th \\
 \end{frame}
 \fi
 %%% 
-
-\begin{frame}[t]{Partial Effect of Failures xxx} 
+\iffalse
+\begin{frame}[t]{Partial Effect of Failures}{Distribution across markets of average partial effect, conditional on having any past referrals} 
 \begin{center}
 \begin{tabular}{cc}
-    \includegraphics[scale=0.22]{results/figures/myopic-timevary/Mean_Partial_Effect_Failure_eta1.png} &
-    \includegraphics[scale=0.22]{results/figures/myopic-timevary/Mean_Partial_Effect_Failure_eta5.png} \\
+    Myopic model & Forward-looking model \\
+    \includegraphics[scale=0.22]{results/figures/myopic-timevary/Mean_Partial_FX_Failure_Myopic_eta1.png} &
+    \includegraphics[scale=0.22]{results/figures/fwd-timevary/Mean_Partial_FX_Failure_FWD_eta1.png} \\
 \end{tabular}
 \end{center}
 
 \only<2>{
 \medskip
-\begin{itemize}
-    \item Many markets with effectively no response to specialist failures
-    \item Conditional on some response, mean reduction of 3-4\% in referral probability
-    \item Small but meaningful over the course of several referrals: translates to 3 weeks worth of surgeries per year for an average specialist (among our sample of patients).
+\begin{itemize} \small
+    \item Among markets where there is an effect, mean reduction in referral probability is 0.003
+    \item Many markets estimated to have no response to specialist failures ($\hat \alpha = 0$)
+%    \item Small but meaningful over the course of several referrals: translates to 3 weeks worth of surgeries per year for an average specialist (among our sample of patients).
 \end{itemize}
 }
 
 \end{frame}
-
+\fi
 %%% 
+
+\begin{frame}[t]{Counterfactual simulations}
+
+\bigskip
+
+Procedure:
+\begin{itemize}
+    \item Replace current beliefs with true success probabilities
+    \item Take histories in baseline period as given (i.e., familiarity with specialists)
+    % Like an information shock on January 1, 2013
+    \item Starting from beginning of estimation period, revise referral decisions \\
+    and update the accrued familiarity with specialists accordingly
+    \item \textcolor{gray}{Similar results if familiarity is set to zero at beginning}
+\end{itemize}
+
+\end{frame}
+
+%%%
 
 \begin{frame}[t]{Counterfactual: reallocation under full information} 
 {Distribution across markets of proportion of patients reallocated}
 
 \bigskip
-
-\only<1>{
-Simulation:
-\begin{itemize}
-    \item Replace current beliefs with true success probabilities
-    \item Take histories in baseline period as given (i.e., familiarity with specialists)
-    \item Starting from beginning of estimation period, revise referral decisions \\
-    and update the accrued familiarity with specialists accordingly
-    \item \textcolor{gray}{Similar results if familiarity is set to zero at beginning}
-\end{itemize}
-}
-\pause
-
 \footnotesize
 
 \begin{tabular}{cc}
@@ -999,7 +1000,8 @@ Simulation:
     \includegraphics[scale=0.24]{results/figures/fwd-timevary/Reallocation_Current_FWD_eta1.png}
 \end{tabular}
 
-\smallskip
+\smallskip \pause 
+
 \small 
 
 \begin{itemize}
@@ -1011,7 +1013,7 @@ Simulation:
 
 %%%
 
-\begin{frame}[b]{Counterfactual: health outcomes under full information xxx} 
+\begin{frame}[b]{Counterfactual: health outcomes under full information} 
 {Distribution across markets of change in success probability}
 
 \bigskip
@@ -1028,7 +1030,7 @@ Simulation:
 
 \begin{itemize}
     \item Average improvement $\approx$ 4.5/1,000 (both models); reducing failure rate by 5\% (relative)
-    \item About 750 fewer complications/readmissions (or deaths) per year in total %across all markets
+    \item About 700 fewer complications/readmissions (or deaths) per year total in sample pop.
 \end{itemize}
 
 \end{frame}
@@ -1038,12 +1040,6 @@ Simulation:
 \begin{frame}{Summary} \label{summary}
 \begin{itemize}
 
-%    \item Structural learning model can quantify losses due to uncertainty and project gains from possible reallocation
-%    \bit
-%        \item While accounting for capacity constraints and other barriers
-%    \eit
-%    \bigskip
-    
     \item Substantial quality and efficiency gains may be possible if referrals can be reallocated \emph{within} geographic areas
     \bigskip
     
