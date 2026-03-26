@@ -20,7 +20,7 @@ PRELIMINARY}
   Seth Richards-Shubik \\[-1.5ex]
   Lehigh University \& NBER
 }
-\date{August 2023}
+\date{April 2026}
 \maketitle
 
 
@@ -30,7 +30,34 @@ PRELIMINARY}
 
 This section provides additional details of our analytic data and subsequent referral patterns.
 
+\subsection{PCP Identification}
+\label{app:pcp-validation}
 
+Our method identifies a patient's PCP using a carrier-claims lookback window, selecting the most-visited PCP in pre-surgery E\&M claims. Table \ref{tab:pcp-validation} compares this approach with the referring physician listed on the surgeon's claim (\texttt{rfr\_physn\_npi}). The listed referring physician field is not populated in roughly 32\% of cases, and when it is populated, it most often lists the surgeon (self-referral, about 43\%) or a non-PCP specialist (about 7\%). Only about 18\% of cases list a PCP as the referring physician. Among cases where both methods identify a PCP, concordance exceeds 82\% in every year.
+
+Figure \ref{fig:pcp-validation} shows the composition of the listed referring physician field alongside our lookback coverage rate. Our lookback method identifies a PCP for approximately 80\% of procedures, providing substantially better coverage than the listed field alone.
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[PCP Identification Validation]{\textbf{PCP Identification Method Validation}\footnote{Comparison of our carrier-lookback PCP identification method with the referring physician listed on the surgeon's claim (\texttt{rfr\_physn\_npi}). ``Not Pop.'' indicates the referral field is not populated. ``Self-Referral'' indicates the listed referring physician is the operating surgeon. ``Non-PCP'' indicates a non-PCP specialist. ``PCP'' indicates a primary care physician. ``Lookback Coverage'' is the share of procedures for which our method identifies a PCP. ``Concordance'' is the share of cases where both methods identify a PCP and they agree.}}
+\centerline{%
+\input{results/tables/PCP_Validation.tex}
+}
+\label{tab:pcp-validation}
+\end{minipage}
+\end{table}
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{5.5in}
+\caption[PCP Identification Coverage]{Composition of the listed referring physician field and carrier-lookback coverage over time.\footnote{Stacked bars show the composition of the \texttt{rfr\_physn\_npi} field on the surgeon's claim. The line shows the share of procedures for which our carrier-lookback method identifies a PCP.}}
+\centering
+\includegraphics[width=5in]{results/figures/desc/PCP_Validation_Figure.png}
+\label{fig:pcp-validation}
+\end{minipage}
+\end{figure}
 
 
 %%% IDENTIFICATION
@@ -359,6 +386,56 @@ The standard error then follows from \cite{fader1992} as
 because $\hat \alpha = \exp(\ln \alpha_*) = \exp(\ln \alpha_* + \hat \pi_* - 1)$ and asymptotically we only need to consider the variation in $\hat \pi_*$ (see Lemma 2 in \citealp{fader1992}).
 
 %%%
+
+
+%%% First Stage Diagnostics
+
+\section{First-Stage Diagnostics for Congestion}
+\label{app:first-stage}
+
+The congestion parameter $\gamma$ is estimated via two-stage least squares, regressing specialist fixed effects on total patient volume and HRR fixed effects, with distance-based predicted patient counts as the excluded instrument. Table \ref{tab:first-stage} reports the pooled first-stage results. The first-stage coefficient is strongly significant, and the F-statistic on the excluded instrument exceeds conventional thresholds for both values of $\eta$.
+
+Figure \ref{fig:fs-scatter} presents partial scatter plots of actual versus predicted patient counts after residualizing on HRR fixed effects and a time-period indicator, confirming a strong positive relationship between the instrument and endogenous patient volume. Figure \ref{fig:fs-fstat} further shows the distribution of HRR-level first-stage F-statistics, weighted by patient volume.
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{minipage}[h]{5in}
+\caption[First-Stage Results]{\textbf{First-Stage Results for Congestion 2SLS}\footnote{Pooled first-stage regression of specialist total patients on distance-predicted patient counts, with HRR fixed effects and a time-period indicator. Observations weighted by the inverse variance of the specialist fixed effect estimate. Standard errors clustered at the specialist level. Results shown for the myopic model; the forward-looking model yields nearly identical first-stage estimates because the instrument and endogenous variable do not depend on the learning model.}}
+\centerline{%
+\begin{tabular}{lcccc}
+\input{results/tables/FirstStage_Table_Myopic.tex}
+\end{tabular}
+}
+\label{tab:first-stage}
+\end{minipage}
+\end{table}
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[First-Stage Partial Scatter]{Partial scatter plots of actual versus predicted patient counts, residualized on HRR fixed effects and a time-period indicator.\footnote{Each point represents a specialist-time period observation, weighted by the inverse variance of the specialist fixed effect. The fitted line shows the first-stage relationship. Left panel shows $\eta=1$, right panel shows $\eta=5$.}}
+\begin{tabular}{cc}
+\\
+$\eta=1$ & $\eta=5$ \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/FirstStage_Scatter_Myopic_eta1_1_1_0.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/FirstStage_Scatter_Myopic_eta5_1_1_0.png}
+\end{tabular}
+\label{fig:fs-scatter}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[First-Stage F-Statistics]{Distribution of HRR-level first-stage F-statistics, weighted by patient volume.\footnote{Dashed line marks the conventional threshold of $F=10$. Each HRR-level regression includes the distance-based instrument, a time-period indicator, and is weighted by the inverse variance of the specialist fixed effect. Left panel shows $\eta=1$, right panel shows $\eta=5$.}}
+\begin{tabular}{cc}
+\\
+$\eta=1$ & $\eta=5$ \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/FirstStage_Fstat_Myopic_eta1_1_1_0.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/FirstStage_Fstat_Myopic_eta5_1_1_0.png}
+\end{tabular}
+\label{fig:fs-fstat}
+\end{minipage}
+\end{figure}
 
 
 %%% Additional Results
