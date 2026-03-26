@@ -61,9 +61,8 @@ program define converge
 		quietly replace pred_iter_new=(1-damp_weight)*pred_iter_old + damp_weight*pred_iter_new
 
 		*assess convergence
-		qui replace conv_crit = (abs(pred_iter_new-pred_iter_old) > (0.10*pred_iter_old + 1))
+		qui replace conv_crit = (abs(pred_iter_new-pred_iter_old) > (tot_patients/1000))
 		qui count if spec_obs==1 & conv_crit==1
-		**quietly count if spec_obs==1 & abs(pred_iter_new-pred_iter_old) > (tot_patients/1000)
 		scalar changes=r(N)
 		noisily dis changes " " _cont
 
@@ -182,7 +181,7 @@ program define converge_dyn
 		qui replace pred_iter_new=(1-damp_weight)*pred_iter_old + damp_weight*pred_iter_new
 
 		*assess convergence
-		qui replace conv_crit = (abs(pred_iter_new-pred_iter_old) > (0.10*pred_iter_old + 1))
+		qui replace conv_crit = (abs(pred_iter_new-pred_iter_old) > max(2, tot_patients/1000))
 		qui count if spec_obs==1 & conv_crit==1
 		scalar changes=r(N)
 		qui count if spec_obs==1

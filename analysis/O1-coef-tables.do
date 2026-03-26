@@ -424,7 +424,7 @@ post table_tex ("")
 post table_tex ("& & & \multicolumn{5}{c}{Percentile} \\")
 post table_tex ("\cline{4-8}")
 post table_tex ("Parameter & Mean & (SD/SE) & 10th & 25th & 50th & 75th & 90th \\")
-post table_tex ("\hline")
+post table_tex ("\hline\hline")
 
 ** first alpha (index coefficient)
 post table_tex ("")
@@ -442,8 +442,9 @@ foreach eta in 1 5 {
 }
 
 ** then pi (distance coefficient)
+post table_tex ("\\[-0.5ex]")
 post table_tex ("")
-post table_tex ("\multicolumn{8}{l}{\$\pi\$ (utility weight on outcome)} \\")
+post table_tex ("\multicolumn{8}{l}{\$\pi\$ (utility weight on distance)} \\")
 
 use "${RESULTS_FINAL}`coef_prefix'_Summary.dta", clear
 foreach eta in 1 5 {
@@ -463,11 +464,13 @@ bys hrr: gen obs=_n
 keep if obs==1
 qui sum rho, detail
 
+post table_tex ("\\[-0.5ex]")
 post table_tex ("")
 post table_tex ("\multicolumn{8}{l}{\$\rho\$ (prior mean)} \\")
 post table_tex ("\ \ (all \$\eta\$) & `=string(r(mean), "%9.4f")' & (`=string(r(sd), "%9.4f")') & `=string(r(p10), "%9.4f")'  & `=string(r(p25), "%9.4f")'  & `=string(r(p50), "%9.4f")'  & `=string(r(p75), "%9.4f")'  & `=string(r(p90), "%9.4f")' \\")
 
 ** congestion/capacity
+post table_tex ("\\[-0.5ex]")
 post table_tex ("")
 post table_tex ("\multicolumn{8}{l}{\$\gamma\$ (congestion effect, per 100 patients)} \\")
 
@@ -481,11 +484,12 @@ foreach eta in 1 5 {
 }
 
 ** familiarity
+post table_tex ("\\[-0.5ex]")
 post table_tex ("")
 post table_tex ("\multicolumn{2}{l}{\$\kappa_{b}\$ (familiarity)} & \multicolumn{5}{c}{Range of \$e_{ijt}\$} \\")
 post table_tex ("\cline{2-8}")
 post table_tex ("\ \  & 1  & 2  & 3  & 4  & 5  & [6,7]  & [8,10] \\")
-post table_tex ("\cline{2-8}")
+post table_tex ("\hline\hline")
 
 import delimited "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_`r_type'_rhobar.csv", clear
 gen str8 bin = cond(inrange(fmly_level,6,7), "[6,7]", cond(inrange(fmly_level,8,10), "[8,10]", string(fmly_level)))

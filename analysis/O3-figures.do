@@ -8,8 +8,8 @@ log using "${LOG_PATH}Figures_${MODEL_TYPE}_`logdate'.log", replace
 **	Author:		Ian McCarthy
 **	Date Created:	2/25/2026
 **	Notes:		Parameterized by global MODEL_TYPE (Myopic or FWD).
-**			Extracted from O2-structural-summary.do Sections C/D
-**			plus alpha/distance histograms.
+**			Loads CounterFactualsSummary and CounterFactualsSpec
+**			from O2 for all HRR-level and specialist-level plots.
 ******************************************************************
 
 ** Derive locals from globals
@@ -50,7 +50,7 @@ foreach eta in 1 5 {
 
 
 ******************************************************************
-** Paper figures: partial effects and counterfactual histograms
+** Partial effect histograms
 
 foreach eta in 1 5 {
 	use "${RESULTS_FINAL}MarginalEffects_`model'`eta'.dta", clear
@@ -67,19 +67,15 @@ foreach eta in 1 5 {
 	graph export "${RESULTS_FINAL}Mean_Partial_FX_Failure_`model'_eta`eta'.png", as(png) replace
 }
 
-** Summarize counterfactuals: effects on reallocation and ex ante patient health
+
+******************************************************************
+** Counterfactual histograms: all markets
 
 foreach eta in 1 5 {
-	use "${RESULTS_FINAL}CounterFactuals_`model'`eta'.dta", clear
-	gen success_diff_full=success_prob1_full-success_prob0
-	gen success_diff_current=success_prob1_current-success_prob0
-	gen success_diff_fullfam=success_prob1_fullfam-success_prob0
-
-	collapse (mean) success_prob0 success_diff_full success_diff_current success_diff_fullfam pij_diff_full pij_diff_current pij_diff_fullfam, by(hrr)
+	use "${RESULTS_FINAL}CounterFactualsSummary_`model'`eta'.dta", clear
 	merge 1:1 hrr using hrr_size, nogenerate keep(master match)
 
-	sum pij_diff_full pij_diff_current pij_diff_fullfam success_diff_full success_diff_current success_diff_fullfam [aweight=patients], detail
-
+	** reallocation histograms
 	hist pij_diff_full [weight=patients], fraction color(gray) ///
 		ytitle("Relative Frequency") xscale(range(0 1)) xlabel(0(0.1)1) xtitle("Reallocation with Full Info., {&eta}=`eta'") legend(off)
 	graph save "${RESULTS_FINAL}Reallocation_Full_`model'_eta`eta'", replace
@@ -95,52 +91,54 @@ foreach eta in 1 5 {
 	graph save "${RESULTS_FINAL}Reallocation_FullFam_`model'_eta`eta'", replace
 	graph export "${RESULTS_FINAL}Reallocation_FullFam_`model'_eta`eta'.png", as(png) replace
 
-	replace success_diff_full=-0.01 if success_diff_full<-0.01
-	replace success_diff_full=0.01 if success_diff_full>0.01
-	hist success_diff_full [weight=patients], fraction color(gray) width(0.001) ///
+	** health effect histograms
+	gen health_full_t = health_full
+	gen health_current_t = health_current
+	gen health_fullfam_t = health_fullfam
+
+	replace health_full_t=-0.01 if health_full_t<-0.01
+	replace health_full_t=0.01 if health_full_t>0.01
+	hist health_full_t [weight=patients], fraction color(gray) width(0.001) ///
 		ylabel(0(.1).5) ///
 		xlabel(-0.01(0.005)0.01 0.01 ">0.01" -0.01 "<-0.01", add) ///
 		ytitle("Relative Frequency") xtitle("Health Effects of Full Info, {&eta}=`eta'") legend(off)
 	graph save "${RESULTS_FINAL}Mean_Health_FX_Full_`model'_eta`eta'", replace
 	graph export "${RESULTS_FINAL}Mean_Health_FX_Full_`model'_eta`eta'.png", as(png) replace
 
-	replace success_diff_current=-0.01 if success_diff_current<-0.01
-	replace success_diff_current=0.01 if success_diff_current>0.01
-	hist success_diff_current [weight=patients], fraction color(gray) width(0.001) ///
+	replace health_current_t=-0.01 if health_current_t<-0.01
+	replace health_current_t=0.01 if health_current_t>0.01
+	hist health_current_t [weight=patients], fraction color(gray) width(0.001) ///
 		ylabel(0(.1).5) ///
 		xlabel(-0.01(0.005)0.01 0.01 ">0.01" -0.01 "<-0.01", add) ///
 		ytitle("Relative Frequency") xtitle("Health Effects of Current Info, {&eta}=`eta'") legend(off)
 	graph save "${RESULTS_FINAL}Mean_Health_FX_Current_`model'_eta`eta'", replace
 	graph export "${RESULTS_FINAL}Mean_Health_FX_Current_`model'_eta`eta'.png", as(png) replace
 
-	replace success_diff_fullfam=-0.01 if success_diff_fullfam<-0.01
-	replace success_diff_fullfam=0.01 if success_diff_fullfam>0.01
-	hist success_diff_fullfam [weight=patients], fraction color(gray) width(0.001) ///
+	replace health_fullfam_t=-0.01 if health_fullfam_t<-0.01
+	replace health_fullfam_t=0.01 if health_fullfam_t>0.01
+	hist health_fullfam_t [weight=patients], fraction color(gray) width(0.001) ///
 		ylabel(0(.1).5) ///
 		xlabel(-0.01(0.005)0.01 0.01 ">0.01" -0.01 "<-0.01", add) ///
 		ytitle("Relative Frequency") xtitle("Health Effects of Full Info and No Familiarity, {&eta}=`eta'") legend(off)
 	graph save "${RESULTS_FINAL}Mean_Health_FX_FullFam_`model'_eta`eta'", replace
 	graph export "${RESULTS_FINAL}Mean_Health_FX_FullFam_`model'_eta`eta'.png", as(png) replace
 
+	drop health_full_t health_current_t health_fullfam_t
 }
 
 
 ******************************************************************
-** Diagnostic figures: NC variants and volume changes
-
-** Summarize counterfactuals dropping non-converging markets
+** Counterfactuals for alpha>0 markets only
 
 foreach eta in 1 5 {
-	use "${RESULTS_FINAL}CounterFactuals_`model'`eta'.dta", clear
-	gen success_diff_full=success_prob1_full-success_prob0
-	gen success_diff_current=success_prob1_current-success_prob0
-	gen success_diff_fullfam=success_prob1_fullfam-success_prob0
-
-	drop if no_equil_full==1
-	collapse (mean) success_prob0 success_diff_full success_diff_current success_diff_fullfam pij_diff_full pij_diff_current pij_diff_fullfam, by(hrr)
+	use "${RESULTS_FINAL}CounterFactualsSummary_`model'`eta'.dta", clear
 	merge 1:1 hrr using hrr_size, nogenerate keep(master match)
 
-	sum pij_diff_full pij_diff_current pij_diff_fullfam success_diff_full success_diff_current success_diff_fullfam [aweight=patients], detail
+	** Type 2: alpha>0 markets only
+	preserve
+	keep if coef_m>0
+
+	sum pij_diff_full pij_diff_current pij_diff_fullfam health_full health_current health_fullfam [aweight=patients], detail
 
 	hist pij_diff_full [weight=patients], fraction color(gray) ///
 		ytitle("Relative Frequency") xscale(range(0 1)) xlabel(0(0.1)1) xtitle("Reallocation with Full Info., {&eta}=`eta'") legend(off)
@@ -157,37 +155,82 @@ foreach eta in 1 5 {
 	graph save "${RESULTS_FINAL}ReallocationNC_FullFam_`model'_eta`eta'", replace
 	graph export "${RESULTS_FINAL}ReallocationNC_FullFam_`model'_eta`eta'.png", as(png) replace
 
-	replace success_diff_full=-0.01 if success_diff_full<-0.01
-	replace success_diff_full=0.01 if success_diff_full>0.01
-	hist success_diff_full [weight=patients], fraction color(gray) width(0.001) ///
+	gen health_full_t = health_full
+	gen health_current_t = health_current
+	gen health_fullfam_t = health_fullfam
+
+	replace health_full_t=-0.01 if health_full_t<-0.01
+	replace health_full_t=0.01 if health_full_t>0.01
+	hist health_full_t [weight=patients], fraction color(gray) width(0.001) ///
 		ylabel(0(.1).5) ///
 		xlabel(-0.01(0.005)0.01 0.01 ">0.01" -0.01 "<-0.01", add) ///
 		ytitle("Relative Frequency") xtitle("Health Effects of Full Info, {&eta}=`eta'") legend(off)
 	graph save "${RESULTS_FINAL}Mean_Health_FXNC_Full_`model'_eta`eta'", replace
 	graph export "${RESULTS_FINAL}Mean_Health_FXNC_Full_`model'_eta`eta'.png", as(png) replace
 
-	replace success_diff_current=-0.01 if success_diff_current<-0.01
-	replace success_diff_current=0.01 if success_diff_current>0.01
-	hist success_diff_current [weight=patients], fraction color(gray) width(0.001) ///
+	replace health_current_t=-0.01 if health_current_t<-0.01
+	replace health_current_t=0.01 if health_current_t>0.01
+	hist health_current_t [weight=patients], fraction color(gray) width(0.001) ///
 		ylabel(0(.1).5) ///
 		xlabel(-0.01(0.005)0.01 0.01 ">0.01" -0.01 "<-0.01", add) ///
 		ytitle("Relative Frequency") xtitle("Health Effects of Current Info, {&eta}=`eta'") legend(off)
 	graph save "${RESULTS_FINAL}Mean_Health_FXNC_Current_`model'_eta`eta'", replace
 	graph export "${RESULTS_FINAL}Mean_Health_FXNC_Current_`model'_eta`eta'.png", as(png) replace
 
-	replace success_diff_fullfam=-0.01 if success_diff_fullfam<-0.01
-	replace success_diff_fullfam=0.01 if success_diff_fullfam>0.01
-	hist success_diff_fullfam [weight=patients], fraction color(gray) width(0.001) ///
+	replace health_fullfam_t=-0.01 if health_fullfam_t<-0.01
+	replace health_fullfam_t=0.01 if health_fullfam_t>0.01
+	hist health_fullfam_t [weight=patients], fraction color(gray) width(0.001) ///
 		ylabel(0(.1).5) ///
 		xlabel(-0.01(0.005)0.01 0.01 ">0.01" -0.01 "<-0.01", add) ///
 		ytitle("Relative Frequency") xtitle("Health Effects of Full Info and No Familiarity, {&eta}=`eta'") legend(off)
 	graph save "${RESULTS_FINAL}Mean_Health_FXNC_FullFam_`model'_eta`eta'", replace
 	graph export "${RESULTS_FINAL}Mean_Health_FXNC_FullFam_`model'_eta`eta'.png", as(png) replace
 
+	restore
+
+	** Type 3: gradient of reallocation and health effects by alpha (alpha>0 only)
+	preserve
+	keep if coef_m>0
+	xtile alpha_bin=coef_m [aweight=patients], nq(20)
+	collapse (mean) pij_diff_full health_full coef_m [aweight=patients], by(alpha_bin)
+
+	twoway scatter pij_diff_full coef_m, color(gray) msymbol(circle) ///
+		ytitle("Reallocation with Full Info.") xtitle("{&alpha}, {&eta}=`eta'") legend(off)
+	graph save "${RESULTS_FINAL}Gradient_Reallocation_Full_`model'_eta`eta'", replace
+	graph export "${RESULTS_FINAL}Gradient_Reallocation_Full_`model'_eta`eta'.png", as(png) replace
+
+	twoway scatter health_full coef_m, color(gray) msymbol(circle) ///
+		ytitle("Health Effects of Full Info.") xtitle("{&alpha}, {&eta}=`eta'") legend(off)
+	graph save "${RESULTS_FINAL}Gradient_HealthFX_Full_`model'_eta`eta'", replace
+	graph export "${RESULTS_FINAL}Gradient_HealthFX_Full_`model'_eta`eta'.png", as(png) replace
+	restore
+
+	** Type 4: health effects by FE-quality correlation
+	preserve
+	keep if coef_m>0 & corr_fe_qual!=.
+	gen fe_qual_pos = (corr_fe_qual>0)
+	label define fql 0 "Neg corr(FE,qual)" 1 "Pos corr(FE,qual)"
+	label values fe_qual_pos fql
+
+	twoway (scatter health_full corr_fe_qual [aweight=patients], msymbol(circle_hollow) mcolor(gray)) ///
+		(lfit health_full corr_fe_qual [aweight=patients], lcolor(black) lwidth(medthick)), ///
+		ytitle("Health Effects of Full Info.") xtitle("Corr({&xi}, quality), {&eta}=`eta'") legend(off)
+	graph save "${RESULTS_FINAL}HealthFX_by_FEQual_Full_`model'_eta`eta'", replace
+	graph export "${RESULTS_FINAL}HealthFX_by_FEQual_Full_`model'_eta`eta'.png", as(png) replace
+
+	twoway (scatter health_fullfam corr_fe_qual [aweight=patients], msymbol(circle_hollow) mcolor(gray)) ///
+		(lfit health_fullfam corr_fe_qual [aweight=patients], lcolor(black) lwidth(medthick)), ///
+		ytitle("Health Effects of Full Info, No Familiarity") xtitle("Corr({&xi}, quality), {&eta}=`eta'") legend(off)
+	graph save "${RESULTS_FINAL}HealthFX_by_FEQual_FullFam_`model'_eta`eta'", replace
+	graph export "${RESULTS_FINAL}HealthFX_by_FEQual_FullFam_`model'_eta`eta'.png", as(png) replace
+	restore
+
 }
 
 
-** examine changes in specialist volume
+******************************************************************
+** Specialist volume changes
+
 use "${DATA_FINAL}ChoiceEstData_Summary.dta", clear
 bys Specialist_ID hrr: gen obs=_n
 bys Specialist_ID hrr: egen spec_patients=sum(choice)
@@ -236,7 +279,7 @@ foreach eta in 1 5 {
 
 }
 
-** examine changes in specialist volume, removing non-converging markets
+** specialist volume changes, removing non-converging markets
 use "${DATA_FINAL}ChoiceEstData_Summary.dta", clear
 bys Specialist_ID hrr: gen obs=_n
 bys Specialist_ID hrr: egen spec_patients=sum(choice)
@@ -268,7 +311,6 @@ foreach eta in 1 5 {
 		ytitle("Relative Frequency") xtitle("Relative Change in Patient Volume, {&eta}=`eta'") legend(off)
 	graph save "${RESULTS_FINAL}VolumeChangeNC_FullFam_`model'_eta`eta'", replace
 	graph export "${RESULTS_FINAL}VolumeChangeNC_FullFam_`model'_eta`eta'.png", as(png) replace
-
 
 	sum diff_full, detail
 	replace diff_full=-100 if diff_full<-100

@@ -69,3 +69,9 @@ log close
 log using "${LOG_PATH}BuildChoiceData_`logdate'.log", replace
 do "${CODE_FILES}C0_BuildChoiceData.do"
 log close
+
+
+** Specialist capacity data
+log using "${LOG_PATH}SpecialistCapacity_`logdate'.log", replace
+do "${CODE_FILES}S1_SpecialistCapacity.do"
+log close

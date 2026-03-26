@@ -198,7 +198,7 @@ local cap_pct = strtrim("`cap_pct'")
 
 ** Choice set and market stats (from post-filter estimation data)
 use "${DATA_FINAL}ChoiceEstData_Summary.dta", clear
-qui bys casevar: gen _cs = _N if _n==1
+qui bys hrr casevar: gen _cs = _N if _n==1
 qui sum _cs
 local mean_cs: di %2.0f r(mean)
 local mean_cs = strtrim("`mean_cs'")
@@ -296,30 +296,36 @@ foreach model_type in Myopic FWD {
 	local mean_pi = abs(r(mean))
 	local alpha_dist: di %3.2f `mean_alpha'/`mean_pi'
 
-	** mean reallocation
-	use "${RESULTS_FINAL}CounterFactuals_`model'5.dta", clear
-	gen success_diff_full=success_prob1_full-success_prob0
-	collapse (mean) pij_diff_full success_diff_full, by(hrr)
-	merge 1:1 hrr using hrr_size, nogenerate keep(master match)
-	qui sum pij_diff_full [aweight=patients]
-	local realloc_mean: di %4.2f 100*r(mean)
-	local realloc_mean = strtrim("`realloc_mean'")
-	qui sum success_diff_full [aweight=patients]
-	local health_mean: di %4.2f 100*r(mean)
-	local health_mean = strtrim("`health_mean'")
+	** mean reallocation and health effects (conditional on alpha>0)
+	foreach eta in 1 5 {
+		use "${RESULTS_FINAL}CounterFactualsSummary_`model'`eta'.dta", clear
+		merge 1:1 hrr using hrr_size, nogenerate keep(master match)
+		keep if coef_m>0
 
+		** Full info counterfactual
+		qui sum pij_diff_full [aweight=patients]
+		local realloc_mean_`eta': di %4.2f 100*r(mean)
+		local realloc_mean_`eta' = strtrim("`realloc_mean_`eta''")
+		qui sum health_full [aweight=patients]
+		local health_mean_`eta': di %4.2f 100*r(mean)
+		local health_mean_`eta' = strtrim("`health_mean_`eta''")
 
-	** mean reallocation — FullFam counterfactual
-	use "${RESULTS_FINAL}CounterFactuals_`model'5.dta", clear
-	gen success_diff_fullfam=success_prob1_fullfam-success_prob0
-	collapse (mean) pij_diff_fullfam success_diff_fullfam, by(hrr)
-	merge 1:1 hrr using hrr_size, nogenerate keep(master match)
-	qui sum pij_diff_fullfam [aweight=patients]
-	local realloc_ff: di %4.2f 100*r(mean)
-	local realloc_ff = strtrim("`realloc_ff'")
-	qui sum success_diff_fullfam [aweight=patients]
-	local health_ff: di %4.2f 100*r(mean)
-	local health_ff = strtrim("`health_ff'")
+		** FullFam counterfactual
+		qui sum pij_diff_fullfam [aweight=patients]
+		local realloc_ff_`eta': di %4.2f 100*r(mean)
+		local realloc_ff_`eta' = strtrim("`realloc_ff_`eta''")
+		qui sum health_fullfam [aweight=patients]
+		local health_ff_`eta': di %4.2f 100*r(mean)
+		local health_ff_`eta' = strtrim("`health_ff_`eta''")
+
+		** Current info counterfactual
+		qui sum pij_diff_current [aweight=patients]
+		local realloc_cur_`eta': di %4.2f 100*r(mean)
+		local realloc_cur_`eta' = strtrim("`realloc_cur_`eta''")
+		qui sum health_current [aweight=patients]
+		local health_cur_`eta': di %4.2f 100*r(mean)
+		local health_cur_`eta' = strtrim("`health_cur_`eta''")
+	}
 
 
 	** mean partial effect of one failure (excluding alpha=0 HRRs)
@@ -344,10 +350,26 @@ foreach model_type in Myopic FWD {
 	local pfx_rel = strtrim("`pfx_rel'")
 
 
-	file write numfh "\newcommand{\reallocationMean`model'}{`realloc_mean'}" _n
-	file write numfh "\newcommand{\healthFXMean`model'}{`health_mean'}" _n
-	file write numfh "\newcommand{\reallocationMeanFullFam`model'}{`realloc_ff'}" _n
-	file write numfh "\newcommand{\healthFXMeanFullFam`model'}{`health_ff'}" _n
+	** eta=1 counterfactual numbers
+	file write numfh "\newcommand{\reallocationMeanEtaOne`model'}{`realloc_mean_1'}" _n
+	file write numfh "\newcommand{\healthFXMeanEtaOne`model'}{`health_mean_1'}" _n
+	file write numfh "\newcommand{\reallocationMeanCurrentEtaOne`model'}{`realloc_cur_1'}" _n
+	file write numfh "\newcommand{\healthFXMeanCurrentEtaOne`model'}{`health_cur_1'}" _n
+	file write numfh "\newcommand{\reallocationMeanFullFamEtaOne`model'}{`realloc_ff_1'}" _n
+	file write numfh "\newcommand{\healthFXMeanFullFamEtaOne`model'}{`health_ff_1'}" _n
+	** eta=5 counterfactual numbers
+	file write numfh "\newcommand{\reallocationMeanEtaFive`model'}{`realloc_mean_5'}" _n
+	file write numfh "\newcommand{\healthFXMeanEtaFive`model'}{`health_mean_5'}" _n
+	file write numfh "\newcommand{\reallocationMeanCurrentEtaFive`model'}{`realloc_cur_5'}" _n
+	file write numfh "\newcommand{\healthFXMeanCurrentEtaFive`model'}{`health_cur_5'}" _n
+	file write numfh "\newcommand{\reallocationMeanFullFamEtaFive`model'}{`realloc_ff_5'}" _n
+	file write numfh "\newcommand{\healthFXMeanFullFamEtaFive`model'}{`health_ff_5'}" _n
+	** backward-compatible aliases (eta=5, used in existing paper text)
+	file write numfh "\newcommand{\reallocationMean`model'}{`realloc_mean_5'}" _n
+	file write numfh "\newcommand{\healthFXMean`model'}{`health_mean_5'}" _n
+	file write numfh "\newcommand{\reallocationMeanFullFam`model'}{`realloc_ff_5'}" _n
+	file write numfh "\newcommand{\healthFXMeanFullFam`model'}{`health_ff_5'}" _n
+	** other structural numbers
 	file write numfh "\newcommand{\partialFXNonzero`model'}{`pfx_nonzero'}" _n
 	file write numfh "\newcommand{\partialFXAll`model'}{`pfx_all'}" _n
 	file write numfh "\newcommand{\partialFXBase`model'}{`pr_base_pct'}" _n

@@ -104,7 +104,7 @@ foreach model_type in Myopic FWD {
 			(lfit tot_hat yhat_hat [aweight=reg_weight], lcolor(black) lwidth(medthick)), ///
 			ytitle("Actual patients (residualized)") ///
 			xtitle("Predicted patients (residualized)") ///
-			legend(off) title("`model', {&eta}=`eta'")
+			legend(off)
 		graph save "${RESULTS_FINAL}FirstStage_Scatter_`model'_eta`eta'_`r_type'", replace
 		graph export "${RESULTS_FINAL}FirstStage_Scatter_`model'_eta`eta'_`r_type'.png", as(png) replace
 
@@ -180,7 +180,7 @@ foreach model_type in Myopic FWD {
 			ylabel(0(.1).5) ///
 			ytitle("Relative Frequency") ///
 			xtitle("First-stage F-statistic, {&eta}=`eta'") ///
-			legend(off) title("`model'")
+			legend(off)
 		graph save "${RESULTS_FINAL}FirstStage_Fstat_`model'_eta`eta'_`r_type'", replace
 		graph export "${RESULTS_FINAL}FirstStage_Fstat_`model'_eta`eta'_`r_type'.png", as(png) replace
 	}

@@ -220,16 +220,19 @@ foreach v of varlist rfr_missing rfr_self rfr_nonpcp rfr_pcp lookback {
 gen cum1 = rfr_pcp
 gen cum2 = cum1 + rfr_nonpcp
 gen cum3 = cum2 + rfr_self
+gen zero = 0
+gen hundred = 100
 
-twoway (rbar 0 cum1 Year, barw(0.7) color(dkgreen%70)) ///
-	(rbar cum1 cum2 Year, barw(0.7) color(orange%70)) ///
-	(rbar cum2 cum3 Year, barw(0.7) color(cranberry%70)) ///
-	(rbar cum3 100 Year, barw(0.7) color(gray%40)) ///
-	(connected lookback Year, color(navy) lwidth(medthick) msymbol(circle) msize(medium)), ///
+twoway (rbar zero cum1 Year, barw(0.7) color(black%80)) ///
+	(rbar cum1 cum2 Year, barw(0.7) color(gs6%70)) ///
+	(rbar cum2 cum3 Year, barw(0.7) color(gs10%70)) ///
+	(rbar cum3 hundred Year, barw(0.7) color(gs14%40)) ///
+	(connected lookback Year, color(black) lwidth(medthick) msymbol(circle) msize(medium)), ///
 	ytitle("Share of Procedures (%)") xtitle("") ///
 	ylabel(0(20)100) xlabel(2013(1)2018) ///
-	legend(order(1 "PCP" 2 "Non-PCP Specialist" 3 "Self-Referral (Surgeon)" 4 "Not Populated" 5 "Lookback PCP Coverage") ///
-		rows(2) position(6) size(small))
+	text(85 2013 "Lookback Coverage", size(vsmall) color(black) placement(e)) ///
+	legend(on order(1 "PCP" 2 "Non-PCP Spec." 3 "Self-Referral" 4 "Not Populated") ///
+		rows(1) position(6) size(vsmall))
 
 graph save "${RESULTS_BASE}PCP_Validation_Figure", replace
 graph export "${RESULTS_BASE}PCP_Validation_Figure.png", as(png) replace

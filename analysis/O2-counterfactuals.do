@@ -41,6 +41,10 @@ foreach eta_val in 1 5 {
 ******************************************************************
 ** Partial effects and counterfactual calculations
 
+** clear progress tracker from any prior run
+capture erase "${RESULTS_FINAL}cf_progress_`model'.dta"
+capture erase "${RESULTS_FINAL}cf_progress_`model'.csv"
+
 use "${DATA_FINAL}ChoiceEstData_Summary.dta", clear
 sort Practice_ID Specialist_ID referral
 by Practice_ID Specialist_ID: gen obs=_n
@@ -174,7 +178,7 @@ foreach eta in 1 5 {
 
 			** simulate counterfactual - full quality information and no familiarity effect
 			gen m=spec_qual
-			gen pred_equil=0
+			gen pred_equil=tot_patients
 			replace fmly_agg=0
 			quietly converge pred_equil
 			rename pij pij_full_fam
@@ -183,8 +187,116 @@ foreach eta in 1 5 {
 
 			keep Practice_ID Specialist_ID casevar choice hrr pr_j pr_j_0 pr_j_m0 pr_j_alt pij_full pij_current pij_full_fam mfx_m pfx_m pfx_fam pfx_m0 m_orig spec_qual spec_qual_run ///
 				patients tot_patients pair_success_run pair_patients_run spec_patients_run spec_failures_run ///
-				pcp_patients_run pcp_failures_run common_ref hrr no_equil* coef_m
+				pcp_patients_run pcp_failures_run common_ref hrr no_equil* coef_m xi_j
 			save cf_hrr`h'_eta`eta', replace
+
+			** HRR-level summary for progress tracking and later analysis
+
+			** Step 1: specialist-level diagnostics (before patient-level collapse)
+			** Note: already inside preserve from HRR loop, so use tempfile instead of nested preserve
+			tempfile patient_data
+			save `patient_data'
+			collapse (sum) pred_pat0=pr_j pred_pat_full=pij_full ///
+				pred_pat_current=pij_current pred_pat_fullfam=pij_full_fam ///
+				(first) xi_j spec_qual coef_m tot_patients, by(Specialist_ID hrr)
+
+			** number of specialists
+			qui count
+			local n_specs = r(N)
+
+			** FE-quality correlation (guard against too few specialists)
+			if `n_specs'>=5 {
+				qui corr xi_j spec_qual
+				local corr_fe_qual = r(rho)
+			}
+			else {
+				local corr_fe_qual = .
+			}
+
+			** FE dispersion
+			qui sum xi_j
+			local fe_sd = r(sd)
+			local fe_range = r(max) - r(min)
+
+			** quality dispersion
+			qui sum spec_qual
+			local qual_sd = r(sd)
+
+			** reallocation direction: patient-weighted quality change
+			gen delta_full = pred_pat_full - pred_pat0
+			gen delta_current = pred_pat_current - pred_pat0
+			gen delta_fullfam = pred_pat_fullfam - pred_pat0
+			if `n_specs'>=5 {
+				qui corr delta_full spec_qual
+				local corr_realloc_qual_full = r(rho)
+				qui corr delta_fullfam spec_qual
+				local corr_realloc_qual_fullfam = r(rho)
+			}
+			else {
+				local corr_realloc_qual_full = .
+				local corr_realloc_qual_fullfam = .
+			}
+
+			** share of reallocation going to above-median quality specialists
+			qui sum spec_qual, detail
+			local qual_med = r(p50)
+			gen highqual = (spec_qual > `qual_med')
+			qui sum delta_full if highqual==1
+			local realloc_to_highq_full = r(sum)
+			qui sum delta_full if highqual==0
+			local realloc_to_lowq_full = r(sum)
+			qui sum delta_fullfam if highqual==1
+			local realloc_to_highq_fullfam = r(sum)
+			qui sum delta_fullfam if highqual==0
+			local realloc_to_lowq_fullfam = r(sum)
+
+			** mean FE for high vs low quality specialists
+			qui sum xi_j if highqual==1
+			local fe_mean_highqual = r(mean)
+			qui sum xi_j if highqual==0
+			local fe_mean_lowqual = r(mean)
+
+			use `patient_data', clear
+
+			** Step 2: patient-level health effects
+			gen success_prob0=pr_j*spec_qual
+			gen success_prob1_full=pij_full*spec_qual
+			gen success_prob1_current=pij_current*spec_qual
+			gen success_prob1_fullfam=pij_full_fam*spec_qual
+			gen pij_diff_full=abs(pij_full-pr_j)/2
+			gen pij_diff_current=abs(pij_current-pr_j)/2
+			gen pij_diff_fullfam=abs(pij_full_fam-pr_j)/2
+			collapse (first) hrr coef_m (sum) success_prob0 success_prob1_full success_prob1_current success_prob1_fullfam pij_diff_full pij_diff_current pij_diff_fullfam pr_j, by(casevar)
+			collapse (mean) coef_m pij_diff_full pij_diff_current pij_diff_fullfam (mean) health_full=success_prob1_full health_current=success_prob1_current health_fullfam=success_prob1_fullfam health_base=success_prob0 (count) n_cases=casevar, by(hrr)
+			replace health_full=health_full-health_base
+			replace health_current=health_current-health_base
+			replace health_fullfam=health_fullfam-health_base
+
+			** Step 3: attach specialist-level diagnostics
+			gen corr_fe_qual = `corr_fe_qual'
+			gen fe_sd = `fe_sd'
+			gen fe_range = `fe_range'
+			gen qual_sd = `qual_sd'
+			gen corr_realloc_qual_full = `corr_realloc_qual_full'
+			gen corr_realloc_qual_fullfam = `corr_realloc_qual_fullfam'
+			gen realloc_to_highq_full = `realloc_to_highq_full'
+			gen realloc_to_lowq_full = `realloc_to_lowq_full'
+			gen realloc_to_highq_fullfam = `realloc_to_highq_fullfam'
+			gen realloc_to_lowq_fullfam = `realloc_to_lowq_fullfam'
+			gen fe_mean_highqual = `fe_mean_highqual'
+			gen fe_mean_lowqual = `fe_mean_lowqual'
+			gen n_specs = `n_specs'
+
+			gen eta=`eta'
+			save cf_summary_hrr`h'_eta`eta', replace
+
+			** running progress tracker (overwritten each HRR for mid-run monitoring)
+			capture confirm file "${RESULTS_FINAL}cf_progress_`model'.dta"
+			if _rc==0 {
+				append using "${RESULTS_FINAL}cf_progress_`model'.dta"
+			}
+			save "${RESULTS_FINAL}cf_progress_`model'.dta", replace
+			outsheet using "${RESULTS_FINAL}cf_progress_`model'.csv", comma replace
 		}
 		restore
 	}
@@ -254,7 +366,8 @@ foreach eta in 1 5 {
 
 			** specialist level summary
 			collapse (sum) pred_patients0=pr_j pred_patients_full=pij_full no_equil_* ///
-				pred_patients_current=pij_current pred_patients_fullfam=pij_full_fam, by(Specialist_ID hrr)
+				pred_patients_current=pij_current pred_patients_fullfam=pij_full_fam ///
+				(first) xi_j spec_qual coef_m tot_patients, by(Specialist_ID hrr)
 			gen hrr_group=`i'
 			gen eta=`eta'
 			save cf_spec_hrr`i'_eta`eta', replace
@@ -267,7 +380,7 @@ foreach eta in 1 5 {
 
 foreach eta in 1 5 {
 	local step=0
-	foreach x of newlist fx_top fx_any cf_sum cf_spec {
+	foreach x of newlist fx_top fx_any cf_sum cf_spec cf_summary {
 		forvalues i=1/`hrr_agg' {
 			capture confirm file "cf_hrr`i'_eta`eta'.dta"
 			if _rc==0 {
@@ -296,7 +409,13 @@ foreach eta in 1 5 {
 
 	use cf_spec`eta', clear
 	save "${RESULTS_FINAL}CounterFactualsSpec_`model'`eta'.dta", replace
+	outsheet using "${RESULTS_FINAL}CounterFactualsSpec_`model'`eta'.csv", comma replace
 	erase cf_spec`eta'.dta
+
+	use cf_summary`eta', clear
+	save "${RESULTS_FINAL}CounterFactualsSummary_`model'`eta'.dta", replace
+	outsheet using "${RESULTS_FINAL}CounterFactualsSummary_`model'`eta'.csv", comma replace
+	erase cf_summary`eta'.dta
 }
 
 
