@@ -1,9 +1,15 @@
 # Presentations
 
-- [UNC, November 2021](https://raw.githack.com/imccart/referrals-and-learning/main/presentations/qmd/unc-202111.html). I presented preliminary results as a seminar at UNC, Chapel Hill. What a great place! Big thanks to [Qing Gong](https://econ.unc.edu/directory/qinggong/) for the invitation.
-
-- [IU, February 2022](https://raw.githack.com/imccart/referrals-and-learning/main/presentations/qmd/iu-202202.html). I presented some marginally less preliminary results as a seminar at IU, Bloomington. Always great to make it back to Bloomington! Thank you to the incredible [Kosali Simon](https://oneill.indiana.edu/faculty-research/directory/profiles/faculty/full-time/simon-kosali.html) for the invitation.
-
-- [UGA, October 2023](https://raw.githack.com/imccart/referrals-and-learning/main/presentations/qmd/uga-202310.html). Updated presentation with the beginnings of a real paper! Thanks to  [Eli Sellinger-Liebman](https://sites.google.com/site/elibliebman/) for the invitation.
-
-- [AAHE, September 2025](https://raw.githack.com/imccart/referrals-and-learning/main/presentations/tex/aahe-2025.pdf). Presented at the American Association of Health Economists annual conference.
+- UNC Chapel Hill, November 2021. Seminar.
+- Indiana University, February 2022. Seminar.
+- ASHEcon, June 2022. Conference presentation.
+- Tinbergen Institute, December 2022. Seminar.
+- Johns Hopkins University, May 2023. Seminar.
+- UGA, October 2023. Seminar.
+- SHESG (Southeastern Health Economics Study Group), October 2023. Conference presentation.
+- MHEC (Midwest Health Economics Conference), September 2024. Conference presentation.
+- SEA Annual Meeting, November 2024. Conference presentation.
+- AAHE (Atlanta Area Health Economics) Research Conference, September 2025. Conference presentation.
+- Conference in Honor of Marty Gaynor, May 2025.
+- Fordham University, October 2025. Seminar.
+- University of Arkansas, March 2026. Seminar.
