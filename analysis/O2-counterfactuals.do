@@ -45,6 +45,18 @@ foreach eta_val in 1 5 {
 capture erase "${RESULTS_FINAL}cf_progress_`model'.dta"
 capture erase "${RESULTS_FINAL}cf_progress_`model'.csv"
 
+** clean up any leftover temp files from prior runs
+forvalues i=1/500 {
+	foreach eta in 1 5 {
+		capture erase "cf_hrr`i'_eta`eta'.dta"
+		capture erase "cf_summary_hrr`i'_eta`eta'.dta"
+		capture erase "fx_top_hrr`i'_eta`eta'.dta"
+		capture erase "fx_any_hrr`i'_eta`eta'.dta"
+		capture erase "cf_sum_hrr`i'_eta`eta'.dta"
+		capture erase "cf_spec_hrr`i'_eta`eta'.dta"
+	}
+}
+
 use "${DATA_FINAL}ChoiceEstData_Summary.dta", clear
 sort Practice_ID Specialist_ID referral
 by Practice_ID Specialist_ID: gen obs=_n
