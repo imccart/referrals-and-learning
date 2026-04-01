@@ -242,6 +242,11 @@ save temp_coeff_rho, replace
 use temp_coeff_rho, clear
 merge m:1 hrr using temp_choice_data, nogenerate
 save "${RESULTS_FINAL}`coef_prefix'_SummaryHRR.dta", replace
+** mask small cell sizes for export
+replace tot_spec=. if tot_spec<=11
+replace tot_pcp=. if tot_pcp<=11
+replace spec_total=. if spec_total<=11
+replace pcp_total=. if pcp_total<=11
 outsheet using "${RESULTS_FINAL}`coef_prefix'_SummaryHRR.csv", comma replace
 
 collapse (p50) like=log_like (mean) tot_spec tot_pcp patients rho ///
@@ -519,7 +524,7 @@ outfile line using "${RESULTS_FINAL}`model'Coefficient_Table.tex", noquote repla
 
 
 ******************************************************************
-** Save IV scalars for O2-counterfactuals.do
+** Save IV scalars for O2-baseline.do
 clear
 set obs 2
 gen eta = .

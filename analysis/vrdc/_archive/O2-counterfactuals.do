@@ -413,10 +413,12 @@ foreach eta in 1 5 {
 foreach eta in 1 5 {
 	use fx_any`eta', clear
 	save "${RESULTS_FINAL}MarginalEffects_`model'`eta'.dta", replace
+	outsheet using "${RESULTS_FINAL}MarginalEffects_`model'`eta'.csv", comma replace
 	erase fx_any`eta'.dta
 
 	use cf_sum`eta', clear
 	save "${RESULTS_FINAL}CounterFactuals_`model'`eta'.dta", replace
+	outsheet using "${RESULTS_FINAL}CounterFactuals_`model'`eta'.csv", comma replace
 	erase cf_sum`eta'.dta
 
 	use cf_spec`eta', clear

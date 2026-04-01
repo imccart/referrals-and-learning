@@ -89,20 +89,30 @@ do "${CODE_FILES}A5-structural-estimation.do"
 
 global MODEL_TYPE "Myopic"
 do "${CODE_FILES}O1-coef-tables.do"
-do "${CODE_FILES}O2-counterfactuals.do"
-do "${CODE_FILES}O3-figures.do"
+do "${CODE_FILES}O2-baseline.do"
+do "${CODE_FILES}O5-model-diagnostics.do"
+do "${CODE_FILES}O2-cf-full.do"
+do "${CODE_FILES}O2-cf-current.do"
+do "${CODE_FILES}O2-cf-fullfam.do"
+do "${CODE_FILES}O2-cf-fullnofe.do"
+do "${CODE_FILES}O4-VRDC-figures.do"
 
 ** Structural output — Forward-looking
 
 global MODEL_TYPE "FWD"
 do "${CODE_FILES}O1-coef-tables.do"
-do "${CODE_FILES}O2-counterfactuals.do"
-do "${CODE_FILES}O3-figures.do"
+do "${CODE_FILES}O2-baseline.do"
+do "${CODE_FILES}O5-model-diagnostics.do"
+do "${CODE_FILES}O2-cf-full.do"
+do "${CODE_FILES}O2-cf-current.do"
+do "${CODE_FILES}O2-cf-fullfam.do"
+do "${CODE_FILES}O2-cf-fullnofe.do"
+do "${CODE_FILES}O4-VRDC-figures.do"
 
 ******************************************************************
 ** Paper numbers and supplemental diagnostics
 
-do "${CODE_FILES}O4-paper-numbers.do"
+do "${CODE_FILES}O3-paper-numbers.do"
 do "${CODE_FILES}S1-diagnostics.do"
 do "${CODE_FILES}S2-pcp-assignment.do"
 do "${CODE_FILES}S3-first-stage.do"

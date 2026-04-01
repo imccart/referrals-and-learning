@@ -556,7 +556,7 @@ qui sum sufficient
 local cap_pct: di %2.0f r(mean)*100
 local cap_pct = strtrim("`cap_pct'")
 
-** Save capacity dataset for O4-paper-numbers.do
+** Save capacity dataset for O3-paper-numbers.do
 save temp_a1_capacity, replace
 
 
@@ -646,7 +646,7 @@ qui sum iqr_payment, detail
 local pay_iqr_med: di %3.0f r(p50)
 local pay_iqr_med = strtrim("`pay_iqr_med'")
 
-** Save IQR dataset for O4-paper-numbers.do
+** Save IQR dataset for O3-paper-numbers.do
 save temp_a1_iqr_stats, replace
 
 log close
