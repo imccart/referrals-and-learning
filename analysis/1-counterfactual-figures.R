@@ -20,13 +20,36 @@ cf_labels <- c(
 
 ## ---------------------------------------------------------------
 ## Helper: load CounterFactualsSummary for a given cf/model/eta
+## Supports two formats:
+##   - Combined: CounterFactualsSummary_{model}{eta}.csv (columns per cf type)
+##   - Per-cf:   CounterFactualsSummary_{cf}_{model}{eta}.csv (generic columns)
 ## ---------------------------------------------------------------
 load_cf_summary <- function(cf, model, eta) {
-  f <- file.path(results_base, "coeffs",
-                 paste0(tolower(model), "-timevary"),
-                 paste0("CounterFactualsSummary_", cf, "_", model, eta, ".csv"))
-  if (!file.exists(f)) return(NULL)
-  read.csv(f)
+  spec_dir <- paste0(tolower(model), "-timevary")
+
+  ## try per-cf file first
+  f_split <- file.path(results_base, "coeffs", spec_dir,
+                       paste0("CounterFactualsSummary_", cf, "_", model, eta, ".csv"))
+  if (file.exists(f_split)) return(read.csv(f_split))
+
+  ## fall back to combined file
+  f_combined <- file.path(results_base, "coeffs", spec_dir,
+                          paste0("CounterFactualsSummary_", model, eta, ".csv"))
+  if (!file.exists(f_combined)) return(NULL)
+
+  d <- read.csv(f_combined)
+
+  ## apply cell masking locally (<=11 -> NA)
+  if ("n_cases" %in% names(d)) d$n_cases[d$n_cases <= 11] <- NA
+  if ("n_specs" %in% names(d)) d$n_specs[d$n_specs <= 11] <- NA
+
+  ## rename cf-specific columns to generic names
+  pij_col <- paste0("pij_diff_", cf)
+  health_col <- paste0("health_", cf)
+  if (!pij_col %in% names(d)) return(NULL)
+
+  d %>%
+    rename(pij_diff_cf = !!pij_col, health_cf = !!health_col)
 }
 
 
@@ -39,8 +62,11 @@ load_summary_hrr <- function(model) {
                  paste0(tolower(model), "-timevary"),
                  paste0(prefix, "_SummaryHRR.csv"))
   if (!file.exists(f)) return(NULL)
-  read.csv(f) %>%
-    select(hrr, eta, patients)
+  d <- read.csv(f)
+  ## apply cell masking locally (<=11 -> NA) for pre-masking exports
+  for (v in intersect(c("tot_spec", "tot_pcp", "spec_total", "pcp_total"), names(d)))
+    d[[v]][d[[v]] <= 11] <- NA
+  d %>% select(hrr, eta, patients)
 }
 
 
@@ -74,23 +100,23 @@ for (model in models) {
 
       ## all markets
       p <- ggplot(d, aes(x = pij_diff_cf, weight = patients)) +
-        geom_histogram(fill = "gray60", color = "white", bins = 40) +
+        geom_histogram(aes(y = after_stat(count / sum(count))),
+                       fill = "gray60", color = "white", bins = 40) +
         scale_y_continuous(labels = label_percent()) +
         scale_x_continuous(limits = c(0, 1)) +
-        labs(x = paste0("Reallocation with ", cf_labels[cf], ", eta=", eta),
-             y = "Relative Frequency") +
+        labs(x = "Reallocation", y = "Relative Frequency") +
         theme_minimal()
       ggsave(file.path(outdir, paste0("Reallocation_", cf, "_", model, "_eta", eta, ".png")),
              p, width = 6, height = 4)
 
       ## alpha > 0
-      d_nc <- d %>% filter(coef_m > 0)
+      d_nc <- d %>% filter(coef_m > 0.001)
       p <- ggplot(d_nc, aes(x = pij_diff_cf, weight = patients)) +
-        geom_histogram(fill = "gray60", color = "white", bins = 40) +
+        geom_histogram(aes(y = after_stat(count / sum(count))),
+                       fill = "gray60", color = "white", bins = 40) +
         scale_y_continuous(labels = label_percent()) +
         scale_x_continuous(limits = c(0, 1)) +
-        labs(x = paste0("Reallocation with ", cf_labels[cf], ", eta=", eta),
-             y = "Relative Frequency") +
+        labs(x = "Reallocation", y = "Relative Frequency") +
         theme_minimal()
       ggsave(file.path(outdir, paste0("ReallocationNC_", cf, "_", model, "_eta", eta, ".png")),
              p, width = 6, height = 4)
@@ -112,28 +138,29 @@ for (model in models) {
       if (is.null(d)) next
       d <- d %>%
         left_join(hrr_size %>% filter(eta == !!eta), by = "hrr") %>%
-        mutate(health_cf_t = pmax(pmin(health_cf, 0.01), -0.01))
+        mutate(health_10k = health_cf * 10000,
+               health_10k_t = pmax(pmin(health_10k, 100), -100))
 
       spec_dir <- paste0(tolower(model), "-timevary")
       outdir <- file.path(results_base, "figures", spec_dir)
 
       ## all markets
-      p <- ggplot(d, aes(x = health_cf_t, weight = patients)) +
-        geom_histogram(fill = "gray60", color = "white", binwidth = 0.001) +
+      p <- ggplot(d, aes(x = health_10k_t, weight = patients)) +
+        geom_histogram(aes(y = after_stat(count / sum(count))),
+                       fill = "gray60", color = "white", bins = 40) +
         scale_y_continuous(labels = label_percent()) +
-        labs(x = paste0("Health Effects of ", cf_labels[cf], ", eta=", eta),
-             y = "Relative Frequency") +
+        labs(x = "Change in Failures per 10,000", y = "Relative Frequency") +
         theme_minimal()
       ggsave(file.path(outdir, paste0("Mean_Health_FX_", cf, "_", model, "_eta", eta, ".png")),
              p, width = 6, height = 4)
 
       ## alpha > 0
-      d_nc <- d %>% filter(coef_m > 0)
-      p <- ggplot(d_nc, aes(x = health_cf_t, weight = patients)) +
-        geom_histogram(fill = "gray60", color = "white", binwidth = 0.001) +
+      d_nc <- d %>% filter(coef_m > 0.001)
+      p <- ggplot(d_nc, aes(x = health_10k_t, weight = patients)) +
+        geom_histogram(aes(y = after_stat(count / sum(count))),
+                       fill = "gray60", color = "white", bins = 40) +
         scale_y_continuous(labels = label_percent()) +
-        labs(x = paste0("Health Effects of ", cf_labels[cf], ", eta=", eta),
-             y = "Relative Frequency") +
+        labs(x = "Change in Failures per 10,000", y = "Relative Frequency") +
         theme_minimal()
       ggsave(file.path(outdir, paste0("Mean_Health_FXNC_", cf, "_", model, "_eta", eta, ".png")),
              p, width = 6, height = 4)
@@ -155,7 +182,7 @@ for (model in models) {
       if (is.null(d)) next
       d <- d %>%
         left_join(hrr_size %>% filter(eta == !!eta), by = "hrr") %>%
-        filter(coef_m > 0)
+        filter(coef_m > 0.001)
 
       if (nrow(d) < 5) next
 
@@ -166,24 +193,28 @@ for (model in models) {
         summarise(pij_diff_cf = weighted.mean(pij_diff_cf, patients),
                   health_cf = weighted.mean(health_cf, patients),
                   coef_m = weighted.mean(coef_m, patients),
-                  .groups = "drop")
+                  bin_patients = sum(patients),
+                  .groups = "drop") %>%
+        mutate(health_10k = health_cf * 10000)
 
       spec_dir <- paste0(tolower(model), "-timevary")
       outdir <- file.path(results_base, "figures", spec_dir)
 
-      p <- ggplot(d, aes(x = coef_m, y = pij_diff_cf)) +
-        geom_point(color = "gray40") +
-        labs(x = bquote(alpha ~ ", eta=" ~ .(eta)),
-             y = paste0("Reallocation with ", cf_labels[cf])) +
-        theme_minimal()
+      p <- ggplot(d, aes(x = coef_m, y = pij_diff_cf, size = bin_patients)) +
+        geom_point(color = "gray40", shape = 1) +
+        scale_y_continuous(labels = label_number()) +
+        labs(x = bquote(alpha), y = "Reallocation") +
+        theme_minimal() +
+        theme(legend.position = "none")
       ggsave(file.path(outdir, paste0("Gradient_Reallocation_", cf, "_", model, "_eta", eta, ".png")),
              p, width = 6, height = 4)
 
-      p <- ggplot(d, aes(x = coef_m, y = health_cf)) +
-        geom_point(color = "gray40") +
-        labs(x = bquote(alpha ~ ", eta=" ~ .(eta)),
-             y = paste0("Health Effects of ", cf_labels[cf])) +
-        theme_minimal()
+      p <- ggplot(d, aes(x = coef_m, y = health_10k, size = bin_patients)) +
+        geom_point(color = "gray40", shape = 1) +
+        scale_y_continuous(labels = label_number()) +
+        labs(x = bquote(alpha), y = "Change in Failures per 10,000") +
+        theme_minimal() +
+        theme(legend.position = "none")
       ggsave(file.path(outdir, paste0("Gradient_HealthFX_", cf, "_", model, "_eta", eta, ".png")),
              p, width = 6, height = 4)
     }
@@ -211,12 +242,14 @@ for (model in models) {
       spec_dir <- paste0(tolower(model), "-timevary")
       outdir <- file.path(results_base, "figures", spec_dir)
 
-      p <- ggplot(d, aes(x = corr_fe_qual, y = health_cf, size = patients)) +
+      d <- d %>% mutate(health_10k = health_cf * 10000)
+      p <- ggplot(d, aes(x = corr_fe_qual, y = health_10k, size = patients)) +
         geom_point(shape = 1, color = "gray40") +
         geom_smooth(method = "lm", aes(weight = patients),
                     color = "black", linewidth = 0.8, se = FALSE) +
-        labs(x = bquote("Corr(" ~ xi ~ ", quality), eta=" ~ .(eta)),
-             y = paste0("Health Effects of ", cf_labels[cf])) +
+        scale_y_continuous(labels = label_number()) +
+        labs(x = bquote("Corr(" ~ xi ~ ", quality)"),
+             y = "Change in Failures per 10,000") +
         theme_minimal() +
         theme(legend.position = "none")
       ggsave(file.path(outdir, paste0("HealthFX_by_FEQual_", cf, "_", model, "_eta", eta, ".png")),
@@ -248,17 +281,19 @@ for (model in models) {
     hrr_data <- read.csv(f) %>% filter(eta == !!eta)
 
     p <- ggplot(hrr_data, aes(x = coef_m, weight = patients)) +
-      geom_histogram(fill = "gray60", color = "white", binwidth = 0.3) +
-      labs(x = bquote("Estimates for " ~ alpha ~ " with eta=" ~ .(eta)),
-           y = "Relative Frequency") +
+      geom_histogram(aes(y = after_stat(count / sum(count))),
+                     fill = "gray60", color = "white", binwidth = 0.3) +
+      scale_y_continuous(labels = label_percent()) +
+      labs(x = bquote(alpha), y = "Relative Frequency") +
       theme_minimal()
     ggsave(file.path(outdir, paste0("alpha_", model, "_eta", eta, "_rhobar_", r_type, ".png")),
            p, width = 6, height = 4)
 
     p <- ggplot(hrr_data, aes(x = coef_dist, weight = patients)) +
-      geom_histogram(fill = "gray60", color = "white", binwidth = 0.01) +
-      labs(x = bquote("Estimates for diff. distance with eta=" ~ .(eta)),
-           y = "Relative Frequency") +
+      geom_histogram(aes(y = after_stat(count / sum(count))),
+                     fill = "gray60", color = "white", binwidth = 0.01) +
+      scale_y_continuous(labels = label_percent()) +
+      labs(x = "Differential Distance", y = "Relative Frequency") +
       theme_minimal()
     ggsave(file.path(outdir, paste0("dist_", model, "_eta", eta, "_rhobar_", r_type, ".png")),
            p, width = 6, height = 4)
@@ -284,9 +319,10 @@ for (model in models) {
       mutate(pfx_mean_t = pmax(pfx_mean, -0.02))
 
     p <- ggplot(d, aes(x = pfx_mean_t, weight = patients)) +
-      geom_histogram(fill = "gray60", color = "white", binwidth = 0.001) +
-      labs(x = paste0("Mean Partial Effect of One Failure, eta=", eta),
-           y = "Relative Frequency") +
+      geom_histogram(aes(y = after_stat(count / sum(count))),
+                     fill = "gray60", color = "white", binwidth = 0.001) +
+      scale_y_continuous(labels = label_percent()) +
+      labs(x = "Mean Partial Effect of One Failure", y = "Relative Frequency") +
       theme_minimal()
     ggsave(file.path(outdir, paste0("Mean_Partial_FX_Failure_", model, "_eta", eta, ".png")),
            p, width = 6, height = 4)

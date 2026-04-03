@@ -108,8 +108,12 @@ foreach eta in 1 5 {
 	graph export "${RESULTS_FINAL}_est-diag-volume-quality_`model'_eta`eta'.png", as(png) replace
 
 	** 4. Predicted vs observed market shares (specialist level)
-	gen pred_share = pred_patients / tot_patients
-	gen obs_share = observed_patients / tot_patients
+	** use sum(pred_patients) as denominator = total casevars in HRR
+	** (sum(observed_patients) undercounts due to FE-trimmed casevars with no choice)
+	bys hrr: egen hrr_total_patients = sum(pred_patients)
+	gen pred_share = pred_patients / hrr_total_patients
+	gen obs_share = observed_patients / hrr_total_patients
+	drop hrr_total_patients
 	twoway (scatter pred_share obs_share, msymbol(circle_hollow) mcolor(gray%30) msize(tiny)) ///
 		(function y=x, range(0 1) lcolor(red) lwidth(thin)), ///
 		ytitle("Predicted Share (pr_j)") xtitle("Observed Share") ///
@@ -123,6 +127,11 @@ foreach eta in 1 5 {
 	forvalues h=2/`hrr_agg' {
 		capture append using base_hrr`h'_eta`eta'
 	}
+	** drop casevars whose chosen specialist was trimmed (FE outlier)
+	** casevar is only unique within HRR, so must group by both
+	bys hrr casevar: egen has_choice = max(choice)
+	drop if has_choice == 0
+	drop has_choice
 	gen pred_health = pr_j * spec_qual
 	gen obs_health = choice * spec_qual
 	collapse (sum) pred_health obs_health, by(casevar hrr)

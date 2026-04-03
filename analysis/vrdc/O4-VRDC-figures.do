@@ -213,4 +213,69 @@ foreach cf_name in full current fullfam fullnofe {
 }
 
 
+******************************************************************
+** Quality consumption and spending distributions (baseline vs counterfactual)
+
+** Build specialist-level mean episode cost from A1 temp file
+use spec_quality_distribution, clear
+collapse (mean) mean_episode [aweight=spec_patients_year], by(Specialist_ID bene_hrr)
+rename bene_hrr hrr
+save temp_spec_cost, replace
+
+foreach cf_name in full current fullfam fullnofe {
+
+	if "`cf_name'" == "full" local cf_label "Full Info"
+	if "`cf_name'" == "current" local cf_label "Current Info"
+	if "`cf_name'" == "fullfam" local cf_label "Full Info and No Familiarity"
+	if "`cf_name'" == "fullnofe" local cf_label "Full Info, No FEs"
+
+	foreach eta in 1 5 {
+
+		capture confirm file "${RESULTS_FINAL}CounterFactualsSpec_`cf_name'_`model'`eta'.dta"
+		if _rc!=0 continue
+
+		use "${RESULTS_FINAL}CounterFactualsSpec_`cf_name'_`model'`eta'.dta", clear
+		merge 1:1 hrr Specialist_ID using temp_spec_cost, keep(master match) nogenerate
+
+		** quality consumption density: all markets
+		twoway (kdensity spec_qual [aweight=pred_patients0], lcolor(gs8) lwidth(medthick)) ///
+			(kdensity spec_qual [aweight=pred_patients_cf], lcolor(cranberry) lwidth(medthick) lpattern(dash)), ///
+			xtitle("Specialist Quality (Success Rate)") ytitle("Density") ///
+			legend(order(1 "Baseline" 2 "`cf_label'") position(6) rows(1))
+		graph save "${RESULTS_FINAL}QualDist_`cf_name'_`model'_eta`eta'", replace
+		graph export "${RESULTS_FINAL}QualDist_`cf_name'_`model'_eta`eta'.png", as(png) replace
+
+		** quality consumption density: alpha>0 markets
+		preserve
+		keep if coef_m>0
+		twoway (kdensity spec_qual [aweight=pred_patients0], lcolor(gs8) lwidth(medthick)) ///
+			(kdensity spec_qual [aweight=pred_patients_cf], lcolor(cranberry) lwidth(medthick) lpattern(dash)), ///
+			xtitle("Specialist Quality (Success Rate)") ytitle("Density") ///
+			legend(order(1 "Baseline" 2 "`cf_label'") position(6) rows(1))
+		graph save "${RESULTS_FINAL}QualDistNC_`cf_name'_`model'_eta`eta'", replace
+		graph export "${RESULTS_FINAL}QualDistNC_`cf_name'_`model'_eta`eta'.png", as(png) replace
+		restore
+
+		** spending density: all markets
+		twoway (kdensity mean_episode [aweight=pred_patients0], lcolor(gs8) lwidth(medthick)) ///
+			(kdensity mean_episode [aweight=pred_patients_cf], lcolor(cranberry) lwidth(medthick) lpattern(dash)), ///
+			xtitle("Mean Episode Spending ($)") ytitle("Density") ///
+			legend(order(1 "Baseline" 2 "`cf_label'") position(6) rows(1))
+		graph save "${RESULTS_FINAL}SpendDist_`cf_name'_`model'_eta`eta'", replace
+		graph export "${RESULTS_FINAL}SpendDist_`cf_name'_`model'_eta`eta'.png", as(png) replace
+
+		** spending density: alpha>0 markets
+		preserve
+		keep if coef_m>0
+		twoway (kdensity mean_episode [aweight=pred_patients0], lcolor(gs8) lwidth(medthick)) ///
+			(kdensity mean_episode [aweight=pred_patients_cf], lcolor(cranberry) lwidth(medthick) lpattern(dash)), ///
+			xtitle("Mean Episode Spending ($)") ytitle("Density") ///
+			legend(order(1 "Baseline" 2 "`cf_label'") position(6) rows(1))
+		graph save "${RESULTS_FINAL}SpendDistNC_`cf_name'_`model'_eta`eta'", replace
+		graph export "${RESULTS_FINAL}SpendDistNC_`cf_name'_`model'_eta`eta'.png", as(png) replace
+		restore
+	}
+}
+
+
 log close

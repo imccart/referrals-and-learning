@@ -632,9 +632,11 @@ local spec_fail_p75 = strtrim("`spec_fail_p75'")
 * IQR stats from spec_quality_distribution
 use spec_quality_distribution, clear
 collapse (p25) any_p25=prop_failures (p75) any_p75=prop_failures ///
-	(p50) pay_p50=mean_episode (p25) pay_p25=mean_episode (p75) pay_p75=mean_episode, by(bene_hrr Year)
+	(p50) pay_p50=mean_episode (p25) pay_p25=mean_episode (p75) pay_p75=mean_episode ///
+	(sum) patients=spec_patients_year, by(bene_hrr Year)
 gen iqr_failure = (any_p75 - any_p25)*100
 gen iqr_payment = (pay_p75 - pay_p25)/1000
+keep if patients>100
 qui sum iqr_failure, detail
 local iqr_p25: di %3.1f r(p25)
 local iqr_p25 = strtrim("`iqr_p25'")
