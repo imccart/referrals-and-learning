@@ -215,6 +215,111 @@ foreach eta in 1 5 {
 	outsheet using "${RESULTS_FINAL}ModelDiagnostics_`model'`eta'.csv", comma replace
 }
 
+******************************************************************
+** Distance-quality decomposition of counterfactual health effects
+** Uses permanent files only: CounterFactualsSpec from ${RESULTS_FINAL}
+** and ChoiceEstData_Summary from ${DATA_FINAL} for distance
+
+** Build specialist×HRR mean distance from estimation data (once)
+use "${DATA_FINAL}ChoiceEstData_Summary", clear
+collapse (mean) mean_dist=diff_dist, by(Specialist_ID hrr)
+save _temp_spec_dist, replace
+
+foreach cf_name in full current fullfam fullnofe {
+
+	if "`cf_name'" == "full" local cf_label "Full Info"
+	if "`cf_name'" == "current" local cf_label "Current Info"
+	if "`cf_name'" == "fullfam" local cf_label "Full Info, No Familiarity"
+	if "`cf_name'" == "fullnofe" local cf_label "Full Info, No FEs"
+
+	foreach eta in 1 5 {
+
+		capture confirm file "${RESULTS_FINAL}CounterFactualsSpec_`cf_name'_`model'`eta'.dta"
+		if _rc!=0 continue
+
+		use "${RESULTS_FINAL}CounterFactualsSpec_`cf_name'_`model'`eta'.dta", clear
+		merge 1:1 Specialist_ID hrr using _temp_spec_dist, keep(master match) nogenerate
+
+		** reallocation
+		gen dp = pred_patients_cf - pred_patients0
+
+		** volume-weighted mean quality and distance (baseline vs cf)
+		** use specialist-level predicted volumes as weights
+		gen wt_qual_base = pred_patients0 * spec_qual
+		gen wt_qual_cf   = pred_patients_cf * spec_qual
+		gen wt_dist_base = pred_patients0 * mean_dist
+		gen wt_dist_cf   = pred_patients_cf * mean_dist
+
+		** health effect: Σ(dp * qual) per HRR
+		gen dp_qual = dp * spec_qual
+		gen dp_dist = dp * mean_dist
+
+		** HRR-level collapse
+		collapse (sum) health_effect=dp_qual dist_effect=dp_dist ///
+			wt_qual_base wt_qual_cf wt_dist_base wt_dist_cf ///
+			tot_base=pred_patients0 tot_cf=pred_patients_cf ///
+			(first) coef_m ///
+			(count) n_specs=Specialist_ID, by(hrr)
+
+		** weighted means
+		gen mean_qual_base = wt_qual_base / tot_base
+		gen mean_qual_cf   = wt_qual_cf / tot_cf
+		gen mean_dist_base = wt_dist_base / tot_base
+		gen mean_dist_cf   = wt_dist_cf / tot_cf
+		drop wt_* tot_*
+
+		** distance-quality correlation per HRR (reload spec-level data)
+		gen corr_dist_qual = .
+		levelsof hrr, local(hrrs)
+		foreach h of local hrrs {
+			preserve
+			use "${RESULTS_FINAL}CounterFactualsSpec_`cf_name'_`model'`eta'.dta", clear
+			merge 1:1 Specialist_ID hrr using _temp_spec_dist, keep(match) nogenerate
+			keep if hrr==`h'
+			qui count
+			if r(N)>=5 {
+				qui corr mean_dist spec_qual
+				local rho = r(rho)
+			}
+			else {
+				local rho = .
+			}
+			restore
+			qui replace corr_dist_qual = `rho' if hrr==`h'
+		}
+
+		gen str20 cf_type = "`cf_name'"
+		gen eta = `eta'
+
+		** diagnostic graphs
+		** 1. Health effect vs distance-quality correlation
+		twoway (scatter health_effect corr_dist_qual, msymbol(circle_hollow) mcolor(gray%50)) ///
+			(lfit health_effect corr_dist_qual, lcolor(cranberry) lwidth(medthick)), ///
+			xtitle("Corr(Distance, Quality)") ytitle("Health Effect of CF") ///
+			title("`cf_label', {&eta}=`eta'") ///
+			yline(0, lcolor(gs10) lpattern(dash)) legend(off)
+		graph save "${RESULTS_FINAL}_diag-health-vs-distqual_`cf_name'_`model'_eta`eta'", replace
+		graph export "${RESULTS_FINAL}_diag-health-vs-distqual_`cf_name'_`model'_eta`eta'.png", as(png) replace
+
+		** 2. Quality shift vs distance shift
+		gen qual_shift = mean_qual_cf - mean_qual_base
+		gen dist_shift = mean_dist_cf - mean_dist_base
+		twoway (scatter qual_shift dist_shift, msymbol(circle_hollow) mcolor(gray%50)) ///
+			(lfit qual_shift dist_shift, lcolor(cranberry) lwidth(medthick)), ///
+			xtitle("Change in Mean Distance") ytitle("Change in Mean Quality") ///
+			title("`cf_label', {&eta}=`eta'") ///
+			xline(0, lcolor(gs10) lpattern(dash)) yline(0, lcolor(gs10) lpattern(dash)) legend(off)
+		graph save "${RESULTS_FINAL}_diag-qualshift-vs-distshift_`cf_name'_`model'_eta`eta'", replace
+		graph export "${RESULTS_FINAL}_diag-qualshift-vs-distshift_`cf_name'_`model'_eta`eta'.png", as(png) replace
+
+		** save CSV (cell masking on n_specs)
+		replace n_specs=. if n_specs<=11
+		outsheet using "${RESULTS_FINAL}DiagDistance_`cf_name'_`model'`eta'.csv", comma replace
+	}
+}
+capture erase _temp_spec_dist.dta
+
+
 ** clean up
 foreach eta in 1 5 {
 	capture erase _diag_spec`eta'.dta
