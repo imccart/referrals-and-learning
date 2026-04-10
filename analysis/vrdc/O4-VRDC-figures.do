@@ -377,30 +377,28 @@ foreach cf_name in full current fullfam fullnofe {
 
 			qui count if wt_qual_base_p`pct'!=. & wt_qual_cf_p`pct'!=.
 			if r(N)>=5 {
-				** share above line (annotation)
+				** share above/below line (annotation)
 				qui count if qual_above_p`pct'==1
 				local n_above = r(N)
+				qui count if qual_above_p`pct'==0
+				local n_below = r(N)
 				qui count if qual_above_p`pct'!=.
 				local n_total = r(N)
 				local pct_above: di %4.1f (`n_above'/`n_total'*100)
-				qui sum tot_patients if qual_above_p`pct'==1
-				local pat_above = r(sum)
-				qui sum tot_patients if qual_above_p`pct'!=.
-				local pat_total = r(sum)
-				local pat_pct_above: di %4.1f (`pat_above'/`pat_total'*100)
+				local pct_below: di %4.1f (`n_below'/`n_total'*100)
 
 				qui sum wt_qual_base_p`pct'
 				local qmin = r(min)
 				local qmax = r(max)
 				twoway (scatter wt_qual_cf_p`pct' wt_qual_base_p`pct' if qual_above_p`pct'==1 ///
-						[aweight=tot_patients], msymbol(circle) mcolor(midblue%40)) ///
+						[aweight=tot_patients], msymbol(circle) mcolor(gs4%40)) ///
 					(scatter wt_qual_cf_p`pct' wt_qual_base_p`pct' if qual_above_p`pct'==0 ///
-						[aweight=tot_patients], msymbol(circle) mcolor(cranberry%40)) ///
+						[aweight=tot_patients], msymbol(circle_hollow) mcolor(gs8)) ///
 					(function y=x, range(`qmin' `qmax') lcolor(black) lwidth(thin) lpattern(dash)), ///
 					xtitle("Baseline `pct_label' Quality") ///
 					ytitle("Counterfactual `pct_label' Quality") ///
 					legend(off) ///
-					note("`pct_above'% of markets above 45{&degree} (`pat_pct_above'% of patients)", ///
+					note("`pct_above'% above, `pct_below'% below 45{&degree} line", ///
 						size(small) position(5) ring(0))
 				graph save "${RESULTS_FINAL}QualP`pct'_`cf_name'_`model'_eta`eta'", replace
 				graph export "${RESULTS_FINAL}QualP`pct'_`cf_name'_`model'_eta`eta'.png", as(png) replace
@@ -428,31 +426,29 @@ foreach cf_name in full current fullfam fullnofe {
 
 			qui count if wt_spend_base_p`pct'!=. & wt_spend_cf_p`pct'!=.
 			if r(N)>=5 {
-				** share below line = spending decreased (annotation)
+				** share above/below line (annotation)
 				qui count if spend_below_p`pct'==1
 				local n_below = r(N)
+				qui count if spend_below_p`pct'==0
+				local n_above = r(N)
 				qui count if spend_below_p`pct'!=.
 				local n_total = r(N)
+				local pct_above: di %4.1f (`n_above'/`n_total'*100)
 				local pct_below: di %4.1f (`n_below'/`n_total'*100)
-				qui sum tot_patients if spend_below_p`pct'==1
-				local pat_below = r(sum)
-				qui sum tot_patients if spend_below_p`pct'!=.
-				local pat_total = r(sum)
-				local pat_pct_below: di %4.1f (`pat_below'/`pat_total'*100)
 
 				qui sum wt_spend_base_p`pct'
 				local smin = r(min)
 				local smax = r(max)
-				twoway (scatter wt_spend_cf_p`pct' wt_spend_base_p`pct' if spend_below_p`pct'==1 ///
-						[aweight=tot_patients], msymbol(circle) mcolor(midblue%40)) ///
-					(scatter wt_spend_cf_p`pct' wt_spend_base_p`pct' if spend_below_p`pct'==0 ///
-						[aweight=tot_patients], msymbol(circle) mcolor(cranberry%40)) ///
+				twoway (scatter wt_spend_cf_p`pct' wt_spend_base_p`pct' if spend_below_p`pct'==0 ///
+						[aweight=tot_patients], msymbol(circle) mcolor(gs4%40)) ///
+					(scatter wt_spend_cf_p`pct' wt_spend_base_p`pct' if spend_below_p`pct'==1 ///
+						[aweight=tot_patients], msymbol(circle_hollow) mcolor(gs8)) ///
 					(function y=x, range(`smin' `smax') lcolor(black) lwidth(thin) lpattern(dash)), ///
 					xtitle("Baseline `pct_label' Spending ($)") ///
 					ytitle("Counterfactual `pct_label' Spending ($)") ///
 					legend(off) ///
 					xlabel(, format(%9.0fc)) ylabel(, format(%9.0fc)) ///
-					note("`pct_below'% of markets below 45{&degree} (`pat_pct_below'% of patients)", ///
+					note("`pct_above'% above, `pct_below'% below 45{&degree} line", ///
 						size(small) position(5) ring(0))
 				graph save "${RESULTS_FINAL}SpendP`pct'_`cf_name'_`model'_eta`eta'", replace
 				graph export "${RESULTS_FINAL}SpendP`pct'_`cf_name'_`model'_eta`eta'.png", as(png) replace
