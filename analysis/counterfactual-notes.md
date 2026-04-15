@@ -86,3 +86,21 @@ The binding constraint is that non-quality factors ($\xi_j$) dominate referral d
 To isolate the value of quality information in a world where it can actually drive decisions, we add a counterfactual with $\xi_j = 0$. This asks: if specialists only differed on quality, distance, familiarity, and congestion, how much would full information help?
 
 This is interpretable as a decision-support intervention that strips away non-quality factors from the referral decision.
+
+## New counterfactual: QualMax
+
+EHR-style intervention: PCPs see a quality-ranked list of specialists and must act on it, deviating only for legitimate practical reasons (distance, congestion). Removes FEs and familiarity entirely; inflates $\alpha$ so quality is the primary driver.
+
+$$U_{ij} = \beta_d \cdot d_{ij} + \alpha_{new} \cdot q_j + \gamma \cdot N_j$$
+
+Three $\alpha$ scenarios per HRR:
+
+| Scenario | $\alpha$ value | Interpretation |
+|---|---|---|
+| **a1** | 1 | Quality as numeraire |
+| **amatch** | $\max\!\bigl(\frac{|\beta_d| \cdot \text{SD}(d)}{~\text{SD}(q)~},\; \frac{|\gamma| \cdot \text{SD}(N)}{~\text{SD}(q)~}\bigr)$ | Quality matches strongest practical constraint |
+| **ahigh** | $2 \times$ amatch | Quality clearly dominates |
+
+All SDs computed within-HRR. Uses `converge` (static equilibrium, no familiarity dynamics).
+
+The key design choice: $\alpha_{amatch}$ is calibrated per-HRR so that a 1 SD quality improvement generates the same utility as a 1 SD change in whichever practical constraint (distance or congestion) is stronger in that market. This is the "PCP who takes quality as seriously as geography" benchmark.
