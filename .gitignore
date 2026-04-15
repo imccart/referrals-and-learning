@@ -17,6 +17,13 @@ CLAUDE.md
 # Archived results (old VRDC exports, kept locally only)
 results/_archive/
 
+# Exported CSVs (data, too large for git)
+results/csv/
+
+# Large coefficient files
+results/coeffs/**/*Spec_FEs*.csv
+results/coeffs/**/*FmlyCoeff*.csv
+
 # Simulation (local only, not for repo)
 analysis/simulation/
 

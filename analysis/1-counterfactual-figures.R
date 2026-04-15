@@ -6,6 +6,7 @@ library(tidyverse)
 library(scales)
 
 results_base <- "results"
+csv_base <- "results/csv"
 cf_types <- c("full", "current", "fullfam", "fullnofe")
 models <- c("Myopic", "FWD")
 etas <- c(1, 5)
@@ -28,12 +29,12 @@ load_cf_summary <- function(cf, model, eta) {
   spec_dir <- paste0(tolower(model), "-timevary")
 
   ## try per-cf file first
-  f_split <- file.path(results_base, "coeffs", spec_dir,
+  f_split <- file.path(csv_base,
                        paste0("CounterFactualsSummary_", cf, "_", model, eta, ".csv"))
   if (file.exists(f_split)) return(read.csv(f_split))
 
   ## fall back to combined file
-  f_combined <- file.path(results_base, "coeffs", spec_dir,
+  f_combined <- file.path(csv_base,
                           paste0("CounterFactualsSummary_", model, eta, ".csv"))
   if (!file.exists(f_combined)) return(NULL)
 
@@ -74,8 +75,7 @@ load_summary_hrr <- function(model) {
 ## Helper: load MarginalEffects
 ## ---------------------------------------------------------------
 load_marginal_effects <- function(model, eta) {
-  f <- file.path(results_base, "coeffs",
-                 paste0(tolower(model), "-timevary"),
+  f <- file.path(csv_base,
                  paste0("MarginalEffects_", model, eta, ".csv"))
   if (!file.exists(f)) return(NULL)
   read.csv(f)

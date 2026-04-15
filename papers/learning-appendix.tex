@@ -18,7 +18,7 @@ PRELIMINARY}
   Ian M. McCarthy \\[-1.5ex]
   Emory University \& NBER \\
   Seth Richards-Shubik \\[-1.5ex]
-  Lehigh University \& NBER
+  Johns Hopkins University \& NBER
 }
 \date{April 2026}
 \maketitle
@@ -299,7 +299,7 @@ A low value of $\eta$ permits this conditional variation, which enables $\alpha$
 
 % TODO (Seth): I have no memory of this... Can we cut it?
 
-To assess the finite-sample properties of our estimator, we conduct a Monte Carlo simulation calibrated to match key features of our data. We generate referral markets with 50 PCPs and 10 specialists, where each PCP makes 15 referrals per year. We include a burn-in period to establish referral histories and rely on a 6-year estimation window to match the estimation in our real data. Specialists are assigned heterogeneous quality levels (true failure probabilities) drawn from a normal distribution centered at the base failure rate, and each specialist receives a fixed effect drawn independently. PCPs choose specialists according to the structural model in Equation \eqref{eqn:myopic_spec}, with beliefs updated via Bayes' rule after each patient outcome.
+To assess the finite-sample properties of our estimator, we conduct a Monte Carlo simulation calibrated to match key features of our data. We generate referral markets with 50 PCPs and 10 specialists, where each PCP makes 15 referrals per year. We include a burn-in period to establish referral histories and rely on a 6-year estimation window to match the estimation in our real data. Specialists are assigned heterogeneous quality levels (true failure probabilities) drawn from a normal distribution centered at the base failure rate, and each specialist receives a fixed effect drawn independently. PCPs choose specialists according to the myopic structural model presented in the main text, with beliefs updated via Bayes' rule after each patient outcome.
 
 We estimate $\hat\alpha$ using the same constrained maximum likelihood procedure used in the main estimation (see Section \ref{app:estimation}), with specialist fixed effects included in the conditional logit. We vary the true $\alpha$ over the range 0.05 to 0.60, the base failure rate over 0.05 to 0.15, and the quality dispersion (standard deviation of failure rates across specialists) over 0.01 to 0.05, yielding 77 parameter configurations after excluding cases where the quality dispersion exceeds the base failure rate. For each configuration, we run 50 replications.
 
@@ -449,7 +449,7 @@ MOVE TO APPENDIX (descriptive logits): For each specialist in the choice set, we
 
 \section{Counterfactuals without Familiarity}
 
-The purpose of this counterfactual is to estimate the potential changes in referrals and subsequently patient health if PCPs could rely entirely on specialist quality, with full information, and without any attachment due to prior relationships. These results are presented in Figure \ref{fig:cf_fullfam}. Here, we estimate larger effects on referral probabilities, with reallocation of \reallocationMeanFullFamMyopic{} percent on average across HRRs. The health effects of such a scenario nonetheless remain relatively small, with an increase in the \textit{ex ante} probability of a successful surgery of around \healthFXMeanFullFamMyopic{} percentage points on average.
+The purpose of this counterfactual is to estimate the potential changes in referrals and subsequently patient health if PCPs could rely entirely on specialist quality, with full information, and without any attachment due to prior relationships. These results are presented in Figure \ref{fig:cf_fullfam}. Here, we estimate larger effects on referral probabilities, with reallocation of \reallocationMeanFullFamMyopic{} percent on average across HRRs. However, the health effects of this scenario are negative on average, with a change in failure rates of \healthFXMeanFullFamMyopic{} percentage points. Without any familiarity to anchor referral patterns, and with the estimated weight on quality small relative to distance preferences and specialist fixed effects, the reallocation proceeds largely independently of quality. This result reinforces the finding in the main text that existing referral relationships encode quality information, and that removing them eliminates an important source of quality sorting in the referral market.
 
 %%% BIBLIOGRAPHY
 
@@ -488,13 +488,13 @@ The purpose of this counterfactual is to estimate the potential changes in refer
 \label{fig:eta-simulation}
 \begin{tabular}{cc}
 \\
-\includegraphics[scale=0.45]{results/figures/simulation/like_eta_1.png}
+\includegraphics[scale=0.38]{results/figures/simulation/like_eta_1.png}
 &
-\includegraphics[scale=0.45]{results/figures/simulation/like_eta_2.png}
+\includegraphics[scale=0.38]{results/figures/simulation/like_eta_2.png}
 \\
-\includegraphics[scale=0.45]{results/figures/simulation/like_eta_3.png}
+\includegraphics[scale=0.38]{results/figures/simulation/like_eta_3.png}
 &
-\includegraphics[scale=0.45]{results/figures/simulation/like_eta_4.png}
+\includegraphics[scale=0.38]{results/figures/simulation/like_eta_4.png}
 \end{tabular}
 
 
