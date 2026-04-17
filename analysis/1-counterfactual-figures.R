@@ -83,6 +83,18 @@ load_marginal_effects <- function(model, eta) {
 
 
 ## ---------------------------------------------------------------
+## Helper: load DistSummary (HRR-level quality/spend distributions)
+## Exists only for current and full CFs.
+## ---------------------------------------------------------------
+load_dist_summary <- function(cf, model, eta) {
+  f <- file.path(csv_base,
+                 paste0("DistSummary_", cf, "_", model, eta, ".csv"))
+  if (!file.exists(f)) return(NULL)
+  read.csv(f)
+}
+
+
+## ---------------------------------------------------------------
 ## Reallocation histograms
 ## ---------------------------------------------------------------
 for (model in models) {
@@ -170,7 +182,8 @@ for (model in models) {
 
 
 ## ---------------------------------------------------------------
-## Gradient plots (reallocation and health vs alpha, alpha>0)
+## Gradient plots (reallocation, health, and spending vs alpha, alpha>0)
+## 10 patient-weighted bins
 ## ---------------------------------------------------------------
 for (model in models) {
   hrr_size <- load_summary_hrr(model)
@@ -184,15 +197,23 @@ for (model in models) {
         left_join(hrr_size %>% filter(eta == !!eta), by = "hrr") %>%
         filter(coef_m > 0.001)
 
+      ## merge spend_change from DistSummary if available (current and full only)
+      ds <- load_dist_summary(cf, model, eta)
+      if (!is.null(ds)) {
+        d <- d %>% left_join(ds %>% select(hrr, spend_change), by = "hrr")
+      } else {
+        d$spend_change <- NA_real_
+      }
+
       if (nrow(d) < 5) next
 
-      ## bin by alpha ventiles
       d <- d %>%
-        mutate(alpha_bin = ntile(coef_m, 20)) %>%
+        mutate(alpha_bin = ntile(coef_m, 10)) %>%
         group_by(alpha_bin) %>%
-        summarise(pij_diff_cf = weighted.mean(pij_diff_cf, patients),
-                  health_cf = weighted.mean(health_cf, patients),
-                  coef_m = weighted.mean(coef_m, patients),
+        summarise(pij_diff_cf = weighted.mean(pij_diff_cf, patients, na.rm = TRUE),
+                  health_cf = weighted.mean(health_cf, patients, na.rm = TRUE),
+                  spend_change = weighted.mean(spend_change, patients, na.rm = TRUE),
+                  coef_m = weighted.mean(coef_m, patients, na.rm = TRUE),
                   bin_patients = sum(patients),
                   .groups = "drop") %>%
         mutate(health_10k = health_cf * 10000)
@@ -217,6 +238,79 @@ for (model in models) {
         theme(legend.position = "none")
       ggsave(file.path(outdir, paste0("Gradient_HealthFX_", cf, "_", model, "_eta", eta, ".png")),
              p, width = 6, height = 4)
+
+      ## spend gradient only if DistSummary was available
+      if (all(is.na(d$spend_change))) next
+      p <- ggplot(d, aes(x = coef_m, y = spend_change, size = bin_patients)) +
+        geom_point(color = "gray40", shape = 1) +
+        scale_y_continuous(labels = label_dollar()) +
+        labs(x = bquote(alpha), y = "Change in Mean Episode Spending") +
+        theme_minimal() +
+        theme(legend.position = "none")
+      ggsave(file.path(outdir, paste0("Gradient_Spend_", cf, "_", model, "_eta", eta, ".png")),
+             p, width = 6, height = 4)
+    }
+  }
+}
+
+
+## ---------------------------------------------------------------
+## Off-diagonal percentile scatters (QualP10/P90, SpendP10/P90)
+## Drops HRRs where base == cf (points on 45-degree line) to focus
+## on markets where the distribution actually shifts.
+## ---------------------------------------------------------------
+for (model in models) {
+  for (cf in c("current", "full")) {
+    for (eta in etas) {
+      ds <- load_dist_summary(cf, model, eta)
+      if (is.null(ds)) next
+
+      spec_dir <- paste0(tolower(model), "-timevary")
+      outdir <- file.path(results_base, "figures", spec_dir)
+
+      for (pctl in c("p10", "p90")) {
+        ## Quality
+        base_col <- paste0("wt_qual_base_", pctl)
+        cf_col <- paste0("wt_qual_cf_", pctl)
+        if (!all(c(base_col, cf_col) %in% names(ds))) next
+        d2 <- ds %>%
+          rename(base = !!base_col, cf = !!cf_col) %>%
+          filter(!is.na(base), !is.na(cf), base != cf)
+        if (nrow(d2) >= 5) {
+          lims <- range(c(d2$base, d2$cf), na.rm = TRUE)
+          p <- ggplot(d2, aes(x = base, y = cf)) +
+            geom_abline(slope = 1, intercept = 0, color = "gray50", linetype = "dashed") +
+            geom_point(color = "gray30", alpha = 0.6, size = 1.2) +
+            coord_fixed(xlim = lims, ylim = lims) +
+            labs(x = paste0("Baseline ", toupper(pctl)),
+                 y = paste0("Counterfactual ", toupper(pctl))) +
+            theme_minimal()
+          ggsave(file.path(outdir, paste0("QualOffDiag_", toupper(pctl), "_", cf, "_", model, "_eta", eta, ".png")),
+                 p, width = 5, height = 5)
+        }
+
+        ## Spending
+        base_col_s <- paste0("wt_spend_base_", pctl)
+        cf_col_s <- paste0("wt_spend_cf_", pctl)
+        if (!all(c(base_col_s, cf_col_s) %in% names(ds))) next
+        d3 <- ds %>%
+          rename(base = !!base_col_s, cf = !!cf_col_s) %>%
+          filter(!is.na(base), !is.na(cf), base != cf)
+        if (nrow(d3) >= 5) {
+          lims <- range(c(d3$base, d3$cf), na.rm = TRUE)
+          p <- ggplot(d3, aes(x = base, y = cf)) +
+            geom_abline(slope = 1, intercept = 0, color = "gray50", linetype = "dashed") +
+            geom_point(color = "gray30", alpha = 0.6, size = 1.2) +
+            coord_fixed(xlim = lims, ylim = lims) +
+            scale_x_continuous(labels = label_dollar()) +
+            scale_y_continuous(labels = label_dollar()) +
+            labs(x = paste0("Baseline ", toupper(pctl)),
+                 y = paste0("Counterfactual ", toupper(pctl))) +
+            theme_minimal()
+          ggsave(file.path(outdir, paste0("SpendOffDiag_", toupper(pctl), "_", cf, "_", model, "_eta", eta, ".png")),
+                 p, width = 5, height = 5)
+        }
+      }
     }
   }
 }
