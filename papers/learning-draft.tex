@@ -375,9 +375,9 @@ relative reduction for pairs with non-zero referral histories.\footnote{Note tha
 
 Using our model of PCP learning and referrals, and the estimates summarized in Tables \ref{tab:parameters_myopic} and \ref{tab:parameters_fwd}, we consider two primary counterfactuals. Both sets of counterfactuals simulate the reallocation of patients and the effects on patient health under full information, in which PCPs have perfectly accurate beliefs about specialist quality.\footnote{This is implemented by replacing $m$ in the myopic version and $g$ in the forward-looking version of the model with the true probability of success for each specialist, as observed in the data. For the Gittins index, note that when the variance of the beliefs, $v$, is zero, the expression in Equation \eqref{eqn:gittins_approx} becomes just $m$.} The counterfactuals differ in regard to our assumptions on the role of familiarity. In one case, we initialize familiarity as observed in the data as of the time of the first referral, and in the other, we initialize familiarity to 0. We refer to the first set of counterfactuals as ``existing familiarity'' and the second set as ``resetting familiarity.''\footnote{Under ``existing familiarity'', the counterfactuals therefore simulate a shock where the PCPs unexpectedly receive perfect information about specialist quality on January 1, 2013.} In both cases, the number of patients referred to each specialist can change going forward, which naturally allows the familiarity effect to change along with quality information. Familiarity therefore compounds the effect of improved quality information.\footnote{In the supplemental appendix, we also consider a simulation in which familiarity is shut off entirely. Removing familiarity produces even larger reallocations but negative average health effects, reinforcing the finding that existing referral relationships encode quality information that the quality signal alone cannot replace.}
 
-The results under ``existing familiarity'' are summarized in Figure \ref{fig:cf_full_current}. With existing familiarity, full information leads to a reallocation of \reallocationMeanCurrentEtaFiveMyopic{}\% of referrals in the myopic model, with an average improvement in health outcomes of \healthFXMeanCurrentEtaFiveMyopic{} percentage points. Episode spending falls on average, reflecting reallocation toward specialists who are less costly as well as more successful. These results include adjustments for changes in congestion, as discussed in Section \ref{sec:estimation}, and are relatively similar across different values of $\eta$ and across the myopic and forward-looking models. Beyond changes in the mean, reallocation under existing familiarity leaves the within-HRR distributions of specialist quality and episode spending largely intact, with modest upward shifts at the lower end of both distributions in markets where the distributions move at all.
+The results under ``existing familiarity'' are summarized in Figures \ref{fig:cf_full_current_myopic} and \ref{fig:cf_full_current_fwd}. With existing familiarity, full information leads to a reallocation of \reallocationMeanCurrentEtaFiveMyopic{}\% of referrals in the myopic model, with an average improvement in health outcomes of \healthFXMeanCurrentEtaFiveMyopic{} percentage points. Episode spending falls on average, reflecting reallocation toward specialists who are less costly as well as more successful. These results include adjustments for changes in congestion, as discussed in Section \ref{sec:estimation}, and are relatively similar across different values of $\eta$ and across the myopic and forward-looking models. Beyond changes in the mean, reallocation under existing familiarity leaves the within-HRR distributions of specialist quality and episode spending largely intact, with modest upward shifts at the lower end of both distributions in markets where the distributions move at all.
 
-The results change meaningfully, however, when we reset familiarity. As summarized in Figure \ref{fig:cf_full}, the share of referrals reallocated increases to \reallocationMeanMyopic{}\%, but average health effects turn slightly negative at \healthFXMeanMyopic{} percentage points. Under this reset-familiarity counterfactual, the quality and spending distributions widen rather than compress upward. A minority of patients are reallocated to higher-quality (and higher-spending) specialists they had previously been far from, while another group loses the quality cues embedded in their prior referral patterns and is reallocated to lower-quality specialists. The net mean effect on quality is slightly negative because the losses at the bottom of the distribution outweigh the gains at the top. Appendix figures present the corresponding off-diagonal scatters of the 10th and 90th percentiles of quality and spending under each counterfactual.
+The results change meaningfully, however, when we reset familiarity. As summarized in Figures \ref{fig:cf_full_myopic} and \ref{fig:cf_full_fwd}, the share of referrals reallocated increases to \reallocationMeanMyopic{}\%, but average health effects turn slightly negative at \healthFXMeanMyopic{} percentage points. Under this reset-familiarity counterfactual, the quality and spending distributions widen rather than compress upward. A minority of patients are reallocated to higher-quality (and higher-spending) specialists they had previously been far from, while another group loses the quality cues embedded in their prior referral patterns and is reallocated to lower-quality specialists. The net mean effect on quality is slightly negative because the losses at the bottom of the distribution outweigh the gains at the top. Appendix figures present the corresponding off-diagonal scatters of the 10th and 90th percentiles of quality and spending under each counterfactual.
 
 The comparison between the two counterfactuals reveals an important interaction between quality information and existing referral relationships. When PCPs retain their accumulated familiarity, full information nudges referrals toward higher-quality specialists within the PCP's existing referral network. When familiarity is reset, the reallocation is driven primarily by distance preferences and specialist fixed effects rather than by quality, because the estimated weight on quality ($\alpha$) is small relative to the dispersion of specialist fixed effects. To illustrate, the within-market standard deviation of specialist fixed effects is on average over 7 times larger than the quality signal ($\alpha$ times the standard deviation of specialist quality), so that the quality channel is overwhelmed once familiarity no longer anchors referral patterns.
 
@@ -563,23 +563,17 @@ From a policy perspective, our results suggest that quality transparency initiat
 \begin{figure}[htb]
 \centering
 \begin{minipage}[h]{6in}
-\caption[caption]{Counterfactual Changes with Full Information, Existing Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health and episode spending under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to observed values as of January 2013. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} (\nHRRsFWD{}) HRRs in the myopic (forward-looking) case for $\eta=1$ and \nHRRsEtaFiveMyopic{} (\nHRRsEtaFiveFWD{}) in the myopic (forward-looking) case for $\eta=5$.}}
+\caption[caption]{Counterfactual Changes with Full Information, Existing Familiarity, Myopic Model\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health and episode spending under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to observed values as of January 2013. Estimates are from the myopic model, averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} HRRs for $\eta=1$ and \nHRRsEtaFiveMyopic{} for $\eta=5$.}}
 \centering
 \begin{tabular}{cc}
-\multicolumn{2}{c}{\textit{Reallocation of referrals under myopic behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta5.png} \\
-\multicolumn{2}{c}{\textit{Reallocation of referrals under forward-looking behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Current_FWD_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Current_FWD_eta5.png} \\
-\multicolumn{2}{c}{\textit{Change in probability of success under myopic behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Current_Myopic_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Current_Myopic_eta5.png} \\
-\multicolumn{2}{c}{\textit{Change in probability of success under forward-looking behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Current_FWD_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Current_FWD_eta5.png} \\
-\multicolumn{2}{c}{\textit{Change in episode spending under myopic behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_current_Myopic_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_current_Myopic_eta5.png} \\
-\multicolumn{2}{c}{\textit{Change in episode spending under forward-looking behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_current_FWD_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_current_FWD_eta5.png}
+\multicolumn{2}{c}{\textit{Reallocation of referrals}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in probability of success}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Current_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Current_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in episode spending}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_current_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_current_Myopic_eta5.png}
 \end{tabular}
-\label{fig:cf_full_current}
+\label{fig:cf_full_current_myopic}
 \end{minipage}
 \end{figure}
 
@@ -588,23 +582,55 @@ From a policy perspective, our results suggest that quality transparency initiat
 \begin{figure}[htb]
 \centering
 \begin{minipage}[h]{6in}
-\caption[caption]{Counterfactual Changes with Full Information, Resetting Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health and episode spending under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to 0. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} (\nHRRsFWD{}) HRRs in the myopic (forward-looking) case for $\eta=1$ and \nHRRsEtaFiveMyopic{} (\nHRRsEtaFiveFWD{}) in the myopic (forward-looking) case for $\eta=5$.}}
+\caption[caption]{Counterfactual Changes with Full Information, Existing Familiarity, Forward-Looking Model\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health and episode spending under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to observed values as of January 2013. Estimates are from the forward-looking model, averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsFWD{} HRRs for $\eta=1$ and \nHRRsEtaFiveFWD{} for $\eta=5$.}}
 \centering
 \begin{tabular}{cc}
-\multicolumn{2}{c}{\textit{Reallocation of referrals under myopic behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Full_Myopic_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Full_Myopic_eta5.png} \\
-\multicolumn{2}{c}{\textit{Reallocation of referrals under forward-looking behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Full_FWD_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Full_FWD_eta5.png} \\
-\multicolumn{2}{c}{\textit{Change in probability of success under myopic behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Full_Myopic_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Full_Myopic_eta5.png} \\
-\multicolumn{2}{c}{\textit{Change in probability of success under forward-looking behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Full_FWD_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Full_FWD_eta5.png} \\
-\multicolumn{2}{c}{\textit{Change in episode spending under myopic behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_full_Myopic_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_full_Myopic_eta5.png} \\
-\multicolumn{2}{c}{\textit{Change in episode spending under forward-looking behavior}} \\
-\includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_full_FWD_eta1.png} & \includegraphics[height=1.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_full_FWD_eta5.png}
+\multicolumn{2}{c}{\textit{Reallocation of referrals}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Current_FWD_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Current_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in probability of success}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Current_FWD_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Current_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in episode spending}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_current_FWD_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_current_FWD_eta5.png}
 \end{tabular}
-\label{fig:cf_full}
+\label{fig:cf_full_current_fwd}
+\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Counterfactual Changes with Full Information, Resetting Familiarity, Myopic Model\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health and episode spending under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to 0. Estimates are from the myopic model, averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} HRRs for $\eta=1$ and \nHRRsEtaFiveMyopic{} for $\eta=5$.}}
+\centering
+\begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Reallocation of referrals}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Full_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Full_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in probability of success}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Full_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Full_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in episode spending}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_full_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_full_Myopic_eta5.png}
+\end{tabular}
+\label{fig:cf_full_myopic}
+\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Counterfactual Changes with Full Information, Resetting Familiarity, Forward-Looking Model\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health and episode spending under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to 0. Estimates are from the forward-looking model, averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsFWD{} HRRs for $\eta=1$ and \nHRRsEtaFiveFWD{} for $\eta=5$.}}
+\centering
+\begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Reallocation of referrals}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Full_FWD_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Full_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in probability of success}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Full_FWD_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Full_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in episode spending}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_full_FWD_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_full_FWD_eta5.png}
+\end{tabular}
+\label{fig:cf_full_fwd}
 \end{minipage}
 \end{figure}
 
