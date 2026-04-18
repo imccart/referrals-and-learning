@@ -182,6 +182,39 @@ for (model in models) {
 
 
 ## ---------------------------------------------------------------
+## Spending effect histograms (match Mean_Health_FX style)
+## Source: DistSummary_{cf}_{model}{eta}.csv (HRR-level, has tot_patients)
+## Exists only for current and full CFs.
+## ---------------------------------------------------------------
+for (model in models) {
+  for (cf in c("current", "full")) {
+    for (eta in etas) {
+      ds <- load_dist_summary(cf, model, eta)
+      if (is.null(ds)) next
+      d <- ds %>%
+        filter(!is.na(spend_change)) %>%
+        mutate(spend_t = pmax(pmin(spend_change, 500), -500))
+
+      if (nrow(d) < 5) next
+
+      spec_dir <- paste0(tolower(model), "-timevary")
+      outdir <- file.path(results_base, "figures", spec_dir)
+
+      p <- ggplot(d, aes(x = spend_t, weight = tot_patients)) +
+        geom_histogram(aes(y = after_stat(count / sum(count))),
+                       fill = "gray60", color = "white", bins = 40) +
+        scale_y_continuous(labels = label_percent()) +
+        scale_x_continuous(labels = label_dollar()) +
+        labs(x = "Change in Mean Episode Spending", y = "Relative Frequency") +
+        theme_minimal()
+      ggsave(file.path(outdir, paste0("Mean_Spend_FX_", cf, "_", model, "_eta", eta, ".png")),
+             p, width = 6, height = 4)
+    }
+  }
+}
+
+
+## ---------------------------------------------------------------
 ## Gradient plots (reallocation, health, and spending vs alpha, alpha>0)
 ## 10 patient-weighted bins
 ## ---------------------------------------------------------------
