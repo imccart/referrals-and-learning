@@ -72,7 +72,9 @@ program define converge
 	local n_osc = r(N)
 	if changes > 0 {
 		noisily dis "WARNING: " changes " specialists did not converge (`n_osc' oscillating)"
-		qui sum abs(pred_iter_new - pred_iter_old) if spec_obs==1 & conv_crit==1
+		tempvar gap
+		qui gen `gap' = abs(pred_iter_new - pred_iter_old)
+		qui sum `gap' if spec_obs==1 & conv_crit==1
 		noisily dis "  Mean gap: `=string(r(mean), "%9.4f")', Max gap: `=string(r(max), "%9.4f")'"
 	}
 	else {
@@ -198,7 +200,9 @@ program define converge_dyn
 	local n_osc = r(N)
 	if changes > 0 {
 		dis "WARNING: " changes " specialists did not converge (`n_osc' oscillating)"
-		qui sum abs(pred_iter_new - pred_iter_old) if spec_obs==1 & conv_crit==1
+		tempvar gap
+		qui gen `gap' = abs(pred_iter_new - pred_iter_old)
+		qui sum `gap' if spec_obs==1 & conv_crit==1
 		dis "  Mean gap: `=string(r(mean), "%9.4f")', Max gap: `=string(r(max), "%9.4f")'"
 	}
 	else {
