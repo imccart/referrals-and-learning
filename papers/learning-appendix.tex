@@ -349,7 +349,7 @@ Figure \ref{fig:fe-quality} addresses a different concern. If the specialist fix
 \subsection{Counterfactuals without Familiarity}
 \label{app:cf-fullfam}
 
-The purpose of this counterfactual is to estimate the potential changes in referrals and subsequently patient health if PCPs could rely entirely on specialist quality, with full information, and without any attachment due to prior relationships. These results are presented in Figure \ref{fig:cf_fullfam}. Here, we estimate larger effects on referral probabilities, with reallocation of \reallocationMeanFullFamMyopic{} percent on average across HRRs. However, the health effects of this scenario are negative on average, with a change in failure rates of \healthFXMeanFullFamMyopic{} percentage points. Without any familiarity to anchor referral patterns, and with the estimated weight on quality small relative to distance preferences and specialist fixed effects, the reallocation proceeds largely independently of quality. This result reinforces the finding in the main text that existing referral relationships encode quality information, and that removing them eliminates an important source of quality sorting in the referral market.
+The purpose of this counterfactual is to estimate the potential changes in referrals and subsequently patient health if PCPs could rely entirely on specialist quality, with full information, and without any attachment due to prior relationships. These results are presented in Figure \ref{fig:cf_fullfam}. Here, we estimate larger effects on referral probabilities, with reallocation of \reallocationMeanFullFamMyopic{} percent on average across HRRs. However, the health effects of this scenario are negative on average, with a change in success rates of \healthFXMeanFullFamMyopic{} percentage points. Without any familiarity to anchor referral patterns, and with the estimated weight on quality small relative to distance preferences and specialist fixed effects, the reallocation proceeds largely independently of quality. This result reinforces the finding in the main text that existing referral relationships encode quality information, and that removing them eliminates an important source of quality sorting in the referral market.
 
 \subsection{Equilibrium Robustness}
 \label{app:robustness}
@@ -679,7 +679,7 @@ This section presents corresponding figures for $\eta=5$ of the counterfactual g
 \begin{figure}[htb]
 \centering
 \begin{minipage}[h]{6in}
-\caption[Gradient of Health Effects ($\eta=5$)]{Health Effects of Full Information by Estimated Learning Parameter ($\eta=5$)\footnote{Analogous to the $\eta=1$ version in the main paper. Mean change in failures per 10,000 patients under each counterfactual, binned into ten patient-weighted quantiles of the estimated $\hat\alpha$ ($\hat\alpha > 0.001$).}}
+\caption[Gradient of Health Effects ($\eta=5$)]{Health Effects of Full Information by Estimated Learning Parameter ($\eta=5$)\footnote{Analogous to the $\eta=1$ version in the main paper. Mean change in successes per 10,000 patients under each counterfactual, binned into ten patient-weighted quantiles of the estimated $\hat\alpha$ ($\hat\alpha > 0.001$).}}
 \centering
 \begin{tabular}{cc}
 \multicolumn{2}{c}{\textit{Myopic}} \\
@@ -780,6 +780,24 @@ Existing familiarity & Reset familiarity \\
 \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P90_current_FWD_eta5.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P90_full_FWD_eta5.png}
 \end{tabular}
 \label{fig:spendP90-cf-eta5}
+\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[Quality-Maximizing Referrals ($\eta=5$)]{Counterfactual Changes with Quality-Maximizing Referrals ($\eta=5$)\footnote{Analogous to the $\eta=1$ version in the main paper. Each PCP's belief is replaced with the true specialist success rate, specialist fixed effects and accumulated familiarity are set to zero, and $\alpha$ within each HRR is calibrated to match the larger of the distance or congestion utility components.}}
+\centering
+\begin{tabular}{cc}
+\multicolumn{1}{c}{\textit{Myopic}} & \multicolumn{1}{c}{\textit{Forward-Looking}} \\
+\multicolumn{2}{c}{\textit{Reallocation of referrals}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_qualmax_amatch_Myopic_eta5.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_qualmax_amatch_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in probability of success}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta5.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_qualmax_amatch_FWD_eta5.png}
+\end{tabular}
+\label{fig:cf_qualmax_eta5}
 \end{minipage}
 \end{figure}
 

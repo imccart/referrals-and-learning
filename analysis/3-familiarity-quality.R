@@ -122,7 +122,7 @@ p2 <- ggplot(bar_data, aes(x = fq_label, y = health, fill = Counterfactual)) +
   scale_fill_manual(values = c("Keep Familiarity" = "gray40",
                                 "Reset Familiarity" = "gray75")) +
   labs(x = "Quality Sorting in Observed Familiarity",
-       y = "Change in Failures per 10,000",
+       y = "Change in Successes per 10,000",
        fill = NULL) +
   theme_minimal() +
   theme(legend.position = "bottom")

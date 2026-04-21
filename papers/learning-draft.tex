@@ -385,6 +385,8 @@ These patterns become stark once we condition on markets where PCPs demonstrably
 
 The remaining puzzle is why health effects ever turn \emph{negative} under the reset-familiarity counterfactual. The explanation is that existing referral relationships themselves encode quality information. Using data on referral pair durations, we compute the within-market correlation between familiarity (measured as years of PCP-specialist referral history) and specialist quality. Figure \ref{fig:fam_quality} shows that longer referral relationships are associated with higher specialist quality, consistent with familiarity gradually encoding quality information over time. We then group markets into terciles based on this familiarity-quality correlation and compare the health effects of full information under existing versus reset familiarity. As shown in Figure \ref{fig:famqual_health}, markets where familiarity encoded more quality information (the ``High'' tercile) exhibit the largest gap between the two counterfactuals. In these markets, keeping familiarity produces health improvements while resetting it produces health losses, consistent with the interpretation that accumulated referral relationships serve as a form of quality sorting that is lost when familiarity is removed.
 
+The preceding analysis shows that quality-targeted reallocation produces meaningful health gains when PCPs already weight quality, but the estimated weight is small in most markets. As a final thought experiment, we consider an intervention that forces PCPs to weight quality at least as heavily as the larger of distance or congestion. We implement this by replacing each PCP's belief with the true specialist success rate, removing specialist fixed effects and accumulated familiarity, and setting $\alpha$ within each market to the value that aligns the magnitude of the quality utility component with the larger of the distance or congestion utility components. Figure \ref{fig:cf_qualmax} summarizes the resulting reallocation and health effects. The intervention reallocates roughly half of all referrals and produces an average improvement of approximately 150 to 200 successes per 10,000 patients in both the myopic and forward-looking models, with positive health effects in nearly every market. These magnitudes are an order of magnitude larger than under full information at the estimated $\alpha$, indicating that the gains from quality transparency alone are bounded by the small estimated quality weight, and that platforms or interventions capable of elevating that weight could deliver substantially larger health improvements.
+
 
 %%% DISCUSSION
 
@@ -639,7 +641,7 @@ From a policy perspective, our results suggest that quality transparency initiat
 \begin{figure}[htb]
 \centering
 \begin{minipage}[h]{6in}
-\caption[Gradient of Health Effects]{Health Effects of Full Information by Estimated Learning Parameter\footnote{Figure depicts the mean change in failures per 10,000 patients under each counterfactual, binned into ten patient-weighted quantiles of the estimated learning parameter $\hat\alpha$ within each HRR ($\hat\alpha > 0.001$). Marker size reflects the total patients in the bin. Results shown for $\eta=1$; corresponding figures for $\eta=5$ appear in the supplemental appendix.}}
+\caption[Gradient of Health Effects]{Health Effects of Full Information by Estimated Learning Parameter\footnote{Figure depicts the mean change in successes per 10,000 patients under each counterfactual, binned into ten patient-weighted quantiles of the estimated learning parameter $\hat\alpha$ within each HRR ($\hat\alpha > 0.001$). Marker size reflects the total patients in the bin. Results shown for $\eta=1$; corresponding figures for $\eta=5$ appear in the supplemental appendix.}}
 \centering
 \begin{tabular}{cc}
 \multicolumn{2}{c}{\textit{Myopic behavior}} \\
@@ -690,11 +692,29 @@ Existing familiarity & Reset familiarity \\
 \begin{figure}[htb]
 \centering
 \begin{minipage}[h]{6in}
-\caption[caption]{Health Effects of Full Information by Quality Sorting in Familiarity\footnote{Figure depicts the mean change in failures per 10,000 patients under full information, separately for the ``existing familiarity'' and ``resetting familiarity'' counterfactuals. Markets are grouped into terciles based on the within-market correlation between referral relationship duration and specialist quality. Higher terciles indicate markets where longer referral relationships are more strongly associated with higher specialist quality.}}
+\caption[caption]{Health Effects of Full Information by Quality Sorting in Familiarity\footnote{Figure depicts the mean change in successes per 10,000 patients under full information, separately for the ``existing familiarity'' and ``resetting familiarity'' counterfactuals. Markets are grouped into terciles based on the within-market correlation between referral relationship duration and specialist quality. Higher terciles indicate markets where longer referral relationships are more strongly associated with higher specialist quality.}}
 \centerline{%
     \includegraphics[scale=0.6]{results/figures/FamQual_vs_Health.png}
 }
 \label{fig:famqual_health}
+\end{minipage}
+\end{figure}
+
+
+\newpage
+\begin{figure}[htb]
+\centering
+\begin{minipage}[h]{6in}
+\caption[caption]{Counterfactual Changes with Quality-Maximizing Referrals\footnote{Figure depicts the share of referrals reallocated and the resulting change in probability of success under a counterfactual in which each PCP's belief is replaced with the true specialist success rate, specialist fixed effects and accumulated familiarity are set to zero, and $\alpha$ within each HRR is calibrated to match the larger of the distance or congestion utility components. Results are averaged across individuals within an HRR and presented as a histogram across HRRs. Results shown for $\eta=1$; corresponding figures for $\eta=5$ appear in the supplemental appendix.}}
+\centering
+\begin{tabular}{cc}
+\multicolumn{1}{c}{\textit{Myopic}} & \multicolumn{1}{c}{\textit{Forward-Looking}} \\
+\multicolumn{2}{c}{\textit{Reallocation of referrals}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_qualmax_amatch_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_qualmax_amatch_FWD_eta1.png} \\
+\multicolumn{2}{c}{\textit{Change in probability of success}} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_qualmax_amatch_FWD_eta1.png}
+\end{tabular}
+\label{fig:cf_qualmax}
 \end{minipage}
 \end{figure}
 
