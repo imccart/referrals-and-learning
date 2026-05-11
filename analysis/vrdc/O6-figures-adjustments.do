@@ -50,15 +50,6 @@ gen se_qual=sd_qual/sqrt(n_pairs)
 gen ub=mean_qual + 1.96*se_qual
 gen lb=mean_qual - 1.96*se_qual
 
-** CMS cell-size masking (mask bins with n<=11)
-replace mean_qual=. if n_pairs<=11
-replace ub=. if n_pairs<=11
-replace lb=. if n_pairs<=11
-replace n_pairs=. if n_pairs<=11
-
-outsheet fam_bin n_pairs mean_qual se_qual lb ub ///
-	using "${RESULTS_BASE}FamPatients_Quality_`r_type'.csv", comma replace
-
 twoway (bar mean_qual fam_bin, color(gray) barwidth(0.6)) ///
 	(rcap lb ub fam_bin, color(black)), ///
 	xlabel(0 "1" 1 "2-3" 2 "4-5" 3 "6-10" 4 "11+") ///
