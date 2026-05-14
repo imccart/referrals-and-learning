@@ -21,7 +21,7 @@ PRELIMINARY}
   Seth Richards-Shubik \\[-1.5ex]
   Johns Hopkins University \& NBER
 }
-\date{April 2026}
+\date{May 2026}
 \maketitle
 
 
@@ -47,108 +47,14 @@ Figure \ref{fig:pcp-validation} shows the composition of the listed referring ph
 The main paper reports stacked event-study estimates combining all four failure cohorts. Figure \ref{fig:event-cohort} presents the cohort-specific estimates separately for first, second, third, and fourth failures. The patterns are consistent with the stacked results. Each cohort shows a significant and persistent reduction in referrals from the treated PCP following the failure event, with flat pre-trends and no convergence within the observed nine-quarter window. The magnitudes are somewhat larger for the first and second failure cohorts than for the third and fourth, consistent with attenuating responses as PCPs have already adjusted expectations after earlier signals.
 
 
-%%% C. MODEL AND IDENTIFICATION
+%%% C. IDENTIFICATION
 
-\section{Model and Identification} \label{app:identification}
+\section{Identification} \label{app:identification}
 
-We formally show identification of the myopic model, and then we discuss identification of the dynamic model.
-
-
-% NOTE: This formal analysis is new.  Prior papers (Dickstein 2021, Gong 2018) have thoughtful discussions but do not provide formal analysis.
-
-\begin{comment}
-$$\alpha m_{ijt} + f(e_{ijt}) + u(x_{ijt}) + c(n_{jt}, z_j) + \xi_j + \epsilon_{ijt}$$
-
-SLIDE
-\begin{itemize}
-
-\item[*] {\small Both Dickstein (2021) and Gong (2018) omit $\alpha$, which fixes the MRS between patient outcomes and other factors (incl.~$\epsilon$) at an assumed value}
-% NOTE: This fixes the weight on patient outcomes to 1, with an assumed scale of the error term, so this is not an innocuous normalization.
-
-\end{itemize}
-
-SLIDE
-\begin{itemize}
-
-\item Altruism parameter ($\alpha$): identified by marginal effect of \emph{observed} success rate, in limit as $e \rightarrow \infty$ (``ID at infinity'')
-\[
-\alpha m_{ijt}
-= \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} }
-= \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 }
-\]
-where $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / \sum_{s=1}^{t-1} D_{ijs}$
-(and $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$)
-\vskip3pt
-% Thus cases where a PCP has large past experience with two specialists, but different success rates with them, identify the altruism parameter.
-\medskip
-
-\item Strength of priors ($a_0 + b_0$):
-how the marginal effect of the success rate changes with experience (i.e., interaction)
-\[
-\alpha m_{ijt}
-= \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} }
-+ \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}
-\]
-\vskip-8pt
-\medskip
-
-% IF TIME: Make appendix slide with this algebra
-% \beamerbutton{algebra}
-
-\item Prior mean ($\frac{a_0}{a_0 + b_0}$): estimate outside the model, using average success probability in each market (then have $a_0, b_0$ separately)
-\medskip
-
-\end{itemize}
-\end{comment}
+We formally show identification of the myopic model below. Identification of the forward-looking model, discussed in the main paper, follows because the Brezzi-Lobo approximation to the Gittins index involves the same free parameters ($\rho$ and $\eta$) on the same data as the myopic mean belief, and the present discounted value of familiarity has a known relationship with its current value. The forward-looking model therefore introduces no additional free parameters beyond those of the myopic model.
 
 
 \subsection{Myopic Model}
-
-Given a distribution for the shocks $\epsilon$, the conditional choice probabilities identify differences in utility between the alternatives. The effects of the pairwise characteristics, $u(x)$, and the specialist fixed effects, $\xi$, are identified subject to standard normalizations (e.g., one fixed effect is set equal to zero). Because the number of patients at a specialist, $n_{jt}$, is endogenous, the congestion effect, $c(n_{jt}, z_j)$, is identified with an instrument for the probability that patients \emph{other than patient t} see specialist $j$. A natural instrument for this is the distances between \emph{other} patients and specialist $j$ \citep[see][]{richards-shubik2021}.
-
-\iffalse
-The remaining terms are $\alpha m$ and $f(e)$.
-We start by expanding and rearranging the former.
-Recall $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ and let $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / e_{ijt}$.
-Then
-\[
-\alpha m_{ijt} 
-= \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} }
-= \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} } 
-+ \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}
-\]
-\fi
-
-This leaves the terms $\alpha m$ and $f(e)$. The parameter $\alpha$ is identified in the limit as the number of past patients sent to a specialist grows large (i.e., so-called ``identification at infinity'').
-Recall $e_{ijt} \equiv \sum_{s=1}^{t-1} D_{ijs}$ and let $\bar y_{ijt} \equiv \sum_{s=1}^{t-1} Y_{ijs} / e_{ijt}$.
-Then,
-\[
-\alpha m_{ijt} 
-= \alpha \frac{ a_0 +  \sum_{s=1}^{t-1} Y_{ijs} }{ a_0 + b_0 + \sum_{s=1}^{t-1} D_{ijs} }
-= \alpha \frac{ a_0/e_{ijt} + \bar y_{ijt} }{ (a_0 + b_0)/e_{ijt} + 1 }.
-\]
-Hence, $\lim_{e_{ijt} \rightarrow \infty} \alpha m_{ijt} = \alpha \bar y_{ijt}$.
-Intuitively, $\alpha$ is identified by variation in the success rate among specialists to whom a PCP has sent many patients in the past.
-
-Next, the strength of the priors, ($a_0 + b_0$), is identified by how the marginal effect of the success rate changes with the number of past patients.
-Rearranging $\alpha m_{ijt}$ differently, we have
-\begin{equation}
-\alpha m_{ijt} = \alpha \frac{ a_0 }{ (a_0 + b_0) + e_{ijt} }
-+ \alpha \frac{ e_{ijt} }{ (a_0 + b_0) + e_{ijt} } \times \bar y_{ijt}.
-\label{eqn:alpha2}
-\end{equation}
-With $\alpha$ identified, the second term in equation~\eqref{eqn:alpha2} has only one unknown parameter, $\eta \equiv (a_0 + b_0)$.
-The marginal effect of $\bar y$ increases with $e$, and $\eta$ governs that interaction.
-
-To identify the prior mean, $\rho \equiv \frac{a_0}{a_0 + b_0}$, we use the observed average success rate in the market.  This assumes that PCPs have a general awareness of the overall success rate of the procedure in their market.  It might instead be possible to identify $a_0$ from the choice data, but this would require a strong functional form assumption to separate the term $\alpha \frac{ a_0 }{ (a_0 + b_0) + e}$ from the familiarity effect $f(e)$.
-
-Finally, then, the familiarity effect is identified by the remainder of the marginal effect of experience with a specialist that is not absorbed by $\alpha m$ (i.e., what is left over from $\alpha \frac{ a_0 }{ (a_0 + b_0) + e}$).
-% Intuitively, we need to fully identify the priors (both the ratio and the strength) in order to recover the effect of familiarity, because we need to know exactly how experience washes away the priors in order to separate that from the effect of familiarity.
-A standard normalization is required, such as $f(0) = 0$.
-Also $f$ must be bounded as $e \rightarrow \infty$; otherwise, familiarity would dominate the effects of all other attributes as $e \rightarrow \infty$.
-This does not seem desirable from a modeling perspective, and it would nullify the ``identification at infinity'' argument for $\alpha$.
-
-\bigskip
 
 We start by proving the identification of the myopic model.
 To review (and simplify), the utility to PCP $i$ for referring patient $t$ to specialist $j$ is
@@ -158,12 +64,6 @@ U_{ijt} \equiv \alpha m_{ijt} + f(e_{ijt}) + \xi_j + \epsilon_{ijt},
 where $m_{ijt}$ is the current mean of the beliefs about the probability of success at specialist $j$ (using the history before patient $t$), $e_{ijt}$ is the amount of experience with specialist $j$ (the number of past patients $i$ sent to $j$), $f(e_{ijt})$ is the subjective utility from familiarity with specialist $j$, $\xi_j$ is an unobservable specialist fixed effect, and $\epsilon_{ijt}$ is an idiosyncratic shock with a known distribution.
 Also let $\check y_{ijt}$ denote the number of successes among past patients that $i$ sent to $j$.
 % NOTE: There is no outside option with utility normalized to zero.
-
-\iffalse
-This omits the effects of other exogenous characteristics, $x_{ijt}$, and the effect of congestion at specialist $j$ (which is proxied with the number of patients treated by specialist $j$ around the same time as patient $t$, denoted $n_{j[t]}$).
-The effects of the exogenous characteristics follow from separate variation in $x$, as is standard.
-The effect of congestion is identified from separate variation in $n_{j[t]}$, which requires a valid instrument for the endogenous patient volume.  The typical instrument is distances of \emph{other} patients to specialist $j$, as described in Richards-Shubik et al. (2022, \url{https://doi.org/10.1016/j.jhealeco.2022.102616}).
-\fi
 
 Given a parametric assumption on the error term, $\epsilon$, the observable choice probabilities directly identify differences in utility, excluding the error term: e.g., $(U_{ijt} - \epsilon_{ijt}) - (U_{ikt} - \epsilon_{ikt})$.
 To simplify these expressions, let $v$ denote utility without the error term: $v \equiv U - \epsilon$.
@@ -245,6 +145,7 @@ Intuitively, we need to fully identify the priors (both the ratio and the streng
 \label{app:monte-carlo}
 
 % TODO (Seth): I have no memory of this... Can we cut it?
+% IAN: I added all of this. We can definitely cut it if you want. Seemed useful to me but no biggie.
 
 To assess the finite-sample properties of our estimator, we conduct a Monte Carlo simulation calibrated to match key features of our data. We generate referral markets with 50 PCPs and 10 specialists, where each PCP makes 15 referrals per year. We include a burn-in period to establish referral histories and rely on a 6-year estimation window to match the estimation in our real data. Specialists are assigned heterogeneous quality levels (true failure probabilities) drawn from a normal distribution centered at the base failure rate, and each specialist receives a fixed effect drawn independently. PCPs choose specialists according to the myopic structural model presented in the main text, with beliefs updated via Bayes' rule after each patient outcome.
 
@@ -341,6 +242,16 @@ We examine two diagnostics that together assess model fit and defend the structu
 Figure \ref{fig:fe-quality} addresses a different concern. If the specialist fixed effects, $\xi_j$, were simply absorbing quality differences that our measure does not capture, then the estimated $\alpha$ would be biased toward zero and the reported counterfactuals would understate the gains from information. The figure shows that the within-HRR correlation between estimated $\xi_j$ and observed specialist quality is near zero in most markets. The fixed effects therefore capture demand factors that are empirically distinct from outcome-based quality, supporting the interpretation of $\alpha$ as a separate learning channel.
 
 
+%%% Sensitivity of alpha
+
+\subsection{Sensitivity of the Quality Response to Alternative Specifications}
+\label{app:alpha-sensitivity}
+
+Re-estimating the full structural pipeline and recomputing counterfactuals for every alternative specification is computationally prohibitive. As a more tractable diagnostic, we examine how the estimated quality response, $\alpha$, varies across alternative specifications of the first-step multinomial logit. Because the counterfactual reallocations and health effects scale directly with $\alpha$ in each market, stability of $\alpha$ across specifications implies stability of our counterfactual conclusions.
+
+Table~\ref{tab:coefficients} reports the distribution of $\hat\alpha$ across HRRs under three specifications. The ``Baseline'' specification matches the main-text estimates. The ``Integrated'' specification adds an indicator for the PCP and specialist sharing a practice. The ``Peer Outcomes'' specification further includes a measure of specialist quality constructed from the outcomes of other PCPs' patients in the same practice. All three impose time-invariant congestion for computational ease. The mean $\hat\alpha$ moves from 0.192 in the baseline to 0.192 with the practice indicator and 0.203 with the peer-quality measure, and the upper-tail percentiles are similarly stable. The estimated quality response is therefore not driven by failing to control for practice integration or peer-based quality information.
+
+
 %%% E. COUNTERFACTUAL ROBUSTNESS
 
 \section{Counterfactual Robustness}
@@ -393,7 +304,7 @@ As a diagnostic on the direction of these reallocations, we also examine how the
 \end{minipage}
 \end{table}
 
-\newpage
+\clearpage
 \begin{table}[h!]
 \centering
 \footnotesize
@@ -408,7 +319,7 @@ As a diagnostic on the direction of these reallocations, we also examine how the
 \end{minipage}
 \end{table}
 
-\newpage
+\clearpage
 \begin{table}[h!]
 \centering
 \footnotesize
@@ -423,7 +334,7 @@ As a diagnostic on the direction of these reallocations, we also examine how the
 \end{minipage}
 \end{table}
 
-\newpage
+\clearpage
 \begin{table}[h!]
 \centering
 \footnotesize
@@ -455,8 +366,8 @@ HRR & Per & N spec & Mean $|\Delta p_{ij}|$ & Share $<$1pp & $\bar{q}_0$ & $\bar
 
 %%% FIGURES
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[PCP Identification Coverage]{Composition of the listed referring physician field and carrier-lookback coverage over time.\footnote{Stacked bars show the composition of the \texttt{rfr\_physn\_npi} field on the surgeon's claim. The line shows the share of procedures for which our carrier-lookback method identifies a PCP.}}
@@ -467,8 +378,8 @@ HRR & Per & N spec & Mean $|\Delta p_{ij}|$ & Share $<$1pp & $\bar{q}_0$ & $\bar
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Bias in $\hat\alpha$]{Bias in $\hat\alpha$ as a function of the true $\alpha$ and the base failure rate, with quality dispersion fixed at 0.03.\footnote{The surface is smoothed using a polynomial fit to the simulation grid. Darker shading indicates larger bias.}}
@@ -479,8 +390,8 @@ HRR & Per & N spec & Mean $|\Delta p_{ij}|$ & Share $<$1pp & $\bar{q}_0$ & $\bar
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Relative bias in $\hat\alpha$]{Relative bias in $\hat\alpha$ (as a percentage of the true value) by base failure rate, with quality dispersion fixed at 0.03.\footnote{The shaded band marks $\pm$10\% relative bias. Arrows indicate values exceeding 150\% (truncated for readability).}}
@@ -491,8 +402,8 @@ HRR & Per & N spec & Mean $|\Delta p_{ij}|$ & Share $<$1pp & $\bar{q}_0$ & $\bar
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Log-Likelihood by $\eta$]{Log-Likelihood Values in Four Example Simulations\footnote{Plots of the log-likelihood (``lnL\_list'') against the candidate value of $\eta$ (``eta-hat,'' plotted on a log scale), from four example simulations. All other parameters are held at the values used to generate the simulated data, which consists of 2,500 patients and 25 specialists.}}
@@ -507,8 +418,8 @@ HRR & Per & N spec & Mean $|\Delta p_{ij}|$ & Share $<$1pp & $\bar{q}_0$ & $\bar
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[First-Stage Partial Scatter]{Partial scatter plots of actual versus predicted patient counts, residualized on HRR fixed effects and a time-period indicator.\footnote{Each point represents a specialist-time period observation, weighted by the inverse variance of the specialist fixed effect. The fitted line shows the first-stage relationship. Left panel shows $\eta=1$, right panel shows $\eta=5$.}}
@@ -521,8 +432,8 @@ $\eta=1$ & $\eta=5$ \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[First-Stage F-Statistics]{Distribution of HRR-level first-stage F-statistics, weighted by patient volume.\footnote{Dashed line marks the conventional threshold of $F=10$. Each HRR-level regression includes the distance-based instrument, a time-period indicator, and is weighted by the inverse variance of the specialist fixed effect. Left panel shows $\eta=1$, right panel shows $\eta=5$.}}
@@ -535,8 +446,8 @@ $\eta=1$ & $\eta=5$ \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Predicted vs Actual Shares]{Predicted versus Actual Referral Shares ($\eta=1$)\footnote{Each point is a specialist-period observation. The horizontal axis is the actual share of referrals the specialist receives in an HRR-period; the vertical axis is the model-predicted share. The 45-degree line is shown in black.}}
@@ -549,8 +460,8 @@ Myopic & Forward-looking \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[FE vs Quality]{Specialist Fixed Effects and Observed Quality ($\eta=1$)\footnote{Each point is a specialist. The horizontal axis is observed specialist quality (success rate); the vertical axis is the estimated specialist fixed effect $\xi_j$ from the structural model. Within-HRR variation is the basis for the structural interpretation of $\alpha$, so near-zero within-HRR correlation between $\xi_j$ and quality supports the separate identification of the learning channel.}}
@@ -563,8 +474,8 @@ Myopic & Forward-looking \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Event Studies by Cohort]{Event Studies by Failure Cohort\footnote{Figure depicts event study estimates following \cite{cengiz2019}, based on Equation 1 of the main text, estimated separately by failure cohort (e.g., first failure, second failure, etc.). Our specification includes specialist X quarter fixed effects as well as an indicator for PCP `type'. The event study coefficient at time $\tau = -1$ is normalized to 0.}}
@@ -579,8 +490,8 @@ Third Failure & Fourth Failure \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Full Information, No Familiarity]{Counterfactuals from Full Information and No Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and do not incorporate any familiarity in their referral decisions. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} (\nHRRsFWD{}) HRRs in the myopic (forward-looking) case for $\eta=1$ and \nHRRsEtaFiveMyopic{} (\nHRRsEtaFiveFWD{}) in the myopic (forward-looking) case for $\eta=5$.}}
@@ -604,8 +515,8 @@ $\eta=1$ & $\eta=5$ \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[QualP10 Off-Diagonal]{Off-Diagonal Scatter of Patient-Weighted 10th-Percentile Quality ($\eta=1$)\footnote{Each point is an HRR where the patient-weighted 10th percentile of specialist quality under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
@@ -622,8 +533,8 @@ Existing familiarity & Reset familiarity \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[QualP90 Off-Diagonal]{Off-Diagonal Scatter of Patient-Weighted 90th-Percentile Quality ($\eta=1$)\footnote{Each point is an HRR where the patient-weighted 90th percentile of specialist quality under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
@@ -640,8 +551,8 @@ Existing familiarity & Reset familiarity \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[SpendP10 Off-Diagonal]{Off-Diagonal Scatter of Patient-Weighted 10th-Percentile Spending ($\eta=1$)\footnote{Each point is an HRR where the patient-weighted 10th percentile of episode spending under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}} %S: Typo in value of eta?
@@ -658,8 +569,8 @@ Existing familiarity & Reset familiarity \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[SpendP90 Off-Diagonal]{Off-Diagonal Scatter of Patient-Weighted 90th-Percentile Spending ($\eta=1$)\footnote{Each point is an HRR where the patient-weighted 90th percentile of episode spending under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}} %S: Typo in value of eta?
@@ -684,8 +595,7 @@ Existing familiarity & Reset familiarity \\
 
 This section presents corresponding figures for $\eta=5$ of the counterfactual gradients and off-diagonal percentile scatters shown elsewhere in the paper and appendix for $\eta=1$.
 
-\newpage
-\begin{figure}[htb]
+\begin{figure}[!h]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Gradient of Health Effects ($\eta=5$)]{Health Effects of Full Information by Estimated Learning Parameter ($\eta=5$)\footnote{Figure depicts the mean change in successes per 10,000 patients under each counterfactual, binned into ten patient-weighted quantiles of the estimated learning parameter $\hat\alpha$ within each HRR ($\hat\alpha > 0.001$). Marker size reflects the total patients in the bin.}}
@@ -702,8 +612,8 @@ Existing familiarity & Reset familiarity \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Gradient of Spending Effects ($\eta=5$)]{Episode Spending Effects of Full Information by Estimated Learning Parameter ($\eta=5$)\footnote{Figure depicts the mean change in episode spending under each counterfactual, binned into ten patient-weighted quantiles of the estimated learning parameter $\hat\alpha$ within each HRR ($\hat\alpha > 0.001$). Marker size reflects the total patients in the bin.}}
@@ -720,8 +630,8 @@ Existing familiarity & Reset familiarity \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[QualP10 Off-Diagonal ($\eta=5$)]{Off-Diagonal Scatter of Patient-Weighted 10th-Percentile Quality ($\eta=5$)\footnote{Each point is an HRR where the patient-weighted 10th percentile of specialist quality under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
@@ -738,8 +648,8 @@ Existing familiarity & Reset familiarity \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[QualP90 Off-Diagonal ($\eta=5$)]{Off-Diagonal Scatter of Patient-Weighted 90th-Percentile Quality ($\eta=5$)\footnote{Each point is an HRR where the patient-weighted 90th percentile of specialist quality under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
@@ -756,8 +666,8 @@ Existing familiarity & Reset familiarity \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[SpendP10 Off-Diagonal ($\eta=5$)]{Off-Diagonal Scatter of Patient-Weighted 10th-Percentile Spending ($\eta=5$)\footnote{Each point is an HRR where the patient-weighted 10th percentile of episode spending under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
@@ -774,8 +684,8 @@ Existing familiarity & Reset familiarity \\
 \end{minipage}
 \end{figure}
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[SpendP90 Off-Diagonal ($\eta=5$)]{Off-Diagonal Scatter of Patient-Weighted 90th-Percentile Spending ($\eta=5$)\footnote{Each point is an HRR where the patient-weighted 90th percentile of episode spending under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
@@ -793,8 +703,8 @@ Existing familiarity & Reset familiarity \\
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Quality-Maximizing Referrals ($\eta=5$)]{Counterfactual Changes with Quality-Maximizing Referrals ($\eta=5$)\footnote{Figure depicts the share of referrals reallocated and the resulting change in probability of success under a counterfactual in which each PCP's belief is replaced with the true specialist success rate, specialist fixed effects and accumulated familiarity are set to zero, and $\alpha$ within each HRR is calibrated to match the larger of the distance or congestion utility components. Results are averaged across individuals within an HRR and presented as a histogram across HRRs.}}

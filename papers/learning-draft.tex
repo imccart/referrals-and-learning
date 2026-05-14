@@ -27,8 +27,7 @@ PRELIMINARY\thanks{We thank Yunan Ji and Matt Grennan for helpful comments. We a
 \vspace{-2ex}
 \begin{abstract}
 \singlespacing
-\noindent The U.S. healthcare system relies increasingly on primary care physicians (PCPs) as the locus of patient care, with PCPs exercising particular influence on a patient's choice of specialist. The extent to which the quality of specialist governs PCP referral decisions therefore has important implications for market allocations of patients, healthcare outcomes, and spending. In this paper, we study PCP referrals to specialists using the population of orthopedic procedures for Medicare fee-for-service beneficiaries from 2008 through 2018. We first document substantial heterogeneity in specialist quality and episode spending within geographic markets, and we present design-based evidence showing that PCPs adjust their referrals specifically based on the outcomes of their own patients. We then employ a structural learning model, allowing for both myopic and forward-looking learning, and we examine a variety of counterfactuals regarding PCP access to information about specialist quality. In baseline counterfactuals, we find that about one-quarter of patients would be referred to a different specialist under perfect information, with small but meaningful improvements in patient outcomes. In more aggressive counterfactuals prioritizing specialist quality in referral decisions, we estimate that nearly 20\% of poor surgical outcomes could be avoided even with realistic distance and capacity constraints.
-%S: Depending on the journal, we don't need as much preamble about the importance of PCPs and referrals. Also we may want to say more about the model (familiarity and congestion), and any other methodological innovations, if there are some.
+\noindent The U.S. health care system relies increasingly on primary care physicians (PCPs) as the locus of patient care, with PCPs exercising particular influence on a patient's choice of specialist. The extent to which the quality of specialist governs PCP referral decisions therefore has important implications for market allocations of patients, health care outcomes, and spending. In this paper, we study PCP referrals to specialists using the population of orthopedic procedures for Medicare fee-for-service beneficiaries from 2008 through 2018. We first document substantial heterogeneity in specialist quality and episode spending within geographic markets, and we present design-based evidence showing that PCPs adjust their referrals specifically based on the outcomes of their own patients. We then employ a structural learning model, allowing for both myopic and forward-looking learning, and we examine a variety of counterfactuals regarding PCP access to information about specialist quality. In baseline counterfactuals, we find that about one-quarter of patients would be referred to a different specialist under perfect information, with small but meaningful improvements in patient outcomes. In more aggressive counterfactuals prioritizing specialist quality in referral decisions, we estimate that nearly 20\% of poor surgical outcomes could be avoided even with realistic distance and capacity constraints.
 \end{abstract}
 
 
@@ -44,16 +43,16 @@ PRELIMINARY\thanks{We thank Yunan Ji and Matt Grennan for helpful comments. We a
 \section{Introduction}
 \label{sec:intro}
 
-Incomplete information is a defining feature of healthcare markets, including referrals from primary care physicians (PCPs) to specialists. Even within a single geographic market, commonly chosen specialists differ substantially in quality, with little variation in prices to rationalize the gap.\footnote{See, e.g., \cite{kolstad2009} and \cite{dranove2019} for surveys.} Patients depend on PCPs to navigate these differences, and PCPs have taken on an increasingly central role in coordinating care.%S: I don't think this point is crucial, but if we include it we should have a footnote with ref's.
-PCP referral behavior is therefore a key driver of patient outcomes, healthcare spending, and specialist labor markets. In this paper, we ask whether PCPs learn about specialist quality from their own patients' outcomes, and how such learning shapes referral patterns, patient health, and healthcare spending.
+Incomplete information is a defining feature of health care markets, including referrals from primary care physicians (PCPs) to specialists. Even within a single geographic market, commonly chosen specialists differ substantially in quality, with little variation in prices to rationalize the gap.\footnote{See, e.g., \cite{kolstad2009} and \cite{dranove2019} for surveys.} Patients depend on PCPs to navigate these differences, and PCPs have taken on an increasingly central role in coordinating care.%S: I don't think this point is crucial, but if we include it we should have a footnote with ref's.
+PCP referral behavior is therefore a key driver of patient outcomes, health care spending, and specialist labor markets. In this paper, we ask whether PCPs learn about specialist quality from their own patients' outcomes, and how such learning shapes referral patterns, patient health, and health care spending.
 
-A substantial literature has developed using structural learning models to measure the effects of incomplete information about quality on consumer choices and market efficiency in various industries \citep*[see][for surveys]{ching2013, ching2017}. In healthcare, these models are often applied to prescribing decisions, where physicians learn about the quality of new pharmaceutical drugs \citep*[e.g.,][]{coscelli2004, ching2010, ferreyra2011, chan2013} or patient-specific matches with different drugs \citep[e.g.,][]{crawford2005, dickstein2018}.\footnote{In addition, \cite*{chernew2008} and \cite{gong2018} have applied structural learning models to choices about health insurance plans and surgical procedures, respectively.} Broadly, these papers find that uncertainty about quality substantially delays the adoption of new treatment options and limits market efficiency.\footnote{\cite{crawford2005}, however, find that learning about patient-specific matches is quite fast in their application.}
+A substantial literature has developed using structural learning models to measure the effects of incomplete information about quality on consumer choices and market efficiency in various industries \citep*[see][for surveys]{ching2013, ching2017}. In health care, these models are often applied to prescribing decisions, where physicians learn about the quality of new pharmaceutical drugs \citep*[e.g.,][]{coscelli2004, ching2010, ferreyra2011, chan2013} or patient-specific matches with different drugs \citep[e.g.,][]{crawford2005, dickstein2018}.\footnote{In addition, \cite*{chernew2008} and \cite{gong2018} have applied structural learning models to choices about health insurance plans and surgical procedures, respectively.} Broadly, these papers find that uncertainty about quality substantially delays the adoption of new treatment options and limits market efficiency.\footnote{\cite{crawford2005}, however, find that learning about patient-specific matches is quite fast in their application.}
 
-Such learning models have not been examined in the context of PCP referrals; yet referrals are a major determinant of market allocations in health care and consequently affect a large amount of healthcare and broader economic activity. Over \$2.5 trillion is spent on clinical services and hospital care in the US each year, and the vast majority of this is in specialty care rather than primary care.\footnote{National Health Expenditures: \url{www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data}.} Existing research has found that PCP referrals greatly influence patients' choices of specialized providers \citep*{freedman2015, gaynor2016, barkowski2018, chernew2021}. Therefore, PCPs acting on incomplete information about specialist quality could have profound consequences for health outcomes, health care expenditures, and health care equity. In addition, prior work has found that referring physicians consider past patient experiences in future referral decisions \citep*{schneider1996, barnett2012gim}, which motivates our use of a learning model based on patient outcomes. %suggesting the presence of learning from patient experience in PCP referrals.
+Such learning models have not been examined in the context of PCP referrals; yet referrals are a major determinant of market allocations in health care and consequently affect a large amount of health care and broader economic activity. Over \$2.5 trillion is spent on clinical services and hospital care in the US each year, and the vast majority of this is in specialty care rather than primary care.\footnote{National Health Expenditures: \url{www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data}.} Existing research has found that PCP referrals greatly influence patients' choices of specialized providers \citep*{freedman2015, gaynor2016, barkowski2018, chernew2021}. Therefore, PCPs acting on incomplete information about specialist quality could have profound consequences for health outcomes, health care expenditures, and health care equity. In addition, prior work has found that referring physicians consider past patient experiences in future referral decisions \citep*{schneider1996, barnett2012gim}, which motivates our use of a learning model based on patient outcomes. %suggesting the presence of learning from patient experience in PCP referrals.
 
 We estimate the model with data on over 4.5 million joint replacement surgeries in the United States, using the universe of Medicare fee-for-service (FFS) claims from 2008 to 2018. In the model, a specialist's quality is defined as the probability of a positive or negative outcome from each surgery. PCPs refer their patients among the set of available surgeons in their geographic market, and they learn about the qualities of those specialists from the outcomes experienced by their patients. Given the FFS environment, the PCP's referral is unaffected by insurance network restrictions, allowing a referral to any relevant specialist in the patient's geographic market.\footnote{With other types of health insurance, a referral could be an administrative requirement as well as an informative recommendation.} Differences in the histories of patient outcomes across PCPs referring to the same specialist provide the variation needed to identify the learning process, \emph{net of specialist fixed effects}, which are included in the model to absorb other demand factors not related to quality. We solve both a myopic and a forward-looking version of the model, the latter using a highly tractable solution method developed by \cite{gittins1979} and \cite{gittins1979bio}. The model also accounts for familiarity (e.g., habit persistence) in referral choices, and for capacity constraints using an approximation proposed by \cite*{richards-shubik2021}. This is crucial for counterfactuals where informational frictions are reduced, because the capacity constraints of individual surgeons may limit the market's ability to reallocate patients toward better specialists.
 
-The model's ability to identify potential reallocations and the resulting health gains  requires two conditions, both of which we establish before estimating the model. First, specialists commonly chosen within the same market must differ meaningfully in quality. A simple descriptive analysis reveals significant heterogeneity in quality within geographic markets, suggesting meaningful potential gains if patients could be reallocated within their market. Comparing rates of negative health outcomes (primarily surgical complications and hospital readmissions, but even death in some cases) between surgeons at the 75th and 25th percentiles within each market, we find differences of \failureIQRPten{} to \failureIQRPninety{} percentage points in most markets. These are large relative to the national average failure rate of \failureRateMean{} percentage points. We also provide suggestive evidence that surgeons in the top quarter of the quality distribution have capacity available to take on more patients.%S: This would be a good thing to look into with EHR data, if we get to do the project with Hopkins.
+The model's ability to identify potential reallocations and the resulting health gains  requires two conditions, both of which we establish before estimating the model. First, specialists commonly chosen within the same market must differ meaningfully in quality. A simple descriptive analysis reveals significant heterogeneity in quality within geographic markets, suggesting meaningful potential gains if patients could be reallocated within their market. Comparing rates of negative health outcomes (primarily surgical complications and hospital readmissions, but even death in some cases) between surgeons at the 75th and 25th percentiles within each market, we find differences of \failureIQRPten{} to \failureIQRPninety{} percentage points in most markets. These are large relative to the national average failure rate of \failureRateMean{} percentage points. We also provide suggestive evidence that surgeons in the top quarter of the quality distribution have capacity available to take on more patients.
 
 Second, PCPs must adjust referrals in response to their patients' outcomes. We provide design-based evidence exploiting PCPs with overlapping referral networks but differential patient outcomes, which lends naturally to a difference-in-differences design that compares the ``treated'' PCPs who observe a negative outcome from each surgeon with the ``control'' PCPs who do not. With adjustments for specialist fixed effects, we find that PCPs reduce referrals by about \eventStudyPctReductionCond{} percent following a negative patient outcome. This is strong evidence of a learning process based on the outcomes of a PCP's own patients and highlights the key source of variation in PCP referrals that identifies key parameters in our structural model.
 
@@ -69,9 +68,7 @@ Other papers applying structural learning models to treatment decisions use a di
 
 Our work also relates to the rapidly growing literature on physician networks and referrals. Starting with \cite{barnett2011}, researchers have inferred professional relationships among physicians from shared patients and have examined aggregate associations between features of the inferred networks and variations in expenditures and utilization across geographic markets. \cite*{kaur2016} and \cite*{agha2022ms} study referrals at the provider level for specific areas of care and find that greater concentration of referrals to fewer specialists is associated with somewhat lower expenditures and utilization. Also, \cite{zeltzer2020} and \cite{sarsons2023} consider the role of gender homophily in referrals and the subsequent effect on earnings differences among physicians. Our descriptive analysis of the referral networks for major joint replacements offers new information on heterogeneities in network structure and quality outcomes in this important area of care where referrals can be reasonably well inferred.
 
-%S: If we need to save space in the intro at some point, we could cut this.
 Last, in addition to our empirical analysis, we contribute to the understanding of identification in structural learning models. While most existing papers in this literature provide thoughtful, verbal discussions of identification, we develop a formal argument for the identification of all the parameters in our model, including the weight placed on the patient's health outcome in the physician's utility.\footnote{\cite{ching2013} provide a clear verbal argument for a similar parameter.  We formalize this with an ``identification at infinity'' type of argument. Also, although not applicable to our model, \cite{bunting_heterogeneity_2024} have recently developed general results on identification in normal-normal learning models.} Notably, some previous studies omit this parameter, which implicitly fixes the marginal rate of substitution between quality and all the factors in the idiosyncratic shocks at an assumed value. While this is innocuous in some cases (e.g., where the outcomes are unobserved and the scale of the outcomes is estimated), it may be restrictive in others. We also provide a small simulation study on the identification of a parameter that governs the precision of the prior beliefs, which is imprecisely estimated in our data and seems to be problematic in some prior studies as well.
-%S - note for later: Dickstein gets a small value of eta in the main specification, and very different estimates in other specifications.
 
 The remainder of the paper is organized as follows. We first explain the data and present a descriptive analysis of the referral networks for major joint replacements in Section \ref{sec:data}, which includes a simple exercise to illustrate the potential gains from more efficient referrals within geographic markets. In Section \ref{sec:reduced_form}, we present design-based evidence on how PCPs change their referral patterns in response to negative patient outcomes, using an event study. Section \ref{sec:model} turns to our learning model, where we specify the Bayesian learning process and other key features, briefly explain the solution method, and discuss identification. Finally, Section \ref{sec:structural} describes the details of our structural estimation, provides our estimates of the myopic and forward-looking models, and presents the results from our counterfactual simulations. Section \ref{sec:discuss} concludes.
 
@@ -231,7 +228,6 @@ The Gittins index is based on using only one alternative until it is retired.  S
 \label{sec:identification}
 
 Here we develop a formal argument for the identification of the parameters in the myopic model, and we offer a simple conjecture for the identification of the forward-looking model. We also discuss simulation results that indicate the difficulty of estimating the strength of the priors ($a_0 + b_0$) in practice.
-%TODO: Do we want to formalize the conjecture? 
 
 First, given a distribution for the shocks $\epsilon$, the conditional choice probabilities identify differences in utility between the alternatives. The effects of the pairwise characteristics, $u(x)$, and the specialist fixed effects, $\xi$, are identified subject to standard normalizations (e.g., one fixed effect is set equal to zero). Because the number of patients at a specialist, $n_{jt}$, is endogenous, the congestion effect, $c(n_{jt}, z_j)$, is identified with an instrument for the probability that patients \emph{other than patient t} see specialist $j$. A natural instrument for this is the distances between \emph{other} patients and specialist $j$ \citep[see the description of the estimation procedure in Section \ref{sec:estimation}, and][for further details]{richards-shubik2021}.
 
@@ -360,17 +356,15 @@ To further interpret the role of patient outcomes in PCP referrals, we present t
 
 \subsection{Counterfactuals}
 
-Using our model of PCP learning and referrals, and the estimates summarized in Tables \ref{tab:parameters_myopic} and \ref{tab:parameters_fwd}, we consider two primary counterfactuals. Both sets of counterfactuals simulate the reallocation of patients and the effects on patient health under full information, in which PCPs have perfectly accurate beliefs about specialist quality.\footnote{This is implemented by replacing $m$ in the myopic version and $g$ in the forward-looking version of the model with the true probability of success for each specialist, as observed in the data. For the Gittins index, note that when the variance of the beliefs, $v$, is zero, the expression in Equation \eqref{eqn:gittins_approx} becomes just $m$.} The counterfactuals differ in regard to our assumptions on the role of familiarity. In one case, we initialize familiarity as observed in the data as of the time of the first referral, and in the other, we initialize familiarity to 0. We refer to the first set of counterfactuals as ``existing familiarity'' and the second set as ``resetting familiarity.''\footnote{Under ``existing familiarity,'' the counterfactuals simulate a shock where the PCPs unexpectedly receive perfect information about specialist quality on January 1, 2013.} In both cases, the number of patients referred to each specialist can change going forward, which naturally allows the familiarity effect to change along with quality information. Familiarity can therefore compound the effect of improved quality information, or of other characteristics if the quality response is sufficiently low.\footnote{In the supplemental appendix, we also consider a simulation in which familiarity is shut off entirely. Removing familiarity produces even larger reallocations but negative average health effects, reinforcing the finding that existing referral relationships encode quality information that the quality signal alone cannot replace. The appendix also verifies that our counterfactual equilibrium is robust to starting values, with HRR-level mean quality differing by at most $7 \times 10^{-5}$ when re-solving from two extreme initial conditions.}%S: We could consider dropping the counterfactual where we turn off familiarity.
+Using our model of PCP learning and referrals, and the estimates summarized in Tables \ref{tab:parameters_myopic} and \ref{tab:parameters_fwd}, we consider two primary counterfactuals. Both sets of counterfactuals simulate the reallocation of patients and the effects on patient health under full information, in which PCPs have perfectly accurate beliefs about specialist quality.\footnote{This is implemented by replacing $m$ in the myopic version and $g$ in the forward-looking version of the model with the true probability of success for each specialist, as observed in the data. For the Gittins index, note that when the variance of the beliefs, $v$, is zero, the expression in Equation \eqref{eqn:gittins_approx} becomes just $m$.} The counterfactuals differ in regard to our assumptions on the role of familiarity. In one case, we initialize familiarity as observed in the data as of the time of the first referral, and in the other, we initialize familiarity to 0. We refer to the first set of counterfactuals as ``existing familiarity'' and the second set as ``resetting familiarity.''\footnote{Under ``existing familiarity,'' the counterfactuals simulate a shock where the PCPs unexpectedly receive perfect information about specialist quality on January 1, 2013.} In both cases, the number of patients referred to each specialist can change going forward, which naturally allows the familiarity effect to change along with quality information. Familiarity can therefore compound the effect of improved quality information, or of other characteristics if the quality response is sufficiently low.\footnote{In the supplemental appendix, we also consider a simulation in which familiarity is shut off entirely. Removing familiarity produces even larger reallocations but negative average health effects, reinforcing the finding that existing referral relationships encode quality information that the quality signal alone cannot replace. The appendix also verifies that our counterfactual equilibrium is robust to starting values, with HRR-level mean quality differing by at most $7 \times 10^{-5}$ when re-solving from two extreme initial conditions.}
 
-The results under ``existing familiarity'' are summarized in Figure \ref{fig:cf_current}. With existing familiarity, full information leads to a reallocation of \reallocationMeanCurrentEtaFiveMyopic{}\% of referrals in the myopic model, with an average improvement in health outcomes of \healthFXMeanCurrentEtaFiveMyopic{} per 100 patients (about a 0.8\% relative reduction against the baseline failure rate of \failureRateMean{} per 100).%S: Which version is this (eta and myopic/fwd look)?
+The results under ``existing familiarity'' are summarized in Figure \ref{fig:cf_current}. With existing familiarity, full information leads to a reallocation of \reallocationMeanCurrentEtaFiveMyopic{}\% of referrals in the myopic model, with an average improvement in health outcomes of \healthFXMeanCurrentEtaFiveMyopic{} per 100 patients (about a 0.8\% relative reduction against the baseline failure rate of \failureRateMean{} per 100).
 Beneath this aggregate, the across-HRR distribution of mean health effects is skewed positive, with roughly three-quarters of markets showing improvements and a longer right tail of larger gains.
 These results include adjustments for changes in congestion, as discussed in Section \ref{sec:estimation}, and are relatively similar across different values of $\eta$ and across the myopic and forward-looking models. 
-We examine other changes in the within-market distributions of specialist quality in Appendix Figures 11-14, which show the changes in the 10th and 90th percentiles of referral-weighted quality in each HRR. Beyond the changes in the mean shown in Figure \ref{fig:cf_current}, it appears that the reallocation under existing familiarity yields modest upward shifts at the low end of the distributions more than at the high end.
+We examine other changes in the within-market distributions of specialist quality in the supplemental appendix, which presents the changes in the 10th and 90th percentiles of referral-weighted quality in each HRR. Beyond the changes in the mean shown in Figure \ref{fig:cf_current}, it appears that the reallocation under existing familiarity yields modest upward shifts at the low end of the distributions more than at the high end.
 
-The results differ meaningfully when we reset familiarity. As summarized in Figure \ref{fig:cf_full}, the share of referrals reallocated increases to \reallocationMeanMyopic{}\%, but average health effects turn slightly negative at \healthFXMeanMyopic{} per 100 patients (about a 0.2\% relative increase against the baseline failure rate of \failureRateMean{} per 100). The across-HRR distribution under resetting familiarity is wider and roughly symmetric around zero, with about half of markets showing improvements; the slightly negative patient-weighted mean reflects larger magnitudes among the worsening markets. Under this resetting-familiarity counterfactual, the quality distribution widens rather than compresses upward. A minority of patients are reallocated to higher-quality specialists they had previously been far from, while another group loses the quality cues embedded in their PCP's prior referral patterns and is reallocated to lower-quality specialists. The net mean effect on quality is slightly negative because the losses at the bottom of the distribution within HRRs typically outweigh the gains at the top (see Appendix Figures 11-14).
-%S: I cut: present the corresponding off-diagonal scatters of the 10th and 90th percentiles of quality under each counterfactual.
+The results differ meaningfully when we reset familiarity. As summarized in Figure \ref{fig:cf_full}, the share of referrals reallocated increases to \reallocationMeanMyopic{}\%, but average health effects turn slightly negative at \healthFXMeanMyopic{} per 100 patients (about a 0.2\% relative increase against the baseline failure rate of \failureRateMean{} per 100). The across-HRR distribution under resetting familiarity is wider and roughly symmetric around zero, with about half of markets showing improvements; the slightly negative patient-weighted mean reflects larger magnitudes among the worsening markets. Under this resetting-familiarity counterfactual, the quality distribution widens rather than compresses upward. A minority of patients are reallocated to higher-quality specialists they had previously been far from, while another group loses the quality cues embedded in their PCP's prior referral patterns and is reallocated to lower-quality specialists. The net mean effect on quality is slightly negative because the losses at the bottom of the distribution within HRRs typically outweigh the gains at the top (see the supplemental appendix).
 
-%S: Nice insight and discussion!
 The comparison between the two counterfactuals reveals an important interaction between quality information and existing referral relationships. When PCPs retain their accumulated familiarity, full information nudges referrals toward higher-quality specialists within the PCP's existing referral network. When familiarity is reset, the reallocation is driven primarily by distance preferences and specialist fixed effects rather than by quality, because the estimated weight on quality ($\alpha$) is small relative to the dispersion of specialist fixed effects. To illustrate, the within-market standard deviation of specialist fixed effects is on average over 7 times larger than the quality signal ($\alpha$ times the standard deviation of specialist quality), so that the quality channel is overwhelmed once familiarity no longer anchors referral patterns.
 
 These patterns emerge more clearly when we condition on markets where PCPs demonstrably respond to outcomes. Figure \ref{fig:gradient_health} plots the mean health effect of each counterfactual against the estimated learning parameter $\hat\alpha$ across markets with $\hat\alpha > 0.001$, binned into ten patient-weighted quantiles. Under both counterfactuals, health effects scale strongly with $\hat\alpha$. Markets with the largest $\hat\alpha$ see the most meaningful health improvements when full information is combined with existing familiarity, and even under the resetting-familiarity counterfactual, health effects turn less negative (or positive) in these responsive markets.
@@ -396,7 +390,6 @@ Employing both a design-based event study and a structural model, we find that P
 
 When PCPs retain their accumulated familiarity with specialists, full information nudges referrals toward better specialists within established referral networks, producing modest health improvements. When familiarity is reset, however, the quality signal is too weak to direct the resulting reallocation, and health effects reverse. This asymmetry arises because existing referral relationships encode quality information. Indeed, we document empirically that longer-duration PCP-specialist pairs are associated with higher specialist quality across markets, consistent with familiarity gradually sorting PCPs toward better specialists. Resetting familiarity destroys this accumulated sorting. With the quality weight small relative to the dispersion of other referral determinants (specialist fixed effects and distance preferences), the resulting reallocation proceeds largely independently of quality, and markets where familiarity had encoded the most quality information experience the largest health losses.
 
-%S: Nice point here!
 From a policy perspective, our results suggest that quality transparency initiatives, such as public reporting of specialist performance, may be most effective when they complement rather than disrupt existing referral relationships. Information campaigns or decision-support tools could help PCPs identify better specialists within their existing networks, leveraging the familiarity channel rather than working against it. Conversely, interventions that reset referral patterns may require stronger quality signals to prevent the reallocation from being dominated by non-quality factors.
 
 
@@ -410,11 +403,10 @@ From a policy perspective, our results suggest that quality transparency initiat
 %%% TABLES AND FIGURES
 
 \clearpage
-\newpage
 \section*{Tables and Figures}
 
 %%% TABLES
-\begin{table}
+\begin{table}[!h]
 \centering
 \footnotesize
 \begin{minipage}[h]{6in}
@@ -429,8 +421,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 \end{table}
 
 
-\newpage
-\begin{table}
+\clearpage
+\begin{table}[!ht]
 \centering
 \footnotesize
 \begin{minipage}[h]{6in}
@@ -445,8 +437,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 \end{table}
 
 
-\newpage
-\begin{table}
+\clearpage
+\begin{table}[!ht]
 \centering
 \footnotesize
 \begin{minipage}[h]{6in}
@@ -464,9 +456,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 
 
 \clearpage
-\newpage
 
-\begin{table}
+\begin{table}[!ht]
 \centering
 \footnotesize
 \begin{minipage}[h]{6in}
@@ -485,8 +476,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 
 %%% FIGURES
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[PCP Referral Networks]{PCP Referral Networks over 2013-2018\footnote{Panel (a) depicts the frequency histogram of PCP network size (number of unique specialists referred to) over the 2013-2018 estimation period. Panel (b) depicts the frequency histogram of the ``highest-share'' specialist per PCP over the same period.}}
@@ -500,8 +491,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Within-Market Variation]{Within-Market Variation in Specialist Quality and Spending\footnote{Panel (a) depicts the interquartile range of failure rates per 100 surgeries across specialists within each HRR over the 2013-2018 estimation period. Panel (b) depicts the interquartile range of mean episode spending per specialist per HRR over the same period. Episode spending is measured as the total Medicare payments over a 90-day period beginning from the date of admission.}}
@@ -515,8 +506,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Capacity and Reallocation]{Specialist Capacity and Hypothetical Reallocation\footnote{Panel (a) depicts the estimated number of additional annual procedures that could be performed collectively among the specialists in the top 25 percent of the quality distribution. Excess capacity for a single specialist is measured as the difference between the 75th percentile of that specialist's count of yearly operations less the observed count of operations in that year. Panel (b) depicts the count of procedures among the lowest 25th percentile of specialists, aggregated across all specialists in a given HRR.}}
@@ -530,8 +521,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[caption]{Event Study of Specialist Failures\footnote{Figure depicts stacked event study estimates following \cite{cengiz2019}, based on Equation~\eqref{eqn:eventstudy}. Our stacked specification includes specialist X quarter fixed effects as well as specialist X cohort X PCP `type' fixed effects. The event study coefficient at time $\tau = -1$ is normalized to 0.}}
@@ -543,8 +534,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[caption]{Partial Effect of Failures on Referral Probabilities\footnote{Figure depicts the mean change in referral probabilities among PCP-specialist pairs with some referral history, averaged within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} (\nHRRsFWD{}) HRRs in the myopic (forward-looking) case for $\eta=1$ and \nHRRsEtaFiveMyopic{} (\nHRRsEtaFiveFWD{}) in the myopic (forward-looking) case for $\eta=5$.}}
@@ -561,8 +552,8 @@ $\eta=1$ & $\eta=5$ \\
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Existing Familiarity Counterfactual]{Counterfactual Changes with Full Information, Existing Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting change in patient outcomes under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to observed values as of January 2013. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results are limited to HRRs in which our constrained maximization routine converged, with \nHRRsMyopic{} HRRs (myopic, $\eta=1$), \nHRRsEtaFiveMyopic{} HRRs (myopic, $\eta=5$), \nHRRsFWD{} HRRs (forward-looking, $\eta=1$), and \nHRRsEtaFiveFWD{} HRRs (forward-looking, $\eta=5$).}}
@@ -586,8 +577,8 @@ $\eta=1$ & $\eta=5$ \\
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Reset Familiarity Counterfactual]{Counterfactual Changes with Full Information, Reset Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting change in patient outcomes under a counterfactual in which PCPs have full information about specialist quality and in which familiarity is initialized to 0. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results are limited to HRRs in which our constrained maximization routine converged, with \nHRRsMyopic{} HRRs (myopic, $\eta=1$), \nHRRsEtaFiveMyopic{} HRRs (myopic, $\eta=5$), \nHRRsFWD{} HRRs (forward-looking, $\eta=1$), and \nHRRsEtaFiveFWD{} HRRs (forward-looking, $\eta=5$).}}
@@ -611,8 +602,8 @@ $\eta=1$ & $\eta=5$ \\
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Episode Spending Counterfactual]{Counterfactual Changes in Episode Spending with Full Information\footnote{Figure depicts the change in 90-day episode spending under each full-information counterfactual, averaged across individuals within an HRR and presented as a histogram across HRRs. The ``existing familiarity'' counterfactual initializes familiarity at observed values as of January 2013; the ``reset familiarity'' counterfactual initializes familiarity to 0.}}
@@ -636,8 +627,8 @@ $\eta=1$ & $\eta=5$ \\
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Gradient of Health Effects]{Health Effects of Full Information by Estimated Learning Parameter ($\eta=1$)\footnote{Figure depicts the mean change in successes per 10,000 patients under each counterfactual, binned into ten patient-weighted quantiles of the estimated learning parameter $\hat\alpha$ within each HRR ($\hat\alpha > 0.001$). Marker size reflects the total patients in the bin. Corresponding figures for $\eta=5$ appear in the supplemental appendix.}}
@@ -655,8 +646,8 @@ Existing familiarity & Reset familiarity \\
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[Gradient of Spending Effects]{Episode Spending Effects of Full Information by Estimated Learning Parameter ($\eta=1$)\footnote{Figure depicts the mean change in episode spending under each counterfactual, binned into ten patient-weighted quantiles of the estimated learning parameter $\hat\alpha$ within each HRR ($\hat\alpha > 0.001$). Marker size reflects the total patients in the bin. Corresponding figures for $\eta=5$ appear in the supplemental appendix.}}
@@ -674,21 +665,21 @@ Existing familiarity & Reset familiarity \\
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[caption]{Familiarity and Specialist Quality\footnote{Figure depicts mean specialist quality (success rate) by the number of patients a PCP has referred to a given specialist. Patients are grouped into bins: 1, 2--3, 4--5, 6--10, and 11+. Error bars represent 95\% confidence intervals.}}
 \centerline{%
-    \includegraphics[scale=0.6]{results/figures/Familiarity_Quality_Patients_1_1_0.png}
+    \includegraphics[width=5in,keepaspectratio]{results/figures/Familiarity_Quality_Patients_1_1_0.png}
 }
 \label{fig:fam_quality}
 \end{minipage}
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[caption]{Health Effects of Full Information by Quality Sorting in Familiarity\footnote{Figure depicts the mean change in successes per 10,000 patients under full information, separately for the ``existing familiarity'' and ``resetting familiarity'' counterfactuals. Markets are grouped into terciles based on the within-market correlation between referral relationship duration and specialist quality. Higher terciles indicate markets where longer referral relationships are more strongly associated with higher specialist quality.}}
@@ -700,8 +691,8 @@ Existing familiarity & Reset familiarity \\
 \end{figure}
 
 
-\newpage
-\begin{figure}[htb]
+\clearpage
+\begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
 \caption[caption]{Counterfactual Changes with Quality-Maximizing Referrals ($\eta=1$)\footnote{Figure depicts the share of referrals reallocated and the resulting change in probability of success under a counterfactual in which each PCP's belief is replaced with the true specialist success rate, specialist fixed effects and accumulated familiarity are set to zero, and $\alpha$ within each HRR is calibrated to match the larger of the distance or congestion utility components. Results are averaged across individuals within an HRR and presented as a histogram across HRRs. Corresponding figures for $\eta=5$ appear in the supplemental appendix.}}
