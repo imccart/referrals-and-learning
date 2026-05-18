@@ -1,12 +1,13 @@
 set logtype text
 capture log close
 local logdate = string( d(`c(current_date)'), "%dCYND" )
-log using "${LOG_PATH}FiguresAdjust_`logdate'.log", replace
+log using "${LOG_PATH}R1_Figures_`logdate'.log", replace
 
 ******************************************************************
-**	Title:		Figure Adjustments (VRDC)
+**	Title:		R1 — Revision Figures (VRDC)
 **	Author:		Ian McCarthy
 **	Date Created:	5/11/2026
+**	Date Updated:	5/18/2026 (renamed from O6 to R1; revision script)
 **	Notes:		Supplementary figures that adjust or augment the
 **			main O4 output. Self-contained: loads only files
 **			that always live in ${DATA_FINAL} and does not
