@@ -251,6 +251,17 @@ Re-estimating the full structural pipeline and recomputing counterfactuals for e
 
 Table~\ref{tab:coefficients} reports the distribution of $\hat\alpha$ across HRRs under three specifications. The ``Baseline'' specification matches the main-text estimates. The ``Integrated'' specification adds an indicator for the PCP and specialist sharing a practice. The ``Peer Outcomes'' specification further includes a measure of specialist quality constructed from the outcomes of other PCPs' patients in the same practice. All three impose time-invariant congestion for computational ease. The mean $\hat\alpha$ moves from 0.192 in the baseline to 0.192 with the practice indicator and 0.203 with the peer-quality measure, and the upper-tail percentiles are similarly stable. The estimated quality response is therefore not driven by failing to control for practice integration or peer-based quality information.
 
+\subsection{Risk Adjustment}
+\label{app:risk-adjustment}
+
+Here, we discuss how risk adjustment does not materially affect our estimates of specialist quality. First, our analytic sample is heavily concentrated in a single, low-complexity DRG. Table~\ref{tab:drg-distribution} reports the distribution of admissions across DRGs. DRG 470 (major joint replacement of lower extremity, without MCC) accounts for 86.1 percent of the 2.92 million events, with the remaining 14 percent spread across 17 procedure codes. The combination of elective admission and physician referral as sample inclusion criteria selects a planned, lower-complication population in which case-mix variation across specialists is limited.
+
+Second, raw and risk-adjusted specialist quality are highly correlated. We construct a risk-adjusted measure of specialist quality via indirect standardization, regressing the patient-level 90-day failure indicator on age (quadratic), sex, race, DRG, and the Charlson Comorbidity Index, then computing each specialist's observed minus expected failure rate plus the overall sample mean. The Pearson correlation between raw and risk-adjusted specialist quality is 0.84, indicating that the within-specialist sorting captured by our raw measure largely survives explicit case-mix adjustment.
+
+Third, the estimated quality response is invariant to either case-mix sensitivity. Table~\ref{tab:coefficients-adj} reports the distribution of $\hat\alpha$ under two re-estimations of the first-step multinomial logit. The first restricts the estimation sample to DRG 470 only, and the second swaps the risk-adjusted specialist-quality measure into the belief prior. The mean of $\hat\alpha$ moves from 0.192 in the baseline (Table~\ref{tab:coefficients}) to 0.216 when restricting to DRG 470 only, and to 0.192 with the risk-adjusted quality measure. The upper-tail percentiles are similarly stable.
+
+Because the analytic sample is concentrated in a single elective DRG, the raw and risk-adjusted quality measures are tightly correlated, and the estimated quality response is invariant to either case-mix sensitivity, we retain the raw specialist-quality measure throughout. Building risk adjustment into the structural model would require re-deriving the beta-binomial belief-updating apparatus around a continuous, risk-adjusted signal and reconstructing the Gittins index that governs the forward-looking decision problem. Given the evidence above, that complexity is not warranted.
+
 
 %%% E. COUNTERFACTUAL ROBUSTNESS
 
@@ -331,6 +342,34 @@ As a diagnostic on the direction of these reallocations, we also examine how the
     \end{tabular}
 }
 \label{tab:coefficients}
+\end{minipage}
+\end{table}
+
+\clearpage
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[DRG Distribution]{\textbf{DRG Distribution of the Analytic Sample}\footnote{Distribution of admissions across DRG codes in the analytic sample (2008--2018, major joint replacement procedures with elective admission and physician referral). ``Events'' is the number of admissions in each DRG; ``Share'' is the share of all admissions.}}
+\centerline{%
+\resizebox{\linewidth}{!}{\input{results/tables/drg-distribution.tex}}
+}
+\label{tab:drg-distribution}
+\end{minipage}
+\end{table}
+
+\clearpage
+\begin{table}[h!]
+\centering
+\footnotesize
+\begin{minipage}[h]{6in}
+\caption[Risk-Adjustment Sensitivity]{\textbf{Sensitivity to Case-Mix Adjustments}\footnote{Estimates of $\alpha$ (for $\eta=1$) under two case-mix sensitivities of the first-step multinomial logit. ``DRG 470 only'' restricts the estimation sample to admissions in DRG 470 (major joint replacement of lower extremity, without MCC). ``Risk-Adjusted Quality'' replaces the raw specialist-quality measure in the belief prior with a risk-adjusted measure constructed via indirect standardization of the patient-level 90-day failure indicator on age (quadratic), sex, race, DRG, and the Charlson Comorbidity Index. Compare to the baseline distribution in Table~\ref{tab:coefficients}.}}
+\centerline{%
+    \begin{tabular}{lrrrrrr}
+        \input{results/tables/MNL_Specs_Adj.tex}
+    \end{tabular}
+}
+\label{tab:coefficients-adj}
 \end{minipage}
 \end{table}
 
