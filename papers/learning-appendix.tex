@@ -253,13 +253,13 @@ Table~\ref{tab:coefficients} reports the distribution of $\hat\alpha$ across HRR
 \subsection{Risk Adjustment}
 \label{app:risk-adjustment}
 
-Here, we discuss how risk adjustment does not materially affect our estimates of specialist quality. First, our analytic sample is heavily concentrated in a single, low-complexity DRG. Table~\ref{tab:drg-distribution} reports the distribution of admissions across DRGs. DRG 470 (major joint replacement of lower extremity, without MCC) accounts for 86.1 percent of the 2.92 million events, with the remaining 14 percent spread across 17 procedure codes. The combination of elective admission and physician referral as sample inclusion criteria selects a planned, lower-complication population in which case-mix variation across specialists is limited.
+Here, we discuss how risk adjustment does not materially affect our estimates of specialist quality. First, our sample is heavily concentrated in a single, low-complexity DRG. Table~\ref{tab:drg-distribution} reports the distribution of admissions across DRGs. DRG 470 (major joint replacement of lower extremity, without MCC) accounts for 86.1 percent of the 2.9 million events, with the remaining 14 percent spread across 17 procedure codes. The combination of elective admission and physician referral as sample inclusion criteria selects a planned, lower-complication population in which case-mix variation across specialists is limited.
 
 Second, raw and risk-adjusted specialist quality are highly correlated. We construct a risk-adjusted quality measure by regressing the patient-level 90-day failure indicator on age (quadratic), sex, race, DRG, and the Charlson Comorbidity Index, then taking each specialist's observed minus expected failure rate plus the overall sample mean. The Pearson correlation between the raw and risk-adjusted measures is 0.84, so adjusting for observable patient case-mix moves the cross-section of specialist quality very little on average.
 
 Third, the estimated quality response is invariant to either case-mix sensitivity. Table~\ref{tab:coefficients-adj} reports the distribution of $\hat\alpha$ under two re-estimations of the first-step multinomial logit. The first restricts the estimation sample to DRG 470 only, and the second swaps the risk-adjusted specialist-quality measure into the belief prior. The mean of $\hat\alpha$ moves from 0.192 in the baseline (Table~\ref{tab:coefficients}) to 0.216 when restricting to DRG 470 only, and to 0.192 with the risk-adjusted quality measure. The upper-tail percentiles are similarly stable.
 
-Because the analytic sample is concentrated in a single elective DRG, the raw and risk-adjusted quality measures are tightly correlated, and the estimated quality response is invariant to either case-mix sensitivity, we retain the raw specialist-quality measure throughout. Even setting these results aside, the structural model would not easily accommodate a continuous risk-adjusted signal. The beta-binomial belief-updating framework presumes binary outcomes, and the path to a comparable model that admits continuous signals (e.g., normal-normal updating with a corresponding Gittins index) is unclear.
+Because the sample is concentrated in a single elective DRG, the raw and risk-adjusted quality measures are tightly correlated, and the estimated quality response is invariant to either case-mix sensitivity, we retain the raw specialist-quality measure throughout. Even setting these results aside, the structural model would not easily accommodate a continuous risk-adjusted signal. The beta-binomial belief-updating framework presumes binary outcomes, and the path to a comparable model that admits continuous signals (e.g., normal-normal updating with a corresponding Gittins index) is unclear.
 
 
 %%% E. COUNTERFACTUAL ROBUSTNESS
@@ -349,7 +349,7 @@ As a diagnostic on the direction of these reallocations, we also examine how the
 \centering
 \footnotesize
 \begin{minipage}[h]{6in}
-\caption[DRG Distribution]{\textbf{DRG Distribution of the Analytic Sample}\footnote{Distribution of admissions across DRG codes in the analytic sample (2008--2018, major joint replacement procedures with elective admission and physician referral). ``Events'' is the number of admissions in each DRG; ``Share'' is the share of all admissions.}}
+\caption[DRG Distribution]{\textbf{Distribution of DRG Codes}\footnote{Distribution of admissions across DRG codes in the sample (2008--2018, major joint replacement procedures with elective admission and physician referral). ``Events'' is the number of admissions in each DRG; ``Share'' is the share of all admissions.}}
 \centerline{%
 \resizebox{\linewidth}{!}{\input{results/tables/drg-distribution.tex}}
 }
