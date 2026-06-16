@@ -161,7 +161,7 @@ Although we have shown that $\eta$ is identified, our preliminary estimates of t
 
 We simulate a market with 2,500 patients and 25 specialists. For simplicity, the PCP-specialist histories (\# referrals, \# successes) are independent across patients, as though each patient were treated by a different PCP, but the PCPs have prior histories with some specialists. Each PCP has a 0.2 probability of any history with each specialist, independent across specialists. Conditional on any history with a specialist, the number of past referrals is Poisson with mean 4, and the number of past successes is binomial using the number of past referrals and the surgeon's success probability (explained below).
 
-The simulation model has the same specification as our empirical model, except that there is no congestion effect and the familiarity effect is specified as $f(e_ijt) = \beta \ln(1+e_{ijt})$. The parameter values are as follows:
+The simulation model has the same specification as our empirical model, except that there is no congestion effect and the familiarity effect is specified as $f(e_{ijt}) = \beta \ln(1+e_{ijt})$. The parameter values are as follows:
 \begin{itemize} \singlespacing
     \item $\alpha = 0.3$ (weight on outcome)
     \item $\pi = -0.07$ (weight on distance)
@@ -170,7 +170,7 @@ The simulation model has the same specification as our empirical model, except t
     \item $\rho$: explained below (prior mean)
     \item $\xi$: explained below (fixed effects)
 \end{itemize}
-Specialist qualities, $q_j$, are drawn independently from a normal distribution with mean 0.9 and SD 0.04, and censored symmetrically at 0.81 and 0.99. The prior mean, $\rho$, is set equal to the average of these draws. The specialist fixed effects, $\xi_j$, are given fixed values on a grid from $-1.5$ to $+1.5$ with with equal intervals of 3/25 between values.
+Specialist qualities, $q_j$, are drawn independently from a normal distribution with mean 0.9 and SD 0.04, and censored symmetrically at 0.81 and 0.99. The prior mean, $\rho$, is set equal to the average of these draws. The specialist fixed effects, $\xi_j$, are given fixed values on a grid from $-1.5$ to $+1.5$ with equal intervals of 3/25 between values.
 
 Figure \ref{fig:eta-simulation} shows the results from four representative simulations. It plots log-likelihood values obtained using a wide range of values for $\eta$ while keeping the other parameters at their true values. It is apparent that the likelihood function is very flat in this parameter. The log likelihood changes by only a few points over the entire span of values for $\eta$. Across 100 such simulations, the average range of the likelihood values is only 2.1 log points and the 95th percentile is 4.3 log points. Based on this, we do not think the data in our application would have good power to yield an informative estimate of $\eta$.
 
