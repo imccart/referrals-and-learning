@@ -32,6 +32,9 @@ analysis/simulation/
 # Scratch (local working notes, not for Overleaf)
 scratch/
 
+# Journal submission folders (local only, not for Overleaf)
+papers/submissions/
+
 # Stata temp/log files
 *.log
 *.smcl
