@@ -5,10 +5,10 @@
 \usepackage[left=.9in,right=.9in,top=1in,bottom=0.75in]{geometry}
 \usepackage[round]{natbib}
 \bibliographystyle{aer}
-\setstretch{1.5}
-\input{results/tables/paper-numbers-desc.tex}
-\input{results/tables/paper-numbers-rf.tex}
-\input{results/tables/paper-numbers-structural.tex}
+\doublespacing
+\input{../../../results/tables/paper-numbers-desc.tex}
+\input{../../../results/tables/paper-numbers-rf.tex}
+\input{../../../results/tables/paper-numbers-structural.tex}
 
 \setlength{\droptitle}{-50pt}
 \begin{document}
@@ -408,7 +408,7 @@ From a policy perspective, our results suggest that quality transparency initiat
 \caption[]{\textbf{Descriptive Statistics for Patients and Referrals}\footnote{Mean values with standard deviations in parenthesis. As discussed in the main text, the period from 2008-2012 is our baseline period used to form histories of PCP/specialist pairs over a common time period, and the period from 2013-2018 is our estimation period. We present summary statistics separately by those time periods for consistency with our final estimation.}}
 \centerline{%
     \begin{tabular}{lrrr}
-        \input{results/tables/sum-stats-all_1_1_0.tex}
+        \input{../../../results/tables/sum-stats-all_1_1_0.tex}
     \end{tabular}
 }
 \label{tab:sum-referral}
@@ -424,7 +424,7 @@ From a policy perspective, our results suggest that quality transparency initiat
 \caption[]{\textbf{Descriptive Statistics for PCPs and PCP/Specialist Pairs}\footnote{Mean values calculated per year, with standard deviations in parenthesis. As discussed in the main text, the period from 2008-2012 is our baseline period used to form histories of PCP/specialist pairs over a common time period, and the period from 2013-2018 is our estimation period. We present summary statistics separately by those time periods for consistency with our final estimation.}}
 \centerline{%
     \begin{tabular}{lrrr}
-        \input{results/tables/sum-stats-pairs_1_1_0.tex}
+        \input{../../../results/tables/sum-stats-pairs_1_1_0.tex}
     \end{tabular}
 }
 \label{tab:sum-pairs}
@@ -441,7 +441,7 @@ From a policy perspective, our results suggest that quality transparency initiat
 \bigskip
 \centerline{%
     \begin{tabular}{lrrrrrrr}
-        \input{results/tables/MyopicCoefficient_Table.tex}
+        \input{../../../results/tables/MyopicCoefficient_Table.tex}
     \end{tabular}
 }
 \bigskip
@@ -460,7 +460,7 @@ From a policy perspective, our results suggest that quality transparency initiat
 \bigskip
 \centerline{%
     \begin{tabular}{lrrrrrrr}
-        \input{results/tables/FWDCoefficient_Table.tex}
+        \input{../../../results/tables/FWDCoefficient_Table.tex}
     \end{tabular}
 }
 \bigskip
@@ -477,8 +477,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 \begin{minipage}[h]{6in}
 \caption[PCP Referral Networks]{PCP Referral Networks over 2013-2018\footnote{Panel (a) depicts the frequency histogram of PCP network size (number of unique specialists referred to) over the 2013-2018 estimation period. Panel (b) depicts the frequency histogram of the ``highest-share'' specialist per PCP over the same period.}}
 \begin{tabular}{cc}
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/desc/NetworkSize_1_1_0.png} &
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/desc/HighestShare_1_1_0.png} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{../../../results/figures/desc/NetworkSize_1_1_0.png} &
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{../../../results/figures/desc/HighestShare_1_1_0.png} \\
 (a) Network Size & (b) Highest Referral Share
 \end{tabular}
 \label{fig:network}
@@ -492,8 +492,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 \begin{minipage}[h]{6in}
 \caption[Within-Market Variation]{Within-Market Variation in Specialist Quality and Spending\footnote{Panel (a) depicts the interquartile range of failure rates per 100 surgeries across specialists within each HRR over the 2013-2018 estimation period. Panel (b) depicts the interquartile range of mean episode spending per specialist per HRR over the same period. Episode spending is measured as the total Medicare payments over a 90-day period beginning from the date of admission.}}
 \begin{tabular}{cc}
-\includegraphics[height=2.5in,width=2.5in,keepaspectratio]{results/figures/desc/Failure_IQR_1_1_0.png} &
-\includegraphics[height=2.5in,width=2.5in,keepaspectratio]{results/figures/desc/Payment_IQR_1_1_0.png} \\
+\includegraphics[height=2.5in,width=2.5in,keepaspectratio]{../../../results/figures/desc/Failure_IQR_1_1_0.png} &
+\includegraphics[height=2.5in,width=2.5in,keepaspectratio]{../../../results/figures/desc/Payment_IQR_1_1_0.png} \\
 (a) Failure Rate & (b) Episode Spending
 \end{tabular}
 \label{fig:iqr}
@@ -507,8 +507,8 @@ From a policy perspective, our results suggest that quality transparency initiat
 \begin{minipage}[h]{6in}
 \caption[Capacity and Reallocation]{Specialist Capacity and Hypothetical Reallocation\footnote{Panel (a) depicts the estimated number of additional annual procedures that could be performed collectively among the specialists in the top 25 percent of the quality distribution. Excess capacity for a single specialist is measured as the difference between the 75th percentile of that specialist's count of yearly operations less the observed count of operations in that year. Panel (b) depicts the count of procedures among the lowest 25th percentile of specialists, aggregated across all specialists in a given HRR.}}
 \begin{tabular}{cc}
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/desc/Excess_Capacity.png} &
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/desc/Hypo_Reallocate.png} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{../../../results/figures/desc/Excess_Capacity.png} &
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{../../../results/figures/desc/Hypo_Reallocate.png} \\
 (a) Potential Excess Capacity & (b) Hypothetical Reallocation
 \end{tabular}
 \label{fig:capacity-reallocation}
@@ -522,7 +522,7 @@ From a policy perspective, our results suggest that quality transparency initiat
 \begin{minipage}[h]{6in}
 \caption[]{Event Study of Specialist Failures\footnote{Figure depicts stacked event study estimates following \cite{cengiz2019}, based on Equation~\eqref{eqn:eventstudy}. Our stacked specification includes specialist X quarter fixed effects as well as specialist X cohort X PCP `type' fixed effects. The event study coefficient at time $\tau = -1$ is normalized to 0.}}
 \centerline{%
-    \includegraphics[scale=0.5]{results/figures/rf/EventStudy_Stacked_1_1_0.png}
+    \includegraphics[scale=0.5]{../../../results/figures/rf/EventStudy_Stacked_1_1_0.png}
 }
 \label{fig:event}
 \end{minipage}
@@ -537,10 +537,10 @@ From a policy perspective, our results suggest that quality transparency initiat
 \begin{tabular}{cc}
 \multicolumn{2}{c}{\textit{Myopic Behavior}} \\
 $\eta=1$ & $\eta=5$ \\
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Partial_FX_Failure_Myopic_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Partial_FX_Failure_Myopic_eta5.png} \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Partial_FX_Failure_Myopic_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Partial_FX_Failure_Myopic_eta5.png} \\
 \multicolumn{2}{c}{\textit{Forward-looking Behavior}} \\
 $\eta=1$ & $\eta=5$ \\
-\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Partial_FX_Failure_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Partial_FX_Failure_FWD_eta5.png}
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Partial_FX_Failure_FWD_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Partial_FX_Failure_FWD_eta5.png}
 \end{tabular}
 \label{fig:alpha_partial}
 \end{minipage}
@@ -557,15 +557,15 @@ $\eta=1$ & $\eta=5$ \\
 \multicolumn{2}{c}{\textit{Myopic behavior}} \\
 $\eta=1$ & $\eta=5$ \\
 \multicolumn{2}{c}{Reallocation of referrals} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta5.png} \\
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Reallocation_Current_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Reallocation_Current_Myopic_eta5.png} \\
 \multicolumn{2}{c}{Change in probability of success} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Current_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Current_Myopic_eta5.png} \\
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Health_FX_Current_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Health_FX_Current_Myopic_eta5.png} \\
 \multicolumn{2}{c}{\textit{Forward-looking behavior}} \\
 $\eta=1$ & $\eta=5$ \\
 \multicolumn{2}{c}{Reallocation of referrals} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Current_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Current_FWD_eta5.png} \\
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Reallocation_Current_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Reallocation_Current_FWD_eta5.png} \\
 \multicolumn{2}{c}{Change in probability of success} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Current_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Current_FWD_eta5.png}
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Health_FX_Current_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Health_FX_Current_FWD_eta5.png}
 \end{tabular}
 \label{fig:cf_current}
 \end{minipage}
@@ -582,15 +582,15 @@ $\eta=1$ & $\eta=5$ \\
 \multicolumn{2}{c}{\textit{Myopic behavior}} \\
 $\eta=1$ & $\eta=5$ \\
 \multicolumn{2}{c}{Reallocation of referrals} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Full_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Full_Myopic_eta5.png} \\
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Reallocation_Full_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Reallocation_Full_Myopic_eta5.png} \\
 \multicolumn{2}{c}{Change in probability of success} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Full_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Full_Myopic_eta5.png} \\
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Health_FX_Full_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Health_FX_Full_Myopic_eta5.png} \\
 \multicolumn{2}{c}{\textit{Forward-looking behavior}} \\
 $\eta=1$ & $\eta=5$ \\
 \multicolumn{2}{c}{Reallocation of referrals} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Full_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_Full_FWD_eta5.png} \\
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Reallocation_Full_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Reallocation_Full_FWD_eta5.png} \\
 \multicolumn{2}{c}{Change in probability of success} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Full_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_Full_FWD_eta5.png}
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Health_FX_Full_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Health_FX_Full_FWD_eta5.png}
 \end{tabular}
 \label{fig:cf_full}
 \end{minipage}
@@ -607,15 +607,15 @@ $\eta=1$ & $\eta=5$ \\
 \multicolumn{2}{c}{\textit{Myopic behavior}} \\
 $\eta=1$ & $\eta=5$ \\
 \multicolumn{2}{c}{Existing familiarity} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_current_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_current_Myopic_eta5.png} \\
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Spend_FX_current_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Spend_FX_current_Myopic_eta5.png} \\
 \multicolumn{2}{c}{Reset familiarity} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_full_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Spend_FX_full_Myopic_eta5.png} \\
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Spend_FX_full_Myopic_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Spend_FX_full_Myopic_eta5.png} \\
 \multicolumn{2}{c}{\textit{Forward-looking behavior}} \\
 $\eta=1$ & $\eta=5$ \\
 \multicolumn{2}{c}{Existing familiarity} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_current_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_current_FWD_eta5.png} \\
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Spend_FX_current_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Spend_FX_current_FWD_eta5.png} \\
 \multicolumn{2}{c}{Reset familiarity} \\
-\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_full_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Spend_FX_full_FWD_eta5.png}
+\includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Spend_FX_full_FWD_eta1.png} & \includegraphics[height=1.4in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Spend_FX_full_FWD_eta5.png}
 \end{tabular}
 \label{fig:cf_spend}
 \end{minipage}
@@ -631,10 +631,10 @@ $\eta=1$ & $\eta=5$ \\
 \begin{tabular}{cc}
 \multicolumn{2}{c}{\textit{Myopic behavior}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_HealthFX_current_Myopic_eta1.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_HealthFX_full_Myopic_eta1.png} \\
+\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Gradient_HealthFX_current_Myopic_eta1.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Gradient_HealthFX_full_Myopic_eta1.png} \\
 \multicolumn{2}{c}{\textit{Forward-looking behavior}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Gradient_HealthFX_current_FWD_eta1.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Gradient_HealthFX_full_FWD_eta1.png}
+\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Gradient_HealthFX_current_FWD_eta1.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Gradient_HealthFX_full_FWD_eta1.png}
 \end{tabular}
 \label{fig:gradient_health}
 \end{minipage}
@@ -650,10 +650,10 @@ Existing familiarity & Reset familiarity \\
 \begin{tabular}{cc}
 \multicolumn{2}{c}{\textit{Myopic behavior}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_Spend_current_Myopic_eta1.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_Spend_full_Myopic_eta1.png} \\
+\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Gradient_Spend_current_Myopic_eta1.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Gradient_Spend_full_Myopic_eta1.png} \\
 \multicolumn{2}{c}{\textit{Forward-looking behavior}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Gradient_Spend_current_FWD_eta1.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Gradient_Spend_full_FWD_eta1.png}
+\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Gradient_Spend_current_FWD_eta1.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Gradient_Spend_full_FWD_eta1.png}
 \end{tabular}
 \label{fig:gradient_spend}
 \end{minipage}
@@ -666,7 +666,7 @@ Existing familiarity & Reset familiarity \\
 \begin{minipage}[h]{6in}
 \caption[]{Familiarity and Specialist Quality\footnote{Figure depicts mean specialist quality (success rate) by the number of patients a PCP has referred to a given specialist. Patients are grouped into bins: 1, 2--3, 4--5, 6--10, and 11+. Error bars represent 95\% confidence intervals.}}
 \centerline{%
-    \includegraphics[width=5in,keepaspectratio]{results/figures/Familiarity_Quality_Patients_1_1_0.png}
+    \includegraphics[width=5in,keepaspectratio]{../../../results/figures/Familiarity_Quality_Patients_1_1_0.png}
 }
 \label{fig:fam_quality}
 \end{minipage}
@@ -679,7 +679,7 @@ Existing familiarity & Reset familiarity \\
 \begin{minipage}[h]{6in}
 \caption[]{Health Effects of Full Information by Quality Sorting in Familiarity\footnote{Figure depicts the mean change in successes per 10,000 patients under full information, separately for the ``existing familiarity'' and ``resetting familiarity'' counterfactuals. Markets are grouped into terciles based on the within-market correlation between referral relationship duration and specialist quality. Higher terciles indicate markets where longer referral relationships are more strongly associated with higher specialist quality.}}
 \centerline{%
-    \includegraphics[scale=0.6]{results/figures/FamQual_vs_Health.png}
+    \includegraphics[scale=0.6]{../../../results/figures/FamQual_vs_Health.png}
 }
 \label{fig:famqual_health}
 \end{minipage}
@@ -695,10 +695,10 @@ Existing familiarity & Reset familiarity \\
 \begin{tabular}{cc}
 \multicolumn{2}{c}{\textit{Reallocation of referrals}} \\
 Myopic & Forward-Looking \\
-\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_qualmax_amatch_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_qualmax_amatch_FWD_eta1.png} \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Reallocation_qualmax_amatch_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Reallocation_qualmax_amatch_FWD_eta1.png} \\
 \multicolumn{2}{c}{\textit{Change in probability of success}} \\
 Myopic & Forward-Looking \\
-\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_qualmax_amatch_FWD_eta1.png}
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{../../../results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta1.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{../../../results/figures/fwd-timevary/Mean_Health_FX_qualmax_amatch_FWD_eta1.png}
 \end{tabular}
 \label{fig:cf_qualmax}
 \end{minipage}

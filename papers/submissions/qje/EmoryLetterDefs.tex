@@ -1,0 +1,115 @@
+% Define WSU official colors
+\usepackage{xcolor}
+\definecolor{EmoryBlue}{RGB}{0,43,127} % Emory PMS 280
+\definecolor{EmoryBlack}{RGB}{0,0,0}
+
+% Measurements
+\usepackage[top=2in,left=1in,bottom=0.5in,right=0.625in]{geometry}
+\usepackage{graphicx}
+\usepackage[colorlinks=false,
+            pdfborder={0 0 0},
+            ]{hyperref}
+\usepackage[absolute]{textpos}
+\usepackage{ifthen}
+\usepackage{soul}
+
+
+% --- A nice serif font (palatino), but not the prescribed nonfree ITC stone
+\usepackage[sc,osf]{mathpazo}
+\linespread{1.05}
+
+% Remove paragraph indentation
+\parindent0pt
+\setlength{\parskip}{0.8\baselineskip}
+\raggedright
+\pagestyle{empty}
+% Ensure consistency in the footer
+\urlstyle{sf}
+
+\providecommand\Emoryfrom{\textbf{Emory University}}
+\providecommand\Emoryfrombuilding{Rich Memorial Building}
+\providecommand\Emoryfromstreet{1602 Fishburne Drive, Room 306}
+\providecommand\Emoryfromcity{Atlanta, GA 30322}
+\providecommand\Emoryfromtel{404.727.6364 (tel)}
+\providecommand\Emoryfromfax{404.727.4639 (fax)}
+\providecommand\Emoryfromemail{\url{ian.mccarthy@emory.edu}}
+\providecommand\Emorytoname{}
+\providecommand\Emorytoaddress{}
+\providecommand\Emoryre{}
+\providecommand\Emorydate{\today}
+\providecommand\Emoryopening{Dear Medical School Admissions Committee:}
+\providecommand\Emoryfromname{Ian McCarthy}
+\providecommand\Emoryfromtitle{Associate Professor}
+\providecommand\Emoryclosing{Sincerely}
+
+% Update this and the next line to the correct path
+\providecommand\Emorysignaturefile{McCarthySignature.jpg}
+\providecommand\Emorylogofile{EmoryLetterhead}
+\providecommand\Emoryenclosure{}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\renewcommand{\footrulewidth}{0pt}
+\fancyfoot{}
+\fancyfoot[L]{%
+    {\footnotesize\color{black}\sffamily
+    \hspace{-.15in}
+    \begin{tabular}{ll}
+      \Emoryfrom & \Emoryfromtel \\[-0.1\baselineskip]
+      \Emoryfrombuilding & \Emoryfromfax \\[-0.1\baselineskip]
+      \Emoryfromstreet & \\[-0.1\baselineskip]
+      \Emoryfromcity   &
+    \end{tabular}
+   }\color{black}}
+
+\fancyhead{}
+\fancyhead[L]{%
+    \begin{textblock*}{2in}[0.3066,0.39](1.5in,.75in)
+        \includegraphics[width=2in]{EmoryLetterhead.pdf}
+    \end{textblock*}
+    \begin{textblock*}{4in}[0,0](3in,.3in)
+      \begin{tabular}{|p{2.5in}}
+        \vspace{.1cm}
+        Ian M. McCarthy \\
+        Associate Professor \\
+        Department of Economics \\
+        \vspace{.1cm}
+        Research Associate \\
+        National Bureau of Economic Research
+        \vspace{0cm}
+      \end{tabular}
+    \end{textblock*}
+    }
+\renewcommand{\headrulewidth}{0pt}
+
+
+\AtBeginDocument{
+    % Text lines should be less than 6in long
+    \newgeometry{top=1.5in,left=.6in,bottom=1.2in,right=.6in}
+
+    \Emoryre
+    \bigskip
+
+    \Emorydate
+    \bigskip
+
+    \Emorytoname\ifthenelse{\equal{\Emorytoname}{}}{}{\\}
+    \Emorytoaddress
+    \bigskip
+
+    \Emoryopening\par
+    }
+
+\AtEndDocument{
+    \par\vspace{2ex}
+    \Emoryclosing,
+
+    \ifthenelse{\equal{\Emorysignaturefile}{}}{\bigskip\bigskip}{
+      \includegraphics[width=2in]{\Emorysignaturefile}\\[-0.2\baselineskip]
+    }
+
+    \Emoryfromname \\
+%    \Emoryfromtitle\ifthenelse{\equal{\Emoryfromtitle}{}}{}{\\}
+    \Emoryenclosure
+    } 

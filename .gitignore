@@ -13,6 +13,8 @@ _emails/
 # Claude Code
 .claude/
 CLAUDE.md
+MEMORY.md
+agent_history.md
 
 # Archived results (old VRDC exports, kept locally only)
 results/_archive/
@@ -26,6 +28,9 @@ results/coeffs/**/*FmlyCoeff*.csv
 
 # Simulation (local only, not for repo)
 analysis/simulation/
+
+# Scratch (local working notes, not for Overleaf)
+scratch/
 
 # Stata temp/log files
 *.log
