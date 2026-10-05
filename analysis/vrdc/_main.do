@@ -75,6 +75,7 @@ do "${CODE_FILES}A0-intermediate-data.do"	/* Temporary datasets used throughout 
 
 do "${CODE_FILES}A1-desc-stats.do"
 do "${CODE_FILES}A2-reduced-form.do"
+do "${CODE_FILES}A2b-rereferral.do"		/* Re-referral after failure vs success: level and referral-order event study */
 do "${CODE_FILES}A3-mnl-myopic.do"
 do "${CODE_FILES}A4-mnl-distance.do"
 
