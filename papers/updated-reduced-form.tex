@@ -1,0 +1,118 @@
+\documentclass[12pt]{article}
+\usepackage{amssymb,amsmath,setspace,graphicx,url,hyperref}
+\hypersetup{hidelinks}
+\usepackage[labelfont=bf]{caption}
+\usepackage[left=.9in,right=.9in,top=1in,bottom=0.75in]{geometry}
+\setstretch{1.5}
+\input{results/tables/paper-numbers-rf.tex}
+\input{results/tables/paper-numbers-structural.tex}
+\input{results/tables/paper-numbers-rereferral.tex}
+\providecommand{\rereferESEvents}{[pending]}
+\providecommand{\rereferESFailures}{[pending]}
+
+% Replacement for Section 2 of learning-draft.tex (failure-versus-success re-referral design).
+% To swap in: add \input{results/tables/paper-numbers-rereferral.tex} to the draft preamble,
+% replace the section body, Figure fig:event, and the footnote in the partial-effect paragraph,
+% and replace the intro sentences given at the end of this file.
+
+\begin{document}
+
+\begin{center}
+{\large Replacing the Section 2 Event Study}
+\end{center}
+
+\section*{Background}
+
+The event study in Section 2 compares PCP-specialist pairs that referred a patient in the quarter of a failure (treated) with other PCPs referring to the same specialist (controls). The treated pairs are selected on having referred in that quarter, but the control pairs need only have some referral history in the window (i.e., they need not have referred in that same quarter). Simply due to the clunky nature of referrals over time, a referral observed in a given quarter is often followed by periods of no referrals in the short or medium-term future, regardless of the outcome. The specialist-by-quarter fixed effects don't account for this, because it happens only to the treated group and only at the event time, $t=0$. This would not be a problem if pairwise referral counts were more evenly distributed over time, but they are not. The event study therefore confounds the effect of a failure with the effect of having referred in that quarter, and the post-period decline in referrals is not a response solely to the failure.
+
+Some quick summary statistics suggest that this is an issue in our current analysis. Among treated pairs with prior referrals, 69.5\% made no further referral to the specialist after the event. For pairs whose referral in that quarter was a success, the share is essentially the same (70.7\%). When we run the same event study around successful referrals instead of failures, we find a drop of about 0.065 at the referral quarter and 0.055 to 0.07 in every quarter after, which nearly reproduces event study currently estimated on failure events. The post-period decline, and the 16 percent in the introduction, therefore reflect what follows any referral and not a response to the failure.
+
+Andrew (at AHEW) and the JPE referees raised related concerns. Anderw and reviewer 1 asked why the 16 percent is so much larger than the structural partial effect (0.32 percentage points), and why a single failure would move a Bayesian that much. Reviewer 3 objected that surgeon-level fixed effects could pick up surgeons with adverse events seeing fewer patients in general, and not PCPs learning from their own patients.
+
+\section*{Alternative Design}
+
+My current alternative analysis compares failures with successes more directly. I treat every referral from 2013 onward as an event, and the outcome is an indicator for whether the PCP's next referral (after our outcome period has elapsed, so at least 90 days) goes to the same specialist. This better aligns with our structural model since it asks, conditional on referring a patient, is the PCP more or less likely to refer to the same specialist?  The results are also consistent with our structural estimates. Relative to a success, a failure changes the probability that the next referral goes to the same specialist by $\rereferPct{}$ percent. The relative effect falls with the pair's history, from $\rereferPcthistzero{}$ percent for a first referral to $\rereferPcthisttwo{}$ percent for pairs with five or more prior referrals, which is the pattern Bayesian updating implies. The last figure is similar to the \partialFXRelativeMyopic{} percent relative effect from our myopic model. An event study in referral order shows that the gap is largest at the next referral and narrows over the following four. The results are robust to adding PCP fixed effects, so that the comparison is between failures and successes among the referrals of the same PCP.
+
+Here's what I propose changing in the paper:
+
+\clearpage
+\setcounter{section}{1}
+\section{Do PCPs Respond to Bad Outcomes?}
+\label{sec:reduced_form}
+
+Before presenting our structural learning model, we first consider design-based evidence of PCP responses to negative surgical outcomes of their patients. We estimate this response by examining how PCPs refer to specialists following good or bad outcomes from a given referral. Consider a referral of patient $t$ from PCP $i$ to specialist $j$. We define the outcome as an indicator for whether the PCP's next referral goes to the same specialist $j$. Treated referrals are those that resulted in a failure, and control referrals are those with no such failure. Both groups therefore consist of PCPs who have just referred a patient to specialist $j$.
+
+The sample and data for this analysis are constructed as follows:
+\begin{enumerate}
+\item We begin with all referrals in our sample, weakening the restriction on specialist volume from requiring 20 operations performed in each year to requiring 20 operations performed in at least one year over our panel. We order each PCP's referrals by admission date.
+
+\item Each referral from 2013 onward is an event. As in our model below, patients arrive sequentially, so we index both patients and time by $t$. For the referral of patient $t$ from PCP $i$ to specialist $j$, we denote the year by $y(t)$, and $Y_{ijt}$ is the binary health outcome, with $Y_{ijt}=1$ for success and $Y_{ijt}=0$ for failure within 90 days of surgery, as in our model below.
+
+\item For each event, we identify the PCP's next referred patient, $t'$. We define $R_{ijt'} = 1$ if patient $t'$ is referred to the same specialist $j$, and $R_{ijt'} = 0$ otherwise.
+
+\item We record the number of the PCP's prior referrals to specialist $j$ before patient $t$, $e_{ijt}$, which measures the pair's referral history at the time of the event and matches the familiarity measure in our model.
+\end{enumerate}
+With this notation, we estimate by OLS
+\begin{equation}
+  R_{ijt'} = \gamma_{j,y(t)} + \beta (1-Y_{ijt}) + \sum_{h=1}^{5} \kappa_h \mathbf{1}\left(\min(e_{ijt},5)=h\right) + \varepsilon_{ijt},
+  \label{eqn:rereferral}
+\end{equation}
+where $\gamma_{j,y}$ denotes specialist-by-year fixed effects and the $\kappa_h$ absorb differences in re-referral rates by the pair's referral history. Equation~\eqref{eqn:rereferral} is therefore a linear probability model, and the coefficient $\beta$ captures the difference in the probability of returning to the same specialist after a failure relative to a success. We cluster standard errors by specialist.
+
+Table~\ref{tab:rereferral} presents the results. Across \rereferEvents{} events, of which \rereferFailures{} are failures, the estimated effect of a failure on the probability that the PCP's next referral goes to the same specialist is $\rereferFX{}$ (standard error \rereferSE{}), relative to a probability of \rereferBase{} following a success. This corresponds to a relative change of $\rereferPct{}$ percent. The estimate is essentially unchanged when we add PCP fixed effects ($\rereferFXpcp{}$, standard error \rereferSEpcp{}).
+
+The response also softens with the pair's prior history, consistent with standard Bayesian updating. Specifically, when the event is the PCP's first referral to the specialist, the estimated effect of a failure is $\rereferFXhistzero{}$ versus a base of \rereferBasehistzero{}, a relative change of $\rereferPcthistzero{}$ percent. With one to four prior referrals, the relative change is $\rereferPcthistone{}$ percent, and with five or more prior referrals it is $\rereferPcthisttwo{}$ percent. The absolute effects are similar across these groups, but the base rates rise sharply with history, so a single outcome carries less weight for a PCP who has already observed many outcomes from the same specialist.\footnote{The relative change for pairs with five or more prior referrals is similar in magnitude to the relative reduction of \partialFXRelativeMyopic{} percent implied by our myopic model for pairs with non-zero referral histories, although the two quantities are defined over different samples and outcomes.}
+
+To examine the timing of this response, we further estimate a stacked event study in which time is measured by the PCP's sequence of referrals. Here the event is the outcome of the surgery at $t=0$, with $Y_{ij0}=0$ for a failure and $Y_{ij0}=1$ for a success, and $R_{ijt}=1$ if PCP $i$ refers patient $t$ to specialist $j$ for $t$ from $-5$ to $5$. Because every referral defines a window, windows from the same PCP overlap, and a window could otherwise contain failures other than the one at $t=0$. We therefore keep only windows in which none of the PCP's other referrals, to any specialist, resulted in a failure. We then stack these windows and estimate
+\begin{equation}
+  R_{ijt} = \mu_{ij} + \lambda_{j y, t} + \phi_{i, t} + \sum_{k \neq -1} \delta_k \mathbf{1}(t=k) (1-Y_{ij0}) + \varepsilon_{ijt},
+  \label{eqn:rereferral_es}
+\end{equation}
+where $\mu_{ij}$ is a fixed effect for each window, $\lambda_{jy,t}$ are specialist-by-year fixed effects interacted with event time, and $\phi_{i,t}$ are PCP fixed effects interacted with event time. The coefficients $\delta_k$ therefore compare failure and success windows at each event time $k$, relative to $k=-1$, among windows for the same specialist and year and for the same PCP. Standard errors are clustered by specialist.
+
+Figure~\ref{fig:event} plots the estimates of $\delta_k$, based on \rereferESEvents{} windows of which \rereferESFailures{} are failures. Before the event, the coefficients are close to zero, averaging $\rereferESPre{}$ (standard error \rereferESPreSE{}). At the first referral after a failure, the estimated difference is $\rereferESFirst{}$ (standard error \rereferESFirstSE{}), relative to a pre-event base of \rereferESBase{} among success windows. The difference persists through the third referral after the event and fades by the fifth, averaging $\rereferESPost{}$ (standard error \rereferESPostSE{}) across the five post-event referrals.
+
+Taken together, these results indicate that PCPs respond to the outcomes of their own patients by redirecting subsequent referrals away from the specialist, and that the response is modest and declines with the PCP's experience with that specialist. This is the variation that identifies the learning process in our structural model, and the magnitudes suggest that the weight PCPs place on any single outcome is small.
+
+\begin{table}[!ht]
+\centering
+\caption{Re-Referral to the Same Specialist After a Failure}
+\label{tab:rereferral}
+\begin{tabular}{lcccc}
+\hline\hline
+ & Effect & Std. error & Base & Relative (\%) \\
+\hline
+\emph{Next referral to the same specialist} & & & & \\
+\quad All events & $\rereferFX$ & \rereferSE & \rereferBase & $\rereferPct$ \\
+\quad With PCP fixed effects & $\rereferFXpcp$ & \rereferSEpcp & & \\
+\quad No prior referrals & $\rereferFXhistzero$ & \rereferSEhistzero & \rereferBasehistzero & $\rereferPcthistzero$ \\
+\quad 1--4 prior referrals & $\rereferFXhistone$ & \rereferSEhistone & \rereferBasehistone & $\rereferPcthistone$ \\
+\quad 5 or more prior referrals & $\rereferFXhisttwo$ & \rereferSEhisttwo & \rereferBasehisttwo & $\rereferPcthisttwo$ \\
+\hline\hline
+\end{tabular}
+\begin{minipage}{6in}
+\vspace{1ex}
+\footnotesize Estimates of $\beta$ from Equation~\eqref{eqn:rereferral}, with specialist-by-year fixed effects and indicators for the pair's number of prior referrals (top-coded at five). Base is the mean outcome following a success. Standard errors clustered by specialist. Events: \rereferEvents{}; failures: \rereferFailures{}.
+\end{minipage}
+\end{table}
+
+\begin{figure}[!ht]
+\centering
+\begin{minipage}[h]{6in}
+\caption[]{Re-Referral Event Study in Referral Order\footnote{The figure plots estimates of $\delta_k$ from Equation~\eqref{eqn:rereferral_es}, the difference between failure and success windows in the probability that PCP $i$ refers patient $k$ to specialist $j$, where the surgery at $k=0$ is the event. Windows include the PCP's five referrals before and after the event. We keep a window only if none of the PCP's other referrals in it resulted in a failure. The specification includes window fixed effects, specialist-by-year fixed effects interacted with event time, and PCP fixed effects interacted with event time. The coefficient at $k=-1$ is normalized to 0. Bars show 95\% confidence intervals with standard errors clustered by specialist.}}
+\centerline{%
+    \includegraphics[scale=0.5]{results/figures/rf/Rereferral_EventStudy_1_1_0.png}
+}
+\label{fig:event}
+\end{minipage}
+\end{figure}
+
+\clearpage
+\section*{Corresponding Introduction Text}
+
+Replaces the event-study sentences in the introduction paragraph that begins ``Beyond this descriptive evidence.''
+
+\medskip
+\noindent We provide direct evidence of this behavior by comparing what a PCP does after referring a patient whose surgery ends in a failure with what the same PCP does after a referral that ends in a success. Relative to a success, a failure changes the probability that the PCP's next referral goes to the same specialist by $\rereferPct{}$ percent, and the relative response is largest for PCPs with little prior experience with that specialist, as Bayesian updating implies. This response is evidence of learning from the outcomes of a PCP's own patients, and it is precisely the variation that identifies the learning process in our structural model.
+
+\end{document}
