@@ -14,7 +14,6 @@ log using "${LOG_PATH}Uniqueness_`logdate'.log", replace
 
 local model "Myopic"
 local coef_prefix "StructureMyopic"
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 
 ** Load IV scalars
@@ -34,15 +33,15 @@ save temp_base_patients_s4, replace
 
 
 ** Load coefficients for eta=1
-use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_`r_type'_rhobar.dta", clear
+use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_rhobar.dta", clear
 keep if eta==1
 save spec_fe_s4, replace
 
-use "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_`r_type'_rhobar.dta", clear
+use "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_rhobar.dta", clear
 keep if eta==1
 save coeff_notfe_s4, replace
 
-use "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_`r_type'_rhobar.dta", clear
+use "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_rhobar.dta", clear
 keep if eta==1
 keep coef_val fmly_level hrr
 rename coef_val fmly_agg

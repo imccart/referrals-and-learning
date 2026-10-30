@@ -13,7 +13,6 @@ log using "${LOG_PATH}Diagnostics_`logdate'.log", replace
 **			between estimation periods (2013-2015 vs 2016-2018).
 ******************************************************************
 
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 
 ******************************************************************
@@ -28,7 +27,7 @@ foreach model_type in Myopic FWD {
 	}
 	local model "`model_type'"
 
-	use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_`r_type'_rhobar.dta", replace
+	use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_rhobar.dta", replace
 	preserve
 	keep if time_period==0
 	keep coef_val coef_se hrr eta Specialist_ID
@@ -49,13 +48,13 @@ foreach model_type in Myopic FWD {
 	merge 1:1 Specialist_ID hrr eta using fe_t1, nogenerate
 	twoway scatter coef_val_0 coef_val_1 if eta==1 & abs(coef_val_0)<4 & abs(coef_val_1)<4, ///
 		ytitle("Period One") xtitle("Period Two") color(gray)
-	graph save "${RESULTS_FINAL}FE_Compare_`model'_eta1_rhobar_`r_type'", replace
-	graph export "${RESULTS_FINAL}FE_Compare_`model'_eta1_rhobar_`r_type'.png", as(png) replace
+	graph save "${RESULTS_FINAL}FE_Compare_`model'_eta1_rhobar", replace
+	graph export "${RESULTS_FINAL}FE_Compare_`model'_eta1_rhobar.png", as(png) replace
 
 	twoway scatter coef_val_0 coef_val_1 if eta==5 & abs(coef_val_0)<4 & abs(coef_val_1)<4, ///
 		ytitle("Period One") xtitle("Period Two") color(gray)
-	graph save "${RESULTS_FINAL}FE_Compare_`model'_eta5_rhobar_`r_type'", replace
-	graph export "${RESULTS_FINAL}FE_Compare_`model'_eta5_rhobar_`r_type'.png", as(png) replace
+	graph save "${RESULTS_FINAL}FE_Compare_`model'_eta5_rhobar", replace
+	graph export "${RESULTS_FINAL}FE_Compare_`model'_eta5_rhobar.png", as(png) replace
 }
 
 

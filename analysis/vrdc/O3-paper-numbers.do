@@ -12,7 +12,6 @@ log using "${LOG_PATH}PaperNumbers_`logdate'.log", replace
 **			paper-numbers-structural.tex.
 ******************************************************************
 
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 
 ******************************************************************
@@ -20,7 +19,7 @@ local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 ******************************************************************
 
 ** Unique PCPs and specialists (from estimation period)
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN}
 keep if Year>=2013
@@ -81,7 +80,7 @@ local failure_rate_mean = strtrim("`failure_rate_mean'")
 
 
 ** Specialist failure rate percentiles
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN}
 keep if Year>=2013
@@ -95,7 +94,7 @@ local spec_fail_p75 = strtrim("`spec_fail_p75'")
 
 
 ** SD of specialist patient volume (for congestion effect interpretation)
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN} & Year>=2013
 collapse (count) patients=bene_id, by(Specialist_ID)
@@ -106,7 +105,7 @@ local spec_patients_mean_6yr: di %3.2f r(mean)
 local spec_patients_mean_6yr = strtrim("`spec_patients_mean_6yr'")
 
 ** Same for 3-year half-periods
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN} & Year>=2013
 gen half = cond(Year<=2015, 1, 2)
@@ -124,7 +123,7 @@ local spec_patients_mean_h2 = strtrim("`spec_patients_mean_h2'")
 
 
 ** Referral probabilities: top specialist and conditional on prior referral
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN} & Year>=2013
 collapse (count) patients=bene_id, by(Practice_ID Specialist_ID)
@@ -146,7 +145,7 @@ local cond_ref_prob = strtrim("`cond_ref_prob'")
 
 
 ** Running referrals (cumulative referrals per PCP-specialist pair)
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN}
 qui sum pair_patients_cuml
@@ -155,7 +154,7 @@ local running_refs = strtrim("`running_refs'")
 
 
 ** Specialists per HRR per year
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 keep if EstPCPMatch==3 & yearly_ops>=${SPEC_MIN} & Year>=2013
 bys bene_hrr Year Specialist_ID: keep if _n==1

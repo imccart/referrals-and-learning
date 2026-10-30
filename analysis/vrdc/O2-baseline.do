@@ -23,7 +23,6 @@ else {
 	exit 198
 }
 local model "${MODEL_TYPE}"
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 
 ** Load IV scalars from O1-coef-tables.do
@@ -58,15 +57,15 @@ save temp_base_patients, replace
 
 foreach eta in 1 5 {
 
-	use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_`r_type'_rhobar.dta", clear
+	use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_rhobar.dta", clear
 	keep if eta==`eta'
 	save spec_fe, replace
 
-	use "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_`r_type'_rhobar.dta", clear
+	use "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_rhobar.dta", clear
 	keep if eta==`eta'
 	save coeff_notfe, replace
 
-	use "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_`r_type'_rhobar.dta", clear
+	use "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_rhobar.dta", clear
 	keep if eta==`eta'
 	keep coef_val fmly_level hrr
 	rename coef_val fmly_agg

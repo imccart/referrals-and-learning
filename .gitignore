@@ -29,8 +29,9 @@ results/coeffs/**/*FmlyCoeff*.csv
 # Simulation (local only, not for repo)
 analysis/simulation/
 
-# Scratch (local working notes, not for Overleaf)
+# Scratch and notes (local working notes, not for Overleaf)
 scratch/
+notes/
 
 # Journal submission folders (local only, not for Overleaf)
 papers/submissions/

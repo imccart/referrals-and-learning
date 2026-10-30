@@ -29,12 +29,11 @@ log using "${LOG_PATH}Structural_`log_label'_`logdate'.log", replace
 
 ******************************************************************
 ** Estimation by HRR and over different values for eta
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 forvalues i=1/457 {
-	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta"
+	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 	if _rc==0 {
-		use "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta", clear
+		use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
 		do "${CODE_FILES}_clean-analysis.do"
 
 		** prepare for cmclogit syntax
@@ -57,12 +56,7 @@ forvalues i=1/457 {
 		local base_ID=Specialist_ID[1]
 		restore
 		replace Spec_ID_t=string(Specialist_ID,"%10.0f") if Specialist_ID==`base_ID'
-		if ${CONG_t}==1 {
-			encode Spec_ID_t, gen(Spec_ID)
-		}
-		else {
-			gen Spec_ID=Specialist_ID
-		}
+		encode Spec_ID_t, gen(Spec_ID)
 
 		replace Spec_ID=0 if Specialist_ID==`base_ID'
 		cmset Practice_ID referral case_obs
@@ -199,12 +193,11 @@ forvalues i=1/457 {
 	}
 }
 
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 if ${OUTSIDE_OPTION}==1 {
-	save "${RESULTS_FINAL}`coef_prefix'HRR_Coef_`r_type'_rhobar.dta", replace
+	save "${RESULTS_FINAL}`coef_prefix'HRR_Coef_rhobar.dta", replace
 }
 else if ${OUTSIDE_OPTION}==0 {
-	save "${RESULTS_FINAL}`coef_prefix'HRR_CoefFull_`r_type'_rhobar.dta", replace
+	save "${RESULTS_FINAL}`coef_prefix'HRR_CoefFull_rhobar.dta", replace
 }
 
 log close

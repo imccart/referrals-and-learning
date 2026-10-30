@@ -24,7 +24,6 @@ else {
 	exit 198
 }
 local model "${MODEL_TYPE}"
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 ** determine dynamic HRR count from baseline files
 local hrr_agg = 0

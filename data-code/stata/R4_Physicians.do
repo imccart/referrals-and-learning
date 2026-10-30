@@ -9,7 +9,7 @@
 local t=$year
 
 ** characteristics from the carrier files and nppes
-insheet using "${DATA_SAS}ORTHOPHYSICIAN_DATA_`t'.tab", tab clear
+sasload orthophysician_data_`t'
 matrix data_cleanup_`t'[5,2]=_N
 
 replace primary_taxid=. if primary_taxid==0
@@ -41,10 +41,10 @@ save temp_physician_mdpps, replace
 
 ** zip code information from the carrier files (already aggregated in SAS)
 if `t'==2008 {
-	insheet using "${DATA_SAS}PHYLOCATION_2009.tab", tab clear
+	sasload phylocation_2009
 }
 else if `t'>2008 {
-	insheet using "${DATA_SAS}PHYLOCATION_`t'.tab", tab clear
+	sasload phylocation_`t'
 }
 destring physician_npi, force replace
 drop if physician_npi==.

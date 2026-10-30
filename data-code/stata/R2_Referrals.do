@@ -24,18 +24,16 @@ save temp_pcps, replace
 
 ******************************************************************
 ** Referring physician directly in claim
-insheet using "${DATA_SAS}REFERRALSCARRIER_`t'.tab", tab clear
+sasload referralscarrier_`t'
 keep if rfr_physn_npi !=.
 rename prf_physn_npi spec_npi
 rename rfr_physn_npi physician_id
 keep spec_npi physician_id bene_id clm_from_dt clm_thru_dt
 matrix data_cleanup_`t'[2,2]=_N
 
-if ${PCP_First}==1 {
-	** merge to MDPPAS info and keep only the PCPs	
-	merge m:1 physician_id using temp_pcps, nogenerate keep(match)
-	matrix data_cleanup_`t'[2,3]=_N	
-}
+** merge to MDPPAS info and keep only the PCPs	
+merge m:1 physician_id using temp_pcps, nogenerate keep(match)
+matrix data_cleanup_`t'[2,3]=_N	
 rename physician_id RFR_PCP_ID
 bys spec_npi bene_id RFR_PCP_ID clm_from_dt clm_thru_dt: gen dup=_n
 drop if dup>1
@@ -52,16 +50,14 @@ save "${DATA_FINAL}Referrals_Listed_`t'.dta", replace
 
 ******************************************************************
 ** "Previous Physician" Data (physician IDs from EM visits before surgery)
-insheet using "${DATA_SAS}PRESURGERY_PHYSICIANS_`t'.tab", tab clear
+sasload presurgery_physicians_`t'
 destring physician_id, force replace
 
 matrix data_cleanup_`t'[3,2]=_N
 
-if ${PCP_First}==1 {
-	** merge MDPPAS and keep only the PCPs
-	merge m:1 physician_id using temp_pcps, nogenerate keep(match)
-	matrix data_cleanup_`t'[3,3]=_N
-}
+** merge MDPPAS and keep only the PCPs
+merge m:1 physician_id using temp_pcps, nogenerate keep(match)
+matrix data_cleanup_`t'[3,3]=_N
 
 bys bene_id date: egen max_visits=max(visits)
 keep if max_visits==visits

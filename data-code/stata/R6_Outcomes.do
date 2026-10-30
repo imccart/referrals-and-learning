@@ -14,11 +14,11 @@ local t=$year
 ******************************************************************
 ** First import patient data and collect mortality information
 if `t' < 2018 {
-	insheet using "${DATA_SAS}ORTHOPATIENT_DATA_`t'.tab", tab clear
+	sasload orthopatient_data_`t'
 	save temp_mort1, replace
 
 	local next=`t'+1
-	insheet using "${DATA_SAS}ORTHOPATIENT_DATA_`next'.tab", tab clear
+	sasload orthopatient_data_`next'
 	keep bene_id bene_death_dt
 	rename bene_death_dt bene_death_dt2
 	bys bene_id: gen obs=_n
@@ -36,7 +36,7 @@ if `t' < 2018 {
 	save temp_mort, replace
 }
 else if `t' >= 2018 {
-	insheet using "${DATA_SAS}ORTHOPATIENT_DATA_`t'.tab", tab clear
+	sasload orthopatient_data_`t'
 	gen death_date=bene_death_dt
 
 	bys bene_id: gen obs=_n
@@ -46,7 +46,7 @@ else if `t' >= 2018 {
 }
 
 ** Now collect other outcome data and reshape to wide form
-insheet using "${DATA_SAS}ORTHOOUTCOMES_`t'.tab", tab clear
+sasload orthooutcomes_`t'
 bys bene_id initial_id initial_admit initial_discharge: gen obs=_n
 qui sum obs
 local maxj=r(max)
@@ -80,5 +80,9 @@ gen mortality_90=( (death-discharge)<=90 & death!=. & discharge!=.)
 gen mortality_60=( (death-discharge)<=60 & death!=. & discharge!=.)
 gen mortality_30=( (death-discharge)<=30 & death!=. & discharge!=.)
 
-keep bene_id clm_id readmit any_comp mortality_30 mortality_60 mortality_90
+** follow-up window: the data end on ${DATA_END}, so stays discharged within 90 days of it have a shorter window
+gen window_days=min(90, ${DATA_END}-discharge)
+gen window_full=(window_days==90)
+
+keep bene_id clm_id readmit any_comp mortality_30 mortality_60 mortality_90 window_days window_full
 save "${DATA_FINAL}Outcomes_`t'.dta", replace

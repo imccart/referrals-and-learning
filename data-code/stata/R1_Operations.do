@@ -7,7 +7,7 @@
 ******************************************************************
 
 local t=$year
-insheet using "${DATA_SAS}MAJORJOINT_`t'.tab", tab clear
+sasload majorjoint_`t'
 matrix data_cleanup_`t'[1,2]=_N
 
 rename org_npi_num NPINUM

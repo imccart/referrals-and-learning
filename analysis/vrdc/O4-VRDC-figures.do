@@ -25,7 +25,6 @@ else {
 	exit 198
 }
 local model "${MODEL_TYPE}"
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 
 ******************************************************************
@@ -39,13 +38,13 @@ foreach eta in 1 5 {
 	hist coef_m [weight=patients], fraction color(gray) width(0.3) ///
 		ylabel(0(.1).7) ///
 		ytitle("Share of Markets") xtitle("Estimated {&alpha}") legend(off)
-	graph save "${RESULTS_FINAL}alpha_`model'_eta`eta'_rhobar_`r_type'", replace
-	graph export "${RESULTS_FINAL}alpha_`model'_eta`eta'_rhobar_`r_type'.png", as(png) replace
+	graph save "${RESULTS_FINAL}alpha_`model'_eta`eta'_rhobar", replace
+	graph export "${RESULTS_FINAL}alpha_`model'_eta`eta'_rhobar.png", as(png) replace
 	hist coef_dist [weight=patients], fraction color(gray) width(0.01) ///
 		ylabel(0(.05).2) ///
 		ytitle("Share of Markets") xtitle("Estimated Distance Coefficient") legend(off)
-	graph save "${RESULTS_FINAL}dist_`model'_eta`eta'_rhobar_`r_type'", replace
-	graph export "${RESULTS_FINAL}dist_`model'_eta`eta'_rhobar_`r_type'.png", as(png) replace
+	graph save "${RESULTS_FINAL}dist_`model'_eta`eta'_rhobar", replace
+	graph export "${RESULTS_FINAL}dist_`model'_eta`eta'_rhobar.png", as(png) replace
 	restore
 }
 
@@ -457,6 +456,54 @@ foreach cf_name in full current fullfam fullnofe {
 	}
 }
 capture erase temp_spec_cost.dta
+
+
+******************************************************************
+** Familiarity-quality (patient-count version)
+** Counterpart to the local years-based Familiarity_Quality figure.
+** Uses pair-level total patient count (cumulative across years)
+** instead of years of relationship. Loads only files in ${DATA_FINAL}.
+
+** pair-level total patient count (one row per Practice_ID-Specialist_ID)
+use "${DATA_FINAL}EstReferrals.dta", clear
+keep if EstPCPMatch==3
+collapse (count) pair_patients=bene_id, by(Practice_ID Specialist_ID)
+save temp_pair_patients, replace
+
+** specialist quality (success rate across all patients)
+use "${DATA_FINAL}ChoiceEstData_Summary.dta", clear
+replace spec_qual=spec_success_tot/spec_patients_tot
+bys Specialist_ID: keep if _n==1
+keep Specialist_ID spec_qual
+save temp_spec_qual_unique, replace
+
+** merge and bin by patient count (bins match structural model boundaries)
+use temp_pair_patients, clear
+merge m:1 Specialist_ID using temp_spec_qual_unique, keep(match) nogenerate
+egen fam_bin=cut(pair_patients), at(1,2,4,6,11,1000000) icodes
+label define famlbl 0 "1" 1 "2-3" 2 "4-5" 3 "6-10" 4 "11+"
+label values fam_bin famlbl
+
+** bin-level means + SE for bar chart
+preserve
+collapse (mean) mean_qual=spec_qual (sd) sd_qual=spec_qual ///
+	(count) n_pairs=spec_qual, by(fam_bin)
+gen se_qual=sd_qual/sqrt(n_pairs)
+gen ub=mean_qual + 1.96*se_qual
+gen lb=mean_qual - 1.96*se_qual
+
+twoway (bar mean_qual fam_bin, color(gray) barwidth(0.6)) ///
+	(rcap lb ub fam_bin, color(black)), ///
+	xlabel(0 "1" 1 "2-3" 2 "4-5" 3 "6-10" 4 "11+") ///
+	ytitle("Mean Specialist Quality (Success Rate)") ///
+	xtitle("Patients in Referral Relationship") ///
+	legend(off)
+graph save "${RESULTS_FINAL}Familiarity_Quality_Patients", replace
+graph export "${RESULTS_FINAL}Familiarity_Quality_Patients.png", as(png) replace
+restore
+
+capture erase temp_pair_patients.dta
+capture erase temp_spec_qual_unique.dta
 
 
 log close

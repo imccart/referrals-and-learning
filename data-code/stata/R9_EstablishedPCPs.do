@@ -9,10 +9,9 @@
 **			 a three year period.
 ******************************************************************
 
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 ******************************************************************
 ** Established PCPs
-use "${DATA_FINAL}FinalReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}FinalReferrals.dta", clear
 sort pcp_npi spec_npi Year
 by pcp_npi spec_npi : gen pair_count=_n
 by pcp_npi spec_npi : egen first_year=min(Year)
@@ -29,10 +28,10 @@ foreach x of varlist patients* unique_spec* practice_size* {
 reshape long patients unique_spec practice_size, i(pcp_npi) j(Year)
 sort pcp_npi Year
 by pcp_npi: gen cumulative_spec=sum(unique_spec)
-save "${DATA_FINAL}PracticeYears_`r_type'.dta", replace
+save "${DATA_FINAL}PracticeYears.dta", replace
 
 
-use "${DATA_FINAL}PracticeYears_`r_type'.dta", clear
+use "${DATA_FINAL}PracticeYears.dta", clear
 keep if patients>0
 by pcp_npi: egen total_patients=total(patients)
 keep pcp_npi Year total_patients
@@ -47,4 +46,4 @@ bys pcp_npi: gen obs=_n
 keep if obs==1
 drop obs
 keep pcp_npi total_patients maxrun
-save "${DATA_FINAL}EstPractice_`r_type'.dta", replace
+save "${DATA_FINAL}EstPractice.dta", replace

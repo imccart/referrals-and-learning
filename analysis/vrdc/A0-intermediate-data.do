@@ -42,8 +42,7 @@ save temp_spec_yearly, replace
 ******************************************************************		
 ** HRR weights
 
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 keep if EstPCPMatch==3
 keep if Year>=2013
 gen prac_vi=0
@@ -101,8 +100,7 @@ save temp_bene_hrr, replace
 
 ******************************************************************
 ** Identify PCP Movers
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 keep Practice_ID bene_id bene_hrr pcp_phy_zip_perf1 pcp_phy_zip_perf2 Year
 preserve
 bys Practice_ID bene_hrr Year: gen pcp_hrr_patients=_N
@@ -113,7 +111,7 @@ bys Practice_ID bene_hrr: egen pcp_hrr_max_year=max(Year)
 bys Practice_ID bene_hrr Year: gen obs=_n
 keep if obs==1
 keep Practice_ID Year bene_hrr pcp_hrr_patients pcp_hrr_share pcp_hrr_min_year pcp_hrr_max_year
-save "${DATA_FINAL}PCP_HRR_Data_`r_type'.dta", replace
+save "${DATA_FINAL}PCP_HRR_Data.dta", replace
 restore
 
 preserve
@@ -125,7 +123,7 @@ bys Practice_ID pcp_phy_zip_perf1: egen pcp_zip1_max_year=max(Year)
 bys Practice_ID pcp_phy_zip_perf1 Year: gen obs=_n
 keep if obs==1
 keep Practice_ID Year pcp_phy_zip_perf1 pcp_zip1_patients pcp_zip1_share pcp_zip1_min_year pcp_zip1_max_year
-save "${DATA_FINAL}PCP_Zip1_Data_`r_type'.dta", replace
+save "${DATA_FINAL}PCP_Zip1_Data.dta", replace
 restore
 
 bys Practice_ID pcp_phy_zip_perf2 Year: gen pcp_zip2_patients=_N
@@ -136,11 +134,10 @@ bys Practice_ID pcp_phy_zip_perf2: egen pcp_zip2_max_year=max(Year)
 bys Practice_ID pcp_phy_zip_perf2 Year: gen obs=_n
 keep if obs==1
 keep Practice_ID Year pcp_phy_zip_perf2 pcp_zip2_patients pcp_zip2_share pcp_zip2_min_year pcp_zip2_max_year
-save "${DATA_FINAL}PCP_Zip2_Data_`r_type'.dta", replace
+save "${DATA_FINAL}PCP_Zip2_Data.dta", replace
 
 
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
-use "${DATA_FINAL}PCP_HRR_Data_`r_type'.dta", clear
+use "${DATA_FINAL}PCP_HRR_Data.dta", clear
 drop if Practice_ID==. | bene_hrr==.
 
 preserve
@@ -205,12 +202,11 @@ save temp_pcp_mover, replace
 
 ** Recreate small version of final choice set data
 local step=0
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 forvalues i=1/457 {
-	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta"
+	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 	if _rc==0 {
 		local step=`step'+1
-		use "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta", clear
+		use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
 		do "${CODE_FILES}_clean-analysis.do"
 
 		** prepare for cmclogit syntax
@@ -237,10 +233,8 @@ forvalues i=1/457 {
 		}
 
 		gen fmly=log(1+pair_patients_run)
-		if ${CONG_t}==1 {
-			gen time_period=(Year>2015)
-			bys Specialist_ID time_period: egen tot_patients_time=sum(choice)
-		} 
+		gen time_period=(Year>2015)
+		bys Specialist_ID time_period: egen tot_patients_time=sum(choice)
 		bys Specialist_ID: egen tot_patients=sum(choice)
 		
 				

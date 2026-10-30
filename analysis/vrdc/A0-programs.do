@@ -220,11 +220,10 @@ capture program drop run_mnl_specs
 program define run_mnl_specs
 	syntax , Regressors(string) [Fwup]
 
-	local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 	forvalues i=1/457 {
-		capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta"
+		capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 		if _rc==0 {
-			use "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta", clear
+			use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
 			do "${CODE_FILES}_clean-analysis.do"
 
 			** prepare for cmclogit syntax

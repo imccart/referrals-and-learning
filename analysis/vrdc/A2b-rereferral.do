@@ -31,17 +31,16 @@ log using "${LOG_PATH}Rereferral_`logdate'.log", replace
 **			     rotating the offset); a linear pre-trend extended through the
 **			     post-period; post positions without the 91-day gap.
 **			Standard errors are two-way clustered by specialist and PCP.
-**	Inputs:		${DATA_FINAL}EstReferrals_`r_type'.dta and temp_spec_yearly (from A0).
-**			Sample restrictions follow A2-reduced-form.do.
-**	Output:		paper-numbers-rereferral.tex, Rereferral_EventStudy_`r_type'.png,
-**			Rereferral_Checks_`r_type'.csv (coefficient, SE, windows, and
+**	Inputs:		${DATA_FINAL}EstReferrals.dta and temp_spec_yearly (from A0).
+**			Sample restrictions follow the earlier reduced-form script (A2-reduced-form.do, archived).
+**	Output:		paper-numbers-rereferral.tex, Rereferral_EventStudy.png,
+**			Rereferral_Checks.csv (coefficient, SE, windows, and
 **			failures by check and position; aggregates only).
 ******************************************************************
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 ******************************************************************
 ** Sample, as in A2
-use "${DATA_FINAL}EstReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}EstReferrals.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 bys Specialist_ID: egen max_yearly_ops=max(yearly_ops)
 keep if max_yearly_ops>=${SPEC_MIN}
@@ -232,7 +231,7 @@ gen pos_f=pos*any_bad
 save temp_rr_es, replace
 
 ** every estimate goes to the checks file: one row per check and position
-file open fc using "${RESULTS_BASE}Rereferral_Checks_`r_type'.csv", write replace
+file open fc using "${RESULTS_BASE}Rereferral_Checks.csv", write replace
 file write fc "check,pos,coef,se,n_windows,n_fail" _n
 
 capture program drop rrcheck
@@ -301,8 +300,8 @@ set scheme uncluttered
 twoway (sc coef pos, connect(line) xline(0)) (rcap ci_top ci_bot pos) ///
 	(function y=0, range(-5 5)), xtitle("Referral number relative to the event") ///
 	ytitle("Difference in probability of referring to the same surgeon") xlabel(-5(1)5) legend(off)
-graph save "${RESULTS_BASE}Rereferral_EventStudy_`r_type'", replace
-graph export "${RESULTS_BASE}Rereferral_EventStudy_`r_type'.png", as(png) replace
+graph save "${RESULTS_BASE}Rereferral_EventStudy", replace
+graph export "${RESULTS_BASE}Rereferral_EventStudy.png", as(png) replace
 restore
 
 ** by pair history (for first referrals the pre-positions are zero by construction; post only)

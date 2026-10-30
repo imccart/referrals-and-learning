@@ -29,10 +29,10 @@ log using "${LOG_PATH}R2_RiskAdj_`logdate'.log", replace
 **
 **			Outputs:
 **			  Goal 1 (risk-adjusted vs raw quality):
-**			    - DRG_Distribution_<r_type>.csv
-**			    - SpecQualAdj_<r_type>.csv: specialist-level
+**			    - DRG_Distribution.csv
+**			    - SpecQualAdj.csv: specialist-level
 **			      raw + risk-adjusted quality + ranks
-**			    - SpecQualAdj_<r_type>.png: raw vs adj scatter
+**			    - SpecQualAdj.png: raw vs adj scatter
 **
 **			  Goal 2 (reduced-form MNL sensitivities — sandbox
 **			  around A3-mnl-myopic, "fast and loose" relative to
@@ -44,15 +44,14 @@ log using "${LOG_PATH}R2_RiskAdj_`logdate'.log", replace
 **			      swapped in for the prior rho
 **			    - MNL_Specs_Adj.tex: two-row summary table
 **
-**			Self-contained: stacks Referrals_<y>_<r_type>.dta
+**			Self-contained: stacks Referrals_<y>.dta
 **			directly; no dependence on A0/A1 temp files. The
-**			MNL loop reuses ChoiceData_HRR<i>_<r_type>.dta and
+**			MNL loop reuses ChoiceData_HRR<i>.dta and
 **			the same cmclogit setup as run_mnl_specs in
 **			A0-programs.do, via an inline clone with two extra
 **			options (Drg, Adjust).
 ******************************************************************
 
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 
 ******************************************************************
@@ -66,11 +65,10 @@ capture program drop run_mnl_specs_rev
 program define run_mnl_specs_rev
 	syntax , Regressors(string) [Fwup] [Drg(numlist)] [Adjust]
 
-	local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 	forvalues i=1/457 {
-		capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta"
+		capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 		if _rc==0 {
-			use "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta", clear
+			use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
 
 			** optional DRG filter (case-mix sensitivity)
 			if "`drg'" != "" {
@@ -201,14 +199,14 @@ end
 ** Stack patient-event-level data across years
 clear
 forvalues y=2008/2018 {
-	append using "${DATA_FINAL}Referrals_`y'_`r_type'.dta", ///
+	append using "${DATA_FINAL}Referrals_`y'.dta", ///
 		keep(bene_id clm_id Practice_ID Specialist_ID admit Year ///
 		     bene_age bene_gender bene_race clm_drg_cd any_bad)
 }
 
 ** merge in Charlson Comorbidity Index from P1-patient-cci.sas
 preserve
-insheet using "${DATA_SAS}PATIENTCCI_ALL.tab", tab clear
+sasload patientcci_all
 keep bene_id clm_id cci_score
 duplicates drop bene_id clm_id, force
 save temp_cci, replace
@@ -273,7 +271,7 @@ gsort -n_events
 replace n_events=. if n_events<=11
 replace share=. if missing(n_events)
 list, sepby(clm_drg_cd) noobs
-export delimited using "${RESULTS_BASE}DRG_Distribution_`r_type'.csv", replace
+export delimited using "${RESULTS_BASE}DRG_Distribution.csv", replace
 restore
 
 
@@ -319,7 +317,7 @@ foreach v of varlist obs_fail exp_fail adj_fail spec_qual_raw spec_qual_adj rank
 }
 replace n_pat=. if n_pat<=11
 
-export delimited using "${RESULTS_BASE}SpecQualAdj_`r_type'.csv", replace
+export delimited using "${RESULTS_BASE}SpecQualAdj.csv", replace
 restore
 
 
@@ -337,8 +335,8 @@ twoway (scatter spec_qual_adj spec_qual_raw, mcolor(gs6%40) msize(small)) ///
 	xtitle("Raw Specialist Quality (Success Rate)") ///
 	ytitle("Risk-Adjusted Specialist Quality") ///
 	legend(off)
-graph save "${RESULTS_BASE}SpecQualAdj_`r_type'", replace
-graph export "${RESULTS_BASE}SpecQualAdj_`r_type'.png", as(png) replace
+graph save "${RESULTS_BASE}SpecQualAdj", replace
+graph export "${RESULTS_BASE}SpecQualAdj.png", as(png) replace
 restore
 
 

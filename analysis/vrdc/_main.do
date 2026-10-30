@@ -3,117 +3,97 @@ capture log close
 local logdate = string( d(`c(current_date)'), "%dCYND" )
 
 ******************************************************************
-**	Title:		Main file to call analysis files, etc.
+**	Title:		Main file to call analysis files
 **	Author:		Ian McCarthy
 **	Date Created:	1/3/2019
-**	Date Updated:	2/25/2026
+**	Date Updated:	10/30/2026
+**	Notes:		Runs the analysis at the surgeon level (pcp-level) and
+**			at the practice level (pcp-practice-level). Each level
+**			has its own data, results, log, and temp folders, and
+**			the working directory is the level's temp folder, so
+**			temp files saved with relative paths land there.
+**			Model-specific output runs for Myopic and FWD.
 ******************************************************************
 
 ******************************************************************
 ** Paths
 set more off
 global ROOT_PATH "/home/imc969/files/dua_027710/"
-global DATA_SAS "${ROOT_PATH}data-sas/"
+global DATA_SAS "/sas/vrdc/data/dua/dua_027710/files/Users/imc969/libs/"
 global DATA_UPLOAD "${ROOT_PATH}data-external/"
 
-global PROJ_PATH "/home/imc969/files/dua_027710/pcp-referrals/"
+global PROJ_PATH "${ROOT_PATH}pcp-referrals/"
 global CODE_FILES "${PROJ_PATH}analysis/"
-global LOG_PATH "${PROJ_PATH}logs/"
-global RESULTS_ROOT "${PROJ_PATH}results/"
-cd "${ROOT_PATH}stata-ado"
+adopath + "${ROOT_PATH}stata-ado"
+do "${PROJ_PATH}data-code/stata/_programs.do"	/* sasload: reads SAS tables from the library folder */
 
 
 ******************************************************************
-** Global Variables
-
-** referral assignment
-global PCP_First=1	/* limit E&M and Claim Referring physicians to PCPs before identifying referral */
-global PCP_Only=1	/* require that referring physician is a PCP */
-global RFR_Priority=0   /* look to the listed referring physician on the claim as first indicator of referring physician */
-
-if ${PCP_First}==1 {
-	global PCP_Only=1
-}
-
-** global variables governing level of decision maker (physician vs practice)
-global PCP_Practice=1   /* 0 denotes decision between physician and physician, 1 denotes decision at physician to practice */
-
-** file paths based on global values
-if ${PCP_Practice}==1 {
-	global DATA_FINAL "${PROJ_PATH}data/pcp-practice-level/"
-	global RESULTS_BASE "${PROJ_PATH}results/pcp-practice-level/"
-}
-else if ${PCP_Practice}==0 {
-	global DATA_FINAL "${PROJ_PATH}data/pcp-level/"
-	global RESULTS_BASE "${PROJ_PATH}results/pcp-level/"
-}
-
-
-** choice sets and sizes
-global OUTSIDE_OPTION=0
-global SPEC_MIN=20
-
-** time-varying congestion
-global CONG_t=1
-if ${CONG_t}==1 {
-	global RESULTS_FINAL "${RESULTS_BASE}time_vary/"
-}
-else if ${CONG_t}==0 {
-	global RESULTS_FINAL "${RESULTS_BASE}time_constant/"
-}
+** Global variables
+global SPEC_MIN=20	/* minimum yearly operations for a specialist to enter a choice set */
+global OUTSIDE_OPTION=0	/* no outside option in the choice set; A4, A5, and _clean-analysis branch on this */
 
 
 ******************************************************************
-** Preliminary code
-
-do "${CODE_FILES}A0-programs.do"		/* Programs and functions */
-do "${CODE_FILES}A0-intermediate-data.do"	/* Temporary datasets used throughout analysis */
+** Programs
+do "${CODE_FILES}A0-programs.do"
 
 
 ******************************************************************
-** Analysis
+** Analysis by level of the specialist choice: surgeon NPI (pcp-level)
+** and surgeon practice TIN (pcp-practice-level)
 
-do "${CODE_FILES}A1-desc-stats.do"
-do "${CODE_FILES}A2-reduced-form.do"
-do "${CODE_FILES}A2b-rereferral.do"		/* Re-referral after failure vs success: level and referral-order event study */
-do "${CODE_FILES}A3-mnl-myopic.do"
-do "${CODE_FILES}A4-mnl-distance.do"
+foreach level in pcp-level pcp-practice-level {
 
-global MODEL_TYPE "Myopic"
-do "${CODE_FILES}A5-structural-estimation.do"
+	if "`level'"=="pcp-level" {
+		global PCP_Practice=0
+	}
+	else {
+		global PCP_Practice=1
+	}
+	global DATA_FINAL "${PROJ_PATH}data/`level'/"
+	global RESULTS_FINAL "${PROJ_PATH}results/`level'/"
+	global RESULTS_BASE "${RESULTS_FINAL}"	/* level-wide and model-specific output share one folder; model-specific files carry the model in the name */
+	global LOG_PATH "${PROJ_PATH}logs/`level'/"
+	capture mkdir "${PROJ_PATH}results/"
+	capture mkdir "${RESULTS_FINAL}"
+	capture mkdir "${PROJ_PATH}logs/"
+	capture mkdir "${LOG_PATH}"
+	capture mkdir "${PROJ_PATH}temp/"
+	capture mkdir "${PROJ_PATH}temp/`level'/"
+	cd "${PROJ_PATH}temp/`level'/"
 
-global MODEL_TYPE "FWD"
-do "${CODE_FILES}A5-structural-estimation.do"
+	** intermediate data and reduced form
+	do "${CODE_FILES}A0-intermediate-data.do"	/* temporary datasets used throughout */
+	do "${CODE_FILES}A1-desc-stats.do"
+	do "${CODE_FILES}A2b-rereferral.do"		/* re-referral after failure vs success: level and referral-order event study */
+	do "${CODE_FILES}A4-mnl-distance.do"		/* congestion instrument */
+	if "`level'"=="pcp-level" {
+		do "${CODE_FILES}A3-mnl-myopic.do"	/* MNL sensitivities (appendix) */
+	}
 
-******************************************************************
-** Structural output — Myopic
+	** structural estimation and output, by model
+	foreach model in Myopic FWD {
+		global MODEL_TYPE "`model'"
+		do "${CODE_FILES}A5-structural-estimation.do"
+		do "${CODE_FILES}O1-coef-tables.do"
+		do "${CODE_FILES}O2-baseline.do"
+		do "${CODE_FILES}O5-model-diagnostics.do"
+		foreach cf in current full fullfam fullnofe {
+			global CF_NAME "`cf'"
+			do "${CODE_FILES}O2-counterfactuals.do"
+		}
+		do "${CODE_FILES}O2-cf-qualmax.do"
+		do "${CODE_FILES}O4-VRDC-figures.do"
+	}
+	do "${CODE_FILES}O3-paper-numbers.do"	/* loops over both models */
 
-global MODEL_TYPE "Myopic"
-do "${CODE_FILES}O1-coef-tables.do"
-do "${CODE_FILES}O2-baseline.do"
-do "${CODE_FILES}O5-model-diagnostics.do"
-do "${CODE_FILES}O2-cf-full.do"
-do "${CODE_FILES}O2-cf-current.do"
-do "${CODE_FILES}O2-cf-fullfam.do"
-do "${CODE_FILES}O2-cf-fullnofe.do"
-do "${CODE_FILES}O4-VRDC-figures.do"
-
-** Structural output — Forward-looking
-
-global MODEL_TYPE "FWD"
-do "${CODE_FILES}O1-coef-tables.do"
-do "${CODE_FILES}O2-baseline.do"
-do "${CODE_FILES}O5-model-diagnostics.do"
-do "${CODE_FILES}O2-cf-full.do"
-do "${CODE_FILES}O2-cf-current.do"
-do "${CODE_FILES}O2-cf-fullfam.do"
-do "${CODE_FILES}O2-cf-fullnofe.do"
-do "${CODE_FILES}O4-VRDC-figures.do"
-
-******************************************************************
-** Paper numbers and supplemental diagnostics
-
-do "${CODE_FILES}O3-paper-numbers.do"
-do "${CODE_FILES}S1-diagnostics.do"
-do "${CODE_FILES}S2-pcp-assignment.do"
-do "${CODE_FILES}S3-first-stage.do"
+	** supplemental diagnostics and risk adjustment (surgeon level only)
+	if "`level'"=="pcp-level" {
+		do "${CODE_FILES}S1-diagnostics.do"
+		do "${CODE_FILES}S2-pcp-assignment.do"
+		do "${CODE_FILES}S3-first-stage.do"
+		do "${CODE_FILES}S4-uniqueness.do"
+		do "${CODE_FILES}R2-risk-adjustment.do"
+	}
+}

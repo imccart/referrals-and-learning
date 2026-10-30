@@ -9,10 +9,10 @@
 local t=$year
 
 if `t'==2008 {
-	insheet using "${DATA_SAS}HOSPITAL_LOCATION_2009.tab", tab clear
+	sasload hospital_location_2009
 } 
 else {
-	insheet using "${DATA_SAS}HOSPITAL_LOCATION_`t'.tab", tab clear
+	sasload hospital_location_`t'
 }
 
 matrix data_cleanup_`t'[6,2]=_N

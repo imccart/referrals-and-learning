@@ -28,7 +28,6 @@ else {
 	exit 198
 }
 local model "${MODEL_TYPE}"
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 ** alpha scenario labels
 local alpha_labels "a1 amatch ahigh"

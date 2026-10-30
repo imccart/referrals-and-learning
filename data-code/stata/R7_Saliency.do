@@ -9,7 +9,7 @@ local t=$year
 
 ******************************************************************
 ** Total E&M visits by physician, bene, and year
-insheet using "${DATA_SAS}PCPCARRIER_`t'.tab", tab clear
+sasload pcpcarrier_`t'
 destring physician_id, replace force
 
 gen double Practice_ID=physician_id
@@ -28,7 +28,7 @@ save temp_saliency0, replace
 
 if `t'<2018 {
 	local t_plus=`t'+1
-	insheet using "${DATA_SAS}PCPCARRIER_`t_plus'.tab", tab clear
+	sasload pcpcarrier_`t_plus'
 	destring physician_id, replace force
 	gen double Practice_ID=physician_id	
 	/*

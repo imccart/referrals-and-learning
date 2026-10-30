@@ -8,7 +8,7 @@
 
 local t=$year
 
-insheet using "${DATA_SAS}ORTHOPATIENT_DATA_`t'.tab", tab clear
+sasload orthopatient_data_`t'
 matrix data_cleanup_`t'[4,2]=_N
 
 rename state_code bene_state

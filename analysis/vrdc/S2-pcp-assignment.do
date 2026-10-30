@@ -14,7 +14,6 @@ log using "${LOG_PATH}PCPAssignment_`logdate'.log", replace
 **			Based on original Assignment_Alg.do.
 ******************************************************************
 
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 
 ******************************************************************
@@ -35,7 +34,7 @@ forvalues y=2013/2018 {
 
 
 	** rfr_physn_npi from carrier claims on surgeon's claim
-	insheet using "${DATA_SAS}REFERRALSCARRIER_`y'.tab", tab clear
+	sasload referralscarrier_`y'
 	keep if rfr_physn_npi !=.
 	rename prf_physn_npi spec_npi
 	rename rfr_physn_npi physician_id
@@ -53,7 +52,7 @@ forvalues y=2013/2018 {
 
 
 	** PCP-only lookback (our method): most-visited PCP in pre-surgery E&M claims
-	insheet using "${DATA_SAS}PRESURGERY_PHYSICIANS_`y'.tab", tab clear
+	sasload presurgery_physicians_`y'
 	destring physician_id, force replace
 	merge m:1 physician_id using temp_pcps, nogenerate keep(match)
 

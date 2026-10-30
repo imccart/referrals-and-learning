@@ -10,12 +10,11 @@ log using "${LOG_PATH}MNL_Distance_`logdate'.log", replace
 **	Date Updated:	2/16/2025
 ******************************************************************
 
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 forvalues i=1/457 {
-	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta"
+	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 	if _rc==0 {
 
-		use "${DATA_FINAL}ChoiceData_HRR`i'_`r_type'.dta", clear		
+		use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear		
 		do "${CODE_FILES}_clean-analysis.do"
 		
 		** prepare for cmclogit syntax
@@ -72,12 +71,11 @@ forvalues i=1/457 {
 	capture erase "dist_pred_`i'.dta"	
 }
 
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"	
 if ${OUTSIDE_OPTION}==1 {
-	save "${RESULTS_FINAL}Distance_Prediction_`r_type'.dta", replace
+	save "${RESULTS_FINAL}Distance_Prediction.dta", replace
 }
 else if ${OUTSIDE_OPTION}==0 {
-	save "${RESULTS_FINAL}Distance_Prediction_Full_`r_type'.dta", replace
+	save "${RESULTS_FINAL}Distance_Prediction_Full.dta", replace
 }
 
 

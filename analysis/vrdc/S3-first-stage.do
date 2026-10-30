@@ -16,7 +16,6 @@ log using "${LOG_PATH}FirstStage_`logdate'.log", replace
 **			  - Summary of weak-instrument diagnostics
 ******************************************************************
 
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 
 ******************************************************************
@@ -44,7 +43,7 @@ foreach model_type in Myopic FWD {
 	local model "`model_type'"
 
 	** Distance-only predictions (instrument)
-	use "${RESULTS_FINAL}Distance_Prediction_Full_`r_type'.dta", clear
+	use "${RESULTS_FINAL}Distance_Prediction_Full.dta", clear
 	split Spec_ID_t, p("-") generate(spec_id)
 	rename spec_id1 Specialist_ID
 	gen time_period=0 if spec_id2=="a"
@@ -62,7 +61,7 @@ foreach model_type in Myopic FWD {
 
 
 	** Merge FEs with instrument and capacity
-	use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_`r_type'_rhobar.dta", clear
+	use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_rhobar.dta", clear
 	merge m:1 hrr Specialist_ID time_period using temp_s3_distance, nogenerate keep(match)
 	merge m:1 Specialist_ID time_period hrr using temp_s3_capacity, nogenerate keep(match)
 	gen reg_weight=1/(coef_se^2)
@@ -105,8 +104,8 @@ foreach model_type in Myopic FWD {
 			ytitle("Actual patients (residualized)") ///
 			xtitle("Predicted patients (residualized)") ///
 			legend(off)
-		graph save "${RESULTS_FINAL}FirstStage_Scatter_`model'_eta`eta'_`r_type'", replace
-		graph export "${RESULTS_FINAL}FirstStage_Scatter_`model'_eta`eta'_`r_type'.png", as(png) replace
+		graph save "${RESULTS_FINAL}FirstStage_Scatter_`model'_eta`eta'", replace
+		graph export "${RESULTS_FINAL}FirstStage_Scatter_`model'_eta`eta'.png", as(png) replace
 
 		drop yhat_resid tot_resid tot_hat yhat_hat
 	}
@@ -181,8 +180,8 @@ foreach model_type in Myopic FWD {
 			ytitle("Relative Frequency") ///
 			xtitle("First-stage F-statistic, {&eta}=`eta'") ///
 			legend(off)
-		graph save "${RESULTS_FINAL}FirstStage_Fstat_`model'_eta`eta'_`r_type'", replace
-		graph export "${RESULTS_FINAL}FirstStage_Fstat_`model'_eta`eta'_`r_type'.png", as(png) replace
+		graph save "${RESULTS_FINAL}FirstStage_Fstat_`model'_eta`eta'", replace
+		graph export "${RESULTS_FINAL}FirstStage_Fstat_`model'_eta`eta'.png", as(png) replace
 	}
 
 

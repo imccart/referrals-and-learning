@@ -24,7 +24,6 @@ capture program drop finddist
 ** Run do-files for each year
 forvalues y=2008/2018 {
 	global year=`y'
-	local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 	matrix data_cleanup_`y' = J(10,12,.)
 	do "${CODE_FILES}R1_Operations.do"
 	do "${CODE_FILES}R2_Referrals.do"
@@ -67,29 +66,9 @@ forvalues y=2008/2018 {
 	matrix data_cleanup_`y'[10,7]=r(N)
 	
 	
-	** merge PCP characteristics
-	if $RFR_Priority==1 {
-		/* ** prioritizing the listed referring physician in the claims data (not typically a PCP)
-		gen double pcp_npi=RFR_PCP_ID1
-		replace pcp_npi=Claim_PCP_ID if pcp_npi==.
-		gen pcp_source="Listed RFR" if pcp_npi==RFR_PCP_ID1 & pcp_npi!=Claim_PCP_ID & pcp_npi!=.
-		replace pcp_source="Claims" if pcp_npi==Claim_PCP_ID & pcp_npi!=RFR_PCP_ID1 & pcp_npi!=.
-		replace pcp_source="Both" if pcp_npi==RFR_PCP_ID1 & pcp_npi==Claim_PCP_ID & pcp_npi!=.
-		*/
-		
-		** prioritizing frequency/recency of visits, but supplementing with referring physician field
-		gen double pcp_npi=Claim_PCP_ID
-		replace pcp_npi=RFR_PCP_ID1 if pcp_npi==.
-		gen pcp_source="Claims" if pcp_npi==Claim_PCP_ID & pcp_npi!=RFR_PCP_ID1 & pcp_npi!=.
-		replace pcp_source="Listed RFR" if pcp_npi!=Claim_PCP_ID & pcp_npi==RFR_PCP_ID1 & pcp_npi!=.
-		replace pcp_source="Both" if pcp_npi==RFR_PCP_ID1 & pcp_npi==Claim_PCP_ID & pcp_npi!=.
-
-	}
-	
-	else if $RFR_Priority==0 {
-		gen double pcp_npi=Claim_PCP_ID
-		gen pcp_source="Claims" if pcp_npi==Claim_PCP_ID & pcp_npi!=.
-	}
+	** the referring PCP is the most-visited PCP in the year before surgery (R2); the referring physician listed on the claim is merged for the match counts only
+	gen double pcp_npi=Claim_PCP_ID
+	gen pcp_source="Claims" if pcp_npi==Claim_PCP_ID & pcp_npi!=.
 	
 	drop pcp_visits* pcp_tax_id pcp_max_visit pcp_min_visit pcp_source_claim RFR_PCP_* Listed_RFR EM_RFR Claim_PCP_ID
 	gen double physician_npi=pcp_npi
@@ -111,6 +90,9 @@ forvalues y=2008/2018 {
 	qui count if Outcomes_Match==3
 	matrix data_cleanup_`y'[10,10]=r(N)
 	
+	** stays without a full 90-day outcome window (discharged within 90 days of the end of the data) are dropped
+	drop if window_full==0
+
 	** focus on 65+ eligibles and drop duplicates
 	drop op_physn_upin
 	gen bene_age=int( (discharge-bene_birthday)/365.25)
@@ -121,46 +103,13 @@ forvalues y=2008/2018 {
 	matrix data_cleanup_`y'[10,11]=_N
 	
 	** define Practice_ID and Specialist_ID to use throughout other code...this can be as granular as an NPI or as broad as a practice group
-	if $PCP_Only==1 {
-		keep if pcp_phy_spec_broad==1
-	}
-	else if $PCP_Only==0 {
-		keep if pcp_npi!=spec_npi
-	}
+	** the referring physician must be a PCP
+	keep if pcp_phy_spec_broad==1
 	
 	keep if spec_phy_spec_prim_1_name=="Orthopedic Surgery"
 	
 	if ${PCP_Practice}==1 {
 
-		/* PCP & Specialist at Practice Level 
-		gen double Practice_ID=pcp_phy_tin1
-		gen double Specialist_ID=spec_phy_tin1
-		
-		preserve
-		bys Practice_ID pcp_npi: gen prac_pcp=_N
-		bys pcp_npi: egen max_prac_pcp=max(prac_pcp)
-		keep if prac_pcp==max_prac_pcp
-		bys Practice_ID pcp_npi: gen prac_pcp_obs=_n
-		keep if prac_pcp_obs==1
-		rename pcp_npi physician_id
-		destring physician_id, replace force
-		keep Practice_ID physician_id
-		save "${DATA_FINAL}practice_pcp_xwalk_`y'.dta", replace
-		restore
-		
-		preserve
-		bys Specialist_ID spec_npi: gen prac_spec=_N
-		bys spec_npi: egen max_prac_spec=max(prac_spec)
-		keep if prac_spec==max_prac_spec
-		bys Specialist_ID spec_npi: gen prac_spec_obs=_n
-		keep if prac_spec_obs==1
-		rename spec_npi physician_id
-		destring physician_id, replace force
-		keep Specialist_ID physician_id
-		save "${DATA_FINAL}practice_spec_xwalk_`y'.dta", replace
-		restore
-		
-		*/
 		
 		/* Specialist ONLY at practice level, PCP at physician level */
 		gen double Practice_ID=pcp_npi
@@ -273,7 +222,7 @@ forvalues y=2008/2018 {
 	merge m:1 Practice_ID admit using "${DATA_FINAL}Running_PCP_`y'.dta", nogenerate keep(master match)
 	merge m:1 Specialist_ID admit using "${DATA_FINAL}Running_Spec_`y'.dta", nogenerate keep(master match)
 	merge m:1 Practice_ID bene_id admit using "${DATA_FINAL}fwup_visits_`y'.dta", nogenerate keep(master match)	
-	save "${DATA_FINAL}Referrals_`y'_`r_type'.dta", replace
+	save "${DATA_FINAL}Referrals_`y'.dta", replace
 }
 
 ******************************************************************
@@ -303,31 +252,29 @@ forvalues y=2008/2018 {
 
 ******************************************************************
 ** Append yearly data into one
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 use "${RESULTS_FINAL}build_2008.dta", clear
 gen year=2008
 forvalues y=2009/2018 {
 	append using "${RESULTS_FINAL}build_`y'.dta"
 	replace year=`y' if year==.
 }
-save "${RESULTS_FINAL}data_build_detail_`r_type'.dta", replace
+save "${RESULTS_FINAL}data_build_detail.dta", replace
 
 
-use "${DATA_FINAL}Referrals_2008_`r_type'.dta", clear
+use "${DATA_FINAL}Referrals_2008.dta", clear
 forvalues y=2009/2018 {
-	append using "${DATA_FINAL}Referrals_`y'_`r_type'.dta", force
+	append using "${DATA_FINAL}Referrals_`y'.dta", force
 }
 sort Practice_ID Specialist_ID admit bene_id
 
-save "${DATA_FINAL}FinalReferrals_`r_type'.dta", replace
+save "${DATA_FINAL}FinalReferrals.dta", replace
 
 
 ******************************************************************
 ** Calculate cumulative runninng variables
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 ** cumulative events by pair
-use "${DATA_FINAL}FinalReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}FinalReferrals.dta", clear
 sort Practice_ID Specialist_ID admit
 by Practice_ID Specialist_ID: gen pair_death_cuml=sum(mortality_90)
 by Practice_ID Specialist_ID: gen pair_failures_cuml=sum(any_bad)
@@ -353,11 +300,11 @@ keep Practice_ID Specialist_ID admit pair_death_cuml pair_failures_cuml pair_rea
 bys Practice_ID Specialist_ID admit: gen obs=_n
 keep if obs==1
 drop obs
-save "${DATA_FINAL}Cumulative_Pair_`r_type'.dta", replace
+save "${DATA_FINAL}Cumulative_Pair.dta", replace
 
 
 ** cumulative events by pair with follow-up PCP visits
-use "${DATA_FINAL}FinalReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}FinalReferrals.dta", clear
 gen any_comp_fw=any_comp*fwup100
 gen readmit_fw=readmit*fwup100
 gen any_bad_fw=0
@@ -389,20 +336,20 @@ keep Practice_ID Specialist_ID admit pair_failures_cuml_fw pair_readmit_cuml_fw 
 bys Practice_ID Specialist_ID admit: gen obs=_n
 keep if obs==1
 drop obs
-save "${DATA_FINAL}Cumulative_Pair_FW_`r_type'.dta", replace
+save "${DATA_FINAL}Cumulative_Pair_FW.dta", replace
 
 
 
 ** total events by pair
-use "${DATA_FINAL}FinalReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}FinalReferrals.dta", clear
 collapse (count) pair_patients_tot=bene_id (sum) pair_death_tot=mortality_90 pair_failures_tot=any_bad ///
 	pair_readmit_tot=readmit pair_comp_tot=any_comp, by(Practice_ID Specialist_ID)
-save "${DATA_FINAL}Total_Pair_`r_type'.dta", replace
+save "${DATA_FINAL}Total_Pair.dta", replace
 
 
 
 ** cumulative events by practice
-use "${DATA_FINAL}FinalReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}FinalReferrals.dta", clear
 collapse (count) patients=bene_id (sum) mortality_90 any_bad readmit any_comp, by(Practice_ID admit)
 
 sort Practice_ID admit
@@ -430,18 +377,18 @@ keep Practice_ID admit pcp_death_cuml pcp_failures_cuml pcp_readmit_cuml pcp_pat
 bys Practice_ID admit: gen obs=_n
 keep if obs==1
 drop obs
-save "${DATA_FINAL}Cumulative_PCP_`r_type'.dta", replace
+save "${DATA_FINAL}Cumulative_PCP.dta", replace
 
 
 ** total events by practice
-use "${DATA_FINAL}FinalReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}FinalReferrals.dta", clear
 collapse (count) pcp_patients_tot=bene_id (sum) pcp_death_tot=mortality_90 pcp_failures_tot=any_bad ///
 	pcp_readmit_tot=readmit pcp_comp_tot=any_comp, by(Practice_ID)
-save "${DATA_FINAL}Total_PCP_`r_type'.dta", replace
+save "${DATA_FINAL}Total_PCP.dta", replace
 
 
 ** cumulative events by specialist
-use "${DATA_FINAL}FinalReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}FinalReferrals.dta", clear
 collapse (count) patients=bene_id (sum) mortality_90 any_bad readmit any_comp, by(Specialist_ID admit)
 
 sort Specialist_ID admit
@@ -469,16 +416,15 @@ keep Specialist_ID admit spec_death_cuml spec_failures_cuml spec_readmit_cuml sp
 bys Specialist_ID admit: gen obs=_n
 keep if obs==1
 drop obs
-save "${DATA_FINAL}Cumulative_Spec_`r_type'.dta", replace
+save "${DATA_FINAL}Cumulative_Spec.dta", replace
 
 ** total events by specialist
-use "${DATA_FINAL}FinalReferrals_`r_type'.dta", clear
+use "${DATA_FINAL}FinalReferrals.dta", clear
 collapse (count) spec_patients_tot=bene_id (sum) spec_death_tot=mortality_90 spec_failures_tot=any_bad ///
 	spec_readmit_tot=readmit spec_comp_tot=any_comp, by(Specialist_ID)
-save "${DATA_FINAL}Total_Spec_`r_type'.dta", replace
+save "${DATA_FINAL}Total_Spec.dta", replace
 
 
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
 ******************************************************************
 ** Identify established practices
 do "${CODE_FILES}R9_EstablishedPCPs.do"
@@ -489,13 +435,12 @@ do "${CODE_FILES}R10_EpisodeSpend.do"
 
 ******************************************************************
 ** Merge final data
-local r_type="${PCP_First}_${PCP_Only}_${RFR_Priority}"
-use "${DATA_FINAL}FinalReferrals_`r_type'.dta", clear
-merge m:1 pcp_npi using "${DATA_FINAL}EstPractice_`r_type'.dta", keep(master match) generate(EstPCPMatch)
+use "${DATA_FINAL}FinalReferrals.dta", clear
+merge m:1 pcp_npi using "${DATA_FINAL}EstPractice.dta", keep(master match) generate(EstPCPMatch)
 merge 1:1 bene_id clm_id using "${DATA_FINAL}Episode_Spending.dta", keep(master match) generate(EpisodeMatch)
-merge m:1 Practice_ID Specialist_ID admit using "${DATA_FINAL}Cumulative_Pair_`r_type'.dta", keep(master match) nogenerate
-merge m:1 Practice_ID Specialist_ID admit using "${DATA_FINAL}Cumulative_Pair_FW_`r_type'.dta", keep(master match) nogenerate
-merge m:1 Practice_ID admit using "${DATA_FINAL}Cumulative_PCP_`r_type'.dta", keep(master match) nogenerate
-merge m:1 Specialist_ID admit using "${DATA_FINAL}Cumulative_Spec_`r_type'.dta", keep(master match) nogenerate
+merge m:1 Practice_ID Specialist_ID admit using "${DATA_FINAL}Cumulative_Pair.dta", keep(master match) nogenerate
+merge m:1 Practice_ID Specialist_ID admit using "${DATA_FINAL}Cumulative_Pair_FW.dta", keep(master match) nogenerate
+merge m:1 Practice_ID admit using "${DATA_FINAL}Cumulative_PCP.dta", keep(master match) nogenerate
+merge m:1 Specialist_ID admit using "${DATA_FINAL}Cumulative_Spec.dta", keep(master match) nogenerate
 
-save "${DATA_FINAL}EstReferrals_`r_type'.dta", replace
+save "${DATA_FINAL}EstReferrals.dta", replace

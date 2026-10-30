@@ -23,7 +23,6 @@ else {
 	exit 198
 }
 local model "${MODEL_TYPE}"
-local r_type "${PCP_First}_${PCP_Only}_${RFR_Priority}"
 
 
 ** choice set summaries
@@ -56,7 +55,7 @@ save temp_choice_data, replace
 ******************************************************************
 ** Section A: Coefficient Estimates
 
-use "${RESULTS_FINAL}`coef_prefix'HRR_CoefFull_`r_type'_rhobar.dta", clear
+use "${RESULTS_FINAL}`coef_prefix'HRR_CoefFull_rhobar.dta", clear
 
 gen eta_val=coef_val if coef_name=="eta"
 gen hrr_val=coef_val if coef_name=="hrr"
@@ -92,8 +91,8 @@ use temp_dist, clear
 merge 1:1 hrr eta using temp_m, nogenerate
 merge m:1 hrr using hrr_size, nogenerate keep(master match)
 keep if converged==1
-save "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_`r_type'_rhobar.dta", replace
-outsheet using "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_`r_type'_rhobar.csv", comma replace
+save "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_rhobar.dta", replace
+outsheet using "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_rhobar.csv", comma replace
 
 
 ** familiarity coefficients
@@ -109,8 +108,8 @@ save temp_fmly, replace
 use temp_fmly, clear
 drop if fmly_level==.
 merge m:1 hrr using hrr_size, nogenerate keep(master match)
-save "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_`r_type'_rhobar.dta", replace
-outsheet using "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_`r_type'_rhobar.csv", comma replace
+save "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_rhobar.dta", replace
+outsheet using "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_rhobar.csv", comma replace
 
 
 ** specialist FEs
@@ -134,8 +133,8 @@ save temp_fe, replace
 
 use temp_fe, clear
 merge m:1 hrr using hrr_size, nogenerate keep(master match)
-save "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_`r_type'_rhobar.dta", replace
-outsheet using "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_`r_type'_rhobar.csv", comma replace
+save "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_rhobar.dta", replace
+outsheet using "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_rhobar.csv", comma replace
 
 
 ******************************************************************
@@ -236,7 +235,7 @@ display "lost share is `=string(`lost_patients'/`all_patients', "%6.2f")' of pat
 ******************************************************************
 ** Summarize coefficients across HRRs
 
-use "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_`r_type'_rhobar.dta", clear
+use "${RESULTS_FINAL}`coef_prefix'HRR_MainCoeff_rhobar.dta", clear
 save temp_coeff_rho, replace
 
 use temp_coeff_rho, clear
@@ -280,7 +279,7 @@ rename tot_patients_time tot_patients
 save mean_capacity, replace
 
 ** organize distance-only regression
-use "${RESULTS_FINAL}Distance_Prediction_Full_`r_type'.dta", clear
+use "${RESULTS_FINAL}Distance_Prediction_Full.dta", clear
 split Spec_ID_t, p("-") generate(spec_id)
 rename spec_id1 Specialist_ID
 gen time_period=0 if spec_id2=="a"
@@ -298,7 +297,7 @@ save fe_distance, replace
 
 
 ** summarize first stage results (regression of total patients on predicted patients)
-use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_`r_type'_rhobar.dta", clear
+use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_rhobar.dta", clear
 merge m:1 hrr Specialist_ID time_period using fe_distance, nogenerate keep(match)
 merge m:1 Specialist_ID time_period hrr using mean_capacity, nogenerate keep(match)
 gen reg_weight=1/(coef_se^2)
@@ -355,13 +354,13 @@ foreach eta in 1 5 {
 	hist coef_est [weight=patients], fraction color(gray) width(0.5) ///
 		ylabel(0(.1).7) ///
 		ytitle("Relative Frequency") xtitle("First-stage estimates for {&eta}=`eta'") legend(off)
-	graph save "${RESULTS_FINAL}`coef_prefix'_2SLSFirstStage_eta`eta'_rhobar_`r_type'", replace
-	graph export "${RESULTS_FINAL}`coef_prefix'_2SLSFirstStage_eta`eta'_rhobar_`r_type'.png", as(png) replace
+	graph save "${RESULTS_FINAL}`coef_prefix'_2SLSFirstStage_eta`eta'_rhobar", replace
+	graph export "${RESULTS_FINAL}`coef_prefix'_2SLSFirstStage_eta`eta'_rhobar.png", as(png) replace
 	restore
 }
 
 ** summarize IV results (regression of FE on total patients, with predicted patients as instrument)
-use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_`r_type'_rhobar.dta", clear
+use "${RESULTS_FINAL}`coef_prefix'HRR_Spec_FEs_rhobar.dta", clear
 merge m:1 hrr Specialist_ID time_period using fe_distance, nogenerate keep(match)
 merge m:1 Specialist_ID time_period hrr using mean_capacity, nogenerate keep(match)
 gen reg_weight=1/(coef_se^2)
@@ -416,8 +415,8 @@ foreach eta in 1 5 {
 	hist coef_est if coef_est>-0.1 [weight=patients], fraction color(gray) width(0.0005) ///
 		ylabel(0(.05).2) ///
 		ytitle("Relative Frequency") xtitle("2SLS estimates for {&eta}=`eta'") legend(off)
-	graph save "${RESULTS_FINAL}`coef_prefix'_2SLSEstimate_eta`eta'_rhobar_`r_type'", replace
-	graph export "${RESULTS_FINAL}`coef_prefix'_2SLSEstimate_eta`eta'_rhobar_`r_type'.png", as(png) replace
+	graph save "${RESULTS_FINAL}`coef_prefix'_2SLSEstimate_eta`eta'_rhobar", replace
+	graph export "${RESULTS_FINAL}`coef_prefix'_2SLSEstimate_eta`eta'_rhobar.png", as(png) replace
 	restore
 }
 
@@ -496,7 +495,7 @@ post table_tex ("\cline{2-8}")
 post table_tex ("\ \  & 1  & 2  & 3  & 4  & 5  & [6,7]  & [8,10] \\")
 post table_tex ("\hline\hline")
 
-import delimited "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_`r_type'_rhobar.csv", clear
+import delimited "${RESULTS_FINAL}`coef_prefix'HRR_FmlyCoeff_rhobar.csv", clear
 gen str8 bin = cond(inrange(fmly_level,6,7), "[6,7]", cond(inrange(fmly_level,8,10), "[8,10]", string(fmly_level)))
 keep if inlist(bin, "1","2","3","4","5","[6,7]","[8,10]")
 
