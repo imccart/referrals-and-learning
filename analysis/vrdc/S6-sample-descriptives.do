@@ -20,11 +20,15 @@ log using "${LOG_PATH}SampleDescriptives_`logdate'.log", replace
 **			3. Established PCPs (the estimation sample) against all PCPs with
 **			   a referral: patients per active year, active years, and new
 **			   specialists per year.
+**			4. Whether the endpoint of a referral is the practice or the
+**			   surgeon: concentration of each PCP-practice pair's referrals
+**			   across the practice's surgeons against the practice's own
+**			   shares, for the TIN and for the TIN-by-office-zip definition.
 **	Inputs:		${DATA_FINAL}EstReferrals.dta, PracticeYears.dta, EstPractice.dta,
 **			temp_spec_yearly (from A0). Surgeon level only.
 **	Output:		paper-numbers-descriptives.tex (aggregates), PatientMix_Age.png,
-**			PatientMix_Specialist.csv (dispersion across specialists, observed
-**			and random; aggregates only).
+**			PatientMix_Specialist.csv and ReferralEndpoint.csv (aggregates
+**			by group; cells under 11 pairs masked).
 ******************************************************************
 
 local outfile "${RESULTS_BASE}paper-numbers-descriptives.tex"
@@ -172,10 +176,104 @@ foreach g in 0 1 {
 	}
 }
 
+******************************************************************
+** 4. Is the endpoint of a referral the practice or the surgeon?
+** For PCP-practice pairs with at least five referrals, the concentration of the pair's referrals across the
+** practice's surgeons (HHI) against what the practice's own surgeon shares would give a pair of that size if
+** the PCP's patients spread across the practice the way its volume does, E[HHI] = H + (1-H)/n. Excess
+** concentration near zero means the practice is the endpoint; excess near 1-H means the PCP uses one surgeon.
+** Two definitions of the practice: the billing TIN, and the TIN by the surgeon's performing-location zip (the
+** office). Each surgeon is assigned to his modal practice over the sample. Practices with one surgeon are left out.
+
+use "${DATA_FINAL}EstReferrals.dta", clear
+keep if EstPCPMatch==3 & Year>=2013
+keep Practice_ID spec_npi spec_phy_tin1 spec_phy_zip_perf1 bene_id
+drop if spec_phy_tin1==. | spec_npi==.
+
+** modal TIN per surgeon
+preserve
+bys spec_npi spec_phy_tin1: gen n_t=_N
+bys spec_npi spec_phy_tin1: keep if _n==1
+gsort spec_npi -n_t
+by spec_npi: keep if _n==1
+keep spec_npi spec_phy_tin1
+rename spec_phy_tin1 tin
+save temp_s6_tin, replace
+restore
+
+** modal TIN-zip (office) per surgeon
+preserve
+bys spec_npi spec_phy_tin1 spec_phy_zip_perf1: gen n_tz=_N
+bys spec_npi spec_phy_tin1 spec_phy_zip_perf1: keep if _n==1
+gsort spec_npi -n_tz
+by spec_npi: keep if _n==1
+egen double office=group(spec_phy_tin1 spec_phy_zip_perf1)
+keep spec_npi office
+save temp_s6_office, replace
+restore
+
+merge m:1 spec_npi using temp_s6_tin, nogenerate keep(match)
+merge m:1 spec_npi using temp_s6_office, nogenerate keep(match)
+save temp_s6_refs, replace
+
+foreach def in tin office {
+	use temp_s6_refs, clear
+
+	** the practice's shares across its surgeons, its HHI, and its size
+	bys `def': gen n_prac=_N
+	bys `def' spec_npi: gen n_prac_s=_N
+	gen sh=n_prac_s/n_prac
+	bys `def' spec_npi: gen first_s=(_n==1)
+	bys `def': egen hhi_prac=total(sh^2*first_s)
+	bys `def': egen size_prac=total(first_s)
+
+	** the pair's concentration across the practice's surgeons
+	bys Practice_ID `def': gen n_pair=_N
+	keep if n_pair>=5 & size_prac>=2
+	bys Practice_ID `def' spec_npi: gen n_pair_s=_N
+	gen sh_pair=n_pair_s/n_pair
+	bys Practice_ID `def' spec_npi: gen first_ps=(_n==1)
+	bys Practice_ID `def': egen hhi_pair=total(sh_pair^2*first_ps)
+	bys Practice_ID `def': egen nsurg_pair=total(first_ps)
+	gen e_hhi=hhi_prac+(1-hhi_prac)/n_pair
+	gen excess=hhi_pair-e_hhi
+	gen one_surg=(nsurg_pair==1)
+	bys Practice_ID `def': keep if _n==1
+
+	qui count
+	file write fh "\newcommand{\endpointPairs`=proper("`def'")'}{`=string(r(N), "%12.0fc")'}" _n
+	qui sum excess
+	file write fh "\newcommand{\endpointExcess`=proper("`def'")'}{`=string(r(mean), "%5.3f")'}" _n
+	qui sum one_surg
+	file write fh "\newcommand{\endpointOneSurg`=proper("`def'")'}{`=string(100*r(mean), "%4.1f")'}" _n
+	qui sum size_prac
+	file write fh "\newcommand{\endpointSize`=proper("`def'")'}{`=string(r(mean), "%5.1f")'}" _n
+
+	gen size_bin=cond(size_prac<=2,1,cond(size_prac<=5,2,cond(size_prac<=10,3,4)))
+	collapse (count) n_pairs=n_pair (mean) n_pair hhi_pair e_hhi excess one_surg size_prac, by(size_bin)
+	gen definition="`def'"
+	save temp_s6_conc_`def', replace
+}
+
+use temp_s6_conc_tin, clear
+append using temp_s6_conc_office
+foreach v of varlist n_pair hhi_pair e_hhi excess one_surg size_prac {
+	replace `v'=. if n_pairs<11
+}
+label define sizelbl 1 "2 surgeons" 2 "3-5" 3 "6-10" 4 "11+"
+label values size_bin sizelbl
+order definition size_bin n_pairs size_prac n_pair hhi_pair e_hhi excess one_surg
+export delimited using "${RESULTS_BASE}ReferralEndpoint.csv", replace
+
 file close fh
 
 capture erase temp_s6_perm.dta
 capture erase temp_s6_patients.dta
 capture erase temp_s6_obs.dta
+capture erase temp_s6_tin.dta
+capture erase temp_s6_office.dta
+capture erase temp_s6_refs.dta
+capture erase temp_s6_conc_tin.dta
+capture erase temp_s6_conc_office.dta
 
 log close
