@@ -9,21 +9,7 @@
 ******************************************************************
 ** Total specialist operations per year
 forvalues y=2008/2018 {
-	use "${DATA_FINAL}OrthoStays_`y'.dta", clear
-	collapse (count) yearly_ops=bene_id, by(spec_npi)
-	
-	if ${PCP_Practice}==1 {
-		rename spec_npi physician_id
-		merge m:1 physician_id using "${DATA_FINAL}practice_spec_xwalk_`y'.dta", nogenerate keep(match)
-		
-		collapse (max) yearly_ops, by(Specialist_ID)
-	}
-	else if ${PCP_Practice}==0 {
-		rename spec_npi Specialist_ID
-	}
-	
-	gen Year=`y'
-	save temp_ops_`y', replace
+	unit_yearly_ops `y'	/* D1_unit-surgeon.do or D2_unit-practice.do, loaded by the driver */
 }
 use temp_ops_2008, clear
 forvalues y=2009/2018 {

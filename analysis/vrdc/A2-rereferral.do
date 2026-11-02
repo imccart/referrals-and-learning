@@ -52,9 +52,9 @@ keep if EstPCPMatch==3
 gen quarter=qofd(admit)
 format quarter %tq
 drop if quarter<quarterly("2008q1","YQ") | quarter==.
-capture confirm variable spec_phy_tin1
+capture confirm variable parent_id
 if _rc==0 {
-	gen double spec_tin=spec_phy_tin1
+	gen double spec_tin=parent_id	/* the unit's group: the billing TIN for a surgeon; missing when the unit is the practice */
 }
 else {
 	gen double spec_tin=.
@@ -235,12 +235,13 @@ forvalues b=1/3 {
 }
 
 ** spillover within the billing group: the next referral goes to a different surgeon in the same
-** group as the event's surgeon (surgeon level only; at the practice level the group is the unit)
+** group as the event's surgeon (defined only when the unit has a group, so not at the practice level)
 local rr_fx_tin=.
 local rr_se_tin=.
 local base_tin=.
 local rr_n_tin=.
-if ${PCP_Practice}==0 {
+qui count if rerefer_tin!=.
+if r(N)>0 {
 	sum rerefer_tin if any_bad==0
 	local base_tin=r(mean)
 	reghdfe rerefer_tin any_bad i.e_bin, absorb(spec_year) vce(cluster Specialist_ID Practice_ID)

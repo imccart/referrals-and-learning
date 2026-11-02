@@ -39,41 +39,8 @@ save "${DATA_FINAL}RandomSample.dta", replace
 ** Final choice sets
 forvalues y=2013/2018 {
 	
-	** collapse specialist characteristics to specialist practice
-	if ${PCP_Practice}==1 {
-		use "${DATA_FINAL}Physician_`y'.dta", clear
-		rename physician_npi physician_id
-		merge m:1 physician_id using "${DATA_FINAL}practice_spec_xwalk_`y'.dta", nogenerate keep(match)
-		gen male=(phy_sex=="M") if phy_sex!=""
-		bys physician_id: gen spec_obs=_n
-		replace spec_obs=0 if spec_obs>1
-		gen birth_date=date(phy_birth_dt, "DMY")
-		gen age=`y' - year(birth_date)
-		bys Specialist_ID: egen mode_state=mode(phy_state)
-		bys Specialist_ID: egen mode_cbsa=mode(phy_cbsa_cd)
-		bys Specialist_ID: egen mode_tin1=mode(phy_tin1)
-		bys Specialist_ID: egen mode_tin2=mode(phy_tin2)
-		
-		preserve
-		keep Specialist_ID phy_zip_perf1
-		rename phy_zip_perf1 spec_phy_zip_perf1
-		bys Specialist_ID spec_phy_zip_perf1: gen claims_zip=_N
-		bys Specialist_ID spec_phy_zip_perf1: gen obs=_n
-		keep if obs==1
-		gsort Specialist_ID -claims_zip
-		drop obs claims_zip
-		by Specialist_ID: gen obs=_n
-		reshape wide spec_phy_zip_perf1, i(Specialist_ID) j(obs)
-		save temp_spec_practice_zip, replace
-		restore
-		
-		collapse (mean) spec_practice_male=male spec_practice_age=age (sum) spec_practice_size=spec_obs ///
-			(first) spec_practice_state=mode_state spec_practice_cbsa=mode_cbsa ///
-			(first) spec_phy_tin1=mode_tin1 spec_phy_tin2=mode_tin2, by(Specialist_ID)
-		merge 1:1 Specialist_ID using temp_spec_practice_zip, nogenerate keep(master match)
-		save "${DATA_FINAL}Specialist_Practice_`y'.dta", replace
-		
-	}
+	** characteristics of the unit of the specialist choice (D1_unit-surgeon.do or D2_unit-practice.do)
+	unit_characteristics `y'
 	
 	use "${DATA_FINAL}Referrals_`y'.dta", clear
 	keep Specialist_ID hosp_lat1 hosp_long1 hosp_lat2 hosp_long2
@@ -126,18 +93,7 @@ forvalues y=2013/2018 {
 			** merge characteristics of the specialist and PCP practice
 			
 
-			/* For both Specialist at practice level and PCP at individual level */
-			if ${PCP_Practice}==1 {
-				merge m:1 Specialist_ID using "${DATA_FINAL}Specialist_Practice_`y'.dta", keep(master match) generate(Specialist_Match)
-			}
-			else if ${PCP_Practice}==0 {
-				gen double physician_npi=Specialist_ID
-				merge m:1 physician_npi using "${DATA_FINAL}Physician_`y'.dta", keep(master match) generate(Specialist_Match)
-				foreach x of varlist phy_* claims_perf* {
-					rename `x' spec_`x'
-				}
-				drop physician_npi
-			}
+			merge m:1 Specialist_ID using "${DATA_FINAL}Specialist_`y'.dta", keep(master match) generate(Specialist_Match)
 			gen double physician_npi=Practice_ID
 			merge m:1 physician_npi using "${DATA_FINAL}Physician_`y'.dta", keep(master match) generate(PCP_Match)
 			foreach x of varlist phy_* claims_perf* {
@@ -176,26 +132,12 @@ forvalues y=2013/2018 {
 			
 			** subset data
 			
-			** PCP at the individual level, specialist at the practice level
-			if ${PCP_Practice}==1 {
-				keep Practice_ID Specialist_ID bene_id admit bene_birth_dt bene_lat bene_long spec_hosp_lat* spec_hosp_long* ///
-					Year choice clm_drg_cd episode_spend EstPCPMatch fwup* ///
-					pair_* ///
-					pcp_phy_sex pcp_phy_birth_dt pcp_phy_pos_* pcp_phy_tin1 pcp_phy_tin2 pcp_phy_zip_perf* pcp_claims_perf* ///
-					pcp_patients_* pcp_failures_* pcp_death_* pcp_readmit_* pcp_comp* ///
-					spec_practice_male spec_practice_age spec_practice_size spec_practice_state spec_practice_cbsa spec_phy_zip_perf* ///
-					spec_phy_tin1 spec_phy_tin2 pcp_phy_tin1 pcp_phy_tin2 ///
-					spec_patients_* spec_failures_* spec_death_* spec_readmit_* spec_comp*	
-			}
-			else if ${PCP_Practice}==0 {
-				keep Practice_ID Specialist_ID bene_id admit bene_birth_dt bene_lat bene_long spec_hosp_lat* spec_hosp_long* ///
-					Year choice clm_drg_cd episode_spend EstPCPMatch fwup* ///
-					pair_* ///
-					pcp_phy_sex pcp_phy_birth_dt pcp_phy_pos_* pcp_phy_tin1 pcp_phy_tin2 pcp_phy_zip_perf* pcp_claims_perf* ///
-					pcp_patients_* pcp_failures_* pcp_death_* pcp_readmit_* pcp_comp* ///
-					spec_phy_sex spec_phy_birth_dt spec_phy_spec_prim* spec_phy_pos_* spec_phy_tin1 spec_phy_tin2 spec_phy_zip_perf* spec_claims_perf* ///
-					spec_patients_* spec_failures_* spec_death_* spec_readmit_* spec_comp*
-			}
+			keep Practice_ID Specialist_ID bene_id admit bene_birth_dt bene_lat bene_long spec_hosp_lat* spec_hosp_long* ///
+				Year choice clm_drg_cd episode_spend EstPCPMatch fwup* ///
+				pair_* ///
+				pcp_phy_sex pcp_phy_birth_dt pcp_phy_pos_* pcp_phy_tin1 pcp_phy_tin2 pcp_phy_zip_perf* pcp_claims_perf* ///
+				pcp_patients_* pcp_failures_* pcp_death_* pcp_readmit_* pcp_comp* ///
+				spec_*
 			
 			save temp_choice_`h'_`y', replace
 		}

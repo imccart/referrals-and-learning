@@ -218,6 +218,9 @@ foreach cf_name in full current fullfam fullnofe {
 ** Quality and spending distributions (baseline vs counterfactual)
 ** Mean change histograms + quantile scatters per HRR
 
+** the spending distributions need the specialist-level episode cost from A1, which the practice run does not make
+capture confirm file spec_quality_distribution.dta
+if _rc==0 {
 ** Build specialist-level mean episode cost from A1 temp file
 use spec_quality_distribution, clear
 collapse (mean) mean_episode [aweight=spec_patients_year], by(Specialist_ID bene_hrr)
@@ -456,6 +459,7 @@ foreach cf_name in full current fullfam fullnofe {
 	}
 }
 capture erase temp_spec_cost.dta
+}
 
 
 ******************************************************************

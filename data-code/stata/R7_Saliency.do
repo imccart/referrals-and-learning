@@ -13,14 +13,6 @@ sasload pcpcarrier_`t'
 destring physician_id, replace force
 
 gen double Practice_ID=physician_id
-/* If allowing PCP at practice level too
-if ${PCP_Practice}==1 {
-	merge m:1 physician_id using "${DATA_FINAL}practice_pcp_xwalk_`t'.dta", nogenerate keep(master match)
-}
-else if ${PCP_Practice}==0 {
-	gen double Practice_ID=physician_id
-}
-*/
 gen pcp_visit_date=date(visit_date,"DMY")
 format pcp_visit_date %td
 keep Practice_ID bene_id pcp_visit_date
@@ -31,14 +23,6 @@ if `t'<2018 {
 	sasload pcpcarrier_`t_plus'
 	destring physician_id, replace force
 	gen double Practice_ID=physician_id	
-	/*
-	if ${PCP_Practice}==1 {
-		merge m:1 physician_id using "${DATA_FINAL}practice_pcp_xwalk_`t'.dta", nogenerate keep(master match)
-	}
-	else if ${PCP_Practice}==0 {
-		gen double Practice_ID=physician_id
-	}
-	*/
 	gen pcp_visit_date=date(visit_date,"DMY")
 	format pcp_visit_date %td
 	drop if pcp_visit_date>d(01apr`t_plus')

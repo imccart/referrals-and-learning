@@ -102,36 +102,13 @@ forvalues y=2008/2018 {
 	drop count
 	matrix data_cleanup_`y'[10,11]=_N
 	
-	** define Practice_ID and Specialist_ID to use throughout other code...this can be as granular as an NPI or as broad as a practice group
 	** the referring physician must be a PCP
 	keep if pcp_phy_spec_broad==1
 	
 	keep if spec_phy_spec_prim_1_name=="Orthopedic Surgery"
 	
-	if ${PCP_Practice}==1 {
-
-		
-		/* Specialist ONLY at practice level, PCP at physician level */
-		gen double Practice_ID=pcp_npi
-		gen double Specialist_ID=spec_phy_tin1
-		
-		preserve
-		bys Specialist_ID spec_npi: gen prac_spec=_N
-		bys spec_npi: egen max_prac_spec=max(prac_spec)
-		keep if prac_spec==max_prac_spec
-		bys Specialist_ID spec_npi: gen prac_spec_obs=_n
-		keep if prac_spec_obs==1
-		rename spec_npi physician_id
-		destring physician_id, replace force
-		keep Specialist_ID physician_id
-		save "${DATA_FINAL}practice_spec_xwalk_`y'.dta", replace
-		restore		
-
-	}
-	else if ${PCP_Practice}==0 {
-		gen double Practice_ID=pcp_npi
-		gen double Specialist_ID=spec_npi
-	}
+	** the unit of the specialist choice: D1_unit-surgeon.do or D2_unit-practice.do, loaded by the driver
+	define_unit `y'
 	drop if Practice_ID==. | Specialist_ID==.
 	matrix data_cleanup_`y'[10,12]=_N
 	

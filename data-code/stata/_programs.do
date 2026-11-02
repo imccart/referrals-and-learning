@@ -2,7 +2,7 @@
 **	Title:		Programs shared by the data build and the analysis
 **	Author:		Ian McCarthy
 **	Date Created:	10/30/2026
-**	Notes:		Run by _data-build.do and by analysis/_main.do.
+**	Notes:		Run by the build and analysis drivers (_build-*.do, _main-*.do).
 ******************************************************************
 
 ** sasload: read a SAS table from the library folder in the form the
