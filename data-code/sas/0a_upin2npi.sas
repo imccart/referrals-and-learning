@@ -4,7 +4,6 @@
 /*                Emory University                               */
 /* DATE CREATED:  5/12/2015                                      */
 /* DATE EDITED:   10/30/2026                                    */
-/* CODE FILE ORDER: 0a (before step 1)                           */
 /* INPUT:         RIFyyyy.INPATIENT_CLAIMS_01-12                 */
 /*                _UPLDS.UPIN2NPIXW (uploaded UPIN-NPI crosswalk)*/
 /* OUTPUT:        UPIN_NPI_Merge_yyyy, Unique_UPIN_yyyy           */

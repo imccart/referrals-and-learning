@@ -4,7 +4,6 @@
 /*                Emory University                               */
 /* DATE CREATED:  9/18/2017                                      */
 /* DATE EDITED:   10/30/2026                                    */
-/* CODE FILE ORDER: 6                                            */
 /* INPUT:         MBSF.MBSF_ABCD_yyyy                            */
 /*                MajorJoint_yyyy (step 1)                       */
 /* OUTPUT:        OrthoPatient_Data_yyyy                         */

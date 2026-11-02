@@ -4,7 +4,6 @@
 /*                Emory University                               */
 /* DATE CREATED:  12/31/2018                                     */
 /* DATE EDITED:   10/30/2026                                    */
-/* CODE FILE ORDER: 3                                            */
 /* INPUT:         RIFyyyy.BCARRIER_LINE_01-12                    */
 /*                MajorJointPatients_Unique (step 1)             */
 /*                MD_PPAS.MDPPAS_V24_yyyy                        */

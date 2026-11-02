@@ -4,7 +4,6 @@
 /*                Emory University                               */
 /* DATE CREATED:  5/12/2015                                      */
 /* DATE EDITED:   10/30/2026                                    */
-/* CODE FILE ORDER: 0b (before step 5)                           */
 /* INPUT:         NPPES10.NPPES_DEC2010 through                  */
 /*                NPPES15.NPPES_DEC2015                          */
 /* OUTPUT:        NPPES_yyyy for &year_first through &nppes_last */

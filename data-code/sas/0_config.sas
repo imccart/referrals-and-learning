@@ -3,10 +3,9 @@
 /* AUTHOR:        Ian McCarthy                                   */
 /*                Emory University                               */
 /* DATE CREATED:  10/30/2026                                     */
-/* CODE FILE ORDER: 0                                            */
 /* PURPOSE:       Year ranges, year-specific rules, and the      */
 /*                month-stacking macro used by every step.       */
-/*                Run first; every other program %includes it.   */
+/*                Run first in the session; the others use it.  */
 /* ------------------------------------------------------------ */
 
 /* Libraries. PL027710 (project), RIFyyyy, MBSF, MD_PPAS,         */

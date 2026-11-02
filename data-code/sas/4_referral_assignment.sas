@@ -4,7 +4,6 @@
 /*                Emory University                               */
 /* DATE CREATED:  1/2/2019                                       */
 /* DATE EDITED:   10/30/2026                                    */
-/* CODE FILE ORDER: 4                                            */
 /* INPUT:         MajorJoint_yyyy (step 1)                       */
 /*                &carrier_tbl._yyyy and _yyyy-1 (step 3)        */
 /* OUTPUT:        PreSurgery_Physicians_yyyy                     */

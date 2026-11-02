@@ -4,7 +4,6 @@
 /*                Emory University                               */
 /* DATE CREATED:  10/15/2019                                     */
 /* DATE EDITED:   10/30/2026                                    */
-/* CODE FILE ORDER: 2                                            */
 /* INPUT:         MajorJoint_yyyy (step 1)                       */
 /*                RIFyyyy.INPATIENT_CLAIMS_01-12 and the first   */
 /*                three months of the following year             */

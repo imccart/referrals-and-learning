@@ -5,7 +5,6 @@
 /*                Emory University                               */
 /* DATE CREATED:  1/2/2019                                       */
 /* DATE EDITED:   10/30/2026                                    */
-/* CODE FILE ORDER: 7                                            */
 /* INPUT:         MajorJoint_yyyy, MajorJointPatients_Unique     */
 /*                (step 1)                                       */
 /*                RIFyyyy.BCARRIER_LINE_01-12                    */

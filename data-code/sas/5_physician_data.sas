@@ -4,12 +4,11 @@
 /*                Emory University                               */
 /* DATE CREATED:  5/12/2015                                      */
 /* DATE EDITED:   10/30/2026                                    */
-/* CODE FILE ORDER: 5                                            */
 /* INPUT:         carrier lines for the year (RIF monthly files, */
 /*                or the request tables before 2009)             */
 /*                MajorJoint_yyyy (step 1)                       */
-/*                NPPES_yyyy (nppes.sas)                         */
-/*                UPIN_NPI_Merge_yyyy (upin2npi.sas; before 2009)*/
+/*                NPPES_yyyy (0b)                               */
+/*                UPIN_NPI_Merge_yyyy (0a; before 2009)         */
 /* OUTPUT:        OrthoPhysician_Data_yyyy                       */
 /* ------------------------------------------------------------ */
 

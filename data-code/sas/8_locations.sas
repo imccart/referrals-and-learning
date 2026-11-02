@@ -4,7 +4,6 @@
 /*                Emory University                               */
 /* DATE CREATED:  12/16/2021                                     */
 /* DATE EDITED:   10/30/2026                                    */
-/* CODE FILE ORDER: 8                                            */
 /* INPUT:         RIFyyyy.INPATIENT_CLAIMS_01-12                 */
 /*                PROVIDER.POS_yyyy                              */
 /*                RIFyyyy.BCARRIER_LINE_01-12                    */
