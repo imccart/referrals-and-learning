@@ -26,14 +26,7 @@ keep if EstPCPMatch==3
 gen quarter=qofd(admit)
 format quarter %tq
 drop if quarter<quarterly("2008q1","YQ") | quarter==.
-capture confirm variable parent_id
-if _rc==0 {
-	gen double spec_tin=parent_id	/* the unit's group: the billing TIN for a surgeon; missing when the unit is the practice */
-}
-else {
-	gen double spec_tin=.
-}
-keep Practice_ID Specialist_ID spec_tin bene_id admit quarter Year any_bad
+keep Practice_ID Specialist_ID parent_id bene_id admit quarter Year any_bad
 save temp_rr_referrals, replace
 
 ******************************************************************
@@ -94,11 +87,11 @@ gen cnt=0
 forvalues k=1/40 {
 	by Practice_ID: gen double a_k=admit[_n+`k']
 	by Practice_ID: gen double j_k=Specialist_ID[_n+`k']
-	by Practice_ID: gen double t_k=spec_tin[_n+`k']
+	by Practice_ID: gen double t_k=parent_id[_n+`k']
 	gen ok=(a_k!=. & a_k>=admit+91 & a_k<=admit+1095)
 	replace cnt=cnt+ok
 	replace gap1=a_k-admit if ok==1 & cnt==1
-	replace rerefer_tin=(t_k==spec_tin & j_k!=Specialist_ID) if ok==1 & cnt==1 & spec_tin!=. & t_k!=.
+	replace rerefer_tin=(t_k==parent_id & j_k!=Specialist_ID) if ok==1 & cnt==1 & parent_id!=. & t_k!=.
 	drop a_k j_k t_k ok
 }
 drop cnt

@@ -415,25 +415,7 @@ bys period: sum episode_spend
 sum episode_spend
 restore
 
-keep if Year>=2013 
-bys Specialist_ID bene_hrr Year: egen mean_episode=mean(episode_spend)
-bys Specialist_ID bene_hrr Year: gen spec_patients_year=_N
-bys Specialist_ID bene_hrr Year: egen max_date=max(admit)
-keep if max_date==admit
-bys Specialist_ID bene_hrr Year: gen obs=_n
-keep if obs==1
-foreach x of newlist failures death readmit comp {
-	gen prop_`x'=spec_`x'_run/spec_patients_run
-	bys bene_hrr Year: egen p25_`x'=pctile(prop_`x'), p(25)
-	bys bene_hrr Year: egen p50_`x'=pctile(prop_`x'), p(50)	
-	bys bene_hrr Year: egen p75_`x'=pctile(prop_`x'), p(75)
-	
-	gen patients_75_`x'=(prop_`x'>=p75_`x')	
-	gen patients_50_`x'=(prop_`x'>=p50_`x')		
-}
-
-keep Specialist_ID bene_hrr Year prop_* spec_patients_run spec_patients_year patients_75_* patients_50_* p25_* p50_* p75_* mean_episode
-save spec_quality_distribution, replace
+use spec_quality_distribution, clear
 
 ** identify top performing specialists 
 preserve

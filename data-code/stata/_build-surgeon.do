@@ -7,8 +7,7 @@ local logdate = string( d(`c(current_date)'), "%dCYND" )
 **	Author:		Ian McCarthy
 **	Date Updated:	11/2/2026
 **	Notes:		_build-practice.do is the same with _unit-practice.do and
-**			the practice folders. data/, results/, logs/, temp/ and
-**			their surgeon/ subfolders exist on the seat.
+**			the practice folders.
 ******************************************************************
 
 set more off

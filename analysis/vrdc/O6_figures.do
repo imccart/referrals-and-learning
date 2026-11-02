@@ -216,9 +216,6 @@ foreach cf_name in full current fullfam fullnofe {
 ******************************************************************
 ** Quality and spending distributions, baseline vs counterfactual
 
-** spending needs the specialist-level episode cost from A2_descriptives, which the practice run does not make
-capture confirm file spec_quality_distribution.dta
-if _rc==0 {
 use spec_quality_distribution, clear
 collapse (mean) mean_episode [aweight=spec_patients_year], by(Specialist_ID bene_hrr)
 rename bene_hrr hrr
@@ -456,7 +453,6 @@ foreach cf_name in full current fullfam fullnofe {
 	}
 }
 capture erase temp_spec_cost.dta
-}
 
 
 ******************************************************************

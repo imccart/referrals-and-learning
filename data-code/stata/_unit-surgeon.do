@@ -14,7 +14,7 @@ program define define_unit
 	args y
 	gen double Practice_ID=pcp_npi
 	gen double Specialist_ID=spec_npi
-	gen double parent_id=spec_phy_tin1	/* the surgeon's billing group, for the same-group outcome in A2 */
+	gen double parent_id=spec_phy_tin1	/* the surgeon's billing group, for the same-group outcome in A3 */
 end
 
 capture program drop unit_characteristics
