@@ -15,7 +15,10 @@ log using "${LOG_PATH}Rereferral_`logdate'.log", replace
 **			     the same surgeon. Linear probability and Poisson, with
 **			     specialist-by-year fixed effects and pair-history bins; also
 **			     with PCP fixed effects, by pair history, without the 91-day
-**			     gap, and with the PCP's previous five referrals as controls.
+**			     gap, with the PCP's previous five referrals as controls,
+**			     within PCP-surgeon pair, by the calendar gap to the next referral,
+**			     and with the next referral to a different surgeon in the same
+**			     billing group as the outcome (spillover within the group).
 **			  2. Stacked event study: each window is the PCP's five referrals
 **			     before and after a referral, kept only if none of the PCP's
 **			     other referrals in the window (to any surgeon) failed, so a
@@ -29,7 +32,8 @@ log using "${LOG_PATH}Rereferral_`logdate'.log", replace
 **			     (aftermath contamination); non-overlapping windows (isolated
 **			     failures plus one success window per eleven PCP referrals,
 **			     rotating the offset); a linear pre-trend extended through the
-**			     post-period; post positions without the 91-day gap.
+**			     post-period; post positions without the 91-day gap; windows split
+**			     by the calendar gap from the event to the next referral.
 **			Standard errors are two-way clustered by specialist and PCP.
 **	Inputs:		${DATA_FINAL}EstReferrals.dta and temp_spec_yearly (from A0).
 **			Sample restrictions follow the earlier reduced-form script (A2-reduced-form.do, archived).
@@ -48,7 +52,14 @@ keep if EstPCPMatch==3
 gen quarter=qofd(admit)
 format quarter %tq
 drop if quarter<quarterly("2008q1","YQ") | quarter==.
-keep Practice_ID Specialist_ID bene_id admit quarter Year any_bad
+capture confirm variable spec_phy_tin1
+if _rc==0 {
+	gen double spec_tin=spec_phy_tin1
+}
+else {
+	gen double spec_tin=.
+}
+keep Practice_ID Specialist_ID spec_tin bene_id admit quarter Year any_bad
 save temp_rr_referrals, replace
 
 ******************************************************************
@@ -101,6 +112,24 @@ drop cnt cnt0
 gen rerefer=s7
 gen rerefer0=g7
 
+** calendar gap (days) from the event to the next referral at least 91 days later,
+** and whether that referral went to a different surgeon in the same billing group
+gen gap1=.
+gen rerefer_tin=.
+gen cnt=0
+forvalues k=1/40 {
+	by Practice_ID: gen double a_k=admit[_n+`k']
+	by Practice_ID: gen double j_k=Specialist_ID[_n+`k']
+	by Practice_ID: gen double t_k=spec_tin[_n+`k']
+	gen ok=(a_k!=. & a_k>=admit+91 & a_k<=admit+1095)
+	replace cnt=cnt+ok
+	replace gap1=a_k-admit if ok==1 & cnt==1
+	replace rerefer_tin=(t_k==spec_tin & j_k!=Specialist_ID) if ok==1 & cnt==1 & spec_tin!=. & t_k!=.
+	drop a_k j_k t_k ok
+}
+drop cnt
+gen gapbin=cond(gap1<=180,1,cond(gap1<=365,2,3)) if gap1!=.
+
 ** failures among the PCP's other referrals around each one
 by Practice_ID: gen cumbad=sum(any_bad)
 by Practice_ID: gen c_m1=cond(_n>1, cumbad[_n-1], 0)
@@ -136,7 +165,7 @@ forvalues p=1/5 {
 	gen m`p'=(s`p'==.)
 }
 keep event_id n_pcp Practice_ID Specialist_ID spec_year Year quarter any_bad e_prior e_bin e_grp ///
-	rerefer rerefer0 clean clean0 sutva_ok nofail10 l1 l2 l3 l4 l5 m1 m2 m3 m4 m5 ///
+	rerefer rerefer0 rerefer_tin gap1 gapbin clean clean0 sutva_ok nofail10 l1 l2 l3 l4 l5 m1 m2 m3 m4 m5 ///
 	s1 s2 s3 s4 s5 s7 s8 s9 s10 s11 g1 g2 g3 g4 g5 g7 g8 g9 g10 g11
 save temp_rr_events, replace
 
@@ -188,6 +217,38 @@ reghdfe rerefer any_bad i.e_bin l1 l2 l3 l4 l5 m1 m2 m3 m4 m5, absorb(spec_year)
 local rr_fx_lag=_b[any_bad]
 local rr_se_lag=_se[any_bad]
 
+** within PCP-surgeon pair: the pair's failures against its own successes (pairs with one event, or
+** with no variation in failure, drop out, so the estimation sample is recorded)
+reghdfe rerefer any_bad i.e_bin, absorb(spec_year Practice_ID#Specialist_ID) vce(cluster Specialist_ID Practice_ID)
+local rr_fx_pair=_b[any_bad]
+local rr_se_pair=_se[any_bad]
+local rr_n_pair=e(N)
+
+** by the calendar gap from the event to the next referral: 91-180 days, 181-365, over a year
+forvalues b=1/3 {
+	sum rerefer if any_bad==0 & gapbin==`b'
+	local base_gap`b'=r(mean)
+	reghdfe rerefer any_bad i.e_bin if gapbin==`b', absorb(spec_year) vce(cluster Specialist_ID Practice_ID)
+	local rr_fx_gap`b'=_b[any_bad]
+	local rr_se_gap`b'=_se[any_bad]
+	local rr_n_gap`b'=e(N)
+}
+
+** spillover within the billing group: the next referral goes to a different surgeon in the same
+** group as the event's surgeon (surgeon level only; at the practice level the group is the unit)
+local rr_fx_tin=.
+local rr_se_tin=.
+local base_tin=.
+local rr_n_tin=.
+if ${PCP_Practice}==0 {
+	sum rerefer_tin if any_bad==0
+	local base_tin=r(mean)
+	reghdfe rerefer_tin any_bad i.e_bin, absorb(spec_year) vce(cluster Specialist_ID Practice_ID)
+	local rr_fx_tin=_b[any_bad]
+	local rr_se_tin=_se[any_bad]
+	local rr_n_tin=e(N)
+}
+
 ** by pair history: first referral to the surgeon, 1-4 prior, 5+ prior
 forvalues g=0/2 {
 	sum rerefer if any_bad==0 & e_grp==`g'
@@ -216,7 +277,7 @@ forvalues g=0/2 {
 
 ** long form: one row per window and position; same uses the 91-day gap, same0 does not
 use temp_rr_events, clear
-keep event_id n_pcp Practice_ID Specialist_ID spec_year any_bad e_bin e_grp ///
+keep event_id n_pcp Practice_ID Specialist_ID spec_year any_bad e_bin e_grp gapbin ///
 	clean clean0 sutva_ok nofail10 s1 s2 s3 s4 s5 s7 s8 s9 s10 s11 g1 g2 g3 g4 g5 g7 g8 g9 g10 g11
 reshape long s g, i(event_id) j(posid)
 rename s same
@@ -279,6 +340,20 @@ local es_first_se=_se[P7_f]
 sum same if any_bad==0 & pos<0 & clean==1
 local es_base=r(mean)
 
+** PCPs in the main sample, and those with at least one failure window and one success window,
+** which are the PCPs the position coefficients are identified from
+preserve
+use temp_rr_events, clear
+keep if clean==1 & s7!=.
+bys Practice_ID: egen hf=max(any_bad)
+bys Practice_ID: egen hs=min(any_bad)
+bys Practice_ID: gen one=(_n==1)
+qui count if one==1
+local es_pcps=r(N)
+qui count if one==1 & hf==1 & hs==0
+local es_pcps_both=r(N)
+restore
+
 ** figure
 preserve
 gen coef=.
@@ -323,6 +398,21 @@ rrcheck history same "clean==1 & same!=." "`fe_full' e_bin#posid"
 
 ** aftermath contamination: no failure in the previous ten referrals either
 rrcheck sutva same "sutva_ok==1 & same!=." "`fe_full'"
+local sutva_events=`nw'
+local sutva_fail=`nf'
+local sutva_first=_b[P7_f]
+local sutva_first_se=_se[P7_f]
+lincom (P7_f+P8_f+P9_f+P10_f+P11_f)/5
+local sutva_post=r(estimate)
+local sutva_post_se=r(se)
+lincom (P1_f+P2_f+P3_f+P4_f)/4
+local sutva_pre=r(estimate)
+local sutva_pre_se=r(se)
+
+** windows split by the calendar gap from the event to the next referral
+forvalues b=1/3 {
+	rrcheck gap`b' same "clean==1 & same!=. & gapbin==`b'" "`fe_full'"
+}
 
 ** non-overlapping windows, rotating which successes are kept
 forvalues r=0/10 {
@@ -352,6 +442,11 @@ file write fc "level,1,`rr_fx',`rr_se',`n_events',`n_fail'" _n
 file write fc "level_pcp,1,`rr_fx_pcp',`rr_se_pcp',`n_events',`n_fail'" _n
 file write fc "level_lagctrl,1,`rr_fx_lag',`rr_se_lag',`n_events',`n_fail'" _n
 file write fc "level_nogap,1,`fx0',`se0',`n0_events'," _n
+file write fc "level_pair,1,`rr_fx_pair',`rr_se_pair',`rr_n_pair'," _n
+forvalues b=1/3 {
+	file write fc "level_gap`b',1,`rr_fx_gap`b'',`rr_se_gap`b'',`rr_n_gap`b''," _n
+}
+file write fc "level_tin,1,`rr_fx_tin',`rr_se_tin',`rr_n_tin'," _n
 file close fc
 
 ******************************************************************
@@ -410,6 +505,30 @@ file write fh "\newcommand{\rereferESPreSE}{`=string(`es_pre_se', "%6.4f")'}" _n
 file write fh "\newcommand{\rereferESFirst}{`=string(`es_first', "%6.4f")'}" _n
 file write fh "\newcommand{\rereferESFirstSE}{`=string(`es_first_se', "%6.4f")'}" _n
 file write fh "\newcommand{\rereferESBase}{`=string(`es_base', "%5.3f")'}" _n
+file write fh "\newcommand{\rereferESPCPs}{`=string(`es_pcps', "%12.0fc")'}" _n
+file write fh "\newcommand{\rereferESPCPsBoth}{`=string(`es_pcps_both', "%12.0fc")'}" _n
+file write fh "\newcommand{\rereferESEventsSutva}{`=string(`sutva_events', "%12.0fc")'}" _n
+file write fh "\newcommand{\rereferESFailuresSutva}{`=string(`sutva_fail', "%12.0fc")'}" _n
+file write fh "\newcommand{\rereferESFirstSutva}{`=string(`sutva_first', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferESFirstSESutva}{`=string(`sutva_first_se', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferESPostSutva}{`=string(`sutva_post', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferESPostSESutva}{`=string(`sutva_post_se', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferESPreSutva}{`=string(`sutva_pre', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferESPreSESutva}{`=string(`sutva_pre_se', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferFXpair}{`=string(`rr_fx_pair', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferSEpair}{`=string(`rr_se_pair', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferNpair}{`=string(`rr_n_pair', "%12.0fc")'}" _n
+forvalues b=1/3 {
+	local w=word("short mid long", `b')
+	file write fh "\newcommand{\rereferFXgap`w'}{`=string(`rr_fx_gap`b'', "%6.4f")'}" _n
+	file write fh "\newcommand{\rereferSEgap`w'}{`=string(`rr_se_gap`b'', "%6.4f")'}" _n
+	file write fh "\newcommand{\rereferBasegap`w'}{`=string(`base_gap`b'', "%5.3f")'}" _n
+	file write fh "\newcommand{\rereferNgap`w'}{`=string(`rr_n_gap`b'', "%12.0fc")'}" _n
+}
+file write fh "\newcommand{\rereferFXtin}{`=string(`rr_fx_tin', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferSEtin}{`=string(`rr_se_tin', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferBasetin}{`=string(`base_tin', "%5.3f")'}" _n
+file write fh "\newcommand{\rereferNtin}{`=string(`rr_n_tin', "%12.0fc")'}" _n
 forvalues g=0/2 {
 	local w=word("zero one two", `g'+1)
 	file write fh "\newcommand{\rereferESPosthist`w'}{`=string(`es_post`g'', "%6.4f")'}" _n

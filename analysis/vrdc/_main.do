@@ -95,5 +95,6 @@ foreach level in pcp-level pcp-practice-level {
 		do "${CODE_FILES}S3-first-stage.do"
 		do "${CODE_FILES}S4-uniqueness.do"
 		do "${CODE_FILES}S5-risk-adjustment.do"
+		do "${CODE_FILES}S6-sample-descriptives.do"	/* patient mix by specialist, billing groups, established vs all PCPs */
 	}
 }
