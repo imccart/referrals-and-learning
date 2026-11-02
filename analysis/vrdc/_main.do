@@ -66,7 +66,7 @@ foreach level in pcp-level pcp-practice-level {
 	** intermediate data and reduced form
 	do "${CODE_FILES}A0-intermediate-data.do"	/* temporary datasets used throughout */
 	do "${CODE_FILES}A1-desc-stats.do"
-	do "${CODE_FILES}A2b-rereferral.do"		/* re-referral after failure vs success: level and referral-order event study */
+	do "${CODE_FILES}A2-rereferral.do"		/* re-referral after failure vs success: level and referral-order event study */
 	do "${CODE_FILES}A4-mnl-distance.do"		/* congestion instrument */
 	if "`level'"=="pcp-level" {
 		do "${CODE_FILES}A3-mnl-myopic.do"	/* MNL sensitivities (appendix) */
@@ -83,7 +83,7 @@ foreach level in pcp-level pcp-practice-level {
 			global CF_NAME "`cf'"
 			do "${CODE_FILES}O2-counterfactuals.do"
 		}
-		do "${CODE_FILES}O2-cf-qualmax.do"
+		do "${CODE_FILES}O2-counterfactuals-qualmax.do"
 		do "${CODE_FILES}O4-VRDC-figures.do"
 	}
 	do "${CODE_FILES}O3-paper-numbers.do"	/* loops over both models */
@@ -94,6 +94,6 @@ foreach level in pcp-level pcp-practice-level {
 		do "${CODE_FILES}S2-pcp-assignment.do"
 		do "${CODE_FILES}S3-first-stage.do"
 		do "${CODE_FILES}S4-uniqueness.do"
-		do "${CODE_FILES}R2-risk-adjustment.do"
+		do "${CODE_FILES}S5-risk-adjustment.do"
 	}
 }

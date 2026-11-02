@@ -1,13 +1,13 @@
 set logtype text
 capture log close
 local logdate = string( d(`c(current_date)'), "%dCYND" )
-log using "${LOG_PATH}R2_RiskAdj_`logdate'.log", replace
+log using "${LOG_PATH}S5_RiskAdj_`logdate'.log", replace
 
 ******************************************************************
-**	Title:		R2 — Risk-Adjusted Specialist Quality (VRDC)
+**	Title:		S5 — Risk-Adjusted Specialist Quality (VRDC)
 **	Author:		Ian McCarthy
 **	Date Created:	5/18/2026
-**	Notes:		Revision script. Strips patient case-mix from the
+**	Notes:		Strips patient case-mix from the
 **			failure outcome and aggregates to the specialist
 **			level, then compares to the unadjusted measure
 **			(spec_qual_raw) used in the structural model.
@@ -20,12 +20,9 @@ log using "${LOG_PATH}R2_RiskAdj_`logdate'.log", replace
 **			which is the thing we want to keep.
 **
 **			Charlson Comorbidity Index (CCI):
-**			built separately by data-code/P1-patient-cci.sas
-**			(Quan 2005 ICD-9 + ICD-10 across dx1-25 on the
-**			index admission, with Charlson hierarchies). User
-**			exports patient_cci.csv from SAS Enterprise Guide
-**			and drops it into ${DATA_FINAL}patient_cci.csv on
-**			the R side before running this script.
+**			built by data-code/sas/9_patient_cci.sas (Quan 2005
+**			ICD-9 and ICD-10 on the index admission, with the
+**			Charlson hierarchies) and read here with sasload.
 **
 **			Outputs:
 **			  Goal 1 (risk-adjusted vs raw quality):
@@ -56,7 +53,7 @@ log using "${LOG_PATH}R2_RiskAdj_`logdate'.log", replace
 
 ******************************************************************
 ** Inline clone of run_mnl_specs (A0-programs.do) with two added
-** options for the revision-round case-mix sensitivities:
+** options for the case-mix sensitivities:
 **   Drg(numlist) — restrict to listed clm_drg_cd values
 **   Adjust       — merge temp_spec_qual_adj (created later in this
 **                  script from the LPM aggregation) and swap the
@@ -204,7 +201,7 @@ forvalues y=2008/2018 {
 		     bene_age bene_gender bene_race clm_drg_cd any_bad)
 }
 
-** merge in Charlson Comorbidity Index from P1-patient-cci.sas
+** merge in Charlson Comorbidity Index from 9_patient_cci.sas
 preserve
 sasload patientcci_all
 keep bene_id clm_id cci_score
