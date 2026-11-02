@@ -28,13 +28,13 @@ Steps 1 through 8 each depend on step 1, and the only other cross-step dependenc
 
 ## The rewrite (2026-10-30)
 
-The new set is `data-code/sas/`, run by `_run_all.sas`, which `%INCLUDE`s `0_config.sas` and then `upin2npi`, `nppes`, `1_major_joint`, `2_outcomes`, `3_carrier_visits`, `4_referral_assignment`, `7_referring_physicians`, `5_physician_data`, `6_patient_data`, `8_locations`, `9_patient_cci`. On the seat the programs are at `/sas/vrdc/users/imc969/files/dua_27710/pcp-referrals/data-code/sas`, which is the `code_path` in the driver. The old programs are in `data-code/_archive/`. Every step is one macro looping over years with `%stack_months` for the monthly carrier pulls; the SQL inside is the old SQL. Year-specific rules are in the config as macro variables and small macros (`%nppes_year`, `%mdppas_year`, `%carrier_line_source`, `%pos_cols`). Not yet run on the seat.
+The new set is `data-code/sas/`, run by `_run_all.sas`, which `%INCLUDE`s `0_config.sas` and then `upin2npi`, `nppes`, `1_major_joint`, `2_outcomes`, `3_carrier_visits`, `4_referral_assignment`, `5_referring_physicians`, `6_physician_data`, `7_patient_data`, `8_locations`, `9_patient_cci`. On the seat the programs are at `/sas/vrdc/users/imc969/files/dua_27710/pcp-referrals/data-code/sas`, which is the `code_path` in the driver. The old programs are in `data-code/_archive/`. Every step is one macro looping over years with `%stack_months` for the monthly carrier pulls; the SQL inside is the old SQL. Year-specific rules are in the config as macro variables and small macros (`%nppes_year`, `%mdppas_year`, `%carrier_line_source`, `%pos_cols`). Not yet run on the seat.
 
 What changed beyond the loops, each a deliberate choice:
 
 - Step 3 writes `MJ_OrthoCarrier_yyyy` (`&carrier_tbl`) and builds `PCPCarrier_yyyy` for every year from `&mdppas_first`, where the old program built it from a hand-edited stub.
-- Step 5 applies the fullest (2012) version of the block to every year, so `OrthoPhysician_Data_yyyy` has the same columns in every year; the place-of-service zips are blank before 2009, where the request tables lack the field. The pointless left join of the whole carrier file to the patient list, and a duplicated column in that select, are gone; the wide reshapes use one macro instead of four copies.
-- Step 7 drops the `CLM_ID` that only the 2009 block selected.
+- Step 6 applies the fullest (2012) version of the block to every year, so `OrthoPhysician_Data_yyyy` has the same columns in every year; the place-of-service zips are blank before 2009, where the request tables lack the field. The pointless left join of the whole carrier file to the patient list, and a duplicated column in that select, are gone; the wide reshapes use one macro instead of four copies.
+- Step 5 drops the `CLM_ID` that only the 2009 block selected.
 - Step 8 does not build `BENE_Data_yyyy` (nothing read it) or the 2018 test table.
 - `nppes` builds 2007–2009 from the December 2010 file as before; `upin2npi` builds the UPIN crosswalk through 2008 and the provider-number crosswalk through 2009 as before.
 - The major joint DRG list and the excluded placeholder NPIs are macro variables.
