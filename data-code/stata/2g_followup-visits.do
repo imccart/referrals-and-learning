@@ -1,6 +1,5 @@
 ******************************************************************
-**	Title:		2g_followup-visits
-**			Identifying follow-up visits to same PCPs
+**	Title:		Identifying follow-up visits to same PCPs
 **	Author:		Ian McCarthy
 **	Date Created:	7/28/2022
 **	Date Updated:	10/11/2022

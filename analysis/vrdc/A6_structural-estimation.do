@@ -3,7 +3,7 @@ capture log close
 local logdate = string( d(`c(current_date)'), "%dCYND" )
 
 ******************************************************************
-**	Title:		PCP Referrals — Structural Estimation
+**	Title:		Structural estimation
 **	Author:		Ian McCarthy
 **	Date Created:	1/3/2019
 **	Date Updated:	2/25/2026

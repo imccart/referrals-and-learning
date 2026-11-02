@@ -4,7 +4,7 @@
 /* AUTHOR:        Ian McCarthy                                   */
 /*                Emory University                               */
 /* DATE CREATED:  1/2/2019                                       */
-/* DATE EDITED:   10/30/2026 (one loop over years and months)    */
+/* DATE EDITED:   10/30/2026                                    */
 /* CODE FILE ORDER: 7                                            */
 /* INPUT:         MajorJoint_yyyy, MajorJointPatients_Unique     */
 /*                (step 1)                                       */

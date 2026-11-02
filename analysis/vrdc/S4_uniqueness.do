@@ -4,7 +4,7 @@ local logdate = string( d(`c(current_date)'), "%dCYND" )
 log using "${LOG_PATH}Uniqueness_`logdate'.log", replace
 
 ******************************************************************
-**	Title:		S4 — Equilibrium Uniqueness Check
+**	Title:		Equilibrium uniqueness check
 **	Author:		Ian McCarthy
 **	Date Created:	3/20/2026
 **	Notes:		Runs converge_dyn from two starting values (0 and

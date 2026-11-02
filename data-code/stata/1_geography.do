@@ -1,6 +1,5 @@
 ******************************************************************
-**	Title:		1_geography
-**			Clean and merge HRR data
+**	Title:		Clean and merge HRR data
 **	Author:		Ian McCarthy
 **	Date Created:	1/18/2022
 **	Date Updated:	1/18/2022

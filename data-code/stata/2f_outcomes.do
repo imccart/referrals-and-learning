@@ -1,6 +1,5 @@
 ******************************************************************
-**	Title:		2f_outcomes
-**			Incorporating outcome data 
+**	Title:		Incorporating outcome data 
 **			(complications, mortality, readmissions)
 **	Author:		Ian McCarthy
 **	Date Created:	10/20/2019

@@ -3,8 +3,7 @@
 /* AUTHOR:        Ian McCarthy                                   */
 /*                Emory University                               */
 /* DATE CREATED:  5/12/2015                                      */
-/* DATE EDITED:   10/30/2026 (one loop over years; one schema    */
-/*                for every year)                                */
+/* DATE EDITED:   10/30/2026                                    */
 /* CODE FILE ORDER: 5                                            */
 /* INPUT:         carrier lines for the year (RIF monthly files, */
 /*                or the request tables before 2009)             */

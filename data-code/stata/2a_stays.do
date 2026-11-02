@@ -1,6 +1,5 @@
 ******************************************************************
-**	Title:		2a_stays
-**			Initial set of major joint replacements
+**	Title:		Initial set of major joint replacements
 **	Author:		Ian McCarthy
 **	Date Created:	1/3/2019
 **	Date Updated:	10/11/2022

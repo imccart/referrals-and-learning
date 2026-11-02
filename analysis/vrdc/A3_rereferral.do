@@ -17,7 +17,7 @@ log using "${LOG_PATH}Rereferral_`logdate'.log", replace
 ******************************************************************
 
 ******************************************************************
-** Sample, as in A2
+** Estimation sample
 use "${DATA_FINAL}EstReferrals.dta", clear
 merge m:1 Specialist_ID Year using temp_spec_yearly, keep(master match) nogenerate
 bys Specialist_ID: egen max_yearly_ops=max(yearly_ops)

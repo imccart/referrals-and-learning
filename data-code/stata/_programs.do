@@ -5,11 +5,9 @@
 **	Notes:		Run by the build and analysis drivers (_build-*.do, _main-*.do).
 ******************************************************************
 
-** sasload: read a SAS table from the library folder in the form the
-** tab exports used to arrive in, so every script downstream is
-** unchanged. Names are lowercased; SAS dates become the DDMonCCYY
-** strings the exports carried, which date(x,"DMY") reads; and every
-** column whose values are all numeric becomes numeric, as insheet did.
+** sasload: reads a SAS table from the library folder. Names are lowercased,
+** SAS dates become DDMonCCYY strings (what date(x,"DMY") reads), and
+** all-numeric columns are destrung.
 capture program drop sasload
 program define sasload
 	args name

@@ -4,60 +4,23 @@ local logdate = string( d(`c(current_date)'), "%dCYND" )
 log using "${LOG_PATH}S5_RiskAdj_`logdate'.log", replace
 
 ******************************************************************
-**	Title:		S5 — Risk-Adjusted Specialist Quality (VRDC)
+**	Title:		Risk-adjusted specialist quality
 **	Author:		Ian McCarthy
 **	Date Created:	5/18/2026
-**	Notes:		Strips patient case-mix from the
-**			failure outcome and aggregates to the specialist
-**			level, then compares to the unadjusted measure
-**			(spec_qual_raw) used in the structural model.
-**
-**			Risk-adjusters are *patient* characteristics only:
-**			age (quadratic), female, race, DRG dummies, and
-**			Charlson Comorbidity Index (cci_score). No year,
-**			HRR, or specialist effects on the right-hand side
-**			— those would absorb specialist heterogeneity,
-**			which is the thing we want to keep.
-**
-**			Charlson Comorbidity Index (CCI):
-**			built by data-code/sas/9_patient_cci.sas (Quan 2005
-**			ICD-9 and ICD-10 on the index admission, with the
-**			Charlson hierarchies) and read here with sasload.
-**
-**			Outputs:
-**			  Goal 1 (risk-adjusted vs raw quality):
-**			    - DRG_Distribution.csv
-**			    - SpecQualAdj.csv: specialist-level
-**			      raw + risk-adjusted quality + ranks
-**			    - SpecQualAdj.png: raw vs adj scatter
-**
-**			  Goal 2 (reduced-form MNL sensitivities — sandbox
-**			  around A4_mnl-sensitivities, "fast and loose" relative to
-**			  the structural model since the beta-binomial prior
-**			  can't take a continuous risk-adjusted signal
-**			  without re-deriving the belief-updating apparatus):
-**			    - MNL_Specs5.dta: DRG 470 only
-**			    - MNL_Specs6.dta: risk-adjusted spec_qual
-**			      swapped in for the prior rho
-**			    - MNL_Specs_Adj.tex: two-row summary table
-**
-**			Self-contained: stacks Referrals_<y>.dta
-**			directly; no dependence on A0/A1 temp files. The
-**			MNL loop reuses ChoiceData_HRR<i>.dta and
-**			the same cmclogit setup as run_mnl_specs in
-**			_programs.do, via an inline clone with two extra
-**			options (Drg, Adjust).
+**	Notes:		Patient-level LPM of failure on age, sex, race, DRG, and the
+**			Charlson index (9_patient_cci.sas, read with sasload), indirect
+**			standardization to a risk-adjusted specialist quality, and two
+**			MNL sensitivities (DRG 470 only; risk-adjusted quality as the
+**			prior) through a variant of run_mnl_specs. Surgeon level only.
+**			Writes DRG_Distribution.csv, SpecQualAdj.csv, SpecQualAdj.png,
+**			MNL_Specs5.dta, MNL_Specs6.dta, MNL_Specs_Adj.tex.
 ******************************************************************
 
 
 
 ******************************************************************
-** Inline clone of run_mnl_specs (_programs.do) with two added
-** options for the case-mix sensitivities:
-**   Drg(numlist) — restrict to listed clm_drg_cd values
-**   Adjust       — merge temp_spec_qual_adj (created later in this
-**                  script from the LPM aggregation) and swap the
-**                  risk-adjusted spec_qual into the prior rho.
+** run_mnl_specs (_programs.do) with two options: Drg(numlist) keeps the
+** listed DRGs; Adjust swaps the risk-adjusted spec_qual into the prior.
 capture program drop run_mnl_specs_rev
 program define run_mnl_specs_rev
 	syntax , Regressors(string) [Fwup] [Drg(numlist)] [Adjust]

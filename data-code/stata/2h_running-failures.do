@@ -1,6 +1,5 @@
 ******************************************************************
-**	Title:		2h_running-failures
-**			Construct cumulative failure events for PCPs, Specialists, and PCP/specialist pairs
+**	Title:		Construct cumulative failure events for PCPs, Specialists, and PCP/specialist pairs
 **	Author:		Ian McCarthy
 **	Date Created:	1/3/2019
 **	Date Updated:	2/18/2026

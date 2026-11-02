@@ -3,7 +3,7 @@
 /* AUTHOR:        Ian McCarthy                                   */
 /*                Emory University                               */
 /* DATE CREATED:  12/31/2018                                     */
-/* DATE EDITED:   10/30/2026 (one loop over years)               */
+/* DATE EDITED:   10/30/2026                                    */
 /* CODE FILE ORDER: 1                                            */
 /* INPUT:         RIFyyyy.INPATIENT_CLAIMS_01-12                 */
 /*                PRVN_NPI_Merge_yyyy, UPIN_NPI_Merge_yyyy        */

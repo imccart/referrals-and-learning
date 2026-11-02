@@ -4,7 +4,7 @@ local logdate = string( d(`c(current_date)'), "%dCYND" )
 log using "${LOG_PATH}CF_QualMax_${MODEL_TYPE}_`logdate'.log", replace
 
 ******************************************************************
-**	Title:		Counterfactual — Quality Maximization
+**	Title:		Counterfactual: quality maximization
 **	Author:		Ian McCarthy
 **	Date Created:	4/15/2026
 **	Notes:		Requires base_hrr files from O2_baseline.do.

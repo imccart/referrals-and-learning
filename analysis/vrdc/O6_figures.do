@@ -214,13 +214,11 @@ foreach cf_name in full current fullfam fullnofe {
 
 
 ******************************************************************
-** Quality and spending distributions (baseline vs counterfactual)
-** Mean change histograms + quantile scatters per HRR
+** Quality and spending distributions, baseline vs counterfactual
 
-** the spending distributions need the specialist-level episode cost from A1, which the practice run does not make
+** spending needs the specialist-level episode cost from A2_descriptives, which the practice run does not make
 capture confirm file spec_quality_distribution.dta
 if _rc==0 {
-** Build specialist-level mean episode cost from the A2_descriptives temp file
 use spec_quality_distribution, clear
 collapse (mean) mean_episode [aweight=spec_patients_year], by(Specialist_ID bene_hrr)
 rename bene_hrr hrr
@@ -358,7 +356,7 @@ foreach cf_name in full current fullfam fullnofe {
 			using "${RESULTS_FINAL}DistSummary_`cf_name'_`model'`eta'.csv", comma replace
 		restore
 
-		** ---------- mean quality change histogram ----------
+		** mean quality change histogram
 		qui count if qual_change!=.
 		if r(N)>=5 {
 			hist qual_change if qual_change!=., fraction color(gray) ///
@@ -369,7 +367,7 @@ foreach cf_name in full current fullfam fullnofe {
 			graph export "${RESULTS_FINAL}Mean_Qual_FX_`cf_name'_`model'_eta`eta'.png", as(png) replace
 		}
 
-		** ---------- quality quantile scatters ----------
+		** quality quantile scatters
 		foreach pct in 10 25 75 90 {
 			if `pct'==10 local pct_label "10th Percentile"
 			if `pct'==25 local pct_label "25th Percentile"
@@ -406,7 +404,7 @@ foreach cf_name in full current fullfam fullnofe {
 			}
 		}
 
-		** ---------- mean spending change histogram ----------
+		** mean spending change histogram
 		qui count if spend_change!=.
 		if r(N)>=5 {
 			hist spend_change if spend_change!=., fraction color(gray) ///
@@ -418,7 +416,7 @@ foreach cf_name in full current fullfam fullnofe {
 			graph export "${RESULTS_FINAL}Mean_Spend_FX_`cf_name'_`model'_eta`eta'.png", as(png) replace
 		}
 
-		** ---------- spending quantile scatters ----------
+		** spending quantile scatters
 		foreach pct in 10 25 75 90 {
 			if `pct'==10 local pct_label "10th Percentile"
 			if `pct'==25 local pct_label "25th Percentile"
@@ -462,10 +460,7 @@ capture erase temp_spec_cost.dta
 
 
 ******************************************************************
-** Familiarity-quality (patient-count version)
-** Counterpart to the local years-based Familiarity_Quality figure.
-** Uses pair-level total patient count (cumulative across years)
-** instead of years of relationship. Loads only files in ${DATA_FINAL}.
+** Familiarity-quality by pair patient count
 
 ** pair-level total patient count (one row per Practice_ID-Specialist_ID)
 use "${DATA_FINAL}EstReferrals.dta", clear

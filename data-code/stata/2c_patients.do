@@ -1,6 +1,5 @@
 ******************************************************************
-**	Title:		2c_patients
-**			Extract patient data
+**	Title:		Extract patient data
 **	Author:		Ian McCarthy
 **	Date Created:	1/3/2019
 **	Date Updated:	10/11/2022

@@ -1,6 +1,5 @@
 ******************************************************************
-** Title:		2i_established-pcps
-**			Identify "established" PCPs to limit final analysis
+** Title:		Identify "established" PCPs to limit final analysis
 ** Author:		Ian McCarthy
 ** Date Created:	1/18/2022
 ** Date Updated:	10/14/2022

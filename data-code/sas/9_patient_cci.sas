@@ -3,7 +3,7 @@
 /* AUTHOR:        Ian McCarthy                                   */
 /*                Emory University                               */
 /* DATE CREATED:  5/18/2026                                      */
-/* DATE EDITED:   10/30/2026 (config years; logic unchanged)     */
+/* DATE EDITED:   10/30/2026                                    */
 /* CODE FILE ORDER: 9                                            */
 /* INPUT:         RIFyyyy.INPATIENT_CLAIMS_01-12                 */
 /*                MajorJoint_yyyy (step 1)                       */

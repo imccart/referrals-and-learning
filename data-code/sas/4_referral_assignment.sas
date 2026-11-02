@@ -3,8 +3,7 @@
 /* AUTHOR:        Ian McCarthy                                   */
 /*                Emory University                               */
 /* DATE CREATED:  1/2/2019                                       */
-/* DATE EDITED:   10/30/2026 (one loop over years; reads the     */
-/*                project's own carrier table)                   */
+/* DATE EDITED:   10/30/2026                                    */
 /* CODE FILE ORDER: 4                                            */
 /* INPUT:         MajorJoint_yyyy (step 1)                       */
 /*                &carrier_tbl._yyyy and _yyyy-1 (step 3)        */

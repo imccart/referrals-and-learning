@@ -1,6 +1,5 @@
 ******************************************************************
-**	Title:		2d_physicians
-**			Extract patient and specialist data
+**	Title:		Extract patient and specialist data
 **	Author:		Ian McCarthy
 **	Date Created:	1/3/2019
 **	Date Updated:	10/11/2022
