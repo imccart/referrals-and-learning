@@ -9,6 +9,7 @@ on:
 
 jobs:
   flag-code-change:
+    if: contains(github.event.head_commit.message, 'Overleaf') || contains(github.event.head_commit.message, 'overleaf-')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,8 +17,8 @@ jobs:
           fetch-depth: 2
       - name: Flag code file changes
         run: |
-          echo "Code files were modified in this push:"
+          echo "Code files were modified by an Overleaf commit:"
           git diff --name-only HEAD~1 HEAD -- analysis/ data-code/
           echo ""
-          echo "If this came from Overleaf, revert with: git revert HEAD && git push"
+          echo "Revert with: git revert HEAD && git push"
           exit 1
