@@ -8,7 +8,7 @@ log using "${LOG_PATH}ModelDiagnostics_${MODEL_TYPE}_`logdate'.log", replace
 **	Author:		Ian McCarthy
 **	Date Created:	4/1/2026
 **	Notes:		Parameterized by global MODEL_TYPE (Myopic or FWD).
-**			Loads base_hrr files from O2-baseline.do.
+**			Loads base_hrr files from O2_baseline.do.
 **			Produces diagnostic graphs and summary CSV.
 ******************************************************************
 

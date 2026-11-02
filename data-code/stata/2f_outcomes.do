@@ -1,5 +1,5 @@
 ******************************************************************
-**	Title:		R6_Outcomes
+**	Title:		2f_outcomes
 **			Incorporating outcome data 
 **			(complications, mortality, readmissions)
 **	Author:		Ian McCarthy

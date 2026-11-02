@@ -25,7 +25,7 @@ else {
 local model "${MODEL_TYPE}"
 
 
-** Load IV scalars from O1-coef-tables.do
+** Load IV scalars from O1_coef-tables.do
 use "${RESULTS_FINAL}iv_scalars_`model'.dta", clear
 foreach eta_val in 1 5 {
 	qui sum iv_pat if eta == `eta_val'

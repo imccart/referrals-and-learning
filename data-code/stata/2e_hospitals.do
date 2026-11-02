@@ -1,6 +1,5 @@
 ******************************************************************
-**	Title:		R5_HospitalData
-**	Description:	Collect hospital characteristics
+**	Title:		Hospital characteristics
 **	Author:		Ian McCarthy
 **	Date Created:	10/9/16
 **	Date Updated:	10/11/2022

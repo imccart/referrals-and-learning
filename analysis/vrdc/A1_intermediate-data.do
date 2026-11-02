@@ -9,7 +9,7 @@
 ******************************************************************
 ** Total specialist operations per year
 forvalues y=2008/2018 {
-	unit_yearly_ops `y'	/* D1_unit-surgeon.do or D2_unit-practice.do, loaded by the driver */
+	unit_yearly_ops `y'	/* _unit-surgeon.do or _unit-practice.do, loaded by the driver */
 }
 use temp_ops_2008, clear
 forvalues y=2009/2018 {

@@ -1,5 +1,5 @@
 ******************************************************************
-**	Title:		R3_Patients
+**	Title:		2c_patients
 **			Extract patient data
 **	Author:		Ian McCarthy
 **	Date Created:	1/3/2019

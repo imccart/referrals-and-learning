@@ -8,9 +8,8 @@ log using "${LOG_PATH}Figures_${MODEL_TYPE}_`logdate'.log", replace
 **	Author:		Ian McCarthy
 **	Date Created:	2/25/2026
 **	Date Updated:	3/30/2026
-**	Notes:		Parameterized by global MODEL_TYPE (Myopic or FWD).
-**			Loads per-counterfactual summary/spec files from
-**			O2-cf-*.do scripts.
+**	Notes:		Runs once per MODEL_TYPE. Reads the O4 and O5 counterfactual
+**			summaries.
 ******************************************************************
 
 ** Derive locals from globals
@@ -221,7 +220,7 @@ foreach cf_name in full current fullfam fullnofe {
 ** the spending distributions need the specialist-level episode cost from A1, which the practice run does not make
 capture confirm file spec_quality_distribution.dta
 if _rc==0 {
-** Build specialist-level mean episode cost from A1 temp file
+** Build specialist-level mean episode cost from the A2_descriptives temp file
 use spec_quality_distribution, clear
 collapse (mean) mean_episode [aweight=spec_patients_year], by(Specialist_ID bene_hrr)
 rename bene_hrr hrr

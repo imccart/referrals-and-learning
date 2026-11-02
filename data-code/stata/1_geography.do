@@ -1,5 +1,5 @@
 ******************************************************************
-**	Title:		ZipHRR
+**	Title:		1_geography
 **			Clean and merge HRR data
 **	Author:		Ian McCarthy
 **	Date Created:	1/18/2022
@@ -37,3 +37,12 @@ keep if obs==1
 drop obs
 
 save "${DATA_FINAL}ZipHRR.dta", replace
+
+** zip to coordinates
+insheet using "${DATA_UPLOAD}zip-latlong-nber.csv", clear
+rename zcta5 zip
+rename intptlat lat
+rename intptlon lon
+destring zip, force replace
+drop if zip==.
+save "${DATA_FINAL}LatLong.dta", replace

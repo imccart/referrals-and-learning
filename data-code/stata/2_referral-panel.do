@@ -25,12 +25,12 @@ capture program drop finddist
 forvalues y=2008/2018 {
 	global year=`y'
 	matrix data_cleanup_`y' = J(10,12,.)
-	do "${CODE_FILES}R1_Operations.do"
-	do "${CODE_FILES}R2_Referrals.do"
-	do "${CODE_FILES}R3_Patients.do"
-	do "${CODE_FILES}R4_Physicians.do"
-	do "${CODE_FILES}R5_Hospitals.do"
-	do "${CODE_FILES}R6_Outcomes.do"
+	do "${CODE_FILES}2a_stays.do"
+	do "${CODE_FILES}2b_referring-pcp.do"
+	do "${CODE_FILES}2c_patients.do"
+	do "${CODE_FILES}2d_physicians.do"
+	do "${CODE_FILES}2e_hospitals.do"
+	do "${CODE_FILES}2f_outcomes.do"
 
 	** begin with surgeries/inpatient stays
 	use "${DATA_FINAL}OrthoStays_`y'.dta", clear
@@ -66,7 +66,7 @@ forvalues y=2008/2018 {
 	matrix data_cleanup_`y'[10,7]=r(N)
 	
 	
-	** the referring PCP is the most-visited PCP in the year before surgery (R2); the referring physician listed on the claim is merged for the match counts only
+	** the referring PCP is the most-visited PCP in the year before surgery (2b_referring-pcp); the referring physician listed on the claim is merged for the match counts only
 	gen double pcp_npi=Claim_PCP_ID
 	gen pcp_source="Claims" if pcp_npi==Claim_PCP_ID & pcp_npi!=.
 	
@@ -107,7 +107,7 @@ forvalues y=2008/2018 {
 	
 	keep if spec_phy_spec_prim_1_name=="Orthopedic Surgery"
 	
-	** the unit of the specialist choice: D1_unit-surgeon.do or D2_unit-practice.do, loaded by the driver
+	** the unit of the specialist choice: _unit-surgeon.do or _unit-practice.do, loaded by the driver
 	define_unit `y'
 	drop if Practice_ID==. | Specialist_ID==.
 	matrix data_cleanup_`y'[10,12]=_N
@@ -188,10 +188,10 @@ forvalues y=2008/2018 {
 	save temp_referrals_small_`y', replace
 
 	** identify admits with follow-up visits to same PCP
-	do "${CODE_FILES}R7_Saliency.do"	
+	do "${CODE_FILES}2g_followup-visits.do"	
 	
 	** collect failure events and form running failure variables
-	do "${CODE_FILES}R8_FailureEvents.do"	
+	do "${CODE_FILES}2h_running-failures.do"	
 	
 	** combine referrals with failures and saliency
 	use temp_referrals_`y', clear
@@ -209,15 +209,15 @@ forvalues y=2008/2018 {
 	svmat data_cleanup_`y'
 	rename data_cleanup_`y'1 code_section
 	tostring code_section, replace
-	replace code_section="R1_Operations" if _n==1
-	replace code_section="R2_Referrals_Listed" if _n==2
-	replace code_section="R2_Referrals_EM" if _n==3
-	replace code_section="R3_Patients" if _n==4
-	replace code_section="R4_Physicians" if _n==5
-	replace code_section="R5_Hospitals" if _n==6
-	replace code_section="R6_Outcomes" if _n==7
-	replace code_section="R7_Saliency" if _n==8
-	replace code_section="R8_FailureEvents" if _n==9
+	replace code_section="2a_stays" if _n==1
+	replace code_section="2b_referring-pcp_Listed" if _n==2
+	replace code_section="2b_referring-pcp_EM" if _n==3
+	replace code_section="2c_patients" if _n==4
+	replace code_section="2d_physicians" if _n==5
+	replace code_section="2e_hospitals" if _n==6
+	replace code_section="2f_outcomes" if _n==7
+	replace code_section="2g_followup-visits" if _n==8
+	replace code_section="2h_running-failures" if _n==9
 	replace code_section="Overall" if _n==10
 	forvalues i=2/12 {
 		local j=`i'-1
@@ -404,11 +404,11 @@ save "${DATA_FINAL}Total_Spec.dta", replace
 
 ******************************************************************
 ** Identify established practices
-do "${CODE_FILES}R9_EstablishedPCPs.do"
+do "${CODE_FILES}2i_established-pcps.do"
 
 ******************************************************************
 ** Calculate episode spending
-do "${CODE_FILES}R10_EpisodeSpend.do"
+do "${CODE_FILES}2j_episode-spending.do"
 
 ******************************************************************
 ** Merge final data

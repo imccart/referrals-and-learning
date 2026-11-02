@@ -523,7 +523,7 @@ outfile line using "${RESULTS_FINAL}`model'Coefficient_Table.tex", noquote repla
 
 
 ******************************************************************
-** Save IV scalars for O2-baseline.do
+** Save IV scalars for O2_baseline.do
 clear
 set obs 2
 gen eta = .

@@ -7,18 +7,10 @@ log using "${LOG_PATH}CF_${CF_NAME}_${MODEL_TYPE}_`logdate'.log", replace
 **	Title:		Counterfactuals: full information about specialist quality
 **	Author:		Ian McCarthy
 **	Date Created:	3/30/2026
-**	Date Updated:	10/30/2026 (one script for the four scenarios)
-**	Notes:		Requires base_hrr files from O2-baseline.do.
-**			m = spec_qual in every scenario. The scenario is the
-**			global CF_NAME, set by _main.do:
-**			  current  = existing familiarity: base_patients =
-**			             start_patients_run (converge_dyn)
-**			  full     = reset familiarity: base_patients = 0
-**			             (converge_dyn)
-**			  fullfam  = no familiarity: fmly_agg = 0 (converge)
-**			  fullnofe = no fixed effects, reset familiarity:
-**			             xi_j = 0, base_patients = 0 (converge_dyn)
-**			Output files carry the scenario name.
+**	Notes:		Reads base_hrr from O2_baseline. Scenario set by CF_NAME:
+**			current (existing familiarity), full (familiarity reset),
+**			fullfam (no familiarity), fullnofe (no fixed effects,
+**			familiarity reset). Output files carry the scenario name.
 ******************************************************************
 
 ** Derive locals from globals

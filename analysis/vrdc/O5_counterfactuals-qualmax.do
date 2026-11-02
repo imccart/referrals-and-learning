@@ -7,7 +7,7 @@ log using "${LOG_PATH}CF_QualMax_${MODEL_TYPE}_`logdate'.log", replace
 **	Title:		Counterfactual — Quality Maximization
 **	Author:		Ian McCarthy
 **	Date Created:	4/15/2026
-**	Notes:		Requires base_hrr files from O2-baseline.do.
+**	Notes:		Requires base_hrr files from O2_baseline.do.
 **			m = spec_qual, xi_j = 0, fmly_agg = 0 (converge).
 **			Three alpha scenarios:
 **			  a1     = alpha numeraire (1)

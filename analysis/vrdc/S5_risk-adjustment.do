@@ -32,7 +32,7 @@ log using "${LOG_PATH}S5_RiskAdj_`logdate'.log", replace
 **			    - SpecQualAdj.png: raw vs adj scatter
 **
 **			  Goal 2 (reduced-form MNL sensitivities — sandbox
-**			  around A3-mnl-myopic, "fast and loose" relative to
+**			  around A4_mnl-sensitivities, "fast and loose" relative to
 **			  the structural model since the beta-binomial prior
 **			  can't take a continuous risk-adjusted signal
 **			  without re-deriving the belief-updating apparatus):
@@ -45,14 +45,14 @@ log using "${LOG_PATH}S5_RiskAdj_`logdate'.log", replace
 **			directly; no dependence on A0/A1 temp files. The
 **			MNL loop reuses ChoiceData_HRR<i>.dta and
 **			the same cmclogit setup as run_mnl_specs in
-**			A0-programs.do, via an inline clone with two extra
+**			_programs.do, via an inline clone with two extra
 **			options (Drg, Adjust).
 ******************************************************************
 
 
 
 ******************************************************************
-** Inline clone of run_mnl_specs (A0-programs.do) with two added
+** Inline clone of run_mnl_specs (_programs.do) with two added
 ** options for the case-mix sensitivities:
 **   Drg(numlist) — restrict to listed clm_drg_cd values
 **   Adjust       — merge temp_spec_qual_adj (created later in this

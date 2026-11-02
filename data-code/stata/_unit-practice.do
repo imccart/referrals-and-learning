@@ -5,7 +5,7 @@
 **	Notes:		The practice is the surgeon's billing TIN (spec_phy_tin1);
 **			the PCP stays an individual. Each surgeon belongs to the
 **			practice that received most of his referrals in the year.
-**			Same three programs as D1_unit-surgeon.do; see there.
+**			Same three programs as _unit-surgeon.do; see there.
 **			To define the practice differently (TIN by office zip, say),
 **			change Specialist_ID in define_unit and nothing else.
 ******************************************************************

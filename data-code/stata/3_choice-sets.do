@@ -39,7 +39,7 @@ save "${DATA_FINAL}RandomSample.dta", replace
 ** Final choice sets
 forvalues y=2013/2018 {
 	
-	** characteristics of the unit of the specialist choice (D1_unit-surgeon.do or D2_unit-practice.do)
+	** characteristics of the unit of the specialist choice (_unit-surgeon.do or _unit-practice.do)
 	unit_characteristics `y'
 	
 	use "${DATA_FINAL}Referrals_`y'.dta", clear
