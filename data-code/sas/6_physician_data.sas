@@ -194,8 +194,13 @@
         CREATE TABLE PL027710.OrthoPhysician_Data_&y AS
         SELECT a.*, b.*, c.*, SUBSTR(d.Zip_Performing_1,1,5) AS Carrier_Zip_Perf_Primary,
           SUBSTR(d.Zip_Performing_2,1,5) AS Carrier_Zip_Perf_Secondary,
+          %IF &y < 2009 %THEN %DO;
+          '' AS Carrier_Zip_POS_Primary, '' AS Carrier_Zip_POS_Secondary,
+          %END;
+          %ELSE %DO;
           SUBSTR(h.Zip_POS_1,1,5) AS Carrier_Zip_POS_Primary,
           SUBSTR(h.Zip_POS_2,1,5) AS Carrier_Zip_POS_Secondary,
+          %END;
           e.Specialty_1 AS Primary_Specialty, e.Specialty_2 AS Secondary_Specialty,
           f.TaxID_1 AS Primary_TaxID, f.TaxID_2 AS Secondary_TaxID,
           g.Entity_Type_Code AS NPPES_EntityCode, g.Credent AS NPPES_Cred, SUBSTR(g.PROV_LOC_ZIP,1,5) AS NPPES_Zip,
