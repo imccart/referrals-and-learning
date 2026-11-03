@@ -42,7 +42,7 @@
 /* MD-PPAS (physician specialty): first and last vintage held.    */
 /* Years outside the range use the nearest vintage.              */
 %LET mdppas_first = 2008;
-%LET mdppas_last  = 2018;
+%LET mdppas_last  = 2017;
 %MACRO mdppas_year(y);
     %SYSFUNC(MAX(&mdppas_first, %SYSFUNC(MIN(&y, &mdppas_last))))
 %MEND mdppas_year;

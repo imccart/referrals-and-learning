@@ -10,7 +10,8 @@ local t=$year
 ******************************************************************
 ** Identify PCPs from MDPPAS Data
 
-insheet using "${DATA_SAS}MDPPAS_V24_`t'.tab", tab clear
+local t_md=min(`t',2017)	/* MD-PPAS access ends with 2017 */
+insheet using "${DATA_SAS}MDPPAS_V24_`t_md'.tab", tab clear
 destring npi, force replace
 rename npi physician_id
 bys physician_id: gen obs=_n

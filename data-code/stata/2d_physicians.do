@@ -29,7 +29,8 @@ matrix data_cleanup_`t'[5,3]=_N
 save temp_physician_raw, replace
 
 ** characteristics from md-ppas
-insheet using "${DATA_SAS}MDPPAS_V24_`t'.tab", tab clear
+local t_md=min(`t',2017)	/* MD-PPAS access ends with 2017 */
+insheet using "${DATA_SAS}MDPPAS_V24_`t_md'.tab", tab clear
 destring npi, force replace
 rename npi physician_npi
 bys physician_npi: gen obs=_n
