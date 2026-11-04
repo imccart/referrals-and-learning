@@ -7,7 +7,8 @@ local logdate = string( d(`c(current_date)'), "%dCYND" )
 **	Author:		Ian McCarthy
 **	Date Created:	1/3/2019
 **	Date Updated:	2/25/2026
-**	Note:		Parameterized by MODEL_TYPE (Myopic or FWD).
+**	Note:		Parameterized by MODEL_TYPE (Myopic or FWD). Every market's
+**			estimation outcome goes to Convergence_<model>.csv.
 **			Myopic uses posterior mean m; FWD uses Gittins index.
 ******************************************************************
 
@@ -30,6 +31,9 @@ log using "${LOG_PATH}Structural_`log_label'_`logdate'.log", replace
 ******************************************************************
 ** Estimation by HRR and over different values for eta
 
+file open fconv using "${RESULTS_FINAL}Convergence_`model'.csv", write replace
+file write fconv "hrr,eta,cases,surgeons,pcps,rc,converged,scale_iter,scale_converged,attempt" _n
+
 forvalues i=1/457 {
 	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 	if _rc==0 {
@@ -47,6 +51,21 @@ forvalues i=1/457 {
 		gen Spec_ID_t=string(Specialist_ID, "%10.0f")
 		replace Spec_ID_t=Spec_ID_t+"-a" if time_period==0
 		replace Spec_ID_t=Spec_ID_t+"-b" if time_period==1
+
+		** an alternative never chosen within its period has no finite fixed effect
+		bys Spec_ID_t: egen any_choice=max(choice)
+		drop if any_choice==0
+		drop any_choice
+		qui count if choice==1
+		local cases=r(N)
+		bys Spec_ID_t: gen first_s=(_n==1)
+		qui count if first_s==1
+		local surgeons=r(N)
+		bys Practice_ID: gen first_p=(_n==1)
+		qui count if first_p==1
+		local pcps=r(N)
+		drop first_s first_p
+
 		bys Specialist_ID: gen spec_freq=_N
 		qui sum spec_freq
 		local freq_max=r(max)
@@ -90,14 +109,19 @@ forvalues i=1/457 {
 
 			** estimate and save results
 			gsort casevar -common_ref
-			if ${OUTSIDE_OPTION}==1 {
-				capture cmclogit choice `belief_var' diff_dist fmly_np_* ib0.Spec_ID, noconstant basealternative(0) iterate(100)
-			}
-			else if ${OUTSIDE_OPTION}==0 {
-				capture cmclogit choice `belief_var' diff_dist fmly_np_* ib0.Spec_ID, noconstant iterate(100)
+			local baseopt=cond(${OUTSIDE_OPTION}==1, "basealternative(0)", "")
+			local attempt=1
+			local mlopt iterate(100)
+			capture cmclogit choice `belief_var' diff_dist fmly_np_* ib0.Spec_ID, noconstant `baseopt' `mlopt'
+			local rc=_rc
+			if `rc'!=0 | e(converged)==0 {
+				local attempt=2
+				local mlopt iterate(300) difficult technique(bfgs 20 nr 10)
+				capture cmclogit choice `belief_var' diff_dist fmly_np_* ib0.Spec_ID, noconstant `baseopt' `mlopt'
+				local rc=_rc
 			}
 
-			if _rc==0 {
+			if `rc'==0 {
 				preserve
 				gen belief_s=.
 				local iter=0
@@ -107,9 +131,11 @@ forvalues i=1/457 {
 					local iter=`iter' + 1
 					local lna_old = `lna_new'
 					qui replace belief_s = exp(`lna_old')*`belief_var'
-					qui cmclogit choice belief_s diff_dist fmly_np_* ib0.Spec_ID, noconstant iterate(100)
+					qui cmclogit choice belief_s diff_dist fmly_np_* ib0.Spec_ID, noconstant `baseopt' `mlopt'
 					local lna_new = `lna_old' + _b[belief_s]-1
 				}
+				local scale_conv=(abs( exp(`lna_new') - exp(`lna_old') ) <= 0.005)
+				file write fconv "`i',`eta',`cases',`surgeons',`pcps',0,`=e(converged)',`iter',`scale_conv',`attempt'" _n
 				est store cmclogit_est
 				matrix b1=get(_b)
 				mat b1[1,1]=exp(`lna_new')
@@ -148,9 +174,17 @@ forvalues i=1/457 {
 
 				est drop cmclogit_est
 			}
+			else {
+				file write fconv "`i',`eta',`cases',`surgeons',`pcps',`rc',0,,,`attempt'" _n
+			}
 		}
 	}
 }
+file close fconv
+
+import delimited using "${RESULTS_FINAL}Convergence_`model'.csv", clear
+merge m:1 hrr using hrr_size, keep(master match) nogenerate keepusing(patients pcp_total spec_total mean_choice_size spec_hhi)
+export delimited using "${RESULTS_FINAL}Convergence_`model'.csv", replace
 
 
 forvalues i=1/457 {
