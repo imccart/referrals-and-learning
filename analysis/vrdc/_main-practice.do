@@ -7,7 +7,7 @@ local logdate = string( d(`c(current_date)'), "%dCYND" )
 **	Author:		Ian McCarthy
 **	Date Updated:	11/2/2026
 **	Notes:		_main-surgeon.do with _unit-practice.do and the practice
-**			folders. A2, A4, O7, and S1-S6 describe surgeons and do not run.
+**			folders. A2, A4, O7, and S1-S7 describe surgeons and do not run.
 ******************************************************************
 
 set more off
