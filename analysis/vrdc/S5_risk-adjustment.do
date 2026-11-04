@@ -272,7 +272,12 @@ restore
 ** on its own, with the surgeon alone, and with both
 preserve
 gen byte drg470=(clm_drg_cd==470)
+expand 2, gen(dup)
+replace drg470=2 if dup==1
 collapse (p10) p10=phat (p25) p25=phat (p50) p50=phat (p75) p75=phat (p90) p90=phat (p99) p99=phat (mean) mean=phat (sd) sd=phat (count) n=phat, by(drg470)
+gen sample=cond(drg470==2,"all",cond(drg470==1,"drg470","other"))
+drop drg470
+order sample
 export delimited using "${RESULTS_BASE}RiskScore_Distribution.csv", replace
 restore
 file open fr using "${RESULTS_BASE}RiskScore_Fit.csv", write replace
