@@ -5,9 +5,6 @@
 
 \begin{document}
 
-\section*{Possible analyses}
-
-Seth's list from the reports, with the status of each item as of November 4. Pending means coded and waiting on the VRDC run. Reviewer 1's comments are at the end.
 
 \section{Data and descriptive}
 
@@ -17,65 +14,65 @@ If worthwhile for some of these descriptive exercises, I have a PhD student who 
 
 Heterogeneity within DRG: distribution of patient risk scores.
 
-\status{Pending}
+\status{Pending. Distribution of the LPM risk score, overall and for DRG 470.}
 
 How well do the patient risk scores predict failure, net of the doc's observed performance?
 
-\status{Pending}
+\status{Pending. LPM of failure on the risk score with and without surgeon fixed effects.}
 
 (R2 \#3) Volume - outcome relationship. Does performance increase with volume (over long-term) within surgeons? Does it decrease (over short-term, eg within a year) when there is high congestion? Could estimate LPMs with patient risk-adjusters and surgeon FEs.
 
-\status{Pending}
+\status{Pending. Within-surgeon LPM of failure on cumulative and current-quarter volume.}
 
 CF reallocation and volume. Plot histogram of observed patient counts (e.g., per year), and plot in CF reallocation. Check the upper tails.
 
-\status{Pending}
+\status{Pending. Baseline against counterfactual volume per surgeon, with the upper tail.}
 
 Show that surgeon volume (and its heterogeneity across docs) is pretty consistent over time. Could compute within vs between variance in volume (e.g., by month or quarter) and compare the two. (From R2's 3b criticism of our long time periods for congestion.)
 
-\status{Pending}
+\status{Pending. I' also}
 
 Heterogeneity in patient char's across surgeons. Plot dist's across surgeons of key demographics: race, sex, age (e.g., use averages of these char's over the 6 year estimation period). Also dist of risk scores. Then est correlation of these features with the observed quality (i.e., performance over 11 years).
 
-\status{Pending}
+\status{Pending. Patient mix by surgeon, observed against random reassignment, and its correlation with quality.}
 
 Could we look at hospital discharge (or all payer) data in some state(s), to see how much volume we are capturing, and how much heterogeneity there is across surgeons? Concern is that best docs are at capacity (more than our descriptive analysis suggests) due to commercial patients. (R4 \#5)
 
-\status{Not started; a data request rather than code. HCUP state inpatient data with physician identifiers (Florida, New York, and a few others license the surgeon NPI) would give each surgeon's all-payer joint-replacement volume to set against the Medicare count.}
+\status{Not started; we could do this with state inpatient data, but not all states make this easy to get. Florida is pretty easy although it would cost a bit of money (not too much...likely in the hundreds). There's also aggregate stats out there showing the Medicare accounts for well over half of all joint replacements, but I'm not sure if those stats are traditional Medicare or add Medicare Advantage.}
 
 \section{More programming and computation}
 
 Other change to event study: DDD-ish comparing change in referrals (per fixed calendar time like a qtr) when see a failure vs when see a success. This is R2's idea to address mean reversion.
 
-\status{Pending}
+\status{Pending. Calendar-time event study, failures against successes.}
 
 Could a surgeon-level event study include spillover from surgeon A to surgeon B, if A is in B's group? (R2 \#5)
 
-\status{Pending}
+\status{Pending. Same-group spillover as a second outcome.}
 
 Should we also do a practice-level event study?
 
-\status{Pending}
+\status{Pending. Re-running the reduced form at the practice level.}
 
 Logit interacting patient risk scores with surgeon average quality (maybe leave-one-out or 5 year avg before patient t, not pair-specific but all patients). R2 suggested to interact with distance, but this interaction with observed performance seems better.
 
-\status{Pending}
+\status{Pending. Logit with the risk score interacted with running surgeon quality.}
 
 Logit using PCP movers?
 
-\status{Pending}
+\status{Pending. Pooled logit on movers.}
 
 Logit using relatively new PCPs?
 
-\status{Pending}
+\status{Pending. Pooled logit on new PCPs.}
 
 (above two could pool HRRs to increase power)
 
-\status{Both pooled. Pending}
+\status{Pending. Both pooled.}
 
 Simulate the model for one market, using our estimated parameters. Program the full solution as well as Gittins. See how much the simulated behavior differs btw the two methods.
 
-\status{Built locally in R (exact solution of the learning problem against the Gittins index); not yet run at scale.}
+\status{Built locally in R (exact solution of the learning problem against the Gittins index). Hoping to run in the next few days.}
 
 Not now - maybe, depending on some descriptive assessments:
 
@@ -99,7 +96,7 @@ R3 1a (the Gittins index with logit shocks). \status{The simulation above is the
 
 R2 3c, R3 1b (the counterfactual fixed point). \status{Writing. The main text needs the equilibrium stated: what adjusts (each surgeon's volume, through the congestion term), the fixed point solved, and the uniqueness check already in the appendix.}
 
-R2 3b (congestion at three-year windows). \status{Pending: yearly congestion in the markets large enough for specialist-by-year effects, within surgeon.}
+R2 3b (congestion at three-year windows). \status{Pending: I'm re-running with yearly congestion but only for some markets where specialists have enough referrals per year. We'll see what that shows. Otherwise we already show that the FEs don't move much from one 3yr period to another, so that could be something to add.}
 
 R2 minor 3 (convergence). \status{Pending: every market's convergence is now logged with its size, with one retry and a likely cause removed.}
 
