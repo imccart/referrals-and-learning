@@ -10,7 +10,8 @@ log using "${LOG_PATH}SampleDescriptives_`logdate'.log", replace
 **	Notes:		Patient mix by specialist, observed versus random within
 **			HRR-year; billing groups; established PCPs versus all PCPs;
 **			whether the referral endpoint is the practice or the surgeon
-**			(TIN and TIN-by-office-zip). Surgeon level only. Writes
+**			(TIN and TIN-by-office-zip); the within-surgeon share of the
+**			variance in volume (temp_spec_quarterly from S5). Surgeon level only. Writes
 **			paper-numbers-descriptives.tex, PatientMix_Age.png,
 **			PatientMix_Specialist.csv, ReferralEndpoint.csv (cells under
 **			11 masked).
@@ -249,6 +250,41 @@ label define sizelbl 1 "2 surgeons" 2 "3-5" 3 "6-10" 4 "11+"
 label values size_bin sizelbl
 order definition size_bin n_pairs size_prac n_pair hhi_pair e_hhi excess one_surg
 export delimited using "${RESULTS_BASE}ReferralEndpoint.csv", replace
+
+******************************************************************
+** 5. Surgeon volume over time: the within-surgeon share of the variance in
+** quarterly and yearly stays, 2013-2018, among surgeons in the estimation sample
+
+use temp_spec_yearly, clear
+bys Specialist_ID: egen max_ops=max(yearly_ops)
+keep if max_ops>=${SPEC_MIN}
+keep Specialist_ID
+duplicates drop
+merge 1:m Specialist_ID using temp_spec_quarterly, keep(match) nogenerate
+keep if quarter>=quarterly("2013q1","YQ")
+bys Specialist_ID: egen qmin=min(quarter)
+bys Specialist_ID: egen qmax=max(quarter)
+fillin Specialist_ID quarter
+bys Specialist_ID: egen qmin_s=min(qmin)
+bys Specialist_ID: egen qmax_s=max(qmax)
+keep if quarter>=qmin_s & quarter<=qmax_s
+replace vol_q=0 if _fillin
+gen Year=year(dofq(quarter))
+qui count if _fillin==0 & quarter==qmin_s
+file write fh "\newcommand{\volSurgeons}{`=string(r(N), "%12.0fc")'}" _n
+bys Specialist_ID: egen vol_mean=mean(vol_q)
+gen within=vol_q-vol_mean
+qui sum vol_q
+local v_tot=r(Var)
+qui sum within
+file write fh "\newcommand{\volWithinShareQ}{`=string(100*r(Var)/`v_tot', "%4.1f")'}" _n
+collapse (sum) vol_y=vol_q, by(Specialist_ID Year)
+bys Specialist_ID: egen vol_mean=mean(vol_y)
+gen within=vol_y-vol_mean
+qui sum vol_y
+local v_tot=r(Var)
+qui sum within
+file write fh "\newcommand{\volWithinShareY}{`=string(100*r(Var)/`v_tot', "%4.1f")'}" _n
 
 file close fh
 

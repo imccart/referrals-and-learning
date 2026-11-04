@@ -34,6 +34,15 @@ save "${RESULTS_BASE}MNL_Specs4.dta", replace
 
 
 
+** PCP movers, pooled across HRRs: specialist quality in place of the fixed effects
+run_mnl_specs, regressors(diff_dist spec_qual_all fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20) sample(mover) pooled
+save "${RESULTS_BASE}MNL_Specs7.dta", replace
+
+** PCPs whose first referral is in 2013 or later, pooled across HRRs
+run_mnl_specs, regressors(diff_dist spec_qual_all fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20) sample(newpcp) pooled
+save "${RESULTS_BASE}MNL_Specs8.dta", replace
+
+
 ******************************************************************
 ** ORGANIZE RESULTS
 
@@ -173,4 +182,14 @@ postclose table_tex
 use "`table_tex'", clear
 outfile line using "${RESULTS_BASE}MNL_Specs.tex", noquote replace
 
-
+** pooled specifications
+clear
+foreach n of numlist 7 8 {
+	append using "${RESULTS_BASE}MNL_Specs`n'.dta"
+	replace coef_name="belief_s" if coef_name=="o.belief_s"
+	capture gen spec=""
+	replace spec=cond(`n'==7,"movers","newpcp") if spec==""
+}
+keep if inlist(coef_name, "belief_s", "diff_dist", "spec_qual_all", "converged", "log_like", "n_obs")
+replace coef_se=coef_val*coef_se if coef_name=="belief_s"
+export delimited spec coef_name coef_val coef_se using "${RESULTS_BASE}MNL_Specs_Pooled.csv", replace

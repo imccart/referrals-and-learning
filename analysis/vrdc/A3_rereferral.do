@@ -10,7 +10,8 @@ log using "${LOG_PATH}Rereferral_`logdate'.log", replace
 **	Notes:		Whether the PCP's next referral (91 days or more later, within
 **			three years) returns to the same unit after a failure versus a
 **			success. Level regressions, a stacked event study in referral
-**			order with clean windows, and design checks. SEs two-way
+**			order with clean windows, design checks, and a calendar-time
+**			version by quarter. SEs two-way
 **			clustered by specialist and PCP. Reads EstReferrals and
 **			temp_spec_yearly (A1). Writes paper-numbers-rereferral.tex,
 **			Rereferral_EventStudy.png, Rereferral_Checks.csv.
@@ -415,6 +416,70 @@ forvalues b=1/3 {
 	file write fc "level_gap`b',1,`rr_fx_gap`b'',`rr_se_gap`b'',`rr_n_gap`b''," _n
 }
 file write fc "level_tin,1,`rr_fx_tin',`rr_se_tin',`rr_n_tin'," _n
+
+******************************************************************
+** 4. Event study in calendar time: the pair's referrals per quarter around a
+** failure against those around a success, both selected on a referral at quarter 0
+use temp_rr_referrals, clear
+preserve
+collapse (count) n_pq=bene_id, by(Practice_ID Specialist_ID quarter)
+save temp_rr_pq, replace
+restore
+preserve
+collapse (sum) f_q=any_bad, by(Practice_ID quarter)
+save temp_rr_fq, replace
+restore
+
+keep if quarter>=quarterly("2013q1","YQ") & quarter<=quarterly("2017q4","YQ")
+gen double event_id=_n
+keep event_id Practice_ID Specialist_ID quarter Year any_bad
+expand 9
+bys event_id: gen k=_n-5
+replace quarter=quarter+k
+merge m:1 Practice_ID Specialist_ID quarter using temp_rr_pq, keep(master match) nogenerate
+replace n_pq=0 if n_pq==.
+replace n_pq=n_pq-1 if k==0
+merge m:1 Practice_ID quarter using temp_rr_fq, keep(master match) nogenerate
+replace f_q=0 if f_q==.
+replace f_q=f_q-any_bad if k==0
+bys event_id: egen other_fail=total(f_q)
+gen clean_cal=(other_fail==0)
+egen spec_year=group(Specialist_ID Year)
+local cvars
+forvalues p=-4/4 {
+	if `p'!=-1 {
+		local s=cond(`p'<0,"m","p")
+		gen C`s'`=abs(`p')'_f=(k==`p')*any_bad
+		local cvars `cvars' C`s'`=abs(`p')'_f
+	}
+}
+reghdfe n_pq `cvars' if clean_cal==1, absorb(event_id k spec_year#k Practice_ID#k) vce(cluster Specialist_ID Practice_ID)
+tempvar tag
+egen `tag'=tag(event_id) if e(sample)
+qui count if `tag'==1
+local cal_events=r(N)
+qui count if `tag'==1 & any_bad==1
+local cal_fail=r(N)
+forvalues p=-4/4 {
+	if `p'==-1 {
+		file write fc "calendar,-1,0,0,`cal_events',`cal_fail'" _n
+	}
+	else {
+		local s=cond(`p'<0,"m","p")
+		file write fc "calendar,`p',`=_b[C`s'`=abs(`p')'_f]',`=_se[C`s'`=abs(`p')'_f]',`cal_events',`cal_fail'" _n
+	}
+}
+lincom (Cm4_f+Cm3_f+Cm2_f)/3
+local cal_pre=r(estimate)
+local cal_pre_se=r(se)
+lincom (Cp2_f+Cp3_f+Cp4_f)/3
+local cal_post=r(estimate)
+local cal_post_se=r(se)
+sum n_pq if any_bad==0 & k<0 & clean_cal==1
+local cal_base=r(mean)
+erase temp_rr_pq.dta
+erase temp_rr_fq.dta
+
 file close fc
 
 ******************************************************************
@@ -497,6 +562,13 @@ file write fh "\newcommand{\rereferFXtin}{`=string(`rr_fx_tin', "%6.4f")'}" _n
 file write fh "\newcommand{\rereferSEtin}{`=string(`rr_se_tin', "%6.4f")'}" _n
 file write fh "\newcommand{\rereferBasetin}{`=string(`base_tin', "%5.3f")'}" _n
 file write fh "\newcommand{\rereferNtin}{`=string(`rr_n_tin', "%12.0fc")'}" _n
+file write fh "\newcommand{\rereferCalEvents}{`=string(`cal_events', "%12.0fc")'}" _n
+file write fh "\newcommand{\rereferCalFailures}{`=string(`cal_fail', "%12.0fc")'}" _n
+file write fh "\newcommand{\rereferCalBase}{`=string(`cal_base', "%5.3f")'}" _n
+file write fh "\newcommand{\rereferCalPre}{`=string(`cal_pre', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferCalPreSE}{`=string(`cal_pre_se', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferCalPost}{`=string(`cal_post', "%6.4f")'}" _n
+file write fh "\newcommand{\rereferCalPostSE}{`=string(`cal_post_se', "%6.4f")'}" _n
 forvalues g=0/2 {
 	local w=word("zero one two", `g'+1)
 	file write fh "\newcommand{\rereferESPosthist`w'}{`=string(`es_post`g'', "%6.4f")'}" _n

@@ -195,6 +195,22 @@ foreach cf_name in full current fullfam fullnofe {
 		graph save "${RESULTS_FINAL}VolumeChange_`cf_name'_`model'_eta`eta'", replace
 		graph export "${RESULTS_FINAL}VolumeChange_`cf_name'_`model'_eta`eta'.png", as(png) replace
 
+		** volume levels per year, baseline against counterfactual, with the upper tail
+		gen base_py=pred_patients0/6
+		gen cf_py=pred_patients_cf/6
+		gen obs_py=spec_patients/6
+		twoway (histogram base_py, fraction width(5) color(gray%60)) ///
+			(histogram cf_py, fraction width(5) color(navy%40)), ///
+			xtitle("Predicted patients per year") ytitle("Share of specialists") ///
+			legend(order(1 "Baseline" 2 "`cf_label'") position(6) rows(1))
+		graph save "${RESULTS_FINAL}VolumeLevels_`cf_name'_`model'_eta`eta'", replace
+		graph export "${RESULTS_FINAL}VolumeLevels_`cf_name'_`model'_eta`eta'.png", as(png) replace
+		preserve
+		collapse (p50) obs_p50=obs_py base_p50=base_py cf_p50=cf_py (p90) obs_p90=obs_py base_p90=base_py cf_p90=cf_py ///
+			(p99) obs_p99=obs_py base_p99=base_py cf_p99=cf_py (max) obs_max=obs_py base_max=base_py cf_max=cf_py
+		export delimited using "${RESULTS_FINAL}VolumeLevels_`cf_name'_`model'_eta`eta'.csv", replace
+		restore
+
 		** removing non-converging markets
 		use "${RESULTS_FINAL}CounterFactualsSpec_`cf_name'_`model'`eta'.dta", clear
 		gen share_nc=no_equil_cf/pred_patients0

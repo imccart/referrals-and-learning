@@ -215,10 +215,56 @@ end
 		
 
 		
-** standard MNL for sensitivity analysis
+** standard MNL for sensitivity analysis. sample(mover) keeps a PCP's referrals in
+** the HRR moved into from the year of the move; sample(newpcp) keeps PCPs whose first
+** referral is in 2013 or later. pooled stacks the HRRs and fits one model.
+capture program drop mnl_fit
+program define mnl_fit
+	args i regressors
+	gsort casevar -common_ref
+	capture cmclogit choice m `regressors', noconstant iterate(100)
+	if _rc==0 {
+		gen belief_s=.
+		local iter=0
+		local lna_old=1
+		local lna_new=ln(max(_b[m],0.01))
+		while (abs( exp(`lna_new') - exp(`lna_old') ) > 0.005 & `iter'<10) {
+			local iter=`iter' + 1
+			local lna_old = `lna_new'
+			qui replace belief_s = exp(`lna_old')*m
+			qui cmclogit choice belief_s `regressors', noconstant iterate(100)
+			local lna_new = `lna_old' + _b[belief_s]-1
+		}
+		est store cmclogit_est
+		matrix b1=get(_b)
+		mat b1[1,1]=exp(`lna_new')
+		matrix var_cov=e(V)
+		matrix var_diag=vecdiag(var_cov)
+		matrix c1=(`i', e(converged), e(ll), e(N), b1)'
+		matrix var1=(`i', e(converged), e(ll), e(N), var_diag)'
+		svmat double c1, name(coef_`i')
+		svmat double var1, name(coef_se_`i')
+		gen coef_names_`i'=""
+		replace coef_names_`i'="hrr" if _n==1
+		replace coef_names_`i'="converged" if _n==2
+		replace coef_names_`i'="log_like" if _n==3
+		replace coef_names_`i'="n_obs" if _n==4
+		local cov_list=rowsof(c1)
+		local names : rownames c1
+		forvalues l=5/`cov_list' {
+			local name : word `l' of `names'
+			replace coef_names_`i'="`name'" if _n==`l'
+		}
+		keep if coef_`i'!=.
+		keep coef_`i' coef_se_`i' coef_names_`i'
+		replace coef_se_`i'=sqrt(coef_se_`i')
+		save coef_data_`i', replace
+	}
+end
+
 capture program drop run_mnl_specs
 program define run_mnl_specs
-	syntax , Regressors(string) [Fwup]
+	syntax , Regressors(string) [Fwup] [Sample(string)] [Pooled]
 
 	forvalues i=1/457 {
 		capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
@@ -226,10 +272,26 @@ program define run_mnl_specs
 			use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
 			do "${CODE_FILES}_clean-analysis.do"
 
+			if "`sample'"=="mover" {
+				gen bene_hrr=`i'
+				merge m:1 Practice_ID bene_hrr using temp_pcp_mover, keep(master match) keepusing(min_hrr_year)
+				keep if _merge==3 & Year>=min_hrr_year
+				drop _merge min_hrr_year bene_hrr
+			}
+			if "`sample'"=="newpcp" {
+				gen bene_hrr=`i'
+				merge m:1 Practice_ID bene_hrr using pcp_hrr_year, keep(master match) keepusing(first_year)
+				keep if _merge==3 & first_year>=2013
+				drop _merge first_year bene_hrr
+			}
+			qui count
+			if r(N)==0 continue
+
 			** prepare for cmclogit syntax
+			gen spec_qual_all=spec_success_tot/spec_patients_tot
 			egen referral=group(bene_id admit)
 			keep Practice_ID Specialist_ID choice referral case_obs casevar common_ref prop_failures_run prop_patients_run ///
-				pair_success_run spec_qual pair_patients_run pair_failures_run pair_patients_run_fw pair_failures_run_fw ///
+				pair_success_run spec_qual spec_qual_all pair_patients_run pair_failures_run pair_patients_run_fw pair_failures_run_fw ///
 				bene_spec_distance bene_distance diff_dist prac_vi pair_new ///
 				fmly_np_* Year pcp_phy_tin1 pcp_phy_tin2
 			sum fmly_np_*
@@ -243,9 +305,7 @@ program define run_mnl_specs
 				replace practice_failures_`step'=practice_failures_`step'-pair_failures_run
 				gen practice_info_`step'=(practice_patients_`step'-practice_failures_`step')/practice_patients_`step'
 			}
-			
-			
-			cmset Practice_ID referral case_obs
+
 			qui sum spec_qual
 			local rho=r(mean)
 			if "`fwup'" != "" {
@@ -257,53 +317,34 @@ program define run_mnl_specs
 			else {
 				gen m=(`rho' + pair_success_run)/(1 + pair_patients_run)
 			}
-		
-			** estimate and save results
-			gsort casevar -common_ref
-			capture cmclogit choice m `regressors', noconstant iterate(100)
 
-			if _rc==0 {
-				gen belief_s=.
-				local iter=0
-				local lna_old=1
-				local lna_new=ln(max(_b[m],0.01))
-				while (abs( exp(`lna_new') - exp(`lna_old') ) > 0.005 & `iter'<10) {
-					local iter=`iter' + 1
-					local lna_old = `lna_new'
-					qui replace belief_s = exp(`lna_old')*m
-					qui cmclogit choice belief_s `regressors', noconstant iterate(100)
-					local lna_new = `lna_old' + _b[belief_s]-1
-				}
-				est store cmclogit_est
-				matrix b1=get(_b)				
-				mat b1[1,1]=exp(`lna_new')
-				matrix var_cov=e(V)
-				matrix var_diag=vecdiag(var_cov)
-				matrix c1=(`i', e(converged), e(ll), b1)'
-				matrix var1=(`i', e(converged), e(ll), var_diag)'
-				svmat double c1, name(coef_`i')
-				svmat double var1, name(coef_se_`i')
-				gen coef_names_`i'=""
-				replace coef_names_`i'="hrr" if _n==1
-				replace coef_names_`i'="converged" if _n==2
-				replace coef_names_`i'="log_like" if _n==3
-				local cov_list=rowsof(c1)
-				local names : rownames c1
-				forvalues l=4/`cov_list' {
-					local name : word `l' of `names'
-					replace coef_names_`i'="`name'" if _n==`l'
-				}
-
-				keep if coef_`i'!=.
-				keep coef_`i' coef_se_`i' coef_names_`i'
-				replace coef_se_`i'=sqrt(coef_se_`i')
-				save coef_data_`i', replace
+			if "`pooled'" != "" {
+				gen hrr=`i'
+				save temp_pool_`i', replace
+			}
+			else {
+				cmset Practice_ID referral case_obs
+				mnl_fit `i' "`regressors'"
 			}
 		}
-	}	
+	}
 
+	if "`pooled'" != "" {
+		clear
+		forvalues i=1/457 {
+			capture confirm file "temp_pool_`i'.dta"
+			if _rc==0 {
+				append using temp_pool_`i'
+				erase temp_pool_`i'.dta
+			}
+		}
+		drop referral
+		egen referral=group(hrr casevar)
+		cmset Practice_ID referral case_obs
+		mnl_fit 0 "`regressors'"
+	}
 
-	forvalues i=1/457 {
+	forvalues i=0/457 {
 		capture confirm file "coef_data_`i'.dta"
 		if _rc==0 {
 			use coef_data_`i', clear
@@ -315,7 +356,7 @@ program define run_mnl_specs
 	}
 
 	local step=0
-	forvalues i=1/457 {
+	forvalues i=0/457 {
 		capture confirm file "coef_data_`i'.dta"
 		if _rc==0 {
 			local step=`step'+1
@@ -326,6 +367,6 @@ program define run_mnl_specs
 				append using coef_data_`i', force
 			}
 		}
-		capture erase "coef_data_`i'.dta"	
+		capture erase "coef_data_`i'.dta"
 	}
 end

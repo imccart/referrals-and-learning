@@ -11,19 +11,22 @@ log using "${LOG_PATH}S5_RiskAdj_`logdate'.log", replace
 **			Charlson index (9_patient_cci.sas, read with sasload), indirect
 **			standardization to a risk-adjusted specialist quality, and two
 **			MNL sensitivities (DRG 470 only; risk-adjusted quality as the
-**			prior) through a variant of run_mnl_specs. Surgeon level only.
-**			Writes DRG_Distribution.csv, SpecQualAdj.csv, SpecQualAdj.png,
-**			MNL_Specs5.dta, MNL_Specs6.dta, MNL_Specs_Adj.tex.
+**			prior; risk score by surgeon quality) through a variant of
+**			run_mnl_specs; a within-surgeon LPM of failure on experience and
+**			quarterly volume. Surgeon level only. Writes DRG_Distribution.csv,
+**			SpecQualAdj.csv, SpecQualAdj.png, VolumeOutcome.csv, MNL_Specs5/6/9.dta,
+**			MNL_Specs_Adj.tex, and temp_spec_quarterly for S6.
 ******************************************************************
 
 
 
 ******************************************************************
-** run_mnl_specs (_programs.do) with two options: Drg(numlist) keeps the
-** listed DRGs; Adjust swaps the risk-adjusted spec_qual into the prior.
+** run_mnl_specs (_programs.do) with three options: Drg(numlist) keeps the
+** listed DRGs; Adjust swaps the risk-adjusted spec_qual into the prior;
+** Interact adds the patient's risk score times the surgeon's running quality.
 capture program drop run_mnl_specs_rev
 program define run_mnl_specs_rev
-	syntax , Regressors(string) [Fwup] [Drg(numlist)] [Adjust]
+	syntax , Regressors(string) [Fwup] [Drg(numlist)] [Adjust] [Interact]
 
 	forvalues i=1/457 {
 		capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
@@ -51,13 +54,19 @@ program define run_mnl_specs_rev
 				replace spec_qual=spec_qual_adj if !missing(spec_qual_adj)
 				drop spec_qual_adj
 			}
+			local extra
+			if "`interact'" != "" {
+				merge m:1 bene_id admit using temp_patient_risk, keep(master match) nogenerate
+				gen risk_x_qual=phat*(1-prop_spec_failures_run)
+				local extra risk_x_qual
+			}
 
 			** prepare for cmclogit syntax
 			egen referral=group(bene_id admit)
 			keep Practice_ID Specialist_ID choice referral case_obs casevar common_ref prop_failures_run prop_patients_run ///
 				pair_success_run spec_qual pair_patients_run pair_failures_run pair_patients_run_fw pair_failures_run_fw ///
 				bene_spec_distance bene_distance diff_dist prac_vi pair_new ///
-				fmly_np_* Year pcp_phy_tin1 pcp_phy_tin2
+				fmly_np_* Year pcp_phy_tin1 pcp_phy_tin2 `extra'
 			sum fmly_np_*
 			drop fmly_np_0
 			local step=0
@@ -249,6 +258,41 @@ replace phat=1 if phat>1
 sum any_bad
 local mean_fail=r(mean)
 
+preserve
+keep bene_id admit phat
+duplicates drop bene_id admit, force
+save temp_patient_risk, replace
+restore
+
+
+******************************************************************
+** Surgeon volume and outcomes, within surgeon: stays before the admission
+** quarter (experience) and stays in it (congestion), from every stay 2008-2018
+preserve
+clear
+forvalues y=2008/2018 {
+	append using "${DATA_FINAL}OrthoStays_`y'.dta", keep(spec_npi admit)
+}
+gen quarter=qofd(admit)
+collapse (count) vol_q=admit, by(spec_npi quarter)
+rename spec_npi Specialist_ID
+sort Specialist_ID quarter
+by Specialist_ID: gen vol_cum=sum(vol_q)-vol_q
+save temp_spec_quarterly, replace
+restore
+
+gen quarter=qofd(admit)
+merge m:1 Specialist_ID quarter using temp_spec_quarterly, keep(master match) nogenerate
+gen log_exp=log(1+vol_cum)
+reghdfe any_bad c.age##c.age i.female i.race_cat i.drg c.cci_score i.cci_missing log_exp vol_q, ///
+	absorb(Specialist_ID Year) vce(cluster Specialist_ID)
+file open fv using "${RESULTS_BASE}VolumeOutcome.csv", write replace
+file write fv "variable,coef,se,n" _n
+file write fv "log_experience,`=_b[log_exp]',`=_se[log_exp]',`=e(N)'" _n
+file write fv "quarter_volume,`=_b[vol_q]',`=_se[vol_q]',`=e(N)'" _n
+file close fv
+drop quarter vol_q vol_cum log_exp
+
 
 ******************************************************************
 ** Specialist-level aggregation
@@ -323,18 +367,25 @@ save "${RESULTS_BASE}MNL_Specs5.dta", replace
 run_mnl_specs_rev, regressors(diff_dist fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20 ib(freq).Specialist_ID) adjust
 save "${RESULTS_BASE}MNL_Specs6.dta", replace
 
+
+******************************************************************
+** MNL_Specs9: baseline regressors plus the patient's risk score times the surgeon's running quality
+run_mnl_specs_rev, regressors(diff_dist risk_x_qual fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20 ib(freq).Specialist_ID) interact
+save "${RESULTS_BASE}MNL_Specs9.dta", replace
+
 erase temp_spec_qual_adj.dta
+erase temp_patient_risk.dta
 
 
 ******************************************************************
-** Organize Specs5 and Specs6 into a two-row supplementary table
-foreach n of numlist 5 6 {
+** Organize Specs5, Specs6, and Specs9 into a supplementary table
+foreach n of numlist 5 6 9 {
 	use "${RESULTS_BASE}MNL_Specs`n'.dta", clear
 	gen hrr=coef_val if coef_name=="hrr"
 	replace hrr=hrr[_n-1] if hrr==.
 
 	replace coef_name="belief_s" if coef_name=="o.belief_s"
-	keep if inlist(coef_name, "belief_s", "converged", "log_like", "diff_dist") | ///
+	keep if inlist(coef_name, "belief_s", "converged", "log_like", "diff_dist", "risk_x_qual") | ///
 		inlist(coef_name, "fmly_np_1", "fmly_np_2", "fmly_np_3", "fmly_np_4", "fmly_np_5", "fmly_np_7", "fmly_np_10", "fmly_np_15", "fmly_np_20")
 
 	rename coef_val est_
@@ -352,11 +403,13 @@ foreach n of numlist 5 6 {
 	replace se_belief_s=est_belief_s*se_belief_s
 	if `n'==5 gen spec="drg470"
 	if `n'==6 gen spec="riskadj"
+	if `n'==9 gen spec="riskint"
 	save temp_specs`n', replace
 }
 
 use temp_specs5, clear
 append using temp_specs6
+append using temp_specs9
 
 tempfile table_tex
 postfile table_tex str200 line using "`table_tex'", replace
@@ -371,6 +424,12 @@ post table_tex (" DRG 470 only & `=string(r(mean), "%9.4f")' & `=string(r(p10), 
 
 qui sum est_belief_s if spec=="riskadj", detail
 post table_tex (" Risk-Adjusted Quality & `=string(r(mean), "%9.4f")' & `=string(r(p10), "%9.4f")'  & `=string(r(p25), "%9.4f")'  & `=string(r(p50), "%9.4f")'  & `=string(r(p75), "%9.4f")'  & `=string(r(p90), "%9.4f")' \\")
+
+qui sum est_belief_s if spec=="riskint", detail
+post table_tex (" With Risk $\times$ Quality & `=string(r(mean), "%9.4f")' & `=string(r(p10), "%9.4f")'  & `=string(r(p25), "%9.4f")'  & `=string(r(p50), "%9.4f")'  & `=string(r(p75), "%9.4f")'  & `=string(r(p90), "%9.4f")' \\")
+
+qui sum est_risk_x_qual if spec=="riskint", detail
+post table_tex (" \quad Risk $\times$ Quality & `=string(r(mean), "%9.4f")' & `=string(r(p10), "%9.4f")'  & `=string(r(p25), "%9.4f")'  & `=string(r(p50), "%9.4f")'  & `=string(r(p75), "%9.4f")'  & `=string(r(p90), "%9.4f")' \\")
 post table_tex ("\hline\hline")
 postclose table_tex
 
