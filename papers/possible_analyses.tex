@@ -1,0 +1,51 @@
+\begin{document}
+
+HAVE NOT DONE ANDREW'S COMMENTS YET
+
+\section{Data and descriptive}
+
+If worthwhile for some of these descriptive exercises, I have a PhD student who might be able to do them. We would have to get her access to the VRDC...
+
+Heterogeneity within DRG: distribution of patient risk scores. 
+
+How well do the patient risk scores predict failure, net of the doc's observed performance? 
+
+(R2 #3) Volume - outcome relationship. Does performance increase with volume (over long-term) within surgeons? Does it decrease (over short-term, eg within a year) when there is high congestion? Could estimate LPMs with patient risk-adjusters and surgeon FEs.
+
+CF reallocation and volume. Plot histogram of observed patient counts (e.g., per year), and plot in CF reallocation. Check the upper tails.
+
+Show that surgeon volume (and its heterogeneity across docs) is pretty consistent over time. Could compute within vs between variance in volume (e.g., by month or quarter) and compare the two. (From R2's 3b criticism of our long time periods for congestion.)
+
+Heterogeneity in patient char's across surgeons. Plot dist's across surgeons of key demographics: race, sex, age (e.g., use averages of these char's over the 6 year estimation period). Also dist of risk scores. Then est correlation of these features with the observed quality (i.e., performance over 11 years).
+
+Could we look at hospital discharge (or all payer) data in some state(s), to see how much volume we are capturing, and how much heterogeneity there is across surgeons? Concern is that best docs are at capacity (more than our descriptive analysis suggests) due to commercial patients. (R4 #5)
+
+\section{More programming and computation}
+
+Other change to event study: DDD-ish comparing change in referrals (per fixed calendar time like a qtr) when see a failure vs when see a success. This is R2's idea to address mean reversion.
+
+Could a surgeon-level event study include spillover from surgeon A to surgeon B, if A is in B's group? (R2 #5)
+
+Should we also do a practice-level event study?
+
+Logit interacting patient risk scores with surgeon average quality (maybe leave-one-out or 5 year avg before patient t, not pair-specific but all patients). R2 suggested to interact with distance, but this interaction with observed performance seems better.
+
+Logit using PCP movers?
+
+Logit using relatively new PCPs?
+
+(above two could pool HRRs to increase power)
+
+Simulate the model for one market, using our estimated parameters. Program the full solution as well as Gittins. See how much the simulated behavior differs btw the two methods.
+
+Not now - maybe, depending on some descriptive assessments:
+
+(Estimate structural model using practice groups. R4 #2and6)
+
+(Include average effect of volume / surgeon learning in the structural model.)
+
+\section{Theory}
+
+
+
+\end{document}
