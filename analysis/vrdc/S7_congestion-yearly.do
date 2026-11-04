@@ -14,7 +14,7 @@ log using "${LOG_PATH}CongestionYearly_`logdate'.log", replace
 **			on yearly volume with the distance-predicted volume as the
 **			instrument, as in O1, pooled with year and HRR effects and
 **			within surgeon. The two-period estimate on the same markets
-**			is reported beside it. Writes Congestion_Yearly.csv.
+**			is reported beside it. Eta = 1 only. Writes Congestion_Yearly.csv.
 ******************************************************************
 
 local min_per_spec_year 10
@@ -71,7 +71,7 @@ forvalues i=1/457 {
 	local rho=r(mean)
 	gen m=.
 	gen belief_s=.
-	foreach eta in 1 5 {
+	foreach eta in 1 {
 		replace m=(`rho'*`eta' + pair_success_run)/(`eta' + pair_patients_run)
 		capture cmclogit choice m diff_dist fmly_np_* ib0.Spec_ID, noconstant iterate(100)
 		if _rc!=0 | e(converged)==0 continue
@@ -123,7 +123,7 @@ levelsof hrr, local(big_hrrs)
 file open fy using "${RESULTS_BASE}Congestion_Yearly.csv", write replace
 file write fy "spec,eta,coef,se,n_obs,n_hrr" _n
 
-foreach eta in 1 5 {
+foreach eta in 1 {
 	use temp_s7_fe, clear
 	keep if eta==`eta'
 	qui tab hrr
