@@ -127,12 +127,15 @@ forvalues i=1/457 {
 				local iter=0
 				local lna_old=1
 				local lna_new=ln(max(_b[`belief_var'],0.01))
+				matrix b_start=e(b)
 				while (abs( exp(`lna_new') - exp(`lna_old') ) > 0.005 & `iter'<10) {
 					local iter=`iter' + 1
 					local lna_old = `lna_new'
 					qui replace belief_s = exp(`lna_old')*`belief_var'
-					qui cmclogit choice belief_s diff_dist fmly_np_* ib0.Spec_ID, noconstant `baseopt' `mlopt'
+					mat b_start[1,1]=1
+					qui cmclogit choice belief_s diff_dist fmly_np_* ib0.Spec_ID, noconstant `baseopt' `mlopt' from(b_start, copy)
 					local lna_new = `lna_old' + _b[belief_s]-1
+					matrix b_start=e(b)
 				}
 				local scale_conv=(abs( exp(`lna_new') - exp(`lna_old') ) <= 0.005)
 				file write fconv "`i',`eta',`cases',`surgeons',`pcps',0,`=e(converged)',`iter',`scale_conv',`attempt'" _n
