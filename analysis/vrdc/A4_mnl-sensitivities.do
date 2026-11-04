@@ -190,6 +190,6 @@ foreach n of numlist 7 8 {
 	capture gen spec=""
 	replace spec=cond(`n'==7,"movers","newpcp") if spec==""
 }
-keep if inlist(coef_name, "belief_s", "diff_dist", "spec_qual_all", "converged", "log_like", "n_obs")
+keep if inlist(coef_name, "belief_s", "diff_dist", "spec_qual_all", "converged", "log_like", "n_cases")
 replace coef_se=coef_val*coef_se if coef_name=="belief_s"
 export delimited spec coef_name coef_val coef_se using "${RESULTS_BASE}MNL_Specs_Pooled.csv", replace

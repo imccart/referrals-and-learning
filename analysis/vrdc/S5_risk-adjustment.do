@@ -289,6 +289,7 @@ merge m:1 Specialist_ID quarter using temp_spec_quarterly, keep(master match) no
 gen log_exp=log(1+vol_cum)
 reghdfe any_bad c.age##c.age i.female i.race_cat i.drg c.cci_score i.cci_missing log_exp vol_q, ///
 	absorb(Specialist_ID Year) vce(cluster Specialist_ID)
+capture file close fv
 file open fv using "${RESULTS_BASE}VolumeOutcome.csv", write replace
 file write fv "variable,coef,se,n" _n
 file write fv "log_experience,`=_b[log_exp]',`=_se[log_exp]',`=e(N)'" _n

@@ -243,15 +243,15 @@ program define mnl_fit
 		mat b1[1,1]=exp(`lna_new')
 		matrix var_cov=e(V)
 		matrix var_diag=vecdiag(var_cov)
-		matrix c1=(`i', e(converged), e(ll), e(N), b1)'
-		matrix var1=(`i', e(converged), e(ll), e(N), var_diag)'
+		matrix c1=(`i', e(converged), e(ll), e(N_case), b1)'
+		matrix var1=(`i', e(converged), e(ll), e(N_case), var_diag)'
 		svmat double c1, name(coef_`i')
 		svmat double var1, name(coef_se_`i')
 		gen coef_names_`i'=""
 		replace coef_names_`i'="hrr" if _n==1
 		replace coef_names_`i'="converged" if _n==2
 		replace coef_names_`i'="log_like" if _n==3
-		replace coef_names_`i'="n_obs" if _n==4
+		replace coef_names_`i'="n_cases" if _n==4
 		local cov_list=rowsof(c1)
 		local names : rownames c1
 		forvalues l=5/`cov_list' {
@@ -341,10 +341,14 @@ program define run_mnl_specs
 				erase temp_pool_`i'.dta
 			}
 		}
-		drop referral
-		egen referral=group(hrr casevar)
-		cmset Practice_ID referral case_obs
-		mnl_fit 0 "`regressors'"
+		qui count
+		if r(N)>0 {
+			drop referral
+			egen referral=group(hrr casevar)
+			replace casevar=referral
+			cmset Practice_ID referral case_obs
+			mnl_fit 0 "`regressors'"
+		}
 	}
 
 	forvalues i=0/457 {
@@ -371,5 +375,11 @@ program define run_mnl_specs
 			}
 		}
 		capture erase "coef_data_`i'.dta"
+	}
+	if `step'==0 {
+		clear
+		gen double coef_val=.
+		gen double coef_se=.
+		gen coef_name=""
 	}
 end

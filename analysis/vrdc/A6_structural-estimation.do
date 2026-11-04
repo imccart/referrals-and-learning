@@ -31,6 +31,7 @@ log using "${LOG_PATH}Structural_`log_label'_`logdate'.log", replace
 ******************************************************************
 ** Estimation by HRR and over different values for eta
 
+capture file close fconv
 file open fconv using "${RESULTS_FINAL}Convergence_`model'.csv", write replace
 file write fconv "hrr,eta,cases,surgeons,pcps,rc,converged,scale_iter,scale_converged,attempt" _n
 
@@ -58,7 +59,7 @@ forvalues i=1/457 {
 		drop any_choice
 		qui count if choice==1
 		local cases=r(N)
-		bys Spec_ID_t: gen first_s=(_n==1)
+		bys Specialist_ID: gen first_s=(_n==1)
 		qui count if first_s==1
 		local surgeons=r(N)
 		bys Practice_ID: gen first_p=(_n==1)
@@ -121,61 +122,83 @@ forvalues i=1/457 {
 				local rc=_rc
 			}
 
-			if `rc'==0 {
+			if `rc'==0 & e(converged)==1 {
 				preserve
 				gen belief_s=.
 				local iter=0
 				local lna_old=1
 				local lna_new=ln(max(_b[`belief_var'],0.01))
 				matrix b_start=e(b)
+				local fit_ok=1
 				while (abs( exp(`lna_new') - exp(`lna_old') ) > 0.005 & `iter'<10) {
 					local iter=`iter' + 1
 					local lna_old = `lna_new'
 					qui replace belief_s = exp(`lna_old')*`belief_var'
 					mat b_start[1,1]=1
-					qui cmclogit choice belief_s diff_dist fmly_np_* ib0.Spec_ID, noconstant `baseopt' `mlopt' from(b_start, copy)
+					capture qui cmclogit choice belief_s diff_dist fmly_np_* ib0.Spec_ID, noconstant `baseopt' `mlopt' from(b_start, copy)
+					if _rc!=0 {
+						local fit_ok=0
+						local rc=_rc
+						continue, break
+					}
 					local lna_new = `lna_old' + _b[belief_s]-1
 					matrix b_start=e(b)
 				}
-				local scale_conv=(abs( exp(`lna_new') - exp(`lna_old') ) <= 0.005)
-				file write fconv "`i',`eta',`cases',`surgeons',`pcps',0,`=e(converged)',`iter',`scale_conv',`attempt'" _n
-				est store cmclogit_est
-				matrix b1=get(_b)
-				mat b1[1,1]=exp(`lna_new')
-				matrix var_cov=e(V)
-				matrix var_diag=vecdiag(var_cov)
-				matrix c1=(`i', `eta', e(converged), e(ll), b1)'
-				matrix var1=(`i', `eta', e(converged), e(ll), var_diag)'
-				svmat double c1, name(coef_`i')
-				svmat double var1, name(coef_se_`i')
-				gen coef_names_`i'=""
-				replace coef_names_`i'="hrr" if _n==1
-				replace coef_names_`i'="eta" if _n==2
-				replace coef_names_`i'="converged" if _n==3
-				replace coef_names_`i'="log_like" if _n==4
-				local cov_list=rowsof(c1)
-				local names : rownames c1
-				forvalues l=5/`cov_list' {
-					local name : word `l' of `names'
-					replace coef_names_`i'="`name'" if _n==`l'
+				if `fit_ok'==1 {
+					local scale_conv=(abs( exp(`lna_new') - exp(`lna_old') ) <= 0.005)
+					file write fconv "`i',`eta',`cases',`surgeons',`pcps',0,`=e(converged)',`iter',`scale_conv',`attempt'" _n
+					est store cmclogit_est
+
+					** each referral's log-likelihood under this model, for the Vuong test in O7
+					predict double p_hat, pr
+					frame put referral p_hat if choice==1, into(llf)
+					frame llf {
+						gen double ll_case=log(p_hat)
+						keep referral ll_case
+						save temp_ll_`model'_`i'_`eta', replace
+					}
+					frame drop llf
+
+					matrix b1=get(_b)
+					mat b1[1,1]=exp(`lna_new')
+					matrix var_cov=e(V)
+					matrix var_diag=vecdiag(var_cov)
+					matrix c1=(`i', `eta', e(converged), e(ll), b1)'
+					matrix var1=(`i', `eta', e(converged), e(ll), var_diag)'
+					svmat double c1, name(coef_`i')
+					svmat double var1, name(coef_se_`i')
+					gen coef_names_`i'=""
+					replace coef_names_`i'="hrr" if _n==1
+					replace coef_names_`i'="eta" if _n==2
+					replace coef_names_`i'="converged" if _n==3
+					replace coef_names_`i'="log_like" if _n==4
+					local cov_list=rowsof(c1)
+					local names : rownames c1
+					forvalues l=5/`cov_list' {
+						local name : word `l' of `names'
+						replace coef_names_`i'="`name'" if _n==`l'
+					}
+
+					keep if coef_`i'!=.
+					keep coef_`i' coef_se_`i' coef_names_`i'
+					replace coef_se_`i'=sqrt(coef_se_`i')
+					save coef_data_`i'_`eta', replace
 				}
-				local conv=e(converged)
-
-				keep if coef_`i'!=.
-				keep coef_`i' coef_se_`i' coef_names_`i'
-				replace coef_se_`i'=sqrt(coef_se_`i')
-				save coef_data_`i'_`eta', replace
+				else {
+					file write fconv "`i',`eta',`cases',`surgeons',`pcps',`rc',0,`iter',0,`attempt'" _n
+				}
 				restore
 
-				preserve
-				keep Spec_ID Spec_ID_t
-				bys Spec_ID: gen obs=_n
-				keep if obs==1
-				drop obs
-				save temp_id_match_`i'_`eta', replace
-				restore
-
-				est drop cmclogit_est
+				if `fit_ok'==1 {
+					preserve
+					keep Spec_ID Spec_ID_t
+					bys Spec_ID: gen obs=_n
+					keep if obs==1
+					drop obs
+					save temp_id_match_`i'_`eta', replace
+					restore
+					est drop cmclogit_est
+				}
 			}
 			else {
 				file write fconv "`i',`eta',`cases',`surgeons',`pcps',`rc',0,,,`attempt'" _n
