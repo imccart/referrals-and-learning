@@ -14,8 +14,9 @@ log using "${LOG_PATH}S5_RiskAdj_`logdate'.log", replace
 **			prior; risk score by surgeon quality) through a variant of
 **			run_mnl_specs; a within-surgeon LPM of failure on experience and
 **			quarterly volume. Surgeon level only. Writes DRG_Distribution.csv,
-**			SpecQualAdj.csv, SpecQualAdj.png, VolumeOutcome.csv, MNL_Specs5/6/9.dta,
-**			MNL_Specs_Adj.tex, and temp_spec_quarterly for S6.
+**			SpecQualAdj.csv, SpecQualAdj.png, RiskScore_Distribution.csv,
+**			RiskScore_Fit.csv, VolumeOutcome.csv, MNL_Specs5/6/9.dta,
+**			MNL_Specs_Adj.tex, and temp_spec_quarterly and temp_patient_risk for S6.
 ******************************************************************
 
 
@@ -267,6 +268,23 @@ duplicates drop bene_id admit, force
 save temp_patient_risk, replace
 restore
 
+** the risk score's distribution, overall and for DRG 470, and how much of failure it explains
+** on its own, with the surgeon alone, and with both
+preserve
+gen byte drg470=(clm_drg_cd==470)
+collapse (p10) p10=phat (p25) p25=phat (p50) p50=phat (p75) p75=phat (p90) p90=phat (p99) p99=phat (mean) mean=phat (sd) sd=phat (count) n=phat, by(drg470)
+export delimited using "${RESULTS_BASE}RiskScore_Distribution.csv", replace
+restore
+file open fr using "${RESULTS_BASE}RiskScore_Fit.csv", write replace
+file write fr "model,coef_phat,se_phat,r2,n" _n
+reg any_bad phat
+file write fr "risk_score,`=_b[phat]',`=_se[phat]',`=e(r2)',`=e(N)'" _n
+reghdfe any_bad, absorb(Specialist_ID)
+file write fr "surgeon_fe,,,`=e(r2)',`=e(N)'" _n
+reghdfe any_bad phat, absorb(Specialist_ID) vce(cluster Specialist_ID)
+file write fr "both,`=_b[phat]',`=_se[phat]',`=e(r2)',`=e(N)'" _n
+file close fr
+
 
 ******************************************************************
 ** Surgeon volume and outcomes, within surgeon: stays before the admission
@@ -378,7 +396,6 @@ run_mnl_specs_rev, regressors(diff_dist risk_x_qual fmly_np_1 fmly_np_2 fmly_np_
 save "${RESULTS_BASE}MNL_Specs9.dta", replace
 
 erase temp_spec_qual_adj.dta
-erase temp_patient_risk.dta
 
 
 ******************************************************************

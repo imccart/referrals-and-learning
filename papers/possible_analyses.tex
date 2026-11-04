@@ -1,51 +1,112 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{parskip}
+\newcommand{\status}[1]{\par\noindent Status: #1\par\medskip}
+
 \begin{document}
 
-HAVE NOT DONE ANDREW'S COMMENTS YET
+\section*{Possible analyses}
+
+Seth's list from the reports, with the status of each item as of November 4. Script names refer to \texttt{analysis/} on the VRDC; everything marked as in the code runs with the rebuilt pipeline and has not yet produced output. Reviewer 1's comments are at the end.
 
 \section{Data and descriptive}
 
 If worthwhile for some of these descriptive exercises, I have a PhD student who might be able to do them. We would have to get her access to the VRDC...
 
-Heterogeneity within DRG: distribution of patient risk scores. 
+\status{Everything below is coded, so there is nothing left in this section for her.}
 
-How well do the patient risk scores predict failure, net of the doc's observed performance? 
+Heterogeneity within DRG: distribution of patient risk scores.
 
-(R2 #3) Volume - outcome relationship. Does performance increase with volume (over long-term) within surgeons? Does it decrease (over short-term, eg within a year) when there is high congestion? Could estimate LPMs with patient risk-adjusters and surgeon FEs.
+\status{In the code. The risk score is the fitted probability of failure from a patient-level LPM on age, sex, race, DRG, and the Charlson index (S5). S5 writes its percentiles overall and for DRG 470 (\texttt{RiskScore\_Distribution.csv}).}
+
+How well do the patient risk scores predict failure, net of the doc's observed performance?
+
+\status{In the code. S5 writes the LPM of failure on the risk score alone, on surgeon fixed effects alone, and on both, with the within-surgeon coefficient on the score (\texttt{RiskScore\_Fit.csv}).}
+
+(R2 \#3) Volume - outcome relationship. Does performance increase with volume (over long-term) within surgeons? Does it decrease (over short-term, eg within a year) when there is high congestion? Could estimate LPMs with patient risk-adjusters and surgeon FEs.
+
+\status{In the code. S5 runs a within-surgeon LPM of failure on log cumulative stays before the admission quarter (experience) and stays in the admission quarter (congestion), with the risk adjusters and surgeon and year effects, from every stay 2008--2018 (\texttt{VolumeOutcome.csv}).}
 
 CF reallocation and volume. Plot histogram of observed patient counts (e.g., per year), and plot in CF reallocation. Check the upper tails.
 
+\status{In the code. O6 overlays baseline and counterfactual predicted patients per year for each scenario and writes the 50th, 90th, and 99th percentiles and the maximum, with the observed counts (\texttt{VolumeLevels\_*.csv}).}
+
 Show that surgeon volume (and its heterogeneity across docs) is pretty consistent over time. Could compute within vs between variance in volume (e.g., by month or quarter) and compare the two. (From R2's 3b criticism of our long time periods for congestion.)
+
+\status{In the code. S6 writes the within-surgeon share of the variance in quarterly and in yearly stays over 2013--2018, among the estimation-sample surgeons, with quarters of zero stays inside a surgeon's active span filled in.}
 
 Heterogeneity in patient char's across surgeons. Plot dist's across surgeons of key demographics: race, sex, age (e.g., use averages of these char's over the 6 year estimation period). Also dist of risk scores. Then est correlation of these features with the observed quality (i.e., performance over 11 years).
 
-Could we look at hospital discharge (or all payer) data in some state(s), to see how much volume we are capturing, and how much heterogeneity there is across surgeons? Concern is that best docs are at capacity (more than our descriptive analysis suggests) due to commercial patients. (R4 #5)
+\status{In the code. S6 compares the dispersion across surgeons of mean age, female, nonwhite, DRG 470, and the risk score under the observed allocation and under a random reassignment of patients to surgeons within HRR and year that keeps each surgeon's volume, and writes the correlation of each surgeon mean with the surgeon's success rate. The age distributions are plotted.}
+
+Could we look at hospital discharge (or all payer) data in some state(s), to see how much volume we are capturing, and how much heterogeneity there is across surgeons? Concern is that best docs are at capacity (more than our descriptive analysis suggests) due to commercial patients. (R4 \#5)
+
+\status{Not started; a data request rather than code. HCUP state inpatient data with physician identifiers (Florida, New York, and a few others license the surgeon NPI) would give each surgeon's all-payer joint-replacement volume to set against the Medicare count.}
 
 \section{More programming and computation}
 
 Other change to event study: DDD-ish comparing change in referrals (per fixed calendar time like a qtr) when see a failure vs when see a success. This is R2's idea to address mean reversion.
 
-Could a surgeon-level event study include spillover from surgeon A to surgeon B, if A is in B's group? (R2 #5)
+\status{In the code. A3 section 4: every referral in 2013q1--2017q4 is an event, the outcome is the pair's referrals in each of the four quarters before and after, failure events against success events, with event, quarter, surgeon-year-by-quarter, and PCP-by-quarter effects and windows with no other failure by the PCP. It sits beside the referral-order version, which is the main one in the write-up.}
+
+Could a surgeon-level event study include spillover from surgeon A to surgeon B, if A is in B's group? (R2 \#5)
+
+\status{In the code. A3's level regression has, as a second outcome, whether the PCP's next referral goes to a different surgeon in the same billing group as the event's surgeon.}
 
 Should we also do a practice-level event study?
 
+\status{In the code. A3 runs unchanged in the practice driver, where the unit of choice is the surgeon's modal billing TIN, so both the level and the event-study results come out at the practice level.}
+
 Logit interacting patient risk scores with surgeon average quality (maybe leave-one-out or 5 year avg before patient t, not pair-specific but all patients). R2 suggested to interact with distance, but this interaction with observed performance seems better.
+
+\status{In the code. S5's \texttt{MNL\_Specs9}: the baseline logit plus the patient's risk score times the surgeon's five-year running success rate before the referral, by HRR, reported next to the DRG 470 and risk-adjusted specifications.}
 
 Logit using PCP movers?
 
+\status{In the code. A4's \texttt{MNL\_Specs7}: referrals by PCPs who moved into an HRR, from the year of the move, pooled across HRRs with the surgeon's observed success rate in place of the specialist fixed effects.}
+
 Logit using relatively new PCPs?
+
+\status{In the code. A4's \texttt{MNL\_Specs8}: PCPs whose first referral in the data is in 2013 or later, pooled the same way.}
 
 (above two could pool HRRs to increase power)
 
+\status{Both are pooled.}
+
 Simulate the model for one market, using our estimated parameters. Program the full solution as well as Gittins. See how much the simulated behavior differs btw the two methods.
+
+\status{Built locally, in R (\texttt{analysis/simulation/gittins-vs-dp/}), not yet run at scale. The dynamic part is learning only, as in the Gittins model; because surgeons are then interchangeable in the continuation value, the state is the unordered set of (successes, patients) pairs, which makes the exact solution feasible at ten surgeons and twenty patients per PCP (1.3 million states, a few seconds per solve). PCPs in the simulated market solve that problem exactly and choose with logit shocks; the same data are then estimated three ways, myopic, Gittins (the Brezzi--Lai index as in A1), and nested fixed point on the exact solution, and the comparison is in $\alpha$, the distance coefficient, and the full-information health gain. The same solution on the real markets' choice sets over a five-year window is what an appendix version would be.}
 
 Not now - maybe, depending on some descriptive assessments:
 
-(Estimate structural model using practice groups. R4 #2and6)
+(Estimate structural model using practice groups. R4 \#2and6)
+
+\status{Built. The practice level is a parallel driver (\texttt{\_main-practice.do}) that runs the whole set, estimation and counterfactuals, with the practice as the unit of choice; nothing is switched inside the scripts. The earlier practice-level run gave the same $\alpha$ and familiarity profile but a sign flip on the existing-familiarity counterfactual; the explanation we are testing is within-group routing (the PCP's record with a group reflects the surgeons her patients went to, while full information reveals the group average), and S6 measures how concentrated each PCP's referrals are within a practice, for the TIN and for the TIN-by-office definition.}
 
 (Include average effect of volume / surgeon learning in the structural model.)
 
+\status{Not started. The within-surgeon LPM above is the descriptive check that would come first.}
+
 \section{Theory}
 
+\section{Other items from the reports}
 
+Items we have taken up that are not on the list above.
+
+R1 \#4--5, R2 \#2, R3 2a (the event study). \status{Done. The submitted event study selects treated pairs on a referral at the event quarter while comparison pairs are not; the replacement (A3) compares the PCP's next referral after a failure with the next referral after a success, in levels and as an event study in referral order with clean windows, with pair fixed effects and a split by the calendar gap to the next referral. The write-up is \texttt{updated-reduced-form.tex}.}
+
+R3 1a (the Gittins index with logit shocks). \status{The simulation above is the expectations check; it isolates exactly the gap R3 describes, since the exact solution and the index solve the same learning problem with the same discount factor.}
+
+R2 3c, R3 1b (the counterfactual fixed point). \status{Writing. The main text needs the equilibrium stated: what adjusts (each surgeon's volume, through the congestion term), the fixed point solved, and the uniqueness check already in the appendix (S4).}
+
+R2 3b (congestion at three-year windows). \status{Proposed, not built. Specialist-by-year fixed effects in the markets with enough referrals per specialist-year (at least 10 keeps 90 HRRs with 54\% of patients), with the same distance-predicted instrument, so the congestion coefficient is identified within surgeon across six years rather than from one two-period difference.}
+
+R2 minor 3 (convergence). \status{In the code. A6 now drops any surgeon-by-period alternative that is never chosen (an alternative with no choices has no finite fixed effect, which is a likely reason the likelihood fails to settle), retries once with different maximization options, and logs every market's outcome with its size (\texttt{Convergence\_*.csv}), so the comparison of converging and non-converging markets and the share of patients they hold come straight off the seat.}
+
+R2 minor 4 (myopic against forward-looking). \status{In the code. A6 saves each referral's log-likelihood under each model and O7 computes a Vuong statistic per HRR and the share of markets favoring each model (\texttt{Vuong\_HRR.csv}).}
+
+R2 minor 2 (established PCPs against all PCPs). \status{In the code. S6 writes patients per active year, active years, and new surgeons per year for the estimation-sample PCPs and for every PCP with a referral.}
+
+R1 \#2 (DRG 470 and case mix). \status{Already in the appendix (D.4, D.5): the DRG distribution, a risk-adjusted quality measure, and the logit on DRG 470 only and with risk-adjusted quality; \texttt{MNL\_Specs9} above adds the risk-by-quality interaction.}
 
 \end{document}

@@ -8,7 +8,8 @@ log using "${LOG_PATH}SampleDescriptives_`logdate'.log", replace
 **	Author:		Ian McCarthy
 **	Date Created:	11/2/2026
 **	Notes:		Patient mix by specialist, observed versus random within
-**			HRR-year; billing groups; established PCPs versus all PCPs;
+**			HRR-year (demographics, DRG, and the S5 risk score) and their
+**			correlation with the surgeon's success rate; billing groups; established PCPs versus all PCPs;
 **			whether the referral endpoint is the practice or the surgeon
 **			(TIN and TIN-by-office-zip); the within-surgeon share of the
 **			variance in volume (temp_spec_quarterly from S5). Surgeon level only. Writes
@@ -35,7 +36,9 @@ gen age=Year-year(bene_birthday)
 gen female=(bene_gender==2) if bene_gender!=.
 gen nonwhite=(bene_race!=1) if bene_race!=.
 gen drg470=(clm_drg_cd==470) if clm_drg_cd!=.
-keep Specialist_ID bene_hrr Year bene_id age female nonwhite drg470
+merge m:1 bene_id admit using temp_patient_risk, keep(master match) nogenerate
+rename phat risk
+keep Specialist_ID bene_hrr Year bene_id age female nonwhite drg470 risk any_bad
 
 ** random reassignment: a permutation of the specialists across the referrals of each HRR-year
 set seed 20261102
@@ -53,18 +56,19 @@ merge 1:1 bene_hrr Year rnk using temp_s6_perm, nogenerate keep(match)
 save temp_s6_patients, replace
 
 ** specialist-level means under each allocation
-collapse (mean) age female nonwhite drg470 (count) n=bene_id, by(Specialist_ID)
+collapse (mean) age female nonwhite drg470 risk quality=any_bad (count) n=bene_id, by(Specialist_ID)
+replace quality=1-quality
 gen allocation="observed"
 save temp_s6_obs, replace
 use temp_s6_patients, clear
-collapse (mean) age female nonwhite drg470 (count) n=bene_id, by(Specialist_Random)
+collapse (mean) age female nonwhite drg470 risk (count) n=bene_id, by(Specialist_Random)
 rename Specialist_Random Specialist_ID
 gen allocation="random"
 append using temp_s6_obs
 keep if n>=${SPEC_MIN}
 
 ** dispersion across specialists under each allocation
-foreach v in age female nonwhite drg470 {
+foreach v in age female nonwhite drg470 risk {
 	qui sum `v' [aweight=n] if allocation=="observed"
 	local sd_obs_`v'=r(sd)
 	qui sum `v' [aweight=n] if allocation=="random"
@@ -77,8 +81,15 @@ foreach v in age female nonwhite drg470 {
 qui count if allocation=="observed"
 file write fh "\newcommand{\mixSpecialists}{`=string(r(N), "%12.0fc")'}" _n
 
+** specialist means of the patient characteristics against the specialist's observed success rate
+foreach v in age female nonwhite drg470 risk {
+	qui corr `v' quality [aweight=n] if allocation=="observed"
+	local w=proper("`v'")
+	file write fh "\newcommand{\mixCorrQual`w'}{`=string(r(rho), "%6.3f")'}" _n
+}
+
 preserve
-collapse (sd) age female nonwhite drg470 [aweight=n], by(allocation)
+collapse (sd) age female nonwhite drg470 risk [aweight=n], by(allocation)
 export delimited using "${RESULTS_BASE}PatientMix_Specialist.csv", replace
 restore
 
