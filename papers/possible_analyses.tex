@@ -107,6 +107,20 @@ R2 minor 4 (myopic against forward-looking). \status{In the code. A6 saves each 
 
 R2 minor 2 (established PCPs against all PCPs). \status{In the code. S6 writes patients per active year, active years, and new surgeons per year for the estimation-sample PCPs and for every PCP with a referral.}
 
-R1 \#2 (DRG 470 and case mix). \status{Already in the appendix (D.4, D.5): the DRG distribution, a risk-adjusted quality measure, and the logit on DRG 470 only and with risk-adjusted quality; \texttt{MNL\_Specs9} above adds the risk-by-quality interaction.}
+\section{Reviewer 1}
+
+1. The identification claim against Ching, Erdem, and Keane (2013). \status{Writing. Drop the formal-versus-verbal contrast and let the identification section describe what the data vary.}
+
+2. DRG 470 and case mix. \status{Already in the appendix (D.4, D.5): the DRG distribution, a risk-adjusted quality measure, and the logit on DRG 470 only and with risk-adjusted quality; \texttt{MNL\_Specs9} above adds the risk-by-quality interaction, and S5 now writes the risk score's distribution and fit.}
+
+3. Risk aversion as an alternative reading of the familiarity effect; a graded failure measure. \status{Writing, as a discussion point. The failure components (death, readmission, complication) are separate in the data if a graded outcome is wanted.}
+
+4. The gap between the event study (16\%) and the structural partial effect, and the suggestion to estimate the model on the event-study sample. \status{Addressed by the replacement reduced form. The submitted event study was estimated on PCPs with overlapping networks and selected treated pairs on a referral in the event quarter; the replacement (A3) is estimated on the structural sample itself, treats every referral as an event, and compares the next referral after a failure with the next after a success, so the two numbers refer to the same PCPs and the same object. On the earlier export the reduced-form effect is about 7\% of the base re-referral rate against the structural 3\%, with the largest response (about 21\%) on a PCP's first referral to a surgeon.}
+
+5. One failure should move a well-established posterior little; adaptive or recency-weighted learning. \status{Partly addressed, partly writing. A3 splits the effect by the pair's history (first referral, one to four prior, five or more) and the response falls with history as Bayesian updating implies; the earlier export had about 3\% with five or more prior patients. A3 also controls for the PCP's previous five referrals. Recency weighting is a discussion point.}
+
+6. Whether surgeons' skills evolve over the panel. \status{In the code. S5's within-surgeon LPM of failure on cumulative experience, and S1's check of the stability of the specialist effects across periods.}
+
+7. Positioning: intermediary learning is not new; patient-level outcomes together with the intermediary's choice is. \status{Writing. Reframe the contribution around that combination.}
 
 \end{document}
