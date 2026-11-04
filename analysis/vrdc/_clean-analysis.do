@@ -42,7 +42,7 @@ replace spec_qual=. if choice==0
 ** beneficiary age and distance
 gen bene_birth=date(bene_birth_dt, "DMY")
 drop bene_birth_dt
-gen bene_age=(admit-bene_birth)/364.25
+gen bene_age=(admit-bene_birth)/365.25
 egen bene_distance=rowmin(bene_hosp_distance*)
 egen bene_spec_distance=rowmin(bene_spec_distance*)
 qui sum bene_spec_distance, detail
