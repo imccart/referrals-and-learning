@@ -296,9 +296,15 @@ program define run_mnl_specs
 			keep Practice_ID Specialist_ID choice referral case_obs casevar common_ref prop_failures_run prop_patients_run ///
 				pair_success_run spec_qual spec_qual_all pair_patients_run pair_failures_run pair_patients_run_fw pair_failures_run_fw ///
 				bene_spec_distance bene_distance diff_dist prac_vi pair_new ///
-				fmly_np_* Year pcp_phy_tin1 pcp_phy_tin2
+				fmly_np_* Year pcp_phy_tin1 pcp_phy_tin2 pcp_age
 			sum fmly_np_*
 			drop fmly_np_0
+
+			** familiarity and distance for PCPs aged 60 and over, the short-horizon group
+			gen pcp_old=(pcp_age>=60) if pcp_age!=.
+			foreach x of varlist diff_dist fmly_np_* {
+				gen `x'_old=`x'*pcp_old
+			}
 			local step=0
 			foreach x of varlist pcp_phy_tin1 pcp_phy_tin2 {
 				local step=`step'+1

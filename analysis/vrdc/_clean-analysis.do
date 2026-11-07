@@ -3,8 +3,8 @@
 
 keep Specialist_ID Practice_ID bene_id pair_patients_* pcp_patients_* spec_patients_* pair_failures_* pcp_failures_* spec_failures_* ///
 	pair_death_* pcp_death_* spec_death_* pair_readmit_* pcp_readmit_* spec_readmit_* pair_comp_* pcp_comp_* spec_comp_* ///
-	bene_birth_dt admit bene_hosp_distance* choice casevar pcp_phy_tin* spec_phy_tin* Year EstPCPMatch case_obs ///
-	common_ref bene_spec_distance* 
+	bene_birth_dt pcp_phy_birth_dt admit bene_hosp_distance* choice casevar pcp_phy_tin* spec_phy_tin* Year EstPCPMatch case_obs ///
+	common_ref bene_spec_distance*
 	
 ** same practice dummy
 gen prac_vi=0
@@ -43,6 +43,10 @@ replace spec_qual=. if choice==0
 gen bene_birth=date(bene_birth_dt, "DMY")
 drop bene_birth_dt
 gen bene_age=(admit-bene_birth)/365.25
+gen pcp_birthday=date(pcp_phy_birth_dt, "DMY")
+drop pcp_phy_birth_dt
+gen pcp_age=int( (admit-pcp_birthday)/365.25 )
+drop pcp_birthday
 egen bene_distance=rowmin(bene_hosp_distance*)
 egen bene_spec_distance=rowmin(bene_spec_distance*)
 qui sum bene_spec_distance, detail

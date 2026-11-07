@@ -7,7 +7,7 @@
 /*                table lands in PL027710 for the Stata build.  */
 /* ------------------------------------------------------------ */
 
-%LET code_path = /sas/vrdc/users/imc969/files/dua_27710/pcp-referrals/data-code/sas;
+%LET code_path = /sas/vrdc/users/imc969/files/dua_027710/pcp-referrals/data-code/sas;
 
 %INCLUDE "&code_path/0_config.sas";
 %INCLUDE "&code_path/upin2npi.sas";

@@ -18,8 +18,9 @@
 /* (from E&M claims), the operating-surgeon counts from the major*/
 /* joint stays, and the NPPES record.                            */
 /* The place-of-service zip is not on the pre-2009 request       */
-/* tables, so those years carry it as blank; every year has the */
-/* same columns.                                                 */
+/* tables, so those years carry it as blank, and the 2009-2011   */
+/* RIF lines give no physician a second value, so the secondary  */
+/* column is blank there too; every year has the same columns.   */
 
 %LET excluded_npis = '9999999991','9999999992','9999999993','9999999994','9999999995','9999999996','9999999997','9999999998','9999999999';
 
@@ -71,6 +72,13 @@
         MERGE WORK.Wide_&ds._key (drop=_name_)
               WORK.Wide_&ds._cnt (drop=_name_);
         BY Physician_NPI;
+        /* the assembly reads the first two ranks; when no physician in */
+        /* the year has a second value, the transpose makes no column 2, */
+        /* so it is defined here (blank, same type and length as rank 1) */
+        IF 0 THEN DO;
+            &prefix_key.2 = &prefix_key.1;
+            &prefix_cnt.2 = &prefix_cnt.1;
+        END;
     RUN;
     PROC DATASETS LIB=WORK NOLIST;
         DELETE Wide_&ds._key Wide_&ds._cnt;

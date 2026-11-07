@@ -28,7 +28,7 @@ Steps 1 through 8 each depend on step 1, and the only other cross-step dependenc
 
 ## The rewrite (2026-10-30)
 
-The new set is `data-code/sas/`, run by `_run_all.sas`, which `%INCLUDE`s `0_config.sas` and then `upin2npi`, `nppes`, `1_major_joint`, `2_outcomes`, `3_carrier_visits`, `4_referral_assignment`, `5_referring_physicians`, `6_physician_data`, `7_patient_data`, `8_locations`, `9_patient_cci`. On the seat the programs are at `/sas/vrdc/users/imc969/files/dua_27710/pcp-referrals/data-code/sas`, which is the `code_path` in the driver. The old programs are in `data-code/_archive/`. Every step is one macro looping over years with `%stack_months` for the monthly carrier pulls; the SQL inside is the old SQL. Year-specific rules are in the config as macro variables and small macros (`%nppes_year`, `%mdppas_year`, `%carrier_line_source`, `%pos_cols`). Not yet run on the seat.
+The new set is `data-code/sas/`, run by `_run_all.sas`, which `%INCLUDE`s `0_config.sas` and then `upin2npi`, `nppes`, `1_major_joint`, `2_outcomes`, `3_carrier_visits`, `4_referral_assignment`, `5_referring_physicians`, `6_physician_data`, `7_patient_data`, `8_locations`, `9_patient_cci`. On the seat the programs are at `/sas/vrdc/users/imc969/files/dua_027710/pcp-referrals/data-code/sas`, which is the `code_path` in the driver. The old programs are in `data-code/_archive/`. Every step is one macro looping over years with `%stack_months` for the monthly carrier pulls; the SQL inside is the old SQL. Year-specific rules are in the config as macro variables and small macros (`%nppes_year`, `%mdppas_year`, `%carrier_line_source`, `%pos_cols`). Run on the seat 2026-11-06.
 
 What changed beyond the loops, each a deliberate choice:
 

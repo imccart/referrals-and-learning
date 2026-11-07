@@ -42,6 +42,11 @@ save "${RESULTS_BASE}MNL_Specs7.dta", replace
 run_mnl_specs, regressors(diff_dist spec_qual_all fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20) sample(newpcp) pooled
 save "${RESULTS_BASE}MNL_Specs8.dta", replace
 
+** Familiarity by PCP age, pooled across HRRs: the _old terms are the differences for PCPs aged 60 and over
+run_mnl_specs, regressors(diff_dist diff_dist_old spec_qual_all fmly_np_1 fmly_np_2 fmly_np_3 fmly_np_4 fmly_np_5 fmly_np_7 fmly_np_10 fmly_np_15 fmly_np_20 ///
+	fmly_np_1_old fmly_np_2_old fmly_np_3_old fmly_np_4_old fmly_np_5_old fmly_np_7_old fmly_np_10_old fmly_np_15_old fmly_np_20_old) pooled
+save "${RESULTS_BASE}MNL_Specs10.dta", replace
+
 
 ******************************************************************
 ** ORGANIZE RESULTS
@@ -184,12 +189,13 @@ outfile line using "${RESULTS_BASE}MNL_Specs.tex", noquote replace
 
 ** pooled specifications
 clear
-foreach n of numlist 7 8 {
+foreach n of numlist 7 8 10 {
 	append using "${RESULTS_BASE}MNL_Specs`n'.dta"
 	replace coef_name="belief_s" if coef_name=="o.belief_s"
 	capture gen spec=""
-	replace spec=cond(`n'==7,"movers","newpcp") if spec==""
+	replace spec=cond(`n'==7,"movers",cond(`n'==8,"newpcp","age60")) if spec==""
 }
-keep if inlist(coef_name, "belief_s", "diff_dist", "spec_qual_all", "converged", "log_like", "n_cases")
+keep if inlist(coef_name, "belief_s", "spec_qual_all", "converged", "log_like", "n_cases") | ///
+	strpos(coef_name,"diff_dist")>0 | strpos(coef_name,"fmly_np")>0
 replace coef_se=coef_val*coef_se if coef_name=="belief_s"
 export delimited spec coef_name coef_val coef_se using "${RESULTS_BASE}MNL_Specs_Pooled.csv", replace
