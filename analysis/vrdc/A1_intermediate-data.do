@@ -250,7 +250,7 @@ bys Specialist_ID bene_hrr Year: egen max_date=max(admit)
 keep if max_date==admit
 bys Specialist_ID bene_hrr Year: gen obs=_n
 keep if obs==1
-foreach x of newlist failures death readmit comp {
+foreach x in failures death readmit comp {
 	gen prop_`x'=spec_`x'_run/spec_patients_run
 	bys bene_hrr Year: egen p25_`x'=pctile(prop_`x'), p(25)
 	bys bene_hrr Year: egen p50_`x'=pctile(prop_`x'), p(50)	
