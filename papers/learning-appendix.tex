@@ -15,7 +15,7 @@
 
 \begin{document}
 
-\title{Learning and the Efficiency of Expert Referrals \\
+\title{Learning and the Efficiency of Physician Referrals \\
 SUPPLEMENTAL APPENDIX}
 \author{%
   Ian M. McCarthy \\[-1.5ex]
@@ -63,7 +63,7 @@ We therefore also estimate the event study after dropping any window that overla
 
 \section{Identification} \label{app:identification}
 
-We formally show identification of the model below.
+We formally show identification of the myopic model below. Identification of the forward-looking model, discussed in the main paper, follows because the Brezzi-Lobo approximation to the Gittins index involves the same free parameters ($\rho$ and $\eta$) on the same data as the myopic mean belief, and the present discounted value of familiarity has a known relationship with its current value. The forward-looking model therefore introduces no additional free parameters beyond those of the myopic model.
 
 
 \subsection{Myopic Model}
@@ -165,7 +165,7 @@ We estimate $\hat\alpha$ using the same constrained maximum likelihood procedure
 
 Figure \ref{fig:bias-surface} presents the bias in $\hat\alpha$ as a function of the true $\alpha$ and the base failure rate, holding quality dispersion fixed at 0.03 (approximately matching the interquartile range of failure rates in the data). The surface reveals that bias is primarily driven by the magnitude of the true $\alpha$, with a secondary role for the base failure rate. Bias is largest when the true $\alpha$ is small, because the signal from patient outcomes is weak relative to the noise from the logit errors and the specialist fixed effects. Higher base failure rates improve identification by producing more frequent failures, which accelerates belief updating.
 
-Figure \ref{fig:relbias-alpha} presents the relative bias (as a percentage of the true $\alpha$) for each failure rate, again at quality dispersion of 0.03. Relative bias falls below 10\% for $\hat\alpha \geq 0.30$ when the base failure rate is 0.09 or higher. Among markets with non-zero estimates of $\hat\alpha$, the mean is 0.25 for $\eta = 1$ and 0.43 for $\eta = 5$, with the 75th percentile at 0.32 and above in all cases. The overwhelming majority of markets therefore either suggest very little learning ($\hat\alpha = 0$) or fall in the range where the estimator appears to perform well. These simulation results also support our decision to fix $\eta$ rather than estimate it jointly with $\alpha$, as the likelihood surface with respect to $\eta$ is relatively flat across the parameter configurations we examined.
+Figure \ref{fig:relbias-alpha} presents the relative bias (as a percentage of the true $\alpha$) for each failure rate, again at quality dispersion of 0.03. Relative bias falls below 10\% for $\hat\alpha \geq 0.30$ when the base failure rate is 0.09 or higher. Among markets with non-zero estimates of $\hat\alpha$, the mean is 0.25 for $\eta = 1$ and 0.43 for $\eta = 5$ in the myopic model (0.32 and 0.54 in the forward-looking model), with the 75th percentile at 0.32 and above in all cases. The overwhelming majority of markets therefore either suggest very little learning ($\hat\alpha = 0$) or fall in the range where the estimator appears to perform well. These simulation results also support our decision to fix $\eta$ rather than estimate it jointly with $\alpha$, as the likelihood surface with respect to $\eta$ is relatively flat across the parameter configurations we examined.
 
 
 \subsection{Simulation study on identification of $\eta$}
@@ -188,21 +188,9 @@ Specialist qualities, $q_j$, are drawn independently from a normal distribution 
 Figure \ref{fig:eta-simulation} shows the results from four representative simulations. It plots log-likelihood values obtained using a wide range of values for $\eta$ while keeping the other parameters at their true values. It is apparent that the likelihood function is very flat in this parameter. The log likelihood changes by only a few points over the entire span of values for $\eta$. Across 100 such simulations, the average range of the likelihood values is only 2.1 log points and the 95th percentile is 4.3 log points. Based on this, we do not think the data in our application would have good power to yield an informative estimate of $\eta$.
 
 
-%%% D. FORWARD-LOOKING BEHAVIOR
-
-\section{Myopic versus Forward-Looking Behavior}
-\label{app:dynamic}
-
-The main text treats PCPs as myopic. Here we describe the simulation that compares the myopic model with the exact solution of the forward-looking problem, in which the PCP accounts for what each patient's outcome will reveal about the specialist for future patients.
-
-Each simulated market has 500 PCPs who each refer 20 patients, in sequence, to one of 10 surgeons. Surgeon success rates are drawn from a normal distribution centered at 0.91 with a standard deviation of 0.03, the dispersion used in the Monte Carlo study in Appendix \ref{app:monte-carlo}. Distances from each PCP to each surgeon are drawn from an exponential distribution with a mean of 20 miles and measured relative to the nearest surgeon, with the distance coefficient fixed at $\pi = -0.07$ per mile, the value we estimate. PCPs hold beta-distributed beliefs with prior mean equal to the average success rate in the market and prior strength $\eta$, update them after each outcome, and choose with Type I extreme value shocks over $\alpha m_{ijt} + \pi x_{ijt} + \beta \, \mathrm{E} V_{i,t+1}$, where the continuation value is the exact solution of the dynamic problem and $\beta = 0.95$ per referral. Because surgeons are exchangeable from the PCP's point of view, the state is the sorted vector of referral and success counts across surgeons, which we enumerate once and solve backward from the last patient for a grid of values of $\alpha$ at once. The simulated utility has no familiarity effect and no surgeon fixed effects, so the familiarity indicators in the estimated models can only pick up the dynamic incentive that the myopic model omits.
-
-We then estimate two models on the simulated referrals. The myopic model is a conditional logit with the posterior mean $m_{ijt}$, distance, and the familiarity indicators from our main specification as regressors. The dynamic model adds the exact continuation value and is estimated by nested fixed point. For each value of $\alpha$ on a grid we solve the dynamic problem, maximize the likelihood over the remaining parameters, and take the value of $\alpha$ that maximizes the resulting profile likelihood. We run five replications for each combination of $\alpha \in \{0.2, 1, 4, 10, 20, 40\}$ and $\eta \in \{0.2, 1, 5, 20\}$. The estimates in the main text sit at $\alpha = 0.20$ with $\eta = 1$ and $\alpha = 0.40$ with $\eta = 5$, so the grid extends to values of $\alpha$ 200 times larger than our estimate and to a prior five times more diffuse than the one we use.
-
-Table \ref{tab:sim-dynamic} reports, for each cell, the ratio of the mean estimate of $\alpha$ from the dynamic model to the mean estimate from the myopic model, and the standard deviation across the surgeons in a choice set of the discounted continuation value relative to the standard deviation of $\alpha m_{ijt}$, averaged over patients. The two estimates of $\alpha$ agree to within 1 percent at and around the values we estimate and to within 6 percent in every cell. The continuation value varies across the surgeons in a choice set by less than 1 percent of the variation in $\alpha m_{ijt}$ at our estimates, and by at most 8 percent anywhere on the grid, with the largest values at the most diffuse prior and the largest $\alpha$. The information a PCP gains from one binary outcome is therefore too small, relative to the other determinants of the referral, for forward-looking behavior to change the estimated weight on quality.
 
 
-%%% E. ESTIMATION
+%%% D. ESTIMATION
 
 \section{Estimation}
 \label{app:estimation}
@@ -210,7 +198,7 @@ Table \ref{tab:sim-dynamic} reports, for each cell, the ratio of the mean estima
 \subsection{Iterative Estimation of $\alpha$}
 \label{app:fader}
 
-To constrain $\alpha \geq 0$ we estimate $\ln \alpha$ and specify the beliefs term as $\exp(\ln \alpha) \cdot m$.
+To constrain $\alpha \geq 0$ we estimate $\ln \alpha$ and specify the beliefs term as $\exp(\ln \alpha) \cdot m$ (or $\exp(\ln \alpha) \cdot g(m,v)$ in the forward-looking model).
 We use an iterative procedure proposed in \cite{fader1992} which makes it possible to employ standard estimation commands designed for multinomial logits where all terms are linear in parameters.
 The procedure is based on a first-order Taylor series approximation of the term that is nonlinear in parameters.
 With the exponential function this is simply
@@ -289,10 +277,10 @@ Second, raw and risk-adjusted specialist quality are highly correlated. We const
 
 Third, the estimated quality response is invariant to either case-mix sensitivity. Table~\ref{tab:coefficients-adj} reports the distribution of $\hat\alpha$ under two re-estimations of the choice model in Equation~\eqref{eqn:choice-mnl}. The first restricts the estimation sample to DRG 470 only, and the second swaps the risk-adjusted specialist-quality measure into the belief prior. The mean of $\hat\alpha$ moves from 0.192 in the baseline (Table~\ref{tab:coefficients}) to 0.216 when restricting to DRG 470 only, and to 0.192 with the risk-adjusted quality measure. The upper-tail percentiles are similarly stable.
 
-Because the sample is concentrated in a single elective DRG, the raw and risk-adjusted quality measures are tightly correlated, and the estimated quality response is invariant to either case-mix sensitivity, we retain the raw specialist-quality measure throughout. Even setting these results aside, the structural model would not easily accommodate a continuous risk-adjusted signal. The beta-binomial belief-updating framework presumes binary outcomes, and the path to a comparable model that admits continuous signals (e.g., normal-normal updating) is unclear.
+Because the sample is concentrated in a single elective DRG, the raw and risk-adjusted quality measures are tightly correlated, and the estimated quality response is invariant to either case-mix sensitivity, we retain the raw specialist-quality measure throughout. Even setting these results aside, the structural model would not easily accommodate a continuous risk-adjusted signal. The beta-binomial belief-updating framework presumes binary outcomes, and the path to a comparable model that admits continuous signals (e.g., normal-normal updating with a corresponding Gittins index) is unclear.
 
 
-%%% F. COUNTERFACTUAL ROBUSTNESS
+%%% E. COUNTERFACTUAL ROBUSTNESS
 
 \section{Counterfactual Robustness}
 \label{app:cf-robustness}
@@ -349,7 +337,7 @@ As a diagnostic on the direction of these reallocations, we also examine how the
 \centering
 \footnotesize
 \begin{minipage}[h]{5in}
-\caption[First-Stage Results]{\textbf{First-Stage Results for Congestion 2SLS}\footnote{Pooled first-stage regression of specialist total patients on distance-predicted patient counts, with HRR fixed effects and a time-period indicator. Observations weighted by the inverse variance of the specialist fixed effect estimate. Standard errors clustered at the specialist level.}}
+\caption[First-Stage Results]{\textbf{First-Stage Results for Congestion 2SLS}\footnote{Pooled first-stage regression of specialist total patients on distance-predicted patient counts, with HRR fixed effects and a time-period indicator. Observations weighted by the inverse variance of the specialist fixed effect estimate. Standard errors clustered at the specialist level. Results shown for the myopic model; the forward-looking model yields nearly identical first-stage estimates because the instrument and endogenous variable do not depend on the learning model.}}
 \centerline{%
 \begin{tabular}{lcccc}
 \input{results/tables/FirstStage_Table_Myopic.tex}
@@ -364,7 +352,7 @@ As a diagnostic on the direction of these reallocations, we also examine how the
 \centering
 \footnotesize
 \begin{minipage}[h]{6in}
-\caption[Sensitivity Analysis]{\textbf{Sensitivity Analysis}\footnote{Estimates of $\alpha$ (for $\eta=1$) across alternative specifications. ``Baseline'' denotes our estimates presented in the main text; ``Integrated'' denotes the estimates for $\alpha$ when including a dummy variable for whether the PCP and specialist are part of the same practice; and ``Peer Outcomes'' denotes the estimates of $\alpha$ when also including a measure of specialist quality based on the PCP's peers (e.g., another measure of quality based solely on the outcomes of other PCPs' patients in the same practice). All specifications are otherwise identical, where we also impose time-invariant congestion for computational ease.}}
+\caption[Sensitivity Analysis]{\textbf{Sensitivity Analysis}\footnote{Estimates of $\alpha$ (for $\eta=1$) across alternative specifications. ``Baseline'' denotes our original estimates for the myopic learning model presented in the main text; ``Integrated'' denotes the estimates for $\alpha$ when including a dummy variable for whether the PCP and specialist are part of the same practice; and ``Peer Outcomes'' denotes the estimates of $\alpha$ when also including a measure of specialist quality based on the PCP's peers (e.g., another measure of quality based solely on the outcomes of other PCPs' patients in the same practice). All specifications are otherwise identical, where we also impose time-invariant congestion for computational ease.}}
 \centerline{%
     \begin{tabular}{lrrrrrr}
         \input{results/tables/MNL_Specs.tex}
@@ -473,19 +461,6 @@ Referral & Specialist & Outcome & Position & Same & Position & Same & Position &
 \end{minipage}
 \end{table}
 
-\clearpage
-\begin{table}[h!]
-\centering
-\footnotesize
-\begin{minipage}[h]{6in}
-\caption[Dynamic versus Myopic Estimates]{\textbf{Exact Dynamic Solution versus the Myopic Model in Simulated Markets}\footnote{Each cell averages five simulated markets of 500 PCPs, 10 surgeons, and 20 referrals per PCP, with $\beta = 0.95$ per referral. The top panel reports the ratio of the mean estimate of $\alpha$ from the exact dynamic model to the mean estimate from the myopic model. The bottom panel reports the standard deviation across the surgeons in a choice set of the discounted continuation value, relative to the standard deviation of $\alpha m_{ijt}$, averaged over patients. The estimates in the main text are $\alpha = 0.20$ with $\eta = 1$ and $\alpha = 0.40$ with $\eta = 5$.}}
-\centerline{%
-\input{results/tables/sim-dynamic-myopic.tex}
-}
-\label{tab:sim-dynamic}
-\end{minipage}
-\end{table}
-
 %%% FIGURES
 
 \clearpage
@@ -573,9 +548,11 @@ $\eta=1$ & $\eta=5$ \\
 \centering
 \begin{minipage}[h]{6in}
 \caption[Predicted vs Actual Shares]{Predicted versus Actual Referral Shares ($\eta=1$)\footnote{Each point is a specialist-period observation. The horizontal axis is the actual share of referrals the specialist receives in an HRR-period; the vertical axis is the model-predicted share. The 45-degree line is shown in black.}}
-\centerline{%
-\includegraphics[width=4.5in,keepaspectratio]{results/figures/myopic-timevary/_est-diag-fit-shares_Myopic_eta1.png}
-}
+\begin{tabular}{cc}
+\\
+Myopic & Forward-looking \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/_est-diag-fit-shares_Myopic_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/_est-diag-fit-shares_FWD_eta1.png}
+\end{tabular}
 \label{fig:fit-shares}
 \end{minipage}
 \end{figure}
@@ -585,9 +562,11 @@ $\eta=1$ & $\eta=5$ \\
 \centering
 \begin{minipage}[h]{6in}
 \caption[FE vs Quality]{Specialist Fixed Effects and Observed Quality ($\eta=1$)\footnote{Each point is a specialist. The horizontal axis is observed specialist quality (success rate); the vertical axis is the estimated specialist fixed effect $\xi_j$ from the structural model. Within-HRR variation is the basis for the structural interpretation of $\alpha$, so near-zero within-HRR correlation between $\xi_j$ and quality supports the separate identification of the learning channel.}}
-\centerline{%
-\includegraphics[width=4.5in,keepaspectratio]{results/figures/myopic-timevary/_est-diag-fe-quality_Myopic_eta1.png}
-}
+\begin{tabular}{cc}
+\\
+Myopic & Forward-looking \\
+\includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/_est-diag-fe-quality_Myopic_eta1.png} & \includegraphics[height=3in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/_est-diag-fe-quality_FWD_eta1.png}
+\end{tabular}
 \label{fig:fe-quality}
 \end{minipage}
 \end{figure}
@@ -596,16 +575,22 @@ $\eta=1$ & $\eta=5$ \\
 \begin{figure}[!ht]
 \centering
 \begin{minipage}[h]{6in}
-\caption[Full Information, No Familiarity]{Counterfactuals from Full Information and No Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and do not incorporate any familiarity in their referral decisions. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} HRRs for $\eta=1$ and \nHRRsEtaFiveMyopic{} for $\eta=5$.}}
+\caption[Full Information, No Familiarity]{Counterfactuals from Full Information and No Familiarity\footnote{Figure depicts the share of referrals reallocated and the resulting effects on patient health (i.e., the change in the probability of a successful surgery) under a counterfactual in which PCPs have full information about specialist quality and do not incorporate any familiarity in their referral decisions. Estimates are averaged across individuals within an HRR and presented as a histogram across HRRs. Results limited to HRRs in which our constrained maximization routine converged, \nHRRsMyopic{} (\nHRRsFWD{}) HRRs in the myopic (forward-looking) case for $\eta=1$ and \nHRRsEtaFiveMyopic{} (\nHRRsEtaFiveFWD{}) in the myopic (forward-looking) case for $\eta=5$.}}
 \centerline{%
 \begin{tabular}{cc}
 \\
-\multicolumn{2}{c}{\textit{Reallocation}} \\
+\multicolumn{2}{c}{\textit{Myopic Referrals, Reallocation}} \\
 $\eta=1$ & $\eta=5$ \\
-\includegraphics[height=2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta1.png} & \includegraphics[height=2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta5.png} \\
-\multicolumn{2}{c}{\textit{Health Improvements}} \\
+\includegraphics[height=1.35in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta1.png} & \includegraphics[height=1.35in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_FullFam_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Myopic Referrals, Health Improvements}} \\
 $\eta=1$ & $\eta=5$ \\
-\includegraphics[height=2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_FullFam_Myopic_eta1.png} & \includegraphics[height=2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_FullFam_Myopic_eta5.png}
+\includegraphics[height=1.35in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_FullFam_Myopic_eta1.png} & \includegraphics[height=1.35in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_FullFam_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking Referrals, Reallocation}} \\
+$\eta=1$ & $\eta=5$ \\
+\includegraphics[height=1.35in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta1.png} & \includegraphics[height=1.35in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_FullFam_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking Referrals, Health Improvements}} \\
+$\eta=1$ & $\eta=5$ \\
+\includegraphics[height=1.35in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_FullFam_FWD_eta1.png} & \includegraphics[height=1.35in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_FullFam_FWD_eta5.png}
 \end{tabular}}
 \label{fig:cf_fullfam}
 \end{minipage}
@@ -618,8 +603,12 @@ $\eta=1$ & $\eta=5$ \\
 \caption[QualP10 Off-Diagonal]{Off-Diagonal Scatter of Patient-Weighted 10th-Percentile Quality ($\eta=1$)\footnote{Each point is an HRR where the patient-weighted 10th percentile of specialist quality under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P10_current_Myopic_eta1.png} & \includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P10_full_Myopic_eta1.png}
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P10_current_Myopic_eta1.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P10_full_Myopic_eta1.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/QualOffDiag_P10_current_FWD_eta1.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/QualOffDiag_P10_full_FWD_eta1.png}
 \end{tabular}
 \label{fig:qualP10-cf}
 \end{minipage}
@@ -632,8 +621,12 @@ Existing familiarity & Reset familiarity \\
 \caption[QualP90 Off-Diagonal]{Off-Diagonal Scatter of Patient-Weighted 90th-Percentile Quality ($\eta=1$)\footnote{Each point is an HRR where the patient-weighted 90th percentile of specialist quality under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P90_current_Myopic_eta1.png} & \includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P90_full_Myopic_eta1.png}
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P90_current_Myopic_eta1.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P90_full_Myopic_eta1.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/QualOffDiag_P90_current_FWD_eta1.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/QualOffDiag_P90_full_FWD_eta1.png}
 \end{tabular}
 \label{fig:qualP90-cf}
 \end{minipage}
@@ -646,8 +639,12 @@ Existing familiarity & Reset familiarity \\
 \caption[SpendP10 Off-Diagonal]{Off-Diagonal Scatter of Patient-Weighted 10th-Percentile Spending ($\eta=1$)\footnote{Each point is an HRR where the patient-weighted 10th percentile of episode spending under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}} %S: Typo in value of eta?
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P10_current_Myopic_eta1.png} & \includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P10_full_Myopic_eta1.png}
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P10_current_Myopic_eta1.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P10_full_Myopic_eta1.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P10_current_FWD_eta1.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P10_full_FWD_eta1.png}
 \end{tabular}
 \label{fig:spendP10-cf}
 \end{minipage}
@@ -660,15 +657,19 @@ Existing familiarity & Reset familiarity \\
 \caption[SpendP90 Off-Diagonal]{Off-Diagonal Scatter of Patient-Weighted 90th-Percentile Spending ($\eta=1$)\footnote{Each point is an HRR where the patient-weighted 90th percentile of episode spending under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}} %S: Typo in value of eta?
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P90_current_Myopic_eta1.png} & \includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P90_full_Myopic_eta1.png}
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P90_current_Myopic_eta1.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P90_full_Myopic_eta1.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P90_current_FWD_eta1.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P90_full_FWD_eta1.png}
 \end{tabular}
 \label{fig:spendP90-cf}
 \end{minipage}
 \end{figure}
 
 
-%%% G. ADDITIONAL FIGURES
+%%% F. ADDITIONAL FIGURES
 
 \clearpage
 \section*{Additional Figures}
@@ -681,8 +682,12 @@ This section presents corresponding figures for $\eta=5$ of the counterfactual g
 \caption[Gradient of Health Effects ($\eta=5$)]{Health Effects of Full Information by Estimated Learning Parameter ($\eta=5$)\footnote{Figure depicts the mean change in successes per 10,000 patients under each counterfactual, binned into ten patient-weighted quantiles of the estimated learning parameter $\hat\alpha$ within each HRR ($\hat\alpha > 0.001$). Marker size reflects the total patients in the bin.}}
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_HealthFX_current_Myopic_eta5.png} & \includegraphics[height=2.2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_HealthFX_full_Myopic_eta5.png}
+\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_HealthFX_current_Myopic_eta5.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_HealthFX_full_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Gradient_HealthFX_current_FWD_eta5.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Gradient_HealthFX_full_FWD_eta5.png}
 \end{tabular}
 \label{fig:gradient_health_eta5}
 \end{minipage}
@@ -695,8 +700,12 @@ Existing familiarity & Reset familiarity \\
 \caption[Gradient of Spending Effects ($\eta=5$)]{Episode Spending Effects of Full Information by Estimated Learning Parameter ($\eta=5$)\footnote{Figure depicts the mean change in episode spending under each counterfactual, binned into ten patient-weighted quantiles of the estimated learning parameter $\hat\alpha$ within each HRR ($\hat\alpha > 0.001$). Marker size reflects the total patients in the bin.}}
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_Spend_current_Myopic_eta5.png} & \includegraphics[height=2.2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_Spend_full_Myopic_eta5.png}
+\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_Spend_current_Myopic_eta5.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Gradient_Spend_full_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Gradient_Spend_current_FWD_eta5.png} & \includegraphics[height=1.6in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Gradient_Spend_full_FWD_eta5.png}
 \end{tabular}
 \label{fig:gradient_spend_eta5}
 \end{minipage}
@@ -709,8 +718,12 @@ Existing familiarity & Reset familiarity \\
 \caption[QualP10 Off-Diagonal ($\eta=5$)]{Off-Diagonal Scatter of Patient-Weighted 10th-Percentile Quality ($\eta=5$)\footnote{Each point is an HRR where the patient-weighted 10th percentile of specialist quality under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P10_current_Myopic_eta5.png} & \includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P10_full_Myopic_eta5.png}
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P10_current_Myopic_eta5.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P10_full_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/QualOffDiag_P10_current_FWD_eta5.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/QualOffDiag_P10_full_FWD_eta5.png}
 \end{tabular}
 \label{fig:qualP10-cf-eta5}
 \end{minipage}
@@ -723,8 +736,12 @@ Existing familiarity & Reset familiarity \\
 \caption[QualP90 Off-Diagonal ($\eta=5$)]{Off-Diagonal Scatter of Patient-Weighted 90th-Percentile Quality ($\eta=5$)\footnote{Each point is an HRR where the patient-weighted 90th percentile of specialist quality under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P90_current_Myopic_eta5.png} & \includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P90_full_Myopic_eta5.png}
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P90_current_Myopic_eta5.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/QualOffDiag_P90_full_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/QualOffDiag_P90_current_FWD_eta5.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/QualOffDiag_P90_full_FWD_eta5.png}
 \end{tabular}
 \label{fig:qualP90-cf-eta5}
 \end{minipage}
@@ -737,8 +754,12 @@ Existing familiarity & Reset familiarity \\
 \caption[SpendP10 Off-Diagonal ($\eta=5$)]{Off-Diagonal Scatter of Patient-Weighted 10th-Percentile Spending ($\eta=5$)\footnote{Each point is an HRR where the patient-weighted 10th percentile of episode spending under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P10_current_Myopic_eta5.png} & \includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P10_full_Myopic_eta5.png}
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P10_current_Myopic_eta5.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P10_full_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P10_current_FWD_eta5.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P10_full_FWD_eta5.png}
 \end{tabular}
 \label{fig:spendP10-cf-eta5}
 \end{minipage}
@@ -751,8 +772,12 @@ Existing familiarity & Reset familiarity \\
 \caption[SpendP90 Off-Diagonal ($\eta=5$)]{Off-Diagonal Scatter of Patient-Weighted 90th-Percentile Spending ($\eta=5$)\footnote{Each point is an HRR where the patient-weighted 90th percentile of episode spending under the counterfactual differs from the baseline value. HRRs with identical baseline and counterfactual percentile are dropped (they lie on the 45-degree line). The solid reference line is the 45-degree line.}}
 \centering
 \begin{tabular}{cc}
+\multicolumn{2}{c}{\textit{Myopic}} \\
 Existing familiarity & Reset familiarity \\
-\includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P90_current_Myopic_eta5.png} & \includegraphics[height=2.5in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P90_full_Myopic_eta5.png}
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P90_current_Myopic_eta5.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/myopic-timevary/SpendOffDiag_P90_full_Myopic_eta5.png} \\
+\multicolumn{2}{c}{\textit{Forward-looking}} \\
+Existing familiarity & Reset familiarity \\
+\includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P90_current_FWD_eta5.png} & \includegraphics[height=2.2in,width=2.5in,keepaspectratio]{results/figures/fwd-timevary/SpendOffDiag_P90_full_FWD_eta5.png}
 \end{tabular}
 \label{fig:spendP90-cf-eta5}
 \end{minipage}
@@ -766,8 +791,12 @@ Existing familiarity & Reset familiarity \\
 \caption[Quality-Maximizing Referrals ($\eta=5$)]{Counterfactual Changes with Quality-Maximizing Referrals ($\eta=5$)\footnote{Figure depicts the share of referrals reallocated and the resulting change in probability of success under a counterfactual in which each PCP's belief is replaced with the true specialist success rate, specialist fixed effects and accumulated familiarity are set to zero, and $\alpha$ within each HRR is calibrated to match the larger of the distance or congestion utility components. Results are averaged across individuals within an HRR and presented as a histogram across HRRs.}}
 \centering
 \begin{tabular}{cc}
-Reallocation of referrals & Change in probability of success \\
-\includegraphics[height=2.2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_qualmax_amatch_Myopic_eta5.png} & \includegraphics[height=2.2in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta5.png}
+\multicolumn{2}{c}{\textit{Reallocation of referrals}} \\
+Myopic & Forward-Looking \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Reallocation_qualmax_amatch_Myopic_eta5.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Reallocation_qualmax_amatch_FWD_eta5.png} \\
+\multicolumn{2}{c}{\textit{Change in probability of success}} \\
+Myopic & Forward-Looking \\
+\includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta5.png} & \includegraphics[height=1.8in,width=2.7in,keepaspectratio]{results/figures/fwd-timevary/Mean_Health_FX_qualmax_amatch_FWD_eta5.png}
 \end{tabular}
 \label{fig:cf_qualmax_eta5}
 \end{minipage}
