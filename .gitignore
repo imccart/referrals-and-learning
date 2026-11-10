@@ -33,6 +33,9 @@ analysis/simulation/
 scratch/
 notes/
 
+# Beamer theme (symlink to administrative/templates, outside the repo)
+presentations/tex/theme
+
 # Journal submission folders (local only, not for Overleaf)
 papers/submissions/
 
