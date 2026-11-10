@@ -237,59 +237,49 @@
 \section{Counterfactuals}
 \sectionframe
 
-\begin{frame}<1-4>[t]{What we find}
+\begin{frame}<1-5>[t]{What we find}
   \vspace{0.2cm}
   \begin{tikzpicture}[
       res/.style={rounded corners=4pt, line width=0.7pt, draw=emoryRule, fill=emoryLight,
-                  text width=5.6cm, minimum height=4.0cm, align=left, inner sep=7pt, anchor=north west, font=\footnotesize,
+                  text width=5.6cm, minimum height=3.8cm, align=left, inner sep=7pt, anchor=north west, font=\footnotesize,
                   execute at begin node={\hyphenpenalty=10000 \exhyphenpenalty=10000}},
       done/.style={anchor=west, inner sep=0pt, font=\footnotesize}]
-    \path[use as bounding box] (0,0.2) rectangle (13.6,-5.6);
+    \path[use as bounding box] (0,0.2) rectangle (13.6,-5.8);
     \only<2->{\node[done] at (0,0) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}0 to 2 pp}{\color{emoryDark}PCPs weigh quality lightly relative to other factors}};}
-    \only<3->{\node[done] at (0,-0.45) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}23\%}{\color{emoryDark}reallocated under full information, with existing relationships}};}
-    \only<4>{\node[done] at (0,-0.9) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}20\%}{\color{emoryDark}of failures avoided when quality counts like distance}};}
-    \only<4>{\node[res, text width=10.0cm, minimum height=0pt, font=\small, anchor=north] at (6.8,-1.8) {%
+    \only<3->{\node[done] at (0,-0.4) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}23\%}{\color{emoryDark}reallocated under full information, with existing relationships}};}
+    \only<4->{\node[done] at (0,-0.8) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}32\%}{\color{emoryDark}reallocated when the relationships are reset, with no health gain}};}
+    \only<5>{\node[done] at (0,-1.2) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}20\%}{\color{emoryDark}of failures avoided when quality counts like distance}};}
+    \only<5>{\node[res, text width=10.0cm, minimum height=0pt, font=\small, anchor=north] at (6.8,-2.1) {%
       {\bfseries\color{emoryBlue}Takeaway\par}\vspace{2pt}
       \begin{itemize}\setlength{\itemsep}{3pt}
         \item The gains from quality information alone are bounded by the small weight PCPs place on quality, and they depend on the referral relationships PCPs already have
         \item Tools that raise that weight could deliver substantially larger health improvements
       \end{itemize}\vspace{-14pt}};}
-    \only<1>{\node[res] at (0,-0.9) {%
+    \only<1>{\node[res] at (0,-1.2) {%
       {\small\bfseries\color{emoryBlue}PCPs weigh quality lightly relative to other factors\par}\vspace{2pt}
       {\LARGE\bfseries\color{emoryGold}0 to 2 pp\par}\vspace{4pt}
       drop in referral probability after one more failure, across markets. Where PCPs respond, the average is \partialFXNonzeroMyopic{} pp.\par};}
-    \only<2>{\node[res] at (0,-0.9) {%
+    \only<2>{\node[res] at (0,-1.2) {%
       {\small\bfseries\color{emoryBlue}Full information\par}\vspace{2pt}
       {\LARGE\bfseries\color{emoryGold}\reallocationMeanCurrentEtaFiveMyopic{}\%\par}\vspace{4pt}
-      of patients go to a different surgeon when PCPs know true quality and keep their existing relationships; failures fall by \healthFXMeanCurrentEtaFiveMyopic{} per 100, with gains in most markets\par\vspace{4pt}
-      Resetting the relationships moves \reallocationMeanMyopic{}\% of patients with no health gain\par};}
-    \only<3>{\node[res] at (0,-0.9) {%
+      of patients go to a different surgeon when PCPs know true quality and keep their existing relationships. Failures fall by \healthFXMeanCurrentEtaFiveMyopic{} per 100, with gains in most markets\par};}
+    \only<3>{\node[res] at (0,-1.2) {%
+      {\small\bfseries\color{emoryBlue}Existing relationships are with better surgeons\par}\vspace{2pt}
+      {\LARGE\bfseries\color{emoryGold}\reallocationMeanMyopic{}\%\par}\vspace{4pt}
+      of patients move under full information when the relationships are reset, with no health gain\par\vspace{4pt}
+      Success rates rise with relationship length, so familiarity has already sorted PCPs toward better surgeons\par};}
+    \only<4>{\node[res] at (0,-1.2) {%
       {\small\bfseries\color{emoryBlue}Quality weighted like distance\par}\vspace{2pt}
       {\LARGE\bfseries\color{emoryGold}20\%\par}\vspace{4pt}
       of failures avoided when one SD of quality counts as much as one SD of distance\par\vspace{4pt}
       150 to 200 more successes per 10,000, still subject to distance and surgeon capacity\par};}
-    \node[anchor=north] at (10.15,-0.9) {%
-      \only<1>{\includegraphics[width=6.6cm,height=4.9cm,keepaspectratio]{results/figures/myopic-timevary/Mean_Partial_FX_Failure_Myopic_eta1.png}}%
-      \only<2>{\includegraphics[width=6.6cm,height=4.9cm,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta5.png}}%
-      \only<3>{\includegraphics[width=6.6cm,height=4.9cm,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta1.png}}};
+    \node[anchor=north] at (10.15,-1.2) {%
+      \only<1>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/myopic-timevary/Mean_Partial_FX_Failure_Myopic_eta1.png}}%
+      \only<2>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta5.png}}%
+      \only<3>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/Familiarity_Quality_Patients_1_1_0.png}}%
+      \only<4>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta1.png}}};
   \end{tikzpicture}
 \end{frame}
-
-\begin{frame}{Longer referral relationships are with better surgeons}
-  \begin{columns}[c,onlytextwidth]
-    \column{0.38\textwidth}
-      \small
-      \begin{itemize}\setlength{\itemsep}{8pt}
-        \item Mean surgeon success rate rises with the number of patients in the relationship
-        \item Consistent with familiarity gradually sorting PCPs toward better surgeons
-        \item This is why keeping the relationships helps under full information, and resetting them does not: with the quality weight small, the reallocation then follows distance and the fixed effects
-      \end{itemize}
-    \column{0.59\textwidth}
-      \centering
-      \includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{results/figures/Familiarity_Quality_Patients_1_1_0.png}
-  \end{columns}
-\end{frame}
-
 \begin{frame}{Summary}
   \begin{itemize}\setlength{\itemsep}{10pt}
     \item Surgeon quality varies widely within markets, and PCPs respond to their own patients' outcomes, most when they know the surgeon least
