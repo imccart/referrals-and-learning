@@ -113,14 +113,26 @@ R2 minor 4 (myopic against forward-looking). \status{Pending. Vuong test by mark
 
 2. DRG 470 and case mix. \status{Already in the appendix (D.4, D.5)...not sure there's anything else to do here.}
 
+And all the work above regarding risk adjustment and heterogeneity across surgeons in case mix. Should we consider estimating the stuctural model with only DRG 470? We can show plenty of heterogeneity in performance within this one DRG.
+
 3. Risk aversion as an alternative reading of the familiarity effect. \status{Done. Footnote at the definition of familiarity in Model Specification (4.1): with a binary outcome, expected utility is linear in the success probability, so there is no curvature through which risk aversion could enter; the familiarity effect is a direct preference for surgeons the PCP has used before.}
 
 4. The gap between the event study (16\%) and the structural partial effect, and the suggestion to estimate the model on the event-study sample. \status{Already addressed in new reduced form analysis.}
 
+I'm interested in the idea that we should use the same sample for DiD and structural model.
+
 5. One failure should move a well-established posterior little; adaptive or recency-weighted learning. \status{Partly addressed, partly writing. Not sure about "adaptive" or "recency-weighted"...}
+
+Is there a way to cleanly distinguish between the two? Can't use a single-patient shock as in the event study.
+
+Is the adaptive variable entirely observable? If so, could we correlate it with the estimated Bayesian posterior mean?
 
 6. Whether surgeons' skills evolve over the panel. \status{Incorporated as part of new analysis looking at within-surgeon probability of failure as a function of cumulative experience.}
 
+If we are checking this, do we also want to check whether familiarity affects outcomes?
+
 7. Positioning: intermediary learning is not new; patient-level outcomes together with the intermediary's choice is. \status{Done. The contribution paragraph in the introduction now says that physicians learning on behalf of patients is the setting of the prescribing literature, and that what is distinctive here is observing the outcome of each referred patient together with the PCP's subsequent choices.}
+
+I don't know if the intermediary thing helps us.
 
 \end{document}
