@@ -98,8 +98,8 @@ forvalues i=1/457 {
 			** Forward-looking: compute Gittins index
 			if "`model'" == "FWD" {
 				local beta=0.95
-				replace v_git = m*(1-m)/(pair_patients_run+1)
-				replace s_git = -(log(`beta')*(pair_patients_run+1))^(-1)
+				replace v_git = m*(1-m)/(`eta'+pair_patients_run+1)
+				replace s_git = -(log(`beta')*(`eta'+pair_patients_run+1))^(-1)
 				replace psi_git=sqrt(s_git/2)
 				replace psi_git=0.49 - 0.11*(1/sqrt(s_git)) if s_git>0.2 & s_git <=1
 				replace psi_git=0.63 - 0.26*(1/sqrt(s_git)) if s_git>1   & s_git <=5

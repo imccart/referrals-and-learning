@@ -208,8 +208,8 @@ forvalues i=1/457 {
 		foreach eta in 1 5 {
 			gen m_git_eta`eta'=(rho*`eta' + pair_success_run)/(`eta' + pair_patients_run)
 			local beta=0.95
-			gen v_git_eta`eta' = m_git_eta`eta'*(1-m_git_eta`eta')/(pair_patients_run+1)
-			gen s_git_eta`eta' = -(log(`beta')*(pair_patients_run+1))^(-1)
+			gen v_git_eta`eta' = m_git_eta`eta'*(1-m_git_eta`eta')/(`eta'+pair_patients_run+1)
+			gen s_git_eta`eta' = -(log(`beta')*(`eta'+pair_patients_run+1))^(-1)
 			gen psi_git_eta`eta'=sqrt(s_git_eta`eta'/2)
 			replace psi_git_eta`eta'=0.49 - 0.11*(1/sqrt(s_git_eta`eta')) if s_git_eta`eta'>0.2 & s_git_eta`eta' <=1
 			replace psi_git_eta`eta'=0.63 - 0.26*(1/sqrt(s_git_eta`eta')) if s_git_eta`eta'>1   & s_git_eta`eta'<=5
