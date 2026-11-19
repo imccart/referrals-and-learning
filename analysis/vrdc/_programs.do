@@ -14,7 +14,21 @@ program define finddist
 	gen double `val'=sin(_pi*abs(`lat1')/180)*sin(_pi*abs(`lat2')/180)+cos(_pi*abs(`lat1')/180)*cos(_pi*abs(`lat2')/180)*cos(_pi*abs(`long1')/180-_pi*abs(`long2')/180) 
 	qui replace `val'=1 if (`val'>1)&(`val'!=.)
 	gen distance=`radius_earth'*acos(`val')
-end 
+end
+
+
+** load one HRR's choice data. Reads only the variables _clean-analysis.do keeps
+** and only the matched-PCP rows it keeps, so the full file never enters memory.
+** extra() names variables a caller uses before _clean-analysis.do runs.
+capture program drop load_choice_data
+program define load_choice_data
+	syntax anything(name=hrr) [, Extra(string)]
+	use Specialist_ID Practice_ID bene_id pair_patients_* pcp_patients_* spec_patients_* pair_failures_* pcp_failures_* spec_failures_* ///
+		pair_death_* pcp_death_* spec_death_* pair_readmit_* pcp_readmit_* spec_readmit_* pair_comp_* pcp_comp_* spec_comp_* ///
+		bene_birth_dt pcp_phy_birth_dt admit bene_hosp_distance* choice casevar pcp_phy_tin* spec_phy_tin* Year EstPCPMatch case_obs ///
+		common_ref bene_spec_distance* `extra' if EstPCPMatch==3 ///
+		using "${DATA_FINAL}ChoiceData_HRR`hrr'.dta", clear
+end
 
 		
 ** converge to equilibrium patient volumes
@@ -272,7 +286,7 @@ program define run_mnl_specs
 	forvalues i=1/457 {
 		capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 		if _rc==0 {
-			use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
+			load_choice_data `i'
 			do "${CODE_FILES}_clean-analysis.do"
 
 			if "`sample'"=="mover" {
@@ -296,15 +310,9 @@ program define run_mnl_specs
 			keep Practice_ID Specialist_ID choice referral case_obs casevar common_ref prop_failures_run prop_patients_run ///
 				pair_success_run spec_qual spec_qual_all pair_patients_run pair_failures_run pair_patients_run_fw pair_failures_run_fw ///
 				bene_spec_distance bene_distance diff_dist prac_vi pair_new ///
-				fmly_np_* Year pcp_phy_tin1 pcp_phy_tin2 pcp_age
+				fmly_np_* Year pcp_phy_tin1 pcp_phy_tin2
 			sum fmly_np_*
 			drop fmly_np_0
-
-			** familiarity and distance for PCPs aged 60 and over, the short-horizon group
-			gen pcp_old=(pcp_age>=60) if pcp_age!=.
-			foreach x of varlist diff_dist fmly_np_* {
-				gen `x'_old=`x'*pcp_old
-			}
 			local step=0
 			foreach x of varlist pcp_phy_tin1 pcp_phy_tin2 {
 				local step=`step'+1

@@ -192,7 +192,7 @@ forvalues i=1/457 {
 	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 	if _rc==0 {
 		local step=`step'+1
-		use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
+		load_choice_data `i'
 		do "${CODE_FILES}_clean-analysis.do"
 
 		** prepare for cmclogit syntax

@@ -25,7 +25,7 @@ postfile fe hrr eta double Specialist_ID Year double(coef_val coef_se) converged
 forvalues i=1/457 {
 	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 	if _rc!=0 continue
-	use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
+	load_choice_data `i'
 	do "${CODE_FILES}_clean-analysis.do"
 
 	egen referral=group(bene_id admit)

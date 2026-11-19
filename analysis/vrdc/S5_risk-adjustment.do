@@ -32,7 +32,7 @@ program define run_mnl_specs_rev
 	forvalues i=1/457 {
 		capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 		if _rc==0 {
-			use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
+			load_choice_data `i', extra(clm_drg_cd)
 
 			** optional DRG filter (case-mix sensitivity)
 			if "`drg'" != "" {

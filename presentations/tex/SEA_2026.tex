@@ -13,6 +13,7 @@
 \usepackage{amsmath}
 
 \usepackage{presentations/tex/theme/beamerthemeResearch}
+\setbeamercolor{button}{bg=emoryLightBlue,fg=emoryBlue}
 
 \input{results/tables/paper-numbers-desc.tex}
 \input{results/tables/paper-numbers-structural.tex}
@@ -111,16 +112,17 @@
 \section{Do PCPs Respond to Bad Outcomes?}
 \sectionframe
 
-\begin{frame}{PCPs refer less to a surgeon after their own patient has a bad outcome}
+\begin{frame}[label=rereferral]{PCPs refer less to a surgeon after their own patient has a bad outcome}
   \begin{columns}[c,onlytextwidth]
     \column{0.42\textwidth}
       \small
-      \begin{itemize}\setlength{\itemsep}{7pt}
-        \item Every referral is an event; the outcome is whether the PCP's \emph{next} referral goes to the same surgeon
-        \item Failures against successes, with surgeon-by-year fixed effects and the pair's prior history
-        \item A failure lowers the chance of returning by \rereferPct{}\% (\rereferFX{} on a base of \rereferBase{}), unchanged with PCP fixed effects
-        \item Largest where the PCP knows the surgeon least: \rereferPcthistzero{}\% at a first referral, \rereferPcthisttwo{}\% after five or more
+      \begin{itemize}\setlength{\itemsep}{10pt}
+        \item The outcome is whether the PCP's \emph{next} referral goes to the same surgeon
+        \item A failure lowers the chance of returning by \rereferPct{}\% (\rereferFX{} on a base of \rereferBase{})
+        \item Largest where the PCP knows the surgeon least (\rereferPcthistzero{}\% at a first referral, \rereferPcthisttwo{}\% after five or more)
       \end{itemize}
+      \vspace{0.4cm}
+      \hyperlink{bk-rereferral}{\beamerbutton{design}}
     \column{0.55\textwidth}
       \centering
       \includegraphics[width=\linewidth,height=0.66\textheight,keepaspectratio]{results/figures/rf/Rereferral_EventStudy_1_1_0.png}\\
@@ -132,11 +134,11 @@
 %% MODEL
 %% ═══════════════════════════════════════════════════════════════
 
-% Model, stepped: the utility one term at a time, then learning, behavior, estimation
+% Model, stepped: the utility one term at a time, then learning and behavior
 \section{A Learning Model of Referrals}
 \sectionframe
 
-\begin{frame}<1-9>[t]{PCPs learn about surgeon quality from their own patients' outcomes}
+\begin{frame}<1-8>[t]{PCPs learn about surgeon quality from their own patients' outcomes}
   \vspace{0.1cm}
   \hspace*{-0.2cm}\begin{tikzpicture}[
       eq/.style={font=\large, inner sep=2pt},
@@ -177,24 +179,19 @@
       \draw[emoryMid, line width=0.7pt] (xi.south) -- (11.55,-0.75);
       \node[card, draw=emoryMid, fill=emoryMid!6, text=emoryDark] at (11.55,-0.75)
         {surgeon fixed effect};}
-    \only<7->{\node[panel] at (2.3,-2.6) {%
+   \only<7->{\node[panel] at (4.3,-2.6) {%
       {\footnotesize\bfseries\color{emoryBlue}Learning}\\[3pt]
       Beliefs start from a common beta prior and update with each patient's outcome\\[3pt]
       $\displaystyle m_{ijt} = \frac{\rho\eta + \text{past successes}}{\eta + \text{past referrals}}$\\[3pt]
       $\rho$ = prior mean, $\eta$ = prior strength};}
-    \only<8->{\node[panel] at (6.95,-2.6) {%
+    \only<8->{\node[panel] at (9.3,-2.6) {%
       {\footnotesize\bfseries\color{emoryBlue}Behavior}\\[3pt]
       Myopic PCPs refer on current beliefs\\[3pt]
       Forward-looking PCPs also value what a referral teaches them, through a Gittins index};}
-    \only<9->{\node[panel] at (11.6,-2.6) {%
-      {\footnotesize\bfseries\color{emoryBlue}Estimation}\\[3pt]
-      Logit in each of 306 HRRs\\[3pt]
-      Congestion by 2SLS, distance-based instrument\\[3pt]
-      $\rho$ = market success rate, $\eta$ = 1 or 5};}
   \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Identification in one slide}
+\begin{frame}{Identification}
   The belief term splits into the prior and the past success rate, $\bar y$:
   $$\alpha\, m_{ijt} = \alpha\,\frac{\rho\eta}{\eta + e_{ijt}} + \alpha\,\frac{e_{ijt}}{\eta + e_{ijt}}\,\bar y_{ijt}$$
   \begin{itemize}\setlength{\itemsep}{7pt}
@@ -205,39 +202,46 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}[label=estimation]{Estimation}
+  \begin{itemize}\setlength{\itemsep}{10pt}
+    \item Conditional logit market by market, in each of 306 HRRs, with surgeon fixed effects
+    \item In the belief term, $\rho$ is the market's success rate and $\eta$ is fixed at 1 or 5
+    \item Congestion is estimated by regressing the surgeon-by-period effects on volume by 2SLS, with volume predicted from other patients' distances
+    \item The forward-looking version replaces the belief term with the Gittins index, with no additional parameters
+    \item Counterfactuals re-solve referrals and surgeon volumes together as a fixed point
+  \end{itemize}
+  \vspace{0.5cm}
+  \hyperlink{bk-priors}{\beamerbutton{priors}}\ \hyperlink{bk-congestion}{\beamerbutton{congestion}}\ \hyperlink{bk-fwd}{\beamerbutton{forward-looking}}
+\end{frame}
+
 %% ═══════════════════════════════════════════════════════════════
 %% RESULTS
 %% ═══════════════════════════════════════════════════════════════
 
-\begin{frame}{Estimates}
-  \begin{center}
-  \small
-  \begin{tabular}{lcccccc}
-    \toprule
-    & & \multicolumn{5}{c}{Percentile across HRRs} \\
-    \cmidrule(lr){3-7}
-    Myopic model & Mean & 10th & 25th & 50th & 75th & 90th \\
-    \midrule
-    $\alpha$ ($\eta = 1$) & 0.202 & 0.000 & 0.000 & 0.117 & 0.283 & 0.537 \\
-    $\alpha$ ($\eta = 5$) & 0.397 & 0.000 & 0.000 & 0.212 & 0.561 & 1.089 \\
-    $\pi$ (distance, per mile) & $-0.069$ & $-0.099$ & $-0.082$ & $-0.068$ & $-0.053$ & $-0.038$ \\
-    \bottomrule
-  \end{tabular}
-  \end{center}
-  \vspace{0.1cm}
-  \begin{itemize}\setlength{\itemsep}{5pt}
-    \item $\alpha/\pi$: a success is worth about \alphaDistRatioMyopic{} miles of travel, in line with small quality elasticities elsewhere
-    \item Familiarity is large and rising: 1.1 after one past patient, 2.4 after eight to ten
-    \item Congestion: 100 more patients over three years lowers the referral probability by 7--9\%
-    \item Forward-looking model: $\alpha$ somewhat larger (0.26 at $\eta = 1$), everything else the same
-  \end{itemize}
+\begin{frame}[label=estimates]{PCPs weigh quality lightly relative to other factors}
+  \begin{columns}[c,onlytextwidth]
+    \column{0.47\textwidth}
+      \small
+      \begin{itemize}\setlength{\itemsep}{6pt}
+        \item One more failure lowers the referral probability by 0 to 2 pp across markets, and by \partialFXNonzeroMyopic{} pp where PCPs respond
+        \item A success is worth about \alphaDistRatioMyopic{} miles of travel ($\alpha/\pi$), in line with small quality elasticities elsewhere
+        \item Familiarity is large and rising: 1.1 after one past patient, 2.4 after eight to ten
+        \item Through congestion, 100 more patients over three years lowers the referral probability by 7--9\%
+      \end{itemize}
+      \vspace{0.15cm}
+      \hyperlink{bk-table}{\beamerbutton{estimates}}\ \hyperlink{bk-risk}{\beamerbutton{risk adjustment}}
+    \column{0.50\textwidth}
+      \centering
+      \includegraphics[width=\linewidth,height=0.6\textheight,keepaspectratio]{results/figures/myopic-timevary/Mean_Partial_FX_Failure_Myopic_eta1.png}\\
+      {\scriptsize\color{emoryMid}Drop in referral probability after one more failure, by market}
+  \end{columns}
 \end{frame}
 
-% Results, stepped: estimates, full information, quality weighted like distance
+% Counterfactuals, stepped: full information, relationships reset, quality weighted like distance
 \section{Counterfactuals}
 \sectionframe
 
-\begin{frame}<1-5>[t]{What we find}
+\begin{frame}<1-4>[t,label=cf]{What we find}
   \vspace{0.2cm}
   \begin{tikzpicture}[
       res/.style={rounded corners=4pt, line width=0.7pt, draw=emoryRule, fill=emoryLight,
@@ -245,11 +249,10 @@
                   execute at begin node={\hyphenpenalty=10000 \exhyphenpenalty=10000}},
       done/.style={anchor=west, inner sep=0pt, font=\footnotesize}]
     \path[use as bounding box] (0,0.2) rectangle (13.6,-5.8);
-    \only<2->{\node[done] at (0,0) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}0 to 2 pp}{\color{emoryDark}PCPs weigh quality lightly relative to other factors}};}
-    \only<3->{\node[done] at (0,-0.4) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}23\%}{\color{emoryDark}reallocated under full information with existing relationships, failures fall by \healthFXMeanCurrentEtaFiveMyopic{} per 100}};}
-    \only<4->{\node[done] at (0,-0.8) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}32\%}{\color{emoryDark}reallocated when the relationships are reset, with no health gain}};}
-    \only<5>{\node[done] at (0,-1.2) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}20\%}{\color{emoryDark}of failures avoided when quality counts like distance}};}
-\only<5>{\node[res, text width=10.0cm, minimum height=0pt, font=\small, anchor=north] at (6.8,-1.7) {%
+    \only<2->{\node[done] at (0,0) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}23\%}{\color{emoryDark}reallocated under full information with existing relationships, failures fall by \healthFXMeanCurrentEtaFiveMyopic{} per 100}};}
+    \only<3->{\node[done] at (0,-0.4) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}32\%}{\color{emoryDark}reallocated when the relationships are reset, with no health gain}};}
+    \only<4>{\node[done] at (0,-0.8) {\makebox[1.8cm][l]{\bfseries\color{emoryGold}20\%}{\color{emoryDark}of failures avoided when quality counts like distance}};}
+    \only<4>{\node[res, text width=10.0cm, minimum height=0pt, font=\small, anchor=north] at (6.8,-1.3) {%
       {\bfseries\color{emoryBlue}Takeaway\par}\vspace{1pt}
       \begin{itemize}\setlength{\itemsep}{1pt}
         \item Gains from quality information alone are bounded by the small weight on quality and depend on the relationships PCPs already have
@@ -257,30 +260,27 @@
         \item Results similar under forward-looking or myopic behavior
       \end{itemize}\vspace{-14pt}};}
     \only<1>{\node[res] at (0,-1.2) {%
-      {\small\bfseries\color{emoryBlue}PCPs weigh quality lightly relative to other factors\par}\vspace{2pt}
-      {\LARGE\bfseries\color{emoryGold}0 to 2 pp\par}\vspace{4pt}
-      drop in referral probability after one more failure, across markets. Where PCPs respond, the average is \partialFXNonzeroMyopic{} pp.\par};}
-    \only<2>{\node[res] at (0,-1.2) {%
       {\small\bfseries\color{emoryBlue}Full information\par}\vspace{2pt}
       {\LARGE\bfseries\color{emoryGold}\reallocationMeanCurrentEtaFiveMyopic{}\%\par}\vspace{4pt}
       of patients go to a different surgeon when PCPs know true quality and keep their existing relationships. Failures fall by \healthFXMeanCurrentEtaFiveMyopic{} per 100, with gains in most markets\par};}
-    \only<3>{\node[res] at (0,-1.2) {%
+    \only<2>{\node[res] at (0,-1.2) {%
       {\small\bfseries\color{emoryBlue}Existing relationships are with better surgeons\par}\vspace{2pt}
       {\LARGE\bfseries\color{emoryGold}\reallocationMeanMyopic{}\%\par}\vspace{4pt}
       of patients move under full information when the relationships are reset, with no health gain\par\vspace{4pt}
       Success rates rise with relationship length, so familiarity has already sorted PCPs toward better surgeons\par};}
-    \only<4>{\node[res] at (0,-1.2) {%
+    \only<3>{\node[res] at (0,-1.2) {%
       {\small\bfseries\color{emoryBlue}Quality weighted like distance\par}\vspace{2pt}
       {\LARGE\bfseries\color{emoryGold}20\%\par}\vspace{4pt}
       of failures avoided when one SD of quality counts as much as one SD of distance\par\vspace{4pt}
       150 to 200 more successes per 10,000, still subject to distance and surgeon capacity\par};}
     \node[anchor=north] at (10.15,-1.2) {%
-      \only<1>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/myopic-timevary/Mean_Partial_FX_Failure_Myopic_eta1.png}}%
-      \only<2>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta5.png}}%
-      \only<3>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/Familiarity_Quality_Patients_1_1_0.png}}%
-      \only<4>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta1.png}}};
+      \only<1>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/myopic-timevary/Reallocation_Current_Myopic_eta5.png}}%
+      \only<2>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/Familiarity_Quality_Patients_1_1_0.png}}%
+      \only<3>{\includegraphics[width=6.6cm,height=4.5cm,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_qualmax_amatch_Myopic_eta1.png}}};
+    \node[anchor=south east, inner sep=0pt] at (13.6,-5.8) {\hyperlink{bk-dist}{\beamerbutton{distributions}}};
   \end{tikzpicture}
 \end{frame}
+
 \begin{frame}{Summary}
   \begin{itemize}\setlength{\itemsep}{10pt}
     \item Surgeon quality varies widely within markets, and PCPs respond to their own patients' outcomes, most when they know the surgeon least
@@ -288,30 +288,37 @@
     \item Full information reallocates about a quarter of referrals with small but meaningful health gains, and the gains depend on the referral relationships PCPs already have
     \item Quality information works best alongside existing referral relationships rather than in place of them
   \end{itemize}
-  \vspace{0.3cm}
-  {\small\color{emoryMid}ian.mccarthy@emory.edu}
+\end{frame}
+
+\begin{frame}[c]
+  \begin{center}
+    {\LARGE\bfseries\color{emoryBlue}Thank you}\\[16pt]
+    {\large\color{emoryDark}ian.mccarthy@emory.edu}
+  \end{center}
 \end{frame}
 
 %% ═══════════════════════════════════════════════════════════════
-%% BACKUP
+%% BACKUP: each slide's footer button returns to the slide that links to it
 %% ═══════════════════════════════════════════════════════════════
 
 \section{Backup}
 \sectionframe
 
-\begin{frame}[noframenumbering]{Re-referral design}
+\setfooterbutton{rereferral}{back}
+\begin{frame}[noframenumbering,label=bk-rereferral]{Re-referral design}
   \small
   \begin{itemize}\setlength{\itemsep}{3pt}
     \item For the referral of patient $t$ from PCP $i$ to surgeon $j$, with outcome $Y_{ijt}$ and prior history $e_{ijt}$, the outcome is $R_{ijt'} = 1$ if the PCP's next patient $t'$ goes to $j$:
     $$R_{ijt'} = \gamma_{j,y(t)} + \beta (1-Y_{ijt}) + \sum_{h=1}^{5} \kappa_h \mathbf{1}\left(\min(e_{ijt},5)=h\right) + \varepsilon_{ijt}$$
-    \item \rereferEvents{} referrals, \rereferFailures{} failures; $\hat\beta = \rereferFX{}$ (s.e.~\rereferSE{}); standard errors clustered by surgeon and by PCP
+    \item \rereferEvents{} referrals, \rereferFailures{} failures; $\hat\beta = \rereferFX{}$ (s.e.~\rereferSE{}), unchanged with PCP fixed effects; standard errors clustered by surgeon and by PCP
     \item Event study in referral order: a window is the PCP's five referrals before and after a given referral; failure windows have their only failure at position 0, success windows none
     $$R_{ijt} = \mu_{ij} + \lambda_{j y, t} + \phi_{i, t} + \sum_{k \neq -1} \delta_k \mathbf{1}(t=k) (1-Y_{ij0}) + \varepsilon_{ijt}$$
     \item First referral after a failure: \rereferESFirst{} (s.e.~\rereferESFirstSE{}) on a base of \rereferESBase{}; the gap lasts through the third referral and fades by the fifth
   \end{itemize}
 \end{frame}
 
-\begin{frame}[noframenumbering]{Setting the priors}
+\setfooterbutton{estimation}{back}
+\begin{frame}[noframenumbering,label=bk-priors]{Setting the priors}
   \begin{itemize}\setlength{\itemsep}{9pt}
     \item Prior mean $\rho = a_0/(a_0+b_0)$ equals the market's average success rate (about 0.90), as in Coscelli and Shum (2004), Crawford and Shum (2005), and Dickstein (2018)
     \item Prior strength $\eta = a_0 + b_0$ acts like a number of patients seen before the first real one
@@ -323,7 +330,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}[noframenumbering]{Congestion stands in for surgeon capacity}
+\begin{frame}[noframenumbering,label=bk-congestion]{Congestion stands in for surgeon capacity}
   \begin{itemize}\setlength{\itemsep}{8pt}
     \item $\gamma\, n_{jt}$: a surgeon treating more patients is less attractive for the next one (for example, wait times)
     \item Two steps (Richards-Shubik, Roberts and Donohue 2022, following Bayer and Timmins 2007)
@@ -336,7 +343,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}[noframenumbering]{Forward-looking PCPs also value experimentation}
+\begin{frame}[noframenumbering,label=bk-fwd]{Forward-looking PCPs also value experimentation}
   \begin{itemize}\setlength{\itemsep}{8pt}
     \item Myopic: refer to the surgeon with the highest expected payoff for this patient
     \item Forward-looking: also value what the referral teaches about the surgeon, for future patients
@@ -348,7 +355,30 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}<1-4>[t,noframenumbering]{Risk adjustment changes little}
+\setfooterbutton{estimates}{back}
+\begin{frame}[noframenumbering,label=bk-table]{Estimates (myopic model)}
+  \begin{center}
+  \small
+  \begin{tabular}{lcccccc}
+    \toprule
+    & & \multicolumn{5}{c}{Percentile across HRRs} \\
+    \cmidrule(lr){3-7}
+    & Mean & 10th & 25th & 50th & 75th & 90th \\
+    \midrule
+    $\alpha$ ($\eta = 1$) & 0.202 & 0.000 & 0.000 & 0.117 & 0.283 & 0.537 \\
+    $\alpha$ ($\eta = 5$) & 0.397 & 0.000 & 0.000 & 0.212 & 0.561 & 1.089 \\
+    $\pi$ (distance, per mile) & $-0.069$ & $-0.099$ & $-0.082$ & $-0.068$ & $-0.053$ & $-0.038$ \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  \vspace{0.2cm}
+  \begin{itemize}\setlength{\itemsep}{5pt}
+    \item Familiarity: 1.1 after one past patient, 2.4 after eight to ten; congestion: $-$7 to $-$9\% per 100 patients over three years
+    \item Forward-looking model: $\alpha$ somewhat larger (0.26 at $\eta = 1$), everything else the same
+  \end{itemize}
+\end{frame}
+
+\begin{frame}<1-4>[t,noframenumbering,label=bk-risk]{Risk adjustment changes little}
   \vspace{0.2cm}
   \begin{tikzpicture}
     \path[use as bounding box] (0,0.3) rectangle (13.6,-5.4);
@@ -363,7 +393,8 @@
   \end{tikzpicture}
 \end{frame}
 
-\begin{frame}[noframenumbering]{Full information: distributions across markets (myopic, $\eta = 1$)}
+\setfooterbutton{cf}{back}
+\begin{frame}[noframenumbering,label=bk-dist]{Full information: distributions across markets (myopic, $\eta = 1$)}
   \scriptsize
   \centering
   \begin{tabular}{@{}l@{\hspace{3pt}}c@{\hspace{3pt}}c@{}}
@@ -376,5 +407,6 @@
     \includegraphics[width=0.41\textwidth,height=1.05in,keepaspectratio]{results/figures/myopic-timevary/Mean_Health_FX_Full_Myopic_eta1.png}
   \end{tabular}
 \end{frame}
+\clearfooterbutton
 
 \end{document}

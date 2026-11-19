@@ -38,7 +38,7 @@ file write fconv "hrr,eta,cases,surgeons,pcps,rc,converged,scale_iter,scale_conv
 forvalues i=1/457 {
 	capture confirm file "${DATA_FINAL}ChoiceData_HRR`i'.dta"
 	if _rc==0 {
-		use "${DATA_FINAL}ChoiceData_HRR`i'.dta", clear
+		load_choice_data `i'
 		do "${CODE_FILES}_clean-analysis.do"
 
 		** prepare for cmclogit syntax
